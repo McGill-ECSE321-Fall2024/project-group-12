@@ -1,5 +1,11 @@
 # ECSE 321 Team 12 (Reindeer Games, Inc 🦌)
 
+## The Project
+An online game store (full stack web application).\
+Project scope: requirements elicitation and documentation, persistence layer, database, backend, frontend.
+
+### See project reports on our [Wiki](https://github.com/McGill-ECSE321-Fall2024/project-group-12/wiki)
+
 ## Team Members
 | Name             | Team Roles       | Hours (Deliverable 1) |
 | ---------------- | ---------------- | --------------------- |
