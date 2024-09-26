@@ -22,8 +22,13 @@ Start the frontend:
 npm start
 ```
 Start the backend:
+Unix:
 ```
-gradle run
+bash ./gradlew run
+```
+Windows:
+```
+./gradlew.bat run
 ```
 
 ## Test the Project
