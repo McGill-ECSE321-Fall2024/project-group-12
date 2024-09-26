@@ -21,7 +21,7 @@ Start the frontend:
 ```
 npm start
 ```
-Start the backend:
+Start the backend:\
 Unix:
 ```
 bash ./gradlew run
