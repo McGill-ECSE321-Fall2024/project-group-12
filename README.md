@@ -24,11 +24,11 @@ npm start
 Start the backend:\
 Unix:
 ```
-bash ./gradlew run
+bash ./gradlew bootRun
 ```
 Windows:
 ```
-./gradlew.bat run
+./gradlew.bat bootRun
 ```
 
 ## Test the Project
