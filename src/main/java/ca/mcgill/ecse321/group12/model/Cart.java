@@ -4,13 +4,22 @@
 package ca.mcgill.ecse321.group12.model;
 import java.util.*;
 
-// line 70 "../../../../../../ReindeerGames.ump"
+// line 72 "../../../../../../ReindeerGames.ump"
 public class Cart
 {
 
   //------------------------
+  // STATIC VARIABLES
+  //------------------------
+
+  private static Map<Integer, Cart> cartsById = new HashMap<Integer, Cart>();
+
+  //------------------------
   // MEMBER VARIABLES
   //------------------------
+
+  //Cart Attributes
+  private int id;
 
   //Cart Associations
   private List<Game> games;
@@ -19,14 +28,52 @@ public class Cart
   // CONSTRUCTOR
   //------------------------
 
-  public Cart()
+  public Cart(int aId)
   {
+    if (!setId(aId))
+    {
+      throw new RuntimeException("Cannot create due to duplicate id. See https://manual.umple.org?RE003ViolationofUniqueness.html");
+    }
     games = new ArrayList<Game>();
   }
 
   //------------------------
   // INTERFACE
   //------------------------
+
+  public boolean setId(int aId)
+  {
+    boolean wasSet = false;
+    Integer anOldId = getId();
+    if (anOldId != null && anOldId.equals(aId)) {
+      return true;
+    }
+    if (hasWithId(aId)) {
+      return wasSet;
+    }
+    id = aId;
+    wasSet = true;
+    if (anOldId != null) {
+      cartsById.remove(anOldId);
+    }
+    cartsById.put(aId, this);
+    return wasSet;
+  }
+
+  public int getId()
+  {
+    return id;
+  }
+  /* Code from template attribute_GetUnique */
+  public static Cart getWithId(int aId)
+  {
+    return cartsById.get(aId);
+  }
+  /* Code from template attribute_HasUnique */
+  public static boolean hasWithId(int aId)
+  {
+    return getWithId(aId) != null;
+  }
   /* Code from template association_GetMany */
   public Game getGame(int index)
   {
@@ -117,7 +164,14 @@ public class Cart
 
   public void delete()
   {
+    cartsById.remove(getId());
     games.clear();
   }
 
+
+  public String toString()
+  {
+    return super.toString() + "["+
+            "id" + ":" + getId()+ "]";
+  }
 }

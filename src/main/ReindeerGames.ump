@@ -1,8 +1,8 @@
 namespace ca.mcgill.ecse321.group12.model;
 
 class Customer
-{
-  isA UserRole;
+{  
+    isA UserRole;
   1 -> 1 Wishlist;
   1 -> 1 Cart;
 
@@ -48,6 +48,7 @@ GameStatus status;
 
 class Wishlist
 {
+ 	unique Integer id;
     * -> * Game;
 }
 
@@ -64,12 +65,14 @@ text;
 
 class Comment
 {
+  unique Integer id;
   text;
 }
 
 class Cart
 {  
- * -> * Game;
+  unique Integer id;
+  * -> * Game;
 }
 
 class Order
@@ -90,7 +93,7 @@ class CardPayment
   unique Integer id;
    nameOnCard; 
   cvc;
-  cardNumber;
+cardNumber;
   billingAddress;
   boolean isSaved;
   Date expiryDate;

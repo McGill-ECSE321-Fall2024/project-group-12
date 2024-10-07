@@ -4,7 +4,7 @@
 package ca.mcgill.ecse321.group12.model;
 import java.util.*;
 
-// line 54 "../../../../../../ReindeerGames.ump"
+// line 55 "../../../../../../ReindeerGames.ump"
 public class Review
 {
 
@@ -175,9 +175,9 @@ public class Review
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public Comment addComment(String aText)
+  public Comment addComment(int aId, String aText)
   {
-    return new Comment(aText, this);
+    return new Comment(aId, aText, this);
   }
 
   public boolean addComment(Comment aComment)

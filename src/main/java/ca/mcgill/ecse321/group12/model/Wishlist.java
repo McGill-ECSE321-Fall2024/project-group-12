@@ -9,8 +9,17 @@ public class Wishlist
 {
 
   //------------------------
+  // STATIC VARIABLES
+  //------------------------
+
+  private static Map<Integer, Wishlist> wishlistsById = new HashMap<Integer, Wishlist>();
+
+  //------------------------
   // MEMBER VARIABLES
   //------------------------
+
+  //Wishlist Attributes
+  private int id;
 
   //Wishlist Associations
   private List<Game> games;
@@ -19,14 +28,52 @@ public class Wishlist
   // CONSTRUCTOR
   //------------------------
 
-  public Wishlist()
+  public Wishlist(int aId)
   {
+    if (!setId(aId))
+    {
+      throw new RuntimeException("Cannot create due to duplicate id. See https://manual.umple.org?RE003ViolationofUniqueness.html");
+    }
     games = new ArrayList<Game>();
   }
 
   //------------------------
   // INTERFACE
   //------------------------
+
+  public boolean setId(int aId)
+  {
+    boolean wasSet = false;
+    Integer anOldId = getId();
+    if (anOldId != null && anOldId.equals(aId)) {
+      return true;
+    }
+    if (hasWithId(aId)) {
+      return wasSet;
+    }
+    id = aId;
+    wasSet = true;
+    if (anOldId != null) {
+      wishlistsById.remove(anOldId);
+    }
+    wishlistsById.put(aId, this);
+    return wasSet;
+  }
+
+  public int getId()
+  {
+    return id;
+  }
+  /* Code from template attribute_GetUnique */
+  public static Wishlist getWithId(int aId)
+  {
+    return wishlistsById.get(aId);
+  }
+  /* Code from template attribute_HasUnique */
+  public static boolean hasWithId(int aId)
+  {
+    return getWithId(aId) != null;
+  }
   /* Code from template association_GetMany */
   public Game getGame(int index)
   {
@@ -117,7 +164,14 @@ public class Wishlist
 
   public void delete()
   {
+    wishlistsById.remove(getId());
     games.clear();
   }
 
+
+  public String toString()
+  {
+    return super.toString() + "["+
+            "id" + ":" + getId()+ "]";
+  }
 }
