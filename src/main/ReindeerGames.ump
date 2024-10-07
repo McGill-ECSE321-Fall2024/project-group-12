@@ -1,0 +1,98 @@
+namespace ca.mcgill.ecse321.group12.model;
+
+class Customer
+{
+  isA UserRole;
+  1 -> 1 Wishlist;
+  1 -> 1 Cart;
+
+}
+
+class UserRole
+{
+unique Integer id;
+  email;
+  password;
+  name;
+  lazy address;
+  phoneNumber;
+}
+
+class Manager
+{
+    isA UserRole;
+}
+
+class Employee
+{
+  isA UserRole;
+  }
+
+enum Category { Action, Sports, Adventure, Puzzle };
+
+enum Console { PlayStation, XBox, PC, Switch };
+
+enum GameStatus { PendingApproval, InCatalog, PendingArchival, Archived };
+
+class Game
+{
+  unique Integer id;
+Category category;
+Console console;
+Integer inventory;
+Float price;
+name;
+description;
+GameStatus status;
+  }
+
+class Wishlist
+{
+    * -> * Game;
+}
+
+class Review
+{
+  unique Integer id;
+  Integer likeCount;
+  Integer rating;
+text;
+1 <@>- * Comment;
+  * -> 1 Game;
+  * -> 1 Customer;
+}
+
+class Comment
+{
+  text;
+}
+
+class Cart
+{  
+ * -> * Game;
+}
+
+class Order
+{
+  unique Integer id;
+  Date purchaseDate;
+  Float purchaseTotal;
+  deliveryAddress;
+    * -> 1..* Game;
+  * -> 1 Customer;
+  * -> 1 CardPayment;
+
+}
+
+
+class CardPayment  
+{  
+  unique Integer id;
+   nameOnCard; 
+  cvc;
+  cardNumber;
+  billingAddress;
+  boolean isSaved;
+  Date expiryDate;
+ * -> 0..1 Customer;  
+}
