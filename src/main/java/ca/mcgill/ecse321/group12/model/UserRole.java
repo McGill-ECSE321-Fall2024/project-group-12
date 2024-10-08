@@ -13,6 +13,7 @@ public class UserRole
   //------------------------
 
   private static Map<Integer, UserRole> userrolesById = new HashMap<Integer, UserRole>();
+  private static Map<String, UserRole> userrolesByEmail = new HashMap<String, UserRole>();
 
   //------------------------
   // MEMBER VARIABLES
@@ -32,7 +33,6 @@ public class UserRole
 
   public UserRole(int aId, String aEmail, String aPassword, String aName, String aPhoneNumber)
   {
-    email = aEmail;
     password = aPassword;
     name = aName;
     address = null;
@@ -40,6 +40,10 @@ public class UserRole
     if (!setId(aId))
     {
       throw new RuntimeException("Cannot create due to duplicate id. See https://manual.umple.org?RE003ViolationofUniqueness.html");
+    }
+    if (!setEmail(aEmail))
+    {
+      throw new RuntimeException("Cannot create due to duplicate email. See https://manual.umple.org?RE003ViolationofUniqueness.html");
     }
   }
 
@@ -69,8 +73,19 @@ public class UserRole
   public boolean setEmail(String aEmail)
   {
     boolean wasSet = false;
+    String anOldEmail = getEmail();
+    if (anOldEmail != null && anOldEmail.equals(aEmail)) {
+      return true;
+    }
+    if (hasWithEmail(aEmail)) {
+      return wasSet;
+    }
     email = aEmail;
     wasSet = true;
+    if (anOldEmail != null) {
+      userrolesByEmail.remove(anOldEmail);
+    }
+    userrolesByEmail.put(aEmail, this);
     return wasSet;
   }
 
@@ -125,6 +140,16 @@ public class UserRole
   {
     return email;
   }
+  /* Code from template attribute_GetUnique */
+  public static UserRole getWithEmail(String aEmail)
+  {
+    return userrolesByEmail.get(aEmail);
+  }
+  /* Code from template attribute_HasUnique */
+  public static boolean hasWithEmail(String aEmail)
+  {
+    return getWithEmail(aEmail) != null;
+  }
 
   public String getPassword()
   {
@@ -149,6 +174,7 @@ public class UserRole
   public void delete()
   {
     userrolesById.remove(getId());
+    userrolesByEmail.remove(getEmail());
   }
 
 

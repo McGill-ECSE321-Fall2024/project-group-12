@@ -11,7 +11,7 @@ class Customer
 class UserRole
 {
 unique Integer id;
-  email;
+  unique email;
   password;
   name;
   lazy address;
