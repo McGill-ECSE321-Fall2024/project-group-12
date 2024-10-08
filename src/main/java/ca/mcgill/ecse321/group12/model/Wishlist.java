@@ -31,7 +31,7 @@ public class Wishlist
   private int id;
 
   //Wishlist Associations
-  @ManytoMany
+  @ManyToMany
   private List<Game> games;
 
   //------------------------
