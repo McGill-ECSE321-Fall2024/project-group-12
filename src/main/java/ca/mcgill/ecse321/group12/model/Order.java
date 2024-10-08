@@ -12,7 +12,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 
 // line 78 "../../../../../../ReindeerGames.ump"
-@Entity
+@Entity(name = "orders")
 public class Order
 {
 
