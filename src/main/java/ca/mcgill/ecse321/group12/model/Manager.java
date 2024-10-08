@@ -4,7 +4,18 @@
 package ca.mcgill.ecse321.group12.model;
 import java.util.*;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+
 // line 21 "../../../../../../ReindeerGames.ump"
+@Entity
 public class Manager extends UserRole
 {
 

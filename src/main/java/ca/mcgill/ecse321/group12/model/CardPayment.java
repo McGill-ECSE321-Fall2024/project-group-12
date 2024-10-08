@@ -5,7 +5,16 @@ package ca.mcgill.ecse321.group12.model;
 import java.util.*;
 import java.sql.Date;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+
 // line 91 "../../../../../../ReindeerGames.ump"
+@Entity
 public class CardPayment
 {
 
@@ -20,6 +29,8 @@ public class CardPayment
   //------------------------
 
   //CardPayment Attributes
+  @Id
+	@GeneratedValue
   private int id;
   private String nameOnCard;
   private String cvc;
@@ -29,6 +40,7 @@ public class CardPayment
   private Date expiryDate;
 
   //CardPayment Associations
+  @ManyToOne
   private Customer customer;
 
   //------------------------

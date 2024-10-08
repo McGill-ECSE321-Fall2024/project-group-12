@@ -4,7 +4,17 @@
 package ca.mcgill.ecse321.group12.model;
 import java.util.*;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+
 // line 72 "../../../../../../ReindeerGames.ump"
+@Entity
 public class Cart
 {
 
@@ -19,9 +29,12 @@ public class Cart
   //------------------------
 
   //Cart Attributes
+  @Id
+	@GeneratedValue
   private int id;
 
   //Cart Associations
+  @ManyToMany
   private List<Game> games;
 
   //------------------------

@@ -4,7 +4,18 @@
 package ca.mcgill.ecse321.group12.model;
 import java.util.*;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+
 // line 55 "../../../../../../ReindeerGames.ump"
+@Entity
 public class Review
 {
 
@@ -19,14 +30,19 @@ public class Review
   //------------------------
 
   //Review Attributes
+  @Id
+  @GeneratedValue
   private int id;
   private int likeCount;
   private int rating;
   private String text;
 
   //Review Associations
+  
   private List<Comment> comments;
+  @ManyToOne
   private Game game;
+  @ManyToOne
   private Customer customer;
 
   //------------------------

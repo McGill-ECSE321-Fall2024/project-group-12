@@ -5,7 +5,18 @@ package ca.mcgill.ecse321.group12.model;
 import java.util.*;
 import java.sql.Date;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+
 // line 78 "../../../../../../ReindeerGames.ump"
+@Entity
 public class Order
 {
 
@@ -20,14 +31,19 @@ public class Order
   //------------------------
 
   //Order Attributes
+  @Id
+  @GeneratedValue
   private int id;
   private Date purchaseDate;
   private float purchaseTotal;
   private String deliveryAddress;
 
   //Order Associations
+  @ManyToMany
   private List<Game> games;
+  @ManyToOne
   private Customer customer;
+  @ManyToOne
   private CardPayment cardPayment;
 
   //------------------------
