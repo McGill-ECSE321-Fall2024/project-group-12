@@ -2,7 +2,6 @@
 /*This code was generated using the UMPLE 1.34.0.7242.6b8819789 modeling language!*/
 
 package ca.mcgill.ecse321.group12.model;
-import java.util.*;
 
 // line 26 "../../../../../../ReindeerGames.ump"
 public class Employee extends UserRole
