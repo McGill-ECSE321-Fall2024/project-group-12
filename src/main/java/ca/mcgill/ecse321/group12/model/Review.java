@@ -38,7 +38,7 @@ public class Review
   private String text;
 
   //Review Associations
-  
+  @OneToMany
   private List<Comment> comments;
   @ManyToOne
   private Game game;
