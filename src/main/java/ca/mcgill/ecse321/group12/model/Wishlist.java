@@ -4,7 +4,14 @@
 package ca.mcgill.ecse321.group12.model;
 import java.util.*;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.ManyToMany;
+
+
 // line 49 "../../../../../../ReindeerGames.ump"
+@Entity
 public class Wishlist
 {
 
@@ -19,9 +26,12 @@ public class Wishlist
   //------------------------
 
   //Wishlist Attributes
+  @Id
+	@GeneratedValue
   private int id;
 
   //Wishlist Associations
+  @ManytoMany
   private List<Game> games;
 
   //------------------------

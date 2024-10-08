@@ -4,7 +4,15 @@
 package ca.mcgill.ecse321.group12.model;
 import java.util.*;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
+import jakarta.persistence.Id;
+import jakarta.persistence.GeneratedValue;
+
 // line 11 "../../../../../../ReindeerGames.ump"
+@Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class UserRole
 {
 
@@ -20,6 +28,8 @@ public class UserRole
   //------------------------
 
   //UserRole Attributes
+  @Id
+  @GeneratedValue
   private int id;
   private String email;
   private String password;
