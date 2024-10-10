@@ -21,7 +21,7 @@ public class ManagerRepositoryTests {
 
 	@Test
 	public void testPersistAndLoadPerson() {
-		// Create person
+		// Create manager
 		String name = "Kim Jung Deux";
 		String phoneNumber = "0293729037";
 		String email = "kimmyjung2@hotmail.nk";
