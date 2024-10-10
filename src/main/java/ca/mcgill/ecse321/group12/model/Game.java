@@ -47,6 +47,8 @@ public class Game
   // CONSTRUCTOR
   //------------------------
 
+  public Game() {}
+  
   public Game(int aId, Category aCategory, Console aConsole, int aInventory, float aPrice, String aName, String aDescription, GameStatus aStatus)
   {
     category = aCategory;

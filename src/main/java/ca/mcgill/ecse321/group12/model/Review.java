@@ -44,7 +44,8 @@ public class Review
   //------------------------
   // CONSTRUCTOR
   //------------------------
-
+  public Review(){}
+  
   public Review(int aId, int aLikeCount, int aRating, String aText, Game aGame, Customer aCustomer)
   {
     likeCount = aLikeCount;

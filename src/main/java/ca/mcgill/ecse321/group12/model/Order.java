@@ -46,6 +46,8 @@ public class Order
   // CONSTRUCTOR
   //------------------------
 
+  public Order() {}
+  
   public Order(int aId, Date aPurchaseDate, float aPurchaseTotal, String aDeliveryAddress, Customer aCustomer, CardPayment aCardPayment, Game... allGames)
   {
     purchaseDate = aPurchaseDate;
@@ -74,6 +76,11 @@ public class Order
   //------------------------
   // INTERFACE
   //------------------------
+
+  public Order(int aId, java.util.Date purchaseDate2, float purchaseTotal2, String deliveryAddress2, Customer customer2,
+      CardPayment cardPayment2, List<Game> games2) {
+    //TODO Auto-generated constructor stub
+  }
 
   public boolean setId(int aId)
   {
