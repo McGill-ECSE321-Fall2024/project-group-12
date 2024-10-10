@@ -5,7 +5,7 @@ import ca.mcgill.ecse321.group12.model.CardPayment;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import java.util.Date;
+import java.sql.Date;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -30,7 +30,7 @@ public class CardPaymentRepositoryTests {
 		String cardNumber = "4520214999881022";
     String billingAddress = "2366 Main Mall, Vancouver, BC V6T 1Z4";
     boolean isSaved = false;
-    Date expiryDate = new Date();
+    Date expiryDate = null;
 		CardPayment payment = new CardPayment(0, name, cvc, cardNumber, billingAddress, false, null);
 
 		// Save person
