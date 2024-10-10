@@ -33,12 +33,13 @@ public class ManagerRepositoryTests {
 		int id = kimmyJung2.getId();
 
 		// Read person from database
-		Manager muffinManFromDb = managerRepository.findManagerById(id);
+		Manager kimmyJung2FromDb = managerRepository.findManagerById(id);
 
-		// Assert correct response
+		// Assert correct
 		assertNotNull(kimmyJung2);
-		assertEquals(muffinManFromDb.getName(), name);
-		assertEquals(muffinManFromDb.getEmail(), email);
-		assertEquals(muffinManFromDb.getPassword(), password);
+		assertEquals(kimmyJung2FromDb.getName(), name);
+		assertEquals(kimmyJung2FromDb.getEmail(), email);
+		assertEquals(kimmyJung2FromDb.getPassword(), password);
+		assertEquals(kimmyJung2FromDb.getPhoneNumber(), phoneNumber);
 	}
 }
