@@ -15,7 +15,7 @@ public class Employee extends UserRole
   //------------------------
 
     
-
+  public Employee() {}
   //------------------------
   // CONSTRUCTOR
   //------------------------
