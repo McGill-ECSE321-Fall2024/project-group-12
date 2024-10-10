@@ -26,7 +26,11 @@ public class ManagerRepositoryTests {
 		String phoneNumber = "0293729037";
 		String email = "kimmyjung2@hotmail.nk";
 		String password = "iaminlovewithtrump";
-		Manager kimmyJung2 = new Manager(0, email, password, name, phoneNumber);
+		Manager kimmyJung2 = new Manager();
+		kimmyJung2.setEmail(email);
+		kimmyJung2.setPassword(password);
+		kimmyJung2.setName(name);
+		kimmyJung2.setPhoneNumber(phoneNumber);
 
 		// Save manager
 		kimmyJung2 = managerRepository.save(kimmyJung2);
