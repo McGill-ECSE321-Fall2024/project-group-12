@@ -15,6 +15,8 @@ import jakarta.persistence.ManyToOne;
 public class CardPayment
 {
 
+  public CardPayment() {}
+
   //------------------------
   // STATIC VARIABLES
   //------------------------
