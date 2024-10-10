@@ -42,10 +42,9 @@ public class OrderRepositoryTests {
         String deliveryAddress = "home";
 		
 		// Create Games
-        Game[] games = new Game[1];
 		Game game = new Game();
 		game = gameRepository.save(game);
-		games[0] = game;
+        Game[] games = new Game[]{game};
 
 		// Create customer
 		Customer customer = new Customer();
@@ -55,14 +54,7 @@ public class OrderRepositoryTests {
         CardPayment cardPayment = new CardPayment();
 		cardPayment = cardPaymentRepository.save(cardPayment);
 
-		Order order = new Order();
-		order.setId(0);
-		order.setPurchaseTotal(purchaseTotal);
-		order.setDeliveryAddress(deliveryAddress);
-		order.setGames(games);
-		order.setCustomer(customer);
-		order.setDeliveryAddress(deliveryAddress);
-		order.setCardPayment(cardPayment);
+		Order order = new Order(0, purchaseDate, purchaseTotal, deliveryAddress, customer, cardPayment, games);
 
 		// Save person
 		order = orderRepository.save(order);
