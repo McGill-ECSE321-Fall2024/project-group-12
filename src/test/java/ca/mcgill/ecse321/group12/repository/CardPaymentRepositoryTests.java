@@ -2,6 +2,11 @@ package ca.mcgill.ecse321.group12.repository;
 
 import ca.mcgill.ecse321.group12.model.CardPayment;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+import java.util.Date;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,25 +25,29 @@ public class CardPaymentRepositoryTests {
 	@Test
 	public void testPersistAndLoadPerson() {
 		// Create person
-		String name = "Muffin Man";
-		String emailAddress = "muffin.man@gmail.com";
-		String password = "i_love_muffins";
-		CardPayment payment = new CardPayment();
-		muffinMan.setName(name);
-		muffinMan.setEmailAddress(emailAddress);
-		muffinMan.setPassword(password);
+    int id = 1;
+		String name = "Sophia Li";
+		String cvc = "800";
+		String cardNumber = "4520214999881022";
+    String billingAddress = "2366 Main Mall, Vancouver, BC V6T 1Z4";
+    boolean isSaved = false;
+    Date expiryDate = new Date();
+		CardPayment payment = new CardPayment(0, name, cvc, cardNumber, billingAddress, false, null);
 
 		// Save person
-		muffinMan = personRepository.save(person);
-		int id = muffinMan.getId();
+		payment = cardPaymentRepository.save(payment);
+		int _id = payment.getId();
 
 		// Read person from database
-		Person muffinManFromDb = personRepository.findPersonById(id);
+		CardPayment paymentFromDb = cardPaymentRepository.findCardPaymentById(_id);
 
 		// Assert correct response
-		assertNotNull(person);
-		assertEquals(muffinManFromDb.getName(), name);
-		assertEquals(muffinManFromDb.getEmailAddress(), emailAddress);
-		assertEquals(muffinManFromDb.getPassword(), password);
+		assertNotNull(payment);
+		assertEquals(paymentFromDb.getNameOnCard(), name);
+		assertEquals(paymentFromDb.getCvc(), cvc);
+		assertEquals(paymentFromDb.getCardNumber(), cardNumber);
+		assertEquals(paymentFromDb.getBillingAddress(), billingAddress);
+		assertEquals(paymentFromDb.getIsSaved(), isSaved);
+		assertEquals(paymentFromDb.getExpiryDate(), expiryDate);
 	}
 }
