@@ -6,6 +6,6 @@ import ca.mcgill.ecse321.group12.model.Comment;
 
 public interface CommentRepository extends CrudRepository<Comment, Integer>{
 
-	Comment findCardPaymentById(int id);
+	Comment findCommentById(int id);
 
 }
