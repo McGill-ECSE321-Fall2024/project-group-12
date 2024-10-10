@@ -30,12 +30,13 @@ public class WishlistRepositoryTests {
 
 		// Save person
 		wishlist = wishlistRepository.save(wishlist);
-
+		int id2 = wishlist.getId();
 		// Read person from database
-		Wishlist wishlistFromDb = wishlistRepository.findWishlistById(id);
+		Wishlist wishlistFromDb = wishlistRepository.findWishlistById(id2);
 
 		// Assert correct response
 		assertNotNull(wishlist);
-		assertEquals(wishlistFromDb.getId(), id);
+		assertNotNull(wishlistFromDb);
+		assertEquals(wishlistFromDb.getId(), id2);
 	}
 }

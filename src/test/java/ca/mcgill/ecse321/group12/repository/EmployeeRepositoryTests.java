@@ -30,8 +30,12 @@ public class EmployeeRepositoryTests {
 		String password = "i_love_circuits";
 		String name = "Marwan";
 		String phone = "12345678";
-		Employee employee = new Employee(id, email, password, name, phone);
-
+		Employee employee = new Employee();
+        employee.setId(id);
+        employee.setEmail(email);
+        employee.setPassword(password);
+        employee.setName(name);
+        employee.setPhoneNumber(phone);
 		// Save person
 		employee = employeeRepository.save(employee);
         int id2 = employee.getId();

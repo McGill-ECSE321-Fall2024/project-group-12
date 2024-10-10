@@ -14,7 +14,7 @@ import jakarta.persistence.ManyToMany;
 @Entity
 public class Wishlist
 {
-
+  public Wishlist(){}
   //------------------------
   // STATIC VARIABLES
   //------------------------
