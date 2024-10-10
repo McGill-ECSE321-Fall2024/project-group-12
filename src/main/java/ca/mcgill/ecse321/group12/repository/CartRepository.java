@@ -6,6 +6,6 @@ import ca.mcgill.ecse321.group12.model.Cart;
 
 public interface CartRepository extends CrudRepository<Cart, Integer>{
 
-	Cart findCardPaymentById(int id);
+	Cart findCartById(int id);
 
 }
