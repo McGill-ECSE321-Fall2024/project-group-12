@@ -25,7 +25,6 @@ public class CardPaymentRepositoryTests {
 	@Test
 	public void testPersistAndLoadPerson() {
 		// Create person
-    int id = 1;
 		String name = "Sophia Li";
 		String cvc = "800";
 		String cardNumber = "4520214999881022";
@@ -36,10 +35,10 @@ public class CardPaymentRepositoryTests {
 
 		// Save person
 		payment = cardPaymentRepository.save(payment);
-		int _id = payment.getId();
+		int id = payment.getId();
 
 		// Read person from database
-		CardPayment paymentFromDb = cardPaymentRepository.findCardPaymentById(_id);
+		CardPayment paymentFromDb = cardPaymentRepository.findCardPaymentById(id);
 
 		// Assert correct response
 		assertNotNull(payment);
