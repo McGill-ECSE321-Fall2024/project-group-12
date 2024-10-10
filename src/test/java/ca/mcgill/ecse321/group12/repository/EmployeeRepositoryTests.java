@@ -34,16 +34,17 @@ public class EmployeeRepositoryTests {
 
 		// Save person
 		employee = employeeRepository.save(employee);
-
+        int id2 = employee.getId();
 		// Read person from database
-		Employee employeeFromDb = employeeRepository.findEmployeeById(id);
+		Employee employeeFromDb = employeeRepository.findEmployeeById(id2);
 
 		// Assert correct response
 		assertNotNull(employee);
-		assertEquals(employeeFromDb.getId(), id);
+        assertNotNull(employeeFromDb);
+        assertEquals(employeeFromDb.getId(), id2);
 		assertEquals(employeeFromDb.getEmail(), email);
 		assertEquals(employeeFromDb.getPassword(), password);
-    assertEquals(employeeFromDb.getName(), name);
-    assertEquals(employeeFromDb.getPhoneNumber(), phone);
+        assertEquals(employeeFromDb.getName(), name);
+        assertEquals(employeeFromDb.getPhoneNumber(), phone);
 	}
 }
