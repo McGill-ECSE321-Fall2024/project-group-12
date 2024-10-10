@@ -25,6 +25,8 @@ public class Customer extends UserRole
   // CONSTRUCTOR
   //------------------------
 
+  public Customer() {}
+
   public Customer(int aId, String aEmail, String aPassword, String aName, String aPhoneNumber, Wishlist aWishlist, Cart aCart)
   {
     super(aId, aEmail, aPassword, aName, aPhoneNumber);

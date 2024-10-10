@@ -41,6 +41,8 @@ public class UserRole
   // CONSTRUCTOR
   //------------------------
 
+  public UserRole() {}
+
   public UserRole(int aId, String aEmail, String aPassword, String aName, String aPhoneNumber)
   {
     password = aPassword;

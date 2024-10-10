@@ -18,6 +18,8 @@ public class Manager extends UserRole
   // CONSTRUCTOR
   //------------------------
 
+  public Manager() {}
+
   public Manager(int aId, String aEmail, String aPassword, String aName, String aPhoneNumber)
   {
     super(aId, aEmail, aPassword, aName, aPhoneNumber);
