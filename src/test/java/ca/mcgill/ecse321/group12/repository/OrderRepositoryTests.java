@@ -32,11 +32,20 @@ public class OrderRepositoryTests {
         String deliveryAddress = "home";
 
         Game[] games = new Game[1];
-		games[0] = new Game();
+		Game game = new Game();
+		game.setId(0);
+		games[0] = game;
         Customer customer = new Customer();
         CardPayment cardPayment = new CardPayment();
 
-		Order order = new Order(0, purchaseDate, purchaseTotal, deliveryAddress, customer, cardPayment, games);
+		Order order = new Order();
+		order.setId(0);
+		order.setPurchaseTotal(purchaseTotal);
+		order.setDeliveryAddress(deliveryAddress);
+		order.setGames(games);
+		order.setCustomer(customer);
+		order.setDeliveryAddress(deliveryAddress);
+		order.setCardPayment(cardPayment);
 
 		// Save person
 		order = orderRepository.save(order);

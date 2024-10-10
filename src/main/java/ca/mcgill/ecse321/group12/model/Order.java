@@ -47,7 +47,7 @@ public class Order
   //------------------------
 
   public Order() {}
-  
+
   public Order(int aId, Date aPurchaseDate, float aPurchaseTotal, String aDeliveryAddress, Customer aCustomer, CardPayment aCardPayment, Game... allGames)
   {
     purchaseDate = aPurchaseDate;
