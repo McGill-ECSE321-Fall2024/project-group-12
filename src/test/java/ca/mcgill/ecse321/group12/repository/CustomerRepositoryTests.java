@@ -31,7 +31,13 @@ public class CustomerRepositoryTests {
 		String phoneNumber = "5141234567";
 		Wishlist wishlist = new Wishlist(0);
 		Cart cart = new Cart(0);
-		Customer customer = new Customer(0, email, password, name, phoneNumber, wishlist, cart);
+		Customer customer = new Customer();
+		customer.setName(name);
+		customer.setEmail(email);
+		customer.setPassword(password);
+		customer.setPhoneNumber(phoneNumber);
+		customer.setWishlist(wishlist);
+		customer.setCart(cart);
 
 		// Save customer
 		customer = customerRepository.save(customer);
