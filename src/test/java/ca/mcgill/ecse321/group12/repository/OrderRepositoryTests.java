@@ -31,9 +31,10 @@ public class OrderRepositoryTests {
         float purchaseTotal = 99.99f;
         String deliveryAddress = "home";
 
-        Game[] games = null;
-        Customer customer = null;
-        CardPayment cardPayment = null;
+        Game[] games = new Game[1];
+		games[0] = new Game();
+        Customer customer = new Customer();
+        CardPayment cardPayment = new CardPayment();
 
 		Order order = new Order(0, purchaseDate, purchaseTotal, deliveryAddress, customer, cardPayment, games);
 
@@ -49,8 +50,8 @@ public class OrderRepositoryTests {
 		assertEquals(orderFromDb.getPurchaseDate(), purchaseDate);
 		assertEquals(orderFromDb.getPurchaseTotal(), purchaseTotal);
 		assertEquals(orderFromDb.getDeliveryAddress(), deliveryAddress);
-		assertEquals(orderFromDb.getCustomer(), null);
-		assertEquals(orderFromDb.getGames(), null);
-		assertEquals(orderFromDb.getCardPayment(), null);
+		assertEquals(orderFromDb.getCustomer(), customer);
+		assertEquals(orderFromDb.getGames(), games);
+		assertEquals(orderFromDb.getCardPayment(), cardPayment);
 	}
 }
