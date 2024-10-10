@@ -9,12 +9,12 @@ Project scope: requirements elicitation and documentation, persistence layer, da
 ## Team Members
 | Name             | Team Roles       | Hours (Deliverable 1) |
 | ---------------- | ---------------- | --------------------- |
-| James Madden     | Tech Lead        |                       |
-| Sophia Li        | Project Manager  |                       |
-| Amy Ding         | UI/UX Designer   |                       |
-| Julien Heng      | Developer        |                       |
-| Kennedy Olsen    | Business Analyst |                       |
-| Carmin Loup Vidé | Scrum Master     |                       |
+| James Madden     | Tech Lead        |  15                   |
+| Sophia Li        | Project Manager  |  18                   |
+| Amy Ding         | UI/UX Designer   |  18                   |
+| Julien Heng      | Developer        |  13                   |
+| Kennedy Olsen    | Business Analyst |  18                   |
+| Carmin Loup Vidé | Scrum Master     |  18                   |
 
 ## Run the Project
 Start the frontend:
