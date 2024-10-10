@@ -14,6 +14,7 @@ import ca.mcgill.ecse321.group12.model.Review;
 public class CommentRepositoryTests {
 	@Autowired
 	private CommentRepository commentRepository;
+	@Autowired
 	private ReviewRepository reviewRepository;
 
 	@AfterEach

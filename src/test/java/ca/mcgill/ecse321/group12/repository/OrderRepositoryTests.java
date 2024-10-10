@@ -18,8 +18,11 @@ import ca.mcgill.ecse321.group12.model.Order;
 public class OrderRepositoryTests {
 	@Autowired
 	private OrderRepository orderRepository;
+	@Autowired
 	private GameRepository gameRepository;
+	@Autowired
 	private CardPaymentRepository cardPaymentRepository;
+	@Autowired
 	private CustomerRepository customerRepository;
 	
 
@@ -37,7 +40,7 @@ public class OrderRepositoryTests {
         Date purchaseDate = new Date(10000);
         float purchaseTotal = 99.99f;
         String deliveryAddress = "home";
-
+		
 		// Create Games
         Game[] games = new Game[1];
 		Game game = new Game();
@@ -45,7 +48,7 @@ public class OrderRepositoryTests {
 		games[0] = game;
 
 		// Create customer
-        Customer customer = new Customer();
+		Customer customer = new Customer();
 		customer = customerRepository.save(customer);
 
 		// Create cardPayment
