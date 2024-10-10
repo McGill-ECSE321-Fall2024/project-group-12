@@ -8,12 +8,15 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import ca.mcgill.ecse321.group12.model.Cart;
 import ca.mcgill.ecse321.group12.model.Comment;
+import ca.mcgill.ecse321.group12.model.Customer;
 import ca.mcgill.ecse321.group12.model.Game;
 import ca.mcgill.ecse321.group12.model.Game.Category;
 import ca.mcgill.ecse321.group12.model.Game.Console;
 import ca.mcgill.ecse321.group12.model.Game.GameStatus;
 import ca.mcgill.ecse321.group12.model.Review;
+import ca.mcgill.ecse321.group12.model.Wishlist;
 @SpringBootTest
 public class CommentRepositoryTests {
 	@Autowired
@@ -39,12 +42,19 @@ public class CommentRepositoryTests {
         String name = "FIFA" ;
         String description = "FIFA is a football game.";
         GameStatus status = GameStatus.InCatalog;
-		Game game = new Game(0, category, console, inventory, price, name, description, status);
         
-		Review review = new Review(1, 2, 3, "text", game, null);
+		Game game = new Game(0, category, console, inventory, price, name, description, status);
+		String name1 = "Kennedy Olsen";
+		String email = "kennedy@gmail.com";
+		String password = "i_love_muffins";
+		String phoneNumber = "5141234567";
+		Wishlist wishlist = new Wishlist(0);
+		Cart cart = new Cart(0);
+		Customer customer = new Customer(0, email, password, name1, phoneNumber, wishlist, cart);
+
+		Review review = new Review(1, 2, 3, "text", game, customer);
 
 		Comment comment = new Comment(id, text, review);
-
 		// Save person
 		comment = commentRepository.save(comment);
 
