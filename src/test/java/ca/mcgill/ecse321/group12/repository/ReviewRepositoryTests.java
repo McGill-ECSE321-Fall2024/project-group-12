@@ -25,7 +25,7 @@ public class ReviewRepositoryTests {
         int likeCount = 15;
         int rating = 3;
         String text = "Love this game. Makes me feel like I am in a different world. Graphics are pretty good. Pleasing to the eye.";
-        Review aReview = new Review(0, likeCount, rating, text, null, null);
+        Review aReview = new Review();
         aReview.setLikeCount(likeCount);
         aReview.setRating(rating);
         aReview.setText(text);
