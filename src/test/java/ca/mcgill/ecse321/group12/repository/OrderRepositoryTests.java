@@ -18,6 +18,10 @@ import ca.mcgill.ecse321.group12.model.Order;
 public class OrderRepositoryTests {
 	@Autowired
 	private OrderRepository orderRepository;
+	private GameRepository gameRepository;
+	private CardPaymentRepository cardPaymentRepository;
+	private CustomerRepository customerRepository;
+	
 
 	@AfterEach
 	public void clearDatabase() {
@@ -31,12 +35,19 @@ public class OrderRepositoryTests {
         float purchaseTotal = 99.99f;
         String deliveryAddress = "home";
 
+		// Create Games
         Game[] games = new Game[1];
 		Game game = new Game();
-		game.setId(0);
+		game = gameRepository.save(game);
 		games[0] = game;
+
+		// Create customer
         Customer customer = new Customer();
+		customer = customerRepository.save(customer);
+
+		// Create cardPayment
         CardPayment cardPayment = new CardPayment();
+		cardPayment = cardPaymentRepository.save(cardPayment);
 
 		Order order = new Order();
 		order.setId(0);
