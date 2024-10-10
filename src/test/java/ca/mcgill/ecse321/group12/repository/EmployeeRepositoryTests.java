@@ -23,11 +23,11 @@ public class EmployeeRepositoryTests {
 	@Test
 	public void testPersistAndLoadEmployee() {
 		// Create employee
-        // int aId, String aEmail, String aPassword, String aName, String aPhoneNumber
-        
-        int id = 1;
-        String email = "marwan@gmail.com";
-        String password = "i_love_circuits";
+		// int aId, String aEmail, String aPassword, String aName, String aPhoneNumber
+		
+		int id = 1;
+		String email = "marwan@gmail.com";
+		String password = "i_love_circuits";
 		String name = "Marwan";
 		String phone = "12345678";
 		Employee employee = new Employee(id, email, password, name, phone);
@@ -43,7 +43,7 @@ public class EmployeeRepositoryTests {
 		assertEquals(employeeFromDb.getId(), id);
 		assertEquals(employeeFromDb.getEmail(), email);
 		assertEquals(employeeFromDb.getPassword(), password);
-        assertEquals(employeeFromDb.getName(), name);
-        assertEquals(employeeFromDb.getPhoneNumber(), phone);
+    assertEquals(employeeFromDb.getName(), name);
+    assertEquals(employeeFromDb.getPhoneNumber(), phone);
 	}
 }
