@@ -13,7 +13,7 @@ import jakarta.persistence.ManyToOne;
 @Entity
 public class Comment
 {
-
+  public Comment() {}
   //------------------------
   // STATIC VARIABLES
   //------------------------
