@@ -26,6 +26,9 @@ public class OrderRepositoryTests {
 	@AfterEach
 	public void clearDatabase() {
 		orderRepository.deleteAll();
+		gameRepository.deleteAll();
+		cardPaymentRepository.deleteAll();
+		customerRepository.deleteAll();
 	}
 
 	@Test
