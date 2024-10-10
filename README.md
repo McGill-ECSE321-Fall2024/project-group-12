@@ -4,13 +4,21 @@
 An online game store (full stack web application).\
 Project scope: requirements elicitation and documentation, persistence layer, database, backend, frontend.
 
-A message from the team: 
-Hey. We appreciate your interest in our project. Here is a breif introduction from each member of the team: 
+**A message from the team:**
+
+Hi there! We appreciate your interest in our project. Here is a breif introduction from each member of the team: 
+
+
 James: "Hi. I am a U2 Computer Enineering student at McGill. A fun fact about me is that my favorite ."
+
 Kennedy: "Hey! I am a U2 Computer Engineering student at McGill. A fun fact about me is that I LOVE bubble tea!"
+
 Amy: "Hello there! I am a U2 Software Engineering student at McGill. A fun fact about me is that I have never broken a bone."
+
 Carmin: "Hey! I am a U2 Computer Engineering student at McGill. A fun fact about me is that I love green bananas."
+
 Sophia: "Hi! I am a U2 Software Engineering student at McGill. A fun fact about me is that I play the piano."
+
 Julien: "Hey. I am a U2 Software Engineering student at McGill! A fun fact about me is I am from France."
 
 
