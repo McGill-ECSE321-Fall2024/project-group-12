@@ -45,6 +45,11 @@ public class GameRepositoryTests {
 		// Assert correct response
 		assertNotNull(game);
 		assertEquals(gameFromDb.getName(), name);
-		assertEquals(gameFromDb.getStatus(), status);
+		assertEquals(gameFromDb.getCategory(), category);
+        assertEquals(gameFromDb.getConsole(), console);
+        assertEquals(gameFromDb.getInventory(), inventory);
+        assertEquals(gameFromDb.getPrice(), price);
+        assertEquals(gameFromDb.getDescription(), description);
+        assertEquals(gameFromDb.getStatus(), status);
 	}
 }
