@@ -36,6 +36,7 @@ public class Cart
   //------------------------
   // CONSTRUCTOR
   //------------------------
+  public Cart() {}
 
   public Cart(int aId)
   {

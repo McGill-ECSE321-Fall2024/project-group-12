@@ -16,29 +16,32 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class CustomerRepositoryTests {
 	@Autowired
 	private CustomerRepository customerRepository;
+	@Autowired
+	private WishlistRepository wishlistRepository;
+	@Autowired
+	private CartRepository cartRepository;
 
 	@AfterEach
 	public void clearDatabase() {
 		customerRepository.deleteAll();
+		wishlistRepository.deleteAll();
+		cartRepository.deleteAll();
 	}
 
 	@Test
 	public void testPersistAndLoadCustomer() {
 		// Create customer
 		String name = "Kennedy Olsen";
-		String email = "kennedy@gmail.com";
+		String email = "k@gmail.com";
 		String password = "i_love_muffins";
 		String phoneNumber = "5141234567";
 		Wishlist wishlist = new Wishlist(0);
 		Cart cart = new Cart(0);
-		Customer customer = new Customer();
-		customer.setName(name);
-		customer.setEmail(email);
-		customer.setPassword(password);
-		customer.setPhoneNumber(phoneNumber);
-		customer.setWishlist(wishlist);
-		customer.setCart(cart);
+		Customer customer = new Customer(0, name, email, password, phoneNumber, wishlist, cart);
 
+		// Save wishlist and cart
+		wishlist = wishlistRepository.save(wishlist);
+		cart = cartRepository.save(cart);
 		// Save customer
 		customer = customerRepository.save(customer);
 		int id = customer.getId();
