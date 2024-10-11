@@ -61,10 +61,7 @@ public class CommentRepositoryTests {
 		aReview = reviewRepository.save(aReview);
 
 		// Save Comment
-		Comment comment = new Comment();
-		comment.setId(0);
-		comment.setText(text);
-		comment.setReview(aReview);
+		Comment comment = new Comment(0, text, aReview);
 		comment = commentRepository.save(comment);
 
 		// Read comment from database
@@ -75,6 +72,10 @@ public class CommentRepositoryTests {
 		assertNotNull(comment);
 		assertEquals(commentFromDb.getId(), id);
 		assertEquals(commentFromDb.getText(), text);
-		assertEquals(commentFromDb.getReview(), aReview);
+		assertEquals(commentFromDb.getReview().getId(), aReview.getId());
+		assertEquals(commentFromDb.getReview().getLikeCount(), aReview.getLikeCount());
+		assertEquals(commentFromDb.getReview().getRating(), aReview.getRating());
+		assertEquals(commentFromDb.getReview().getText(), aReview.getText());
+
 	}
 }
