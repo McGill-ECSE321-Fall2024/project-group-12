@@ -68,7 +68,7 @@ public class OrderRepositoryTests {
 		assertEquals(orderFromDb.getPurchaseDate(), purchaseDate);
 		assertEquals(orderFromDb.getPurchaseTotal(), purchaseTotal);
 		assertEquals(orderFromDb.getDeliveryAddress(), deliveryAddress);
-		assertEquals(orderFromDb.getCustomer(), customer);
+		assertEquals(orderFromDb.getCustomer().getId(), customer.getId());
 		assertEquals(orderFromDb.getGames(), games);
 		assertEquals(orderFromDb.getCardPayment(), cardPayment);
 	}
