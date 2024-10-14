@@ -50,3 +50,12 @@ Windows:
 ```
 
 ## Test the Project
+Test the backend:\
+Unix:
+```
+bash ./gradlew test
+```
+Windows:
+```
+./gradlew.bat test
+```
