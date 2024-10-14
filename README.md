@@ -27,7 +27,7 @@ Julien: "Hey. I am a U2 Software Engineering student at McGill! A fun fact about
 ## Team Members
 | Name             | Team Roles       | Hours (Deliverable 1) |
 | ---------------- | ---------------- | --------------------- |
-| James Madden     | Tech Lead        |  15                   |
+| James Madden     | Tech Lead        |  18                   |
 | Sophia Li        | Project Manager  |  18                   |
 | Amy Ding         | UI/UX Designer   |  18                   |
 | Julien Heng      | Developer        |  13                   |
