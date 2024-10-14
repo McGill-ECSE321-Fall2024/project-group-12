@@ -35,13 +35,21 @@ public class CustomerRepositoryTests {
 		String email = "k@gmail.com";
 		String password = "i_love_muffins";
 		String phoneNumber = "5141234567";
-		Wishlist wishlist = new Wishlist(0);
-		Cart cart = new Cart(0);
-		Customer customer = new Customer(0, name, email, password, phoneNumber, wishlist, cart);
+		Wishlist wishlist = new Wishlist();
+		Cart cart = new Cart();
+		Customer customer = new Customer();
+		customer.setName(name);
+		customer.setEmail(email);
+		customer.setPassword(password);
+		customer.setPhoneNumber(phoneNumber);
+		customer.setWishlist(wishlist);
+		customer.setCart(cart);
 
 		// Save wishlist and cart
 		wishlist = wishlistRepository.save(wishlist);
+		int wishlistId = wishlist.getId();
 		cart = cartRepository.save(cart);
+		int cartId = cart.getId();
 		// Save customer
 		customer = customerRepository.save(customer);
 		int id = customer.getId();
@@ -55,7 +63,8 @@ public class CustomerRepositoryTests {
 		assertEquals(customerFromDb.getEmail(), email);
 		assertEquals(customerFromDb.getPassword(), password);
 		assertEquals(customerFromDb.getPhoneNumber(), phoneNumber);
-		assertEquals(customerFromDb.getWishlist(), wishlist);
-		assertEquals(customerFromDb.getCart(), cart);
+		// check if wishlist is the same
+		assertEquals(customerFromDb.getWishlist().getId(), wishlistId);
+		assertEquals(customerFromDb.getCart().getId(), cartId);
 	}
 }

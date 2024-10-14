@@ -36,7 +36,9 @@ public class Cart
   //------------------------
   // CONSTRUCTOR
   //------------------------
-  public Cart() {}
+  public Cart() {
+    games = new ArrayList<Game>();
+  }
 
   public Cart(int aId)
   {

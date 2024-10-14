@@ -20,30 +20,30 @@ public class ManagerRepositoryTests {
 	}
 
 	@Test
-	public void testPersistAndLoadPerson() {
+	public void testPersistAndLoadManager() {
 		// Create manager
-		String name = "Kim Jung Deux";
+		String name = "Jane Doe";
 		String phoneNumber = "0293729037";
-		String email = "kimmyjung2@hotmail.nk";
-		String password = "iaminlovewithtrump";
-		Manager kimmyJung2 = new Manager();
-		kimmyJung2.setEmail(email);
-		kimmyJung2.setPassword(password);
-		kimmyJung2.setName(name);
-		kimmyJung2.setPhoneNumber(phoneNumber);
+		String email = "janedoe@hotmail.nk";
+		String password = "1234";
+		Manager jane = new Manager();
+		jane.setEmail(email);
+		jane.setPassword(password);
+		jane.setName(name);
+		jane.setPhoneNumber(phoneNumber);
 
 		// Save manager
-		kimmyJung2 = managerRepository.save(kimmyJung2);
-		int id = kimmyJung2.getId();
+		jane = managerRepository.save(jane);
+		int id = jane.getId();
 
 		// Read person from database
-		Manager kimmyJung2FromDb = managerRepository.findManagerById(id);
+		Manager janeFromDb = managerRepository.findManagerById(id);
 
 		// Assert correct
-		assertNotNull(kimmyJung2);
-		assertEquals(kimmyJung2FromDb.getName(), name);
-		assertEquals(kimmyJung2FromDb.getEmail(), email);
-		assertEquals(kimmyJung2FromDb.getPassword(), password);
-		assertEquals(kimmyJung2FromDb.getPhoneNumber(), phoneNumber);
+		assertNotNull(jane);
+		assertEquals(janeFromDb.getName(), name);
+		assertEquals(janeFromDb.getEmail(), email);
+		assertEquals(janeFromDb.getPassword(), password);
+		assertEquals(janeFromDb.getPhoneNumber(), phoneNumber);
 	}
 }

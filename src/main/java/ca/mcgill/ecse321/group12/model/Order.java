@@ -3,13 +3,15 @@
 
 package ca.mcgill.ecse321.group12.model;
 import java.util.*;
-import java.sql.Date;
+import java.util.Date;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
 // line 78 "../../../../../../ReindeerGames.ump"
 @Entity(name = "orders")
@@ -30,6 +32,7 @@ public class Order
   @Id
   @GeneratedValue
   private int id;
+  @Temporal(TemporalType.TIMESTAMP)
   private Date purchaseDate;
   private float purchaseTotal;
   private String deliveryAddress;
@@ -46,7 +49,9 @@ public class Order
   // CONSTRUCTOR
   //------------------------
 
-  public Order() {}
+  public Order() {
+    games = new ArrayList<Game>();
+  }
 
   public Order(int aId, Date aPurchaseDate, float aPurchaseTotal, String aDeliveryAddress, Customer aCustomer, CardPayment aCardPayment, Game... allGames)
   {

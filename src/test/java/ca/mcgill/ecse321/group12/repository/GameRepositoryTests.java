@@ -23,15 +23,15 @@ public class GameRepositoryTests {
 	}
 
 	@Test
-	public void testPersistAndLoadPerson() {
+	public void testPersistAndLoadGame() {
 		// Create Game
-        Category category = Category.Action;
-        Console console = Console.XBox;
-        int inventory = 1;
-        float price = 19.99f;
-        String name = "FIFA" ;
-        String description = "FIFA is a football game.";
-        GameStatus status = GameStatus.InCatalog;
+		Category category = Category.Action;
+		Console console = Console.XBox;
+		int inventory = 1;
+		float price = 19.99f;
+		String name = "FIFA" ;
+		String description = "FIFA is a football game.";
+		GameStatus status = GameStatus.InCatalog;
 
 		Game game = new Game(0, category, console, inventory, price, name, description, status);
 
@@ -46,10 +46,10 @@ public class GameRepositoryTests {
 		assertNotNull(game);
 		assertEquals(gameFromDb.getName(), name);
 		assertEquals(gameFromDb.getCategory(), category);
-        assertEquals(gameFromDb.getConsole(), console);
-        assertEquals(gameFromDb.getInventory(), inventory);
-        assertEquals(gameFromDb.getPrice(), price);
-        assertEquals(gameFromDb.getDescription(), description);
-        assertEquals(gameFromDb.getStatus(), status);
+		assertEquals(gameFromDb.getConsole(), console);
+		assertEquals(gameFromDb.getInventory(), inventory);
+		assertEquals(gameFromDb.getPrice(), price);
+		assertEquals(gameFromDb.getDescription(), description);
+		assertEquals(gameFromDb.getStatus(), status);
 	}
 }

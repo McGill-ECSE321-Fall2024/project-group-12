@@ -3,12 +3,13 @@
 
 package ca.mcgill.ecse321.group12.model;
 import java.util.*;
-import java.sql.Date;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
 // line 91 "../../../../../../ReindeerGames.ump"
 @Entity
@@ -36,6 +37,7 @@ public class CardPayment
   private String cardNumber;
   private String billingAddress;
   private boolean isSaved;
+  @Temporal(TemporalType.TIMESTAMP)
   private Date expiryDate;
 
   //CardPayment Associations

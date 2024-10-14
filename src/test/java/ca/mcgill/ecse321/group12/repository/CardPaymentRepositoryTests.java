@@ -5,7 +5,7 @@ import ca.mcgill.ecse321.group12.model.CardPayment;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import java.sql.Date;
+import java.util.Date;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -23,15 +23,21 @@ public class CardPaymentRepositoryTests {
 	}
 
 	@Test
-	public void testPersistAndLoadPerson() {
-		// Create person
+	public void testPersistAndLoadCardPayment() {
+		// Create card payment
 		String name = "Sophia Li";
 		String cvc = "800";
 		String cardNumber = "4520214999881022";
     String billingAddress = "2366 Main Mall, Vancouver, BC V6T 1Z4";
     boolean isSaved = false;
-    Date expiryDate = null;
-		CardPayment payment = new CardPayment(0, name, cvc, cardNumber, billingAddress, false, null);
+    Date expiryDate = new Date();
+		CardPayment payment = new CardPayment();
+		payment.setNameOnCard(name);
+		payment.setCvc(cvc);
+		payment.setCardNumber(cardNumber);
+		payment.setBillingAddress(billingAddress);
+		payment.setIsSaved(isSaved);
+		payment.setExpiryDate(expiryDate);
 
 		// Save person
 		payment = cardPaymentRepository.save(payment);
@@ -47,6 +53,6 @@ public class CardPaymentRepositoryTests {
 		assertEquals(paymentFromDb.getCardNumber(), cardNumber);
 		assertEquals(paymentFromDb.getBillingAddress(), billingAddress);
 		assertEquals(paymentFromDb.getIsSaved(), isSaved);
-		assertEquals(paymentFromDb.getExpiryDate(), expiryDate);
+		assertEquals(paymentFromDb.getExpiryDate().getTime(), expiryDate.getTime());
 	}
 }
