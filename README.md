@@ -53,9 +53,9 @@ Windows:
 Test the backend:\
 Unix:
 ```
-bash ./gradlew test
+bash ./gradlew bootTestRun
 ```
 Windows:
 ```
-./gradlew.bat test
+./gradlew.bat bootTestRun
 ```
