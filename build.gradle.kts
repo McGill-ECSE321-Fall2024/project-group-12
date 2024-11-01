@@ -2,10 +2,11 @@ plugins {
 	java
 	id("org.springframework.boot") version "3.3.4"
 	id("io.spring.dependency-management") version "1.1.6"
+	id("io.spring.javaformat") version "0.0.43"
 }
 
 group = "ca.mcgill.ecse321"
-version = "0.0.1-SNAPSHOT"
+version = "0.0.2-SNAPSHOT"
 
 java {
 	toolchain {
