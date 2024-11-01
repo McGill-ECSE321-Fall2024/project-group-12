@@ -21,15 +21,18 @@ import ca.mcgill.ecse321.group12.model.Order;
 
 @SpringBootTest
 public class OrderRepositoryTests {
+
 	@Autowired
 	private OrderRepository orderRepository;
+
 	@Autowired
 	private GameRepository gameRepository;
+
 	@Autowired
 	private CardPaymentRepository cardPaymentRepository;
+
 	@Autowired
 	private CustomerRepository customerRepository;
-	
 
 	@AfterEach
 	public void clearDatabase() {
@@ -40,19 +43,19 @@ public class OrderRepositoryTests {
 	}
 
 	@Test
-  @Transactional
+	@Transactional
 	public void testPersistAndLoadOrder() {
 		// Create Order
-    Date purchaseDate = new Date();
-    float purchaseTotal = 99.99f;
-    String deliveryAddress = "home";
+		Date purchaseDate = new Date();
+		float purchaseTotal = 99.99f;
+		String deliveryAddress = "home";
 
 		// Create games
 		Category category = Category.Action;
 		Console console = Console.XBox;
 		int inventory = 1;
 		float price = 19.99f;
-		String name = "FIFA" ;
+		String name = "FIFA";
 		String description = "FIFA is a football game.";
 		GameStatus status = GameStatus.InCatalog;
 		Game game = new Game();
@@ -71,7 +74,7 @@ public class OrderRepositoryTests {
 		customer = customerRepository.save(customer);
 
 		// Create cardPayment
-    CardPayment cardPayment = new CardPayment();
+		CardPayment cardPayment = new CardPayment();
 		cardPayment = cardPaymentRepository.save(cardPayment);
 
 		Order order = new Order();
@@ -98,4 +101,5 @@ public class OrderRepositoryTests {
 		assertEquals(orderFromDb.getGame(0).getId(), game.getId());
 		assertEquals(orderFromDb.getCardPayment().getId(), cardPayment.getId());
 	}
+
 }

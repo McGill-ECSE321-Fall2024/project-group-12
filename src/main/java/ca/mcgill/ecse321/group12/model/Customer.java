@@ -8,78 +8,76 @@ import jakarta.persistence.OneToOne;
 
 // line 3 "../../../../../../ReindeerGames.ump"
 @Entity
-public class Customer extends UserRole
-{
+public class Customer extends UserRole {
 
-  //------------------------
-  // MEMBER VARIABLES
-  //------------------------
+	// ------------------------
+	// MEMBER VARIABLES
+	// ------------------------
 
-  //Customer Associations
-  @OneToOne
-  private Wishlist wishlist;
-  @OneToOne
-  private Cart cart;
+	// Customer Associations
+	@OneToOne
+	private Wishlist wishlist;
 
-  //------------------------
-  // CONSTRUCTOR
-  //------------------------
+	@OneToOne
+	private Cart cart;
 
-  public Customer(){}
-  public Customer(int aId, String aEmail, String aPassword, String aName, String aPhoneNumber, Wishlist aWishlist, Cart aCart)
-  {
-    super(aId, aEmail, aPassword, aName, aPhoneNumber);
-    if (!setWishlist(aWishlist))
-    {
-      throw new RuntimeException("Unable to create Customer due to aWishlist. See https://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
-    if (!setCart(aCart))
-    {
-      throw new RuntimeException("Unable to create Customer due to aCart. See https://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
-  }
+	// ------------------------
+	// CONSTRUCTOR
+	// ------------------------
 
-  //------------------------
-  // INTERFACE
-  //------------------------
-  /* Code from template association_GetOne */
-  public Wishlist getWishlist()
-  {
-    return wishlist;
-  }
-  /* Code from template association_GetOne */
-  public Cart getCart()
-  {
-    return cart;
-  }
-  /* Code from template association_SetUnidirectionalOne */
-  public boolean setWishlist(Wishlist aNewWishlist)
-  {
-    boolean wasSet = false;
-    if (aNewWishlist != null)
-    {
-      wishlist = aNewWishlist;
-      wasSet = true;
-    }
-    return wasSet;
-  }
-  /* Code from template association_SetUnidirectionalOne */
-  public boolean setCart(Cart aNewCart)
-  {
-    boolean wasSet = false;
-    if (aNewCart != null)
-    {
-      cart = aNewCart;
-      wasSet = true;
-    }
-    return wasSet;
-  }
+	public Customer() {
+	}
 
-  public void delete()
-  {
-    wishlist = null;
-    cart = null;
-    super.delete();
-  }
+	public Customer(int aId, String aEmail, String aPassword, String aName, String aPhoneNumber, Wishlist aWishlist,
+			Cart aCart) {
+		super(aId, aEmail, aPassword, aName, aPhoneNumber);
+		if (!setWishlist(aWishlist)) {
+			throw new RuntimeException(
+					"Unable to create Customer due to aWishlist. See https://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+		}
+		if (!setCart(aCart)) {
+			throw new RuntimeException(
+					"Unable to create Customer due to aCart. See https://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+		}
+	}
+
+	// ------------------------
+	// INTERFACE
+	// ------------------------
+	/* Code from template association_GetOne */
+	public Wishlist getWishlist() {
+		return wishlist;
+	}
+
+	/* Code from template association_GetOne */
+	public Cart getCart() {
+		return cart;
+	}
+
+	/* Code from template association_SetUnidirectionalOne */
+	public boolean setWishlist(Wishlist aNewWishlist) {
+		boolean wasSet = false;
+		if (aNewWishlist != null) {
+			wishlist = aNewWishlist;
+			wasSet = true;
+		}
+		return wasSet;
+	}
+
+	/* Code from template association_SetUnidirectionalOne */
+	public boolean setCart(Cart aNewCart) {
+		boolean wasSet = false;
+		if (aNewCart != null) {
+			cart = aNewCart;
+			wasSet = true;
+		}
+		return wasSet;
+	}
+
+	public void delete() {
+		wishlist = null;
+		cart = null;
+		super.delete();
+	}
 
 }

@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 public class CardPaymentRepositoryTests {
+
 	@Autowired
 	private CardPaymentRepository cardPaymentRepository;
 
@@ -28,9 +29,9 @@ public class CardPaymentRepositoryTests {
 		String name = "Sophia Li";
 		String cvc = "800";
 		String cardNumber = "4520214999881022";
-    String billingAddress = "2366 Main Mall, Vancouver, BC V6T 1Z4";
-    boolean isSaved = false;
-    Date expiryDate = new Date();
+		String billingAddress = "2366 Main Mall, Vancouver, BC V6T 1Z4";
+		boolean isSaved = false;
+		Date expiryDate = new Date();
 		CardPayment payment = new CardPayment();
 		payment.setNameOnCard(name);
 		payment.setCvc(cvc);
@@ -55,4 +56,5 @@ public class CardPaymentRepositoryTests {
 		assertEquals(paymentFromDb.getIsSaved(), isSaved);
 		assertEquals(paymentFromDb.getExpiryDate().getTime(), expiryDate.getTime());
 	}
+
 }

@@ -14,6 +14,7 @@ import ca.mcgill.ecse321.group12.model.Game.GameStatus;
 
 @SpringBootTest
 public class GameRepositoryTests {
+
 	@Autowired
 	private GameRepository gameRepository;
 
@@ -29,7 +30,7 @@ public class GameRepositoryTests {
 		Console console = Console.XBox;
 		int inventory = 1;
 		float price = 19.99f;
-		String name = "FIFA" ;
+		String name = "FIFA";
 		String description = "FIFA is a football game.";
 		GameStatus status = GameStatus.InCatalog;
 
@@ -52,4 +53,5 @@ public class GameRepositoryTests {
 		assertEquals(gameFromDb.getDescription(), description);
 		assertEquals(gameFromDb.getStatus(), status);
 	}
+
 }

@@ -12,6 +12,7 @@ import ca.mcgill.ecse321.group12.model.Wishlist;
 
 @SpringBootTest
 public class WishlistRepositoryTests {
+
 	@Autowired
 	private WishlistRepository wishlistRepository;
 
@@ -23,9 +24,9 @@ public class WishlistRepositoryTests {
 	@Test
 	public void testPersistAndLoadWishlist() {
 		// Create employee
-        // int aId, String aEmail, String aPassword, String aName, String aPhoneNumber
-        
-        int id = 0;
+		// int aId, String aEmail, String aPassword, String aName, String aPhoneNumber
+
+		int id = 0;
 		Wishlist wishlist = new Wishlist(id);
 
 		// Save person
@@ -39,4 +40,5 @@ public class WishlistRepositoryTests {
 		assertNotNull(wishlistFromDb);
 		assertEquals(wishlistFromDb.getId(), id2);
 	}
+
 }

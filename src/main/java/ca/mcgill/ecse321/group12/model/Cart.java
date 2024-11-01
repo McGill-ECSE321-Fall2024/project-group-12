@@ -2,6 +2,7 @@
 /*This code was generated using the UMPLE 1.34.0.7242.6b8819789 modeling language!*/
 
 package ca.mcgill.ecse321.group12.model;
+
 import java.util.*;
 
 import jakarta.persistence.Entity;
@@ -11,179 +12,172 @@ import jakarta.persistence.ManyToMany;
 
 // line 72 "../../../../../../ReindeerGames.ump"
 @Entity
-public class Cart
-{
+public class Cart {
 
-  //------------------------
-  // STATIC VARIABLES
-  //------------------------
+	// ------------------------
+	// STATIC VARIABLES
+	// ------------------------
 
-  private static Map<Integer, Cart> cartsById = new HashMap<Integer, Cart>();
+	private static Map<Integer, Cart> cartsById = new HashMap<Integer, Cart>();
 
-  //------------------------
-  // MEMBER VARIABLES
-  //------------------------
+	// ------------------------
+	// MEMBER VARIABLES
+	// ------------------------
 
-  //Cart Attributes
-  @Id
+	// Cart Attributes
+	@Id
 	@GeneratedValue
-  private int id;
+	private int id;
 
-  //Cart Associations
-  @ManyToMany
-  private List<Game> games;
+	// Cart Associations
+	@ManyToMany
+	private List<Game> games;
 
-  //------------------------
-  // CONSTRUCTOR
-  //------------------------
-  public Cart() {
-    games = new ArrayList<Game>();
-  }
+	// ------------------------
+	// CONSTRUCTOR
+	// ------------------------
+	public Cart() {
+		games = new ArrayList<Game>();
+	}
 
-  public Cart(int aId)
-  {
-    if (!setId(aId))
-    {
-      throw new RuntimeException("Cannot create due to duplicate id. See https://manual.umple.org?RE003ViolationofUniqueness.html");
-    }
-    games = new ArrayList<Game>();
-  }
+	public Cart(int aId) {
+		if (!setId(aId)) {
+			throw new RuntimeException(
+					"Cannot create due to duplicate id. See https://manual.umple.org?RE003ViolationofUniqueness.html");
+		}
+		games = new ArrayList<Game>();
+	}
 
-  //------------------------
-  // INTERFACE
-  //------------------------
+	// ------------------------
+	// INTERFACE
+	// ------------------------
 
-  public boolean setId(int aId)
-  {
-    boolean wasSet = false;
-    Integer anOldId = getId();
-    if (anOldId != null && anOldId.equals(aId)) {
-      return true;
-    }
-    if (hasWithId(aId)) {
-      return wasSet;
-    }
-    id = aId;
-    wasSet = true;
-    if (anOldId != null) {
-      cartsById.remove(anOldId);
-    }
-    cartsById.put(aId, this);
-    return wasSet;
-  }
+	public boolean setId(int aId) {
+		boolean wasSet = false;
+		Integer anOldId = getId();
+		if (anOldId != null && anOldId.equals(aId)) {
+			return true;
+		}
+		if (hasWithId(aId)) {
+			return wasSet;
+		}
+		id = aId;
+		wasSet = true;
+		if (anOldId != null) {
+			cartsById.remove(anOldId);
+		}
+		cartsById.put(aId, this);
+		return wasSet;
+	}
 
-  public int getId()
-  {
-    return id;
-  }
-  /* Code from template attribute_GetUnique */
-  public static Cart getWithId(int aId)
-  {
-    return cartsById.get(aId);
-  }
-  /* Code from template attribute_HasUnique */
-  public static boolean hasWithId(int aId)
-  {
-    return getWithId(aId) != null;
-  }
-  /* Code from template association_GetMany */
-  public Game getGame(int index)
-  {
-    Game aGame = games.get(index);
-    return aGame;
-  }
+	public int getId() {
+		return id;
+	}
 
-  public List<Game> getGames()
-  {
-    List<Game> newGames = Collections.unmodifiableList(games);
-    return newGames;
-  }
+	/* Code from template attribute_GetUnique */
+	public static Cart getWithId(int aId) {
+		return cartsById.get(aId);
+	}
 
-  public int numberOfGames()
-  {
-    int number = games.size();
-    return number;
-  }
+	/* Code from template attribute_HasUnique */
+	public static boolean hasWithId(int aId) {
+		return getWithId(aId) != null;
+	}
 
-  public boolean hasGames()
-  {
-    boolean has = games.size() > 0;
-    return has;
-  }
+	/* Code from template association_GetMany */
+	public Game getGame(int index) {
+		Game aGame = games.get(index);
+		return aGame;
+	}
 
-  public int indexOfGame(Game aGame)
-  {
-    int index = games.indexOf(aGame);
-    return index;
-  }
-  /* Code from template association_MinimumNumberOfMethod */
-  public static int minimumNumberOfGames()
-  {
-    return 0;
-  }
-  /* Code from template association_AddUnidirectionalMany */
-  public boolean addGame(Game aGame)
-  {
-    boolean wasAdded = false;
-    if (games.contains(aGame)) { return false; }
-    games.add(aGame);
-    wasAdded = true;
-    return wasAdded;
-  }
+	public List<Game> getGames() {
+		List<Game> newGames = Collections.unmodifiableList(games);
+		return newGames;
+	}
 
-  public boolean removeGame(Game aGame)
-  {
-    boolean wasRemoved = false;
-    if (games.contains(aGame))
-    {
-      games.remove(aGame);
-      wasRemoved = true;
-    }
-    return wasRemoved;
-  }
-  /* Code from template association_AddIndexControlFunctions */
-  public boolean addGameAt(Game aGame, int index)
-  {  
-    boolean wasAdded = false;
-    if(addGame(aGame))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfGames()) { index = numberOfGames() - 1; }
-      games.remove(aGame);
-      games.add(index, aGame);
-      wasAdded = true;
-    }
-    return wasAdded;
-  }
+	public int numberOfGames() {
+		int number = games.size();
+		return number;
+	}
 
-  public boolean addOrMoveGameAt(Game aGame, int index)
-  {
-    boolean wasAdded = false;
-    if(games.contains(aGame))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfGames()) { index = numberOfGames() - 1; }
-      games.remove(aGame);
-      games.add(index, aGame);
-      wasAdded = true;
-    } 
-    else 
-    {
-      wasAdded = addGameAt(aGame, index);
-    }
-    return wasAdded;
-  }
+	public boolean hasGames() {
+		boolean has = games.size() > 0;
+		return has;
+	}
 
-  public void delete()
-  {
-    cartsById.remove(getId());
-    games.clear();
-  }
+	public int indexOfGame(Game aGame) {
+		int index = games.indexOf(aGame);
+		return index;
+	}
 
+	/* Code from template association_MinimumNumberOfMethod */
+	public static int minimumNumberOfGames() {
+		return 0;
+	}
 
-  public String toString()
-  {
-    return super.toString() + "["+
-            "id" + ":" + getId()+ "]";
-  }
+	/* Code from template association_AddUnidirectionalMany */
+	public boolean addGame(Game aGame) {
+		boolean wasAdded = false;
+		if (games.contains(aGame)) {
+			return false;
+		}
+		games.add(aGame);
+		wasAdded = true;
+		return wasAdded;
+	}
+
+	public boolean removeGame(Game aGame) {
+		boolean wasRemoved = false;
+		if (games.contains(aGame)) {
+			games.remove(aGame);
+			wasRemoved = true;
+		}
+		return wasRemoved;
+	}
+
+	/* Code from template association_AddIndexControlFunctions */
+	public boolean addGameAt(Game aGame, int index) {
+		boolean wasAdded = false;
+		if (addGame(aGame)) {
+			if (index < 0) {
+				index = 0;
+			}
+			if (index > numberOfGames()) {
+				index = numberOfGames() - 1;
+			}
+			games.remove(aGame);
+			games.add(index, aGame);
+			wasAdded = true;
+		}
+		return wasAdded;
+	}
+
+	public boolean addOrMoveGameAt(Game aGame, int index) {
+		boolean wasAdded = false;
+		if (games.contains(aGame)) {
+			if (index < 0) {
+				index = 0;
+			}
+			if (index > numberOfGames()) {
+				index = numberOfGames() - 1;
+			}
+			games.remove(aGame);
+			games.add(index, aGame);
+			wasAdded = true;
+		}
+		else {
+			wasAdded = addGameAt(aGame, index);
+		}
+		return wasAdded;
+	}
+
+	public void delete() {
+		cartsById.remove(getId());
+		games.clear();
+	}
+
+	public String toString() {
+		return super.toString() + "[" + "id" + ":" + getId() + "]";
+	}
+
 }

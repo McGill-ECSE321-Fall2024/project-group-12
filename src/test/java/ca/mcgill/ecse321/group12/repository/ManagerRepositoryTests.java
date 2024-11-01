@@ -11,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 public class ManagerRepositoryTests {
+
 	@Autowired
 	private ManagerRepository managerRepository;
 
@@ -46,4 +47,5 @@ public class ManagerRepositoryTests {
 		assertEquals(janeFromDb.getPassword(), password);
 		assertEquals(janeFromDb.getPhoneNumber(), phoneNumber);
 	}
+
 }
