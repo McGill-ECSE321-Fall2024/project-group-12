@@ -20,56 +20,56 @@ import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
 public class CartRepositoryTests {
-  
-  @Autowired
+
+	@Autowired
 	private CartRepository cartRepository;
-  @Autowired
-  private GameRepository gameRepository;
+
+	@Autowired
+	private GameRepository gameRepository;
 
 	@AfterEach
 	public void clearDatabase() {
 		cartRepository.deleteAll();
-    gameRepository.deleteAll();
+		gameRepository.deleteAll();
 	}
 
 	@Test
-  @Transactional
+	@Transactional
 	public void testPersistAndLoadCart() {
 
 		// Create cart
 		Cart cart = new Cart();
 
-    // Create game
+		// Create game
 		Category category = Category.Action;
 		Console console = Console.XBox;
 		int inventory = 1;
 		float price = 19.99f;
-		String name = "FIFA" ;
+		String name = "FIFA";
 		String description = "FIFA is a football game.";
 		GameStatus status = GameStatus.InCatalog;
 		Game game = new Game(0, category, console, inventory, price, name, description, status);
 		game = gameRepository.save(game);
 
-    assertNotNull(game);
+		assertNotNull(game);
 
-    cart.addGame(game);
+		cart.addGame(game);
 
-    // save cart
-    cart = cartRepository.save(cart);
-    int id = cart.getId();
+		// save cart
+		cart = cartRepository.save(cart);
+		int id = cart.getId();
 
-    // read cart from db
-    Cart cartFromDb = cartRepository.findCartById(id);
+		// read cart from db
+		Cart cartFromDb = cartRepository.findCartById(id);
 
-    List<Game> gamesCollection = cartFromDb.getGames();
+		List<Game> gamesCollection = cartFromDb.getGames();
 
-    Hibernate.initialize(gamesCollection);
+		Hibernate.initialize(gamesCollection);
 
-    // assert correct
-    assertNotNull(cartFromDb);
-    assertEquals(game, gamesCollection.get(0));
+		// assert correct
+		assertNotNull(cartFromDb);
+		assertEquals(game, gamesCollection.get(0));
 
-  }
-    
+	}
 
 }

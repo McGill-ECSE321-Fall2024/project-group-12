@@ -17,12 +17,16 @@ import ca.mcgill.ecse321.group12.model.Review;
 
 @SpringBootTest
 public class CommentRepositoryTests {
+
 	@Autowired
 	private CommentRepository commentRepository;
+
 	@Autowired
 	private ReviewRepository reviewRepository;
+
 	@Autowired
 	private CustomerRepository customerRepository;
+
 	@Autowired
 	private GameRepository gameRepository;
 
@@ -39,25 +43,25 @@ public class CommentRepositoryTests {
 		String text = "you are beautiful";
 
 		// Create Game
-        Category category = Category.Action;
-        Console console = Console.XBox;
-        int inventory = 1;
-        float price = 19.99f;
-        String gameName = "FIFA" ;
-        String description = "FIFA is a football game.";
-        GameStatus status = GameStatus.InCatalog;
+		Category category = Category.Action;
+		Console console = Console.XBox;
+		int inventory = 1;
+		float price = 19.99f;
+		String gameName = "FIFA";
+		String description = "FIFA is a football game.";
+		GameStatus status = GameStatus.InCatalog;
 		Game game = new Game(0, category, console, inventory, price, gameName, description, status);
 		game = gameRepository.save(game);
 
 		// Create customer
-		Customer customer = new Customer();	
+		Customer customer = new Customer();
 		customer = customerRepository.save(customer);
 
-        // Create a review
-        int likeCount = 15;
-        int rating = 3;
-        String reviewText = "Love this game. Makes me feel like I am in a different world. Graphics are pretty good. Pleasing to the eye.";
-        Review aReview = new Review(0, likeCount, rating, reviewText, game, customer);
+		// Create a review
+		int likeCount = 15;
+		int rating = 3;
+		String reviewText = "Love this game. Makes me feel like I am in a different world. Graphics are pretty good. Pleasing to the eye.";
+		Review aReview = new Review(0, likeCount, rating, reviewText, game, customer);
 		aReview = reviewRepository.save(aReview);
 
 		// Save Comment
@@ -78,4 +82,5 @@ public class CommentRepositoryTests {
 		assertEquals(commentFromDb.getReview().getText(), aReview.getText());
 
 	}
+
 }

@@ -7,31 +7,29 @@ import jakarta.persistence.Entity;
 
 // line 26 "../../../../../../ReindeerGames.ump"
 @Entity
-public class Employee extends UserRole
-{
+public class Employee extends UserRole {
 
-  //------------------------
-  // MEMBER VARIABLES
-  //------------------------
+	// ------------------------
+	// MEMBER VARIABLES
+	// ------------------------
 
-    
-  public Employee() {}
-  //------------------------
-  // CONSTRUCTOR
-  //------------------------
-  public Employee(int aId, String aEmail, String aPassword, String aName, String aPhoneNumber)
-  {
-    super(aId, aEmail, aPassword, aName, aPhoneNumber);
-  
-  }
+	public Employee() {
+	}
 
-  //------------------------
-  // INTERFACE
-  //------------------------
+	// ------------------------
+	// CONSTRUCTOR
+	// ------------------------
+	public Employee(int aId, String aEmail, String aPassword, String aName, String aPhoneNumber) {
+		super(aId, aEmail, aPassword, aName, aPhoneNumber);
 
-  public void delete()
-  {
-    super.delete();
-  }
+	}
+
+	// ------------------------
+	// INTERFACE
+	// ------------------------
+
+	public void delete() {
+		super.delete();
+	}
 
 }

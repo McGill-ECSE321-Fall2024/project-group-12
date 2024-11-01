@@ -4,7 +4,8 @@ import org.springframework.data.repository.CrudRepository;
 
 import ca.mcgill.ecse321.group12.model.Review;
 
-public interface ReviewRepository extends CrudRepository<Review, Integer>{
+public interface ReviewRepository extends CrudRepository<Review, Integer> {
 
-	Review findReviewById(int aId);  
+	Review findReviewById(int aId);
+
 }

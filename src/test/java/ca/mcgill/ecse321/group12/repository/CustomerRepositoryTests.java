@@ -14,10 +14,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 public class CustomerRepositoryTests {
+
 	@Autowired
 	private CustomerRepository customerRepository;
+
 	@Autowired
 	private WishlistRepository wishlistRepository;
+
 	@Autowired
 	private CartRepository cartRepository;
 
@@ -67,4 +70,5 @@ public class CustomerRepositoryTests {
 		assertEquals(customerFromDb.getWishlist().getId(), wishlistId);
 		assertEquals(customerFromDb.getCart().getId(), cartId);
 	}
+
 }
