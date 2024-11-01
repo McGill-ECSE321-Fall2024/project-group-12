@@ -34,6 +34,15 @@ Julien: "Hey. I am a U2 Software Engineering student at McGill! A fun fact about
 | Kennedy Olsen    | Business Analyst |  18                   |
 | Carmin Loup Vidé | Scrum Master     |  18                   |
 
+## Contributing
+To ensure high quality, well tested code, do the following when contributing to this project:  
+1. Clone the project locally.
+2. Create a branch: `name/feature`
+3. Push your code to that branch.
+4. When you're done, run `bash ./gradlew format` (or `./gradlew.bat format` for Windows)
+5. Create a pull request and assign another team member to review your code.
+6. Once they've reviewed your code, they'll merge it into main!
+
 ## Run the Project
 Start the frontend:
 ```
