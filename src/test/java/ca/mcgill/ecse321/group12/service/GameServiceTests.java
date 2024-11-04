@@ -1,0 +1,68 @@
+package ca.mcgill.ecse321.group12.service;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.junit.jupiter.api.Test;
+import static org.mockito.ArgumentMatchers.any;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import ca.mcgill.ecse321.group12.model.Game;
+import ca.mcgill.ecse321.group12.model.Game.Category;
+import ca.mcgill.ecse321.group12.model.Game.Console;
+import ca.mcgill.ecse321.group12.model.Game.GameStatus;
+import ca.mcgill.ecse321.group12.repository.GameRepository;
+
+@SpringBootTest
+public class GameServiceTests {
+    @Mock
+    private GameRepository gameRepository;
+    @InjectMocks
+    private GameService gameService;
+
+    @SuppressWarnings("null")
+    @Test
+    public void testCreateValidGame() {
+
+        // Arrange
+        Category aCategory = Category.Action;
+        Console aConsole = Console.PC;
+        int aInventory = 1;
+        float aPrice = 1.2f;
+        String aName = "Game Name...";
+        String aDescription = "Game Description...";
+        GameStatus aStatus = GameStatus.Archived;
+
+        Game game = new Game();
+        game.setCategory(aCategory);
+        game.setConsole(aConsole);
+        game.setInventory(aInventory);
+        game.setPrice(aPrice);
+        game.setName(aName);
+        game.setDescription(aDescription);
+        game.setStatus(aStatus);
+
+        when(gameRepository.save(any(Game.class))).thenReturn(game);
+
+        // Act
+        Game createdGame = gameService.createGame(aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus);
+
+        // Assert
+        assertNotNull(createdGame);
+        assertEquals(aName, createdGame.getName());
+        assertEquals(aCategory, createdGame.getCategory());
+        assertEquals(aConsole, createdGame.getConsole());
+        assertEquals(aInventory, createdGame.getInventory());
+        assertEquals(aPrice, createdGame.getPrice());
+        assertEquals(aDescription, createdGame.getDescription());
+        assertEquals(aStatus, createdGame.getStatus());
+
+        verify(gameRepository, times(1)).save(game);
+    }
+
+
+}
