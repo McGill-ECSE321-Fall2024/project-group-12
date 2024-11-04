@@ -28,12 +28,13 @@ public class CartServiceTests {
 	private CartService service;
 
 	@Test
-	public void testCreateValidPerson() {
+	public void testCreateValidCart() {
 		// Arrange
 		when(repo.save(any(Cart.class))).thenAnswer((InvocationOnMock iom) -> iom.getArgument(0));
+		int id = 1;
 
 		// Act
-		Cart createdCart = service.createCart();
+		Cart createdCart = service.createCart(id);
 
 		// Assert
 		assertNotNull(createdCart);

@@ -56,8 +56,8 @@ public class GameController {
 	public List<GameResponseDto> findGames(@RequestParam Optional<GameStatus> status) {
 		Iterable<Game> games = gameService.findGames(status);
 		List<GameResponseDto> gameResponseDtos = new ArrayList<>();
-        
-        // iterates through the list of games and returns a list of gameResponseDto
+
+		// iterates through the list of games and returns a list of gameResponseDto
 		for (Game game : games) {
 			GameResponseDto dto = new GameResponseDto(game);
 			gameResponseDtos.add(dto);
