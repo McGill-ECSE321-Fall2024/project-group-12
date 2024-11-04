@@ -5,8 +5,10 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import ca.mcgill.ecse321.group12.exception.CustomException;
 import ca.mcgill.ecse321.group12.model.Game;
 import ca.mcgill.ecse321.group12.model.Game.Category;
 import ca.mcgill.ecse321.group12.model.Game.Console;
@@ -23,7 +25,7 @@ public class GameService {
 	public Game findGameById(int gameId) {
 		Game game = gameRepository.findGameById(gameId);
 		if (game == null) {
-			throw new IllegalArgumentException("There is no game with ID " + gameId + ".");
+			throw new CustomException(HttpStatus.NOT_FOUND, "There is no game with ID " + gameId + ".");
 		}
 		return game;
 	}
@@ -31,12 +33,12 @@ public class GameService {
 	public Iterable<Game> findGames(Optional<GameStatus> status) {
 		Iterable<Game> games = gameRepository.findAll();
 
-        // if no status is provided then all the games are returned
+		// if no status is provided then all the games are returned
 		if (status.isEmpty()) {
 			return games;
 		}
 		else {
-            // filters out the game by their status 
+			// filters out the game by their status
 			List<Game> filteredGames = new ArrayList<>();
 			for (Game game : games) {
 				if (game.getStatus() == status.get()) {
@@ -51,9 +53,9 @@ public class GameService {
 	public void deleteGameById(int gameId) {
 
 		Game gameToDelete = gameRepository.findGameById(gameId);
-        // checks if the game exists before deleting
+		// checks if the game exists before deleting
 		if (gameToDelete == null) {
-			throw new IllegalArgumentException("No game has this id.");
+			throw new CustomException(HttpStatus.NOT_FOUND, "No game has this id.");
 		}
 
 		gameRepository.delete(gameToDelete);
@@ -63,7 +65,7 @@ public class GameService {
 	public Game createGame(Category aCategory, Console aConsole, int aInventory, float aPrice, String aName,
 			String aDescription, GameStatus aStatus) {
 
-        // input validation
+		// input validation
 		if (aInventory < 0) {
 			throw new IllegalArgumentException("Inventory has to be a positive integer.");
 		}
@@ -93,7 +95,7 @@ public class GameService {
 	public Game updateGame(int aId, Category aCategory, Console aConsole, int aInventory, float aPrice, String aName,
 			String aDescription, GameStatus aStatus) {
 
-        // input validation
+		// input validation
 		if (aInventory < 0) {
 			throw new IllegalArgumentException("Inventory has to be a positive integer.");
 		}
