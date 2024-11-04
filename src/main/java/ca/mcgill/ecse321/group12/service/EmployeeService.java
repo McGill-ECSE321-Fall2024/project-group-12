@@ -28,4 +28,16 @@ public class EmployeeService {
         employeeToCreate.setPhoneNumber(phoneNumber);
         return employeeRepo.save(employeeToCreate);
     }
+
+    @Transactional 
+    public void deleteEmployeeById(int id) {
+        Employee employeeToDelete = employeeRepo.findEmployeeById(id);
+        employeeRepo.delete(employeeToDelete);
+    }
+    
+    @Transactional
+    public Iterable<Employee> findAllEmployees() {
+        return employeeRepo.findAll();
+    }
+
 }
