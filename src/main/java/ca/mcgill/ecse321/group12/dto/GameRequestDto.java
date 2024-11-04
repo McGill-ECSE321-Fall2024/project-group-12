@@ -5,7 +5,7 @@ import ca.mcgill.ecse321.group12.model.Game.Category;
 import ca.mcgill.ecse321.group12.model.Game.Console;
 import ca.mcgill.ecse321.group12.model.Game.GameStatus;
 
-public class GameResponseDto {
+public class GameRequestDto {
 
     private Category category;
     private Console console;
@@ -15,7 +15,7 @@ public class GameResponseDto {
     private String description;
     private GameStatus status;
 
-    public GameResponseDto(Game model) {
+    public GameRequestDto(Game model) {
 		this.category = model.getCategory();
 		this.console = model.getConsole();
 		this.inventory = model.getInventory();
@@ -24,5 +24,4 @@ public class GameResponseDto {
 		this.description = model.getDescription();
 		this.status = model.getStatus();
 	}
-
 }

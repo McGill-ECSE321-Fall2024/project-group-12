@@ -17,7 +17,7 @@ public class GameService {
     @Autowired
     private GameRepository gameRepository;
 
-    public Game findGamebyId(int gameId) {
+    public Game findGameById(int gameId) {
         Game game = gameRepository.findGameById(gameId);
         if (game == null) {
             throw new IllegalArgumentException("There is no game with ID " + gameId + ".");
