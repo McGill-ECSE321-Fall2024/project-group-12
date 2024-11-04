@@ -2,6 +2,8 @@ package ca.mcgill.ecse321.group12.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import org.junit.jupiter.api.Test;
 import static org.mockito.ArgumentMatchers.any;
 import org.mockito.InjectMocks;
@@ -11,6 +13,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import ca.mcgill.ecse321.group12.exception.CustomException;
 import ca.mcgill.ecse321.group12.model.Game;
 import ca.mcgill.ecse321.group12.model.Game.Category;
 import ca.mcgill.ecse321.group12.model.Game.Console;
@@ -60,7 +63,6 @@ public class GameServiceTests {
         assertEquals(aPrice, createdGame.getPrice());
         assertEquals(aDescription, createdGame.getDescription());
         assertEquals(aStatus, createdGame.getStatus());
-
         verify(gameRepository, times(1)).save(game);
     }
 
@@ -102,14 +104,7 @@ public class GameServiceTests {
         // Act
         // Assert
         CustomException e = assertThrows(CustomException.class, () -> gameService.findGameById(id));
-        assertEquals("There is no person with ID " + id + ".", e.getMessage());
-        // assertThrows is basically like the following:
-        // try {
-        // service.findPersonById(id);
-        // fail("No exception was thrown.");
-        // } catch (IllegalArgumentException e) {
-        // assertEquals("There is no person with ID " + id + ".", e.getMessage());
-        // }
+        assertEquals("There is no game with ID " + id + ".", e.getMessage());
     }
 
 }
