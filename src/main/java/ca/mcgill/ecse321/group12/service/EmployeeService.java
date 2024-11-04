@@ -13,6 +13,11 @@ public class EmployeeService {
 	@Autowired
 	private EmployeeRepository employeeRepo;
 
+	/**
+	 * Return the employee with the given ID.
+	 * @param id The primary key of the employee to find.
+	 * @return The employee with the given ID.
+	 */
 	public Employee findEmployeeById(int id) {
 		Employee emp = employeeRepo.findEmployeeById(id);
 		if (emp == null) {
@@ -21,6 +26,14 @@ public class EmployeeService {
 		return emp;
 	}
 
+	/**
+	 * Create a new employee.
+	 * @param email The email of the new employee.
+	 * @param password The password of the new employee.
+	 * @param name The name of the new employee.
+	 * @param phoneNumber The phoneNumber of the new employee.
+	 * @return The newly created employee.
+	 */
 	@Transactional
 	public Employee createEmployee(String email, String password, String name, String phoneNumber) {
 		Employee employeeToCreate = new Employee();
@@ -31,12 +44,20 @@ public class EmployeeService {
 		return employeeRepo.save(employeeToCreate);
 	}
 
+	/**
+	 * Delete the employee with the given ID.
+	 * @param id The primary key of the employee to delete.
+	 */
 	@Transactional
 	public void deleteEmployeeById(int id) {
 		Employee employeeToDelete = employeeRepo.findEmployeeById(id);
 		employeeRepo.delete(employeeToDelete);
 	}
 
+	/**
+	 * Find all employees
+	 * @return A list of all employees
+	 */
 	@Transactional
 	public Iterable<Employee> findAllEmployees() {
 		return employeeRepo.findAll();
