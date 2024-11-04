@@ -64,5 +64,54 @@ public class GameServiceTests {
         verify(gameRepository, times(1)).save(game);
     }
 
+    @Test
+    public void testReadGameByValidId() {
+        // Arrange
+        int id = 42;
+        Category aCategory = Category.Action;
+        Console aConsole = Console.PC;
+        int aInventory = 1;
+        float aPrice = 1.2f;
+        String aName = "Game Name...";
+        String aDescription = "Game Description...";
+        GameStatus aStatus = GameStatus.Archived;
+
+        Game game = new Game(id, aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus);
+
+        when(gameRepository.findGameById(id)).thenReturn(game);
+
+        // Act
+        Game createdGame = gameService.findGameById(id);
+
+        // Assert
+        assertNotNull(createdGame);
+        assertEquals(aName, createdGame.getName());
+        assertEquals(aCategory, createdGame.getCategory());
+        assertEquals(aConsole, createdGame.getConsole());
+        assertEquals(aInventory, createdGame.getInventory());
+        assertEquals(aPrice, createdGame.getPrice());
+        assertEquals(aDescription, createdGame.getDescription());
+        assertEquals(aStatus, createdGame.getStatus());
+    }
+
+    /* 
+    @Test
+    public void testReadGameByInvalidId() {
+        // Set up
+        int id = 42;
+
+        // Act
+        // Assert
+        CustomException e = assertThrows(EventRegistrationException.class, () -> service.findPersonById(id));
+        assertEquals("There is no person with ID " + id + ".", e.getMessage());
+        // assertThrows is basically like the following:
+        // try {
+        // service.findPersonById(id);
+        // fail("No exception was thrown.");
+        // } catch (IllegalArgumentException e) {
+        // assertEquals("There is no person with ID " + id + ".", e.getMessage());
+        // }
+    }
+        */
 
 }
