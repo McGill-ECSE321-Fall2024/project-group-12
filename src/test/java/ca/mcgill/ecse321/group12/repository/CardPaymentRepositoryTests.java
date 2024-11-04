@@ -31,7 +31,7 @@ public class CardPaymentRepositoryTests {
 		String cardNumber = "4520214999881022";
 		String billingAddress = "2366 Main Mall, Vancouver, BC V6T 1Z4";
 		boolean isSaved = false;
-		Date expiryDate = new Date();
+		String expiryDate = "06/27";
 		CardPayment payment = new CardPayment();
 		payment.setNameOnCard(name);
 		payment.setCvc(cvc);
@@ -54,7 +54,7 @@ public class CardPaymentRepositoryTests {
 		assertEquals(paymentFromDb.getCardNumber(), cardNumber);
 		assertEquals(paymentFromDb.getBillingAddress(), billingAddress);
 		assertEquals(paymentFromDb.getIsSaved(), isSaved);
-		assertEquals(paymentFromDb.getExpiryDate().getTime(), expiryDate.getTime());
+		assertEquals(paymentFromDb.getExpiryDate(), expiryDate);
 	}
 
 }

@@ -44,8 +44,7 @@ public class CardPayment {
 
 	private boolean isSaved;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date expiryDate;
+	private String expiryDate;
 
 	// CardPayment Associations
 	@ManyToOne
@@ -56,7 +55,7 @@ public class CardPayment {
 	// ------------------------
 
 	public CardPayment(int aId, String aNameOnCard, String aCvc, String aCardNumber, String aBillingAddress,
-			boolean aIsSaved, Date aExpiryDate) {
+			boolean aIsSaved, String aExpiryDate) {
 		nameOnCard = aNameOnCard;
 		cvc = aCvc;
 		cardNumber = aCardNumber;
@@ -126,7 +125,7 @@ public class CardPayment {
 		return wasSet;
 	}
 
-	public boolean setExpiryDate(Date aExpiryDate) {
+	public boolean setExpiryDate(String aExpiryDate) {
 		boolean wasSet = false;
 		expiryDate = aExpiryDate;
 		wasSet = true;
@@ -167,7 +166,7 @@ public class CardPayment {
 		return isSaved;
 	}
 
-	public Date getExpiryDate() {
+	public String getExpiryDate() {
 		return expiryDate;
 	}
 
@@ -200,7 +199,7 @@ public class CardPayment {
 				+ getBillingAddress() + "," + "isSaved" + ":" + getIsSaved() + "]"
 				+ System.getProperties().getProperty("line.separator") + "  " + "expiryDate" + "="
 				+ (getExpiryDate() != null
-						? !getExpiryDate().equals(this) ? getExpiryDate().toString().replaceAll("  ", "    ") : "this"
+						? !getExpiryDate().equals(this) ? getExpiryDate().replaceAll("  ", "    ") : "this"
 						: "null")
 				+ System.getProperties().getProperty("line.separator") + "  " + "customer = "
 				+ (getCustomer() != null ? Integer.toHexString(System.identityHashCode(getCustomer())) : "null");
