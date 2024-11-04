@@ -6,7 +6,7 @@ Project scope: requirements elicitation and documentation, persistence layer, da
 
 **A message from the team:**
 
-Hi there! We appreciate your interest in our project. Here is a breif introduction from each member of the team: 
+Hi there! We appreciate your interest in our project. Here is a brief introduction from each member of the team: 
 
 
 James: "Hi. I am a U2 Computer Enineering student at McGill. A fun fact about me is that I speak Scottish Gaelic."
