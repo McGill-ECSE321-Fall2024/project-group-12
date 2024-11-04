@@ -3,21 +3,23 @@ package ca.mcgill.ecse321.group12.dto;
 import ca.mcgill.ecse321.group12.model.Cart;
 
 public class CartResponseDto {
-    private int id;
 
-    @SuppressWarnings("unused")
-    private CartResponseDto() {
-    }
+	private int id;
 
-    public CartResponseDto(Cart model) {
-        this.id = model.getId();
-    }
+	@SuppressWarnings("unused")
+	private CartResponseDto() {
+	}
 
-    public int getId() {
-        return id;
-    }
+	public CartResponseDto(Cart model) {
+		this.id = model.getId();
+	}
 
-    public void setId(int id) {
-        this.id = id;
-    }
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 }

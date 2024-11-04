@@ -9,20 +9,22 @@ import jakarta.transaction.Transactional;
 
 @Service
 public class CartService {
-    @Autowired
-    private CartRepository cartRepo;
 
-    public Cart findCartById(int cartId) {
-        Cart c = cartRepo.findCartById(cartId);
-        if (c == null) {
-            throw new IllegalArgumentException("There is no cart with ID " + cartId + ".");
-        }
-        return c;
-    }
+	@Autowired
+	private CartRepository cartRepo;
 
-    @Transactional
-    public Cart createCart() {
-        Cart cartToCreate = new Cart();
-        return cartRepo.save(cartToCreate);
-    }
+	public Cart findCartById(int cartId) {
+		Cart c = cartRepo.findCartById(cartId);
+		if (c == null) {
+			throw new IllegalArgumentException("There is no cart with ID " + cartId + ".");
+		}
+		return c;
+	}
+
+	@Transactional
+	public Cart createCart() {
+		Cart cartToCreate = new Cart();
+		return cartRepo.save(cartToCreate);
+	}
+
 }
