@@ -1,9 +1,12 @@
 package ca.mcgill.ecse321.group12.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import ca.mcgill.ecse321.group12.dto.OrderRequestDto;
 import ca.mcgill.ecse321.group12.dto.OrderResponseDto;
 import ca.mcgill.ecse321.group12.service.OrderService;
 
@@ -14,7 +17,7 @@ public class OrderController {
   private OrderService orderService;
 
   @PostMapping("/order")
-  public OrderResponseDto createOrder () {
+  public OrderResponseDto createOrder (@Validated @RequestBody OrderRequestDto body) {
 
     // #1: get cart.
     // #2: verify user payment info
