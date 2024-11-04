@@ -15,7 +15,7 @@ public class EmployeeResponseDto {
 	@SuppressWarnings("unused")
 	private EmployeeResponseDto() {
 	}
-
+	
 	public EmployeeResponseDto(Employee model) {
 		this.id = model.getId();
 		this.email = model.getEmail();
