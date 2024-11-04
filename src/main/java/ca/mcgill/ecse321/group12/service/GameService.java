@@ -30,10 +30,13 @@ public class GameService {
 
 	public Iterable<Game> findGames(Optional<GameStatus> status) {
 		Iterable<Game> games = gameRepository.findAll();
+
+        // if no status is provided then all the games are returned
 		if (status.isEmpty()) {
 			return games;
 		}
 		else {
+            // filters out the game by their status 
 			List<Game> filteredGames = new ArrayList<>();
 			for (Game game : games) {
 				if (game.getStatus() == status.get()) {
@@ -48,6 +51,7 @@ public class GameService {
 	public void deleteGameById(int gameId) {
 
 		Game gameToDelete = gameRepository.findGameById(gameId);
+        // checks if the game exists before deleting
 		if (gameToDelete == null) {
 			throw new IllegalArgumentException("No game has this id.");
 		}
@@ -59,6 +63,7 @@ public class GameService {
 	public Game createGame(Category aCategory, Console aConsole, int aInventory, float aPrice, String aName,
 			String aDescription, GameStatus aStatus) {
 
+        // input validation
 		if (aInventory < 0) {
 			throw new IllegalArgumentException("Inventory has to be a positive integer.");
 		}
@@ -88,6 +93,7 @@ public class GameService {
 	public Game updateGame(int aId, Category aCategory, Console aConsole, int aInventory, float aPrice, String aName,
 			String aDescription, GameStatus aStatus) {
 
+        // input validation
 		if (aInventory < 0) {
 			throw new IllegalArgumentException("Inventory has to be a positive integer.");
 		}
