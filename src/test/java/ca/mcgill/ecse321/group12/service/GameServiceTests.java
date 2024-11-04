@@ -36,7 +36,7 @@ public class GameServiceTests {
         Category aCategory = Category.Action;
         Console aConsole = Console.PC;
         int aInventory = 1;
-        float aPrice = 1.2f;
+        float aPrice = 1.0f;
         String aName = "Game Name...";
         String aDescription = "Game Description...";
         GameStatus aStatus = GameStatus.Archived;
@@ -63,7 +63,8 @@ public class GameServiceTests {
         assertEquals(aPrice, createdGame.getPrice());
         assertEquals(aDescription, createdGame.getDescription());
         assertEquals(aStatus, createdGame.getStatus());
-        verify(gameRepository, times(1)).save(game);
+        // should be save(game) instead of save(any(Game.class))
+        verify(gameRepository, times(1)).save(any (Game.class));
     }
 
     @Test
