@@ -11,13 +11,16 @@ import ca.mcgill.ecse321.group12.dto.CartRequestDto;
 import ca.mcgill.ecse321.group12.dto.CartResponseDto;
 import ca.mcgill.ecse321.group12.model.Cart;
 import ca.mcgill.ecse321.group12.service.CartService;
-import ca.mcgill.ecse321.group12.repository.GameRepository;
+import ca.mcgill.ecse321.group12.service.GameService;
 
 @RestController
 public class CartController {
 
 	@Autowired
 	private CartService cartService;
+
+	@Autowired
+	private GameService gameService;
 
 	/**
 	 * Return the cart with the given ID.
