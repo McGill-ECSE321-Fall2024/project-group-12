@@ -69,8 +69,8 @@ public class Order {
 		games = new ArrayList<Game>();
 	}
 
-	public Order(int aId, Date aPurchaseDate, OrderStatus aStatus, float aPurchaseTotal, String aDeliveryAddress, Customer aCustomer,
-			CardPayment aCardPayment, Game... allGames) {
+	public Order(int aId, Date aPurchaseDate, OrderStatus aStatus, float aPurchaseTotal, String aDeliveryAddress,
+			Customer aCustomer, CardPayment aCardPayment, Game... allGames) {
 		purchaseDate = aPurchaseDate;
 		status = aStatus;
 		purchaseTotal = aPurchaseTotal;
@@ -99,8 +99,8 @@ public class Order {
 	// INTERFACE
 	// ------------------------
 
-	public Order(int aId, java.util.Date purchaseDate2, OrderStatus status2, float purchaseTotal2, String deliveryAddress2,
-			Customer customer2, CardPayment cardPayment2, List<Game> games2) {
+	public Order(int aId, java.util.Date purchaseDate2, OrderStatus status2, float purchaseTotal2,
+			String deliveryAddress2, Customer customer2, CardPayment cardPayment2, List<Game> games2) {
 		// TODO Auto-generated constructor stub
 	}
 

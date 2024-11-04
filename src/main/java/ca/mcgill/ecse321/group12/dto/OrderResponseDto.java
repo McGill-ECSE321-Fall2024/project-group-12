@@ -7,17 +7,28 @@ import ca.mcgill.ecse321.group12.model.Order.OrderStatus;
 
 public class OrderResponseDto {
 
-  // fields from the order
-  private int id;
-  private Date purchaseDate;
-  private String deliveryAddress;
-  private OrderStatus status;
+	// fields from the order
+	private int id;
 
-  // 
-  
-  @SuppressWarnings("unused")
-  private OrderResponseDto() {}
+	private Date purchaseDate;
 
-  public OrderResponseDto(int foo) {}
+	private String deliveryAddress;
+
+	private OrderStatus status;
+
+	// associations?
+
+	@SuppressWarnings("unused")
+	private OrderResponseDto() {
+	}
+
+	public OrderResponseDto(Order order) {
+
+		id = order.getId();
+		purchaseDate = order.getPurchaseDate();
+		deliveryAddress = order.getDeliveryAddress();
+		status = order.getStatus();
+
+	}
 
 }

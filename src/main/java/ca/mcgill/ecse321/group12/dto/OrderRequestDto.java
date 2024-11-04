@@ -2,85 +2,91 @@ package ca.mcgill.ecse321.group12.dto;
 
 public class OrderRequestDto {
 
-  // TEMPORARY: should be replaced by current auth'd user's cart
-  private int cartId;
+	// TEMPORARY: should be replaced by current auth'd user's cart
+	private int customerId;
 
-  // needs order properties that won't be inferred from cart
-  private String deliveryAddress;
+	// needs order properties that won't be inferred from cart
+	private String deliveryAddress;
 
-  // needs card payment info to create the associated card payment
-  private String nameOnCard;
-  private String cvc;
-  private String cardNumber;
-  private String billingAddress;
-  private boolean isSaved;
-  private String expiryDate;
-  
-  @SuppressWarnings("unused")
-  private OrderRequestDto () {}
+	// needs card payment info to create the associated card payment
+	private String nameOnCard;
 
-  public int getCartId () {
-    return cartId;
-  }
+	private String cvc;
 
-  public String getDeliveryAddress () {
-    return deliveryAddress;
-  }
+	private String cardNumber;
 
-  public String getNameOnCard () {
-    return nameOnCard;
-  }
+	private String billingAddress;
 
-  public String getCvc () {
-    return cvc;
-  }
+	private boolean isSaved;
 
-  public String getCardNumber () {
-    return cardNumber;
-  }
+	private String expiryDate;
 
-  public String getBillingAddress () {
-    return billingAddress;
-  }
+	@SuppressWarnings("unused")
+	private OrderRequestDto() {
+	}
 
-  public boolean getIsSaved () {
-    return isSaved;
-  }
+	public int getCustomerId() {
+		return customerId;
+	}
 
-  public String getExpiryDate () {
-    return expiryDate;
-  }
+	public String getDeliveryAddress() {
+		return deliveryAddress;
+	}
 
-  public void setCardId (int newId) {
-    cartId = newId;
-  }
+	public String getNameOnCard() {
+		return nameOnCard;
+	}
 
-  public void setDeliveryAddress (String newDeliveryAddress) {
-    deliveryAddress = newDeliveryAddress;
-  }
+	public String getCvc() {
+		return cvc;
+	}
 
-  public void setNameOnCard (String newNameOnCard) {
-    nameOnCard = newNameOnCard;
-  }
+	public String getCardNumber() {
+		return cardNumber;
+	}
 
-  public void setCvc (String newCvc) {
-    cvc = newCvc;
-  }
+	public String getBillingAddress() {
+		return billingAddress;
+	}
 
-  public void setCardNumber (String newCardNumber) {
-    cardNumber = newCardNumber;
-  }
+	public boolean getIsSaved() {
+		return isSaved;
+	}
 
-  public void setBillingAddress (String newBillingAddress) {
-    billingAddress = newBillingAddress;
-  }
+	public String getExpiryDate() {
+		return expiryDate;
+	}
 
-  public void setIsSaved (boolean newIsSaved) {
-    isSaved = newIsSaved;
-  }
+	public void setCustomerId(int newId) {
+		customerId = newId;
+	}
 
-  public void setExpiryDate (String newExpiryDate) {
-    expiryDate = newExpiryDate;
-  }
+	public void setDeliveryAddress(String newDeliveryAddress) {
+		deliveryAddress = newDeliveryAddress;
+	}
+
+	public void setNameOnCard(String newNameOnCard) {
+		nameOnCard = newNameOnCard;
+	}
+
+	public void setCvc(String newCvc) {
+		cvc = newCvc;
+	}
+
+	public void setCardNumber(String newCardNumber) {
+		cardNumber = newCardNumber;
+	}
+
+	public void setBillingAddress(String newBillingAddress) {
+		billingAddress = newBillingAddress;
+	}
+
+	public void setIsSaved(boolean newIsSaved) {
+		isSaved = newIsSaved;
+	}
+
+	public void setExpiryDate(String newExpiryDate) {
+		expiryDate = newExpiryDate;
+	}
 
 }

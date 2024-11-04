@@ -197,8 +197,7 @@ public class CardPayment {
 				+ getBillingAddress() + "," + "isSaved" + ":" + getIsSaved() + "]"
 				+ System.getProperties().getProperty("line.separator") + "  " + "expiryDate" + "="
 				+ (getExpiryDate() != null
-						? !getExpiryDate().equals(this) ? getExpiryDate().replaceAll("  ", "    ") : "this"
-						: "null")
+						? !getExpiryDate().equals(this) ? getExpiryDate().replaceAll("  ", "    ") : "this" : "null")
 				+ System.getProperties().getProperty("line.separator") + "  " + "customer = "
 				+ (getCustomer() != null ? Integer.toHexString(System.identityHashCode(getCustomer())) : "null");
 	}

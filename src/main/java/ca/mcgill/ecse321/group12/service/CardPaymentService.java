@@ -10,24 +10,25 @@ import jakarta.transaction.Transactional;
 @Service
 public class CardPaymentService {
 
-  @Autowired
-  private CardPaymentRepository repo;
+	@Autowired
+	private CardPaymentRepository repo;
 
-  @Transactional
-  public CardPayment createCardPayment (String nameOnCard, String cvc, String cardNumber, String billingAddress, boolean isSaved, String expiryDate) {
+	@Transactional
+	public CardPayment createCardPayment(String nameOnCard, String cvc, String cardNumber, String billingAddress,
+			boolean isSaved, String expiryDate) {
 
-    // create a new Card Payment
-    // TODO: validate credit card number?
-    CardPayment cardPayment = new CardPayment();
-    cardPayment.setNameOnCard(nameOnCard);
-    cardPayment.setCvc(cvc);
-    cardPayment.setCardNumber(cardNumber);
-    cardPayment.setBillingAddress(billingAddress);
-    cardPayment.setIsSaved(isSaved);
-    cardPayment.setExpiryDate(expiryDate);
+		// create a new Card Payment
+		// TODO: validate credit card number?
+		CardPayment cardPayment = new CardPayment();
+		cardPayment.setNameOnCard(nameOnCard);
+		cardPayment.setCvc(cvc);
+		cardPayment.setCardNumber(cardNumber);
+		cardPayment.setBillingAddress(billingAddress);
+		cardPayment.setIsSaved(isSaved);
+		cardPayment.setExpiryDate(expiryDate);
 
-    return repo.save(cardPayment);
+		return repo.save(cardPayment);
 
-  }
+	}
 
 }
