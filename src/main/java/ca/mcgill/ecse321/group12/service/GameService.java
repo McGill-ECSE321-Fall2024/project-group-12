@@ -5,8 +5,10 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import ca.mcgill.ecse321.group12.exception.CustomException;
 import ca.mcgill.ecse321.group12.model.Game;
 import ca.mcgill.ecse321.group12.model.Game.Category;
 import ca.mcgill.ecse321.group12.model.Game.Console;
@@ -23,7 +25,7 @@ public class GameService {
 	public Game findGameById(int gameId) {
 		Game game = gameRepository.findGameById(gameId);
 		if (game == null) {
-			throw new IllegalArgumentException("There is no game with ID " + gameId + ".");
+			throw new CustomException(HttpStatus.NOT_FOUND ,"There is no game with ID " + gameId + ".");
 		}
 		return game;
 	}

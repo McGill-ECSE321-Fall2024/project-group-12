@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.group12.service;
 
+import org.hibernate.dialect.function.array.ArrayToStringFunction;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -40,15 +41,7 @@ public class GameServiceTests {
         String aDescription = "Game Description...";
         GameStatus aStatus = GameStatus.Archived;
 
-        Game game = new Game();
-        game.setCategory(aCategory);
-        game.setConsole(aConsole);
-        game.setInventory(aInventory);
-        game.setPrice(aPrice);
-        game.setName(aName);
-        game.setDescription(aDescription);
-        game.setStatus(aStatus);
-
+        Game game = new Game(0, aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus);
         when(gameRepository.save(any(Game.class))).thenReturn(game);
 
         // Act
@@ -57,12 +50,12 @@ public class GameServiceTests {
         // Assert
         assertNotNull(createdGame);
         assertEquals(aName, createdGame.getName());
-        assertEquals(aCategory, createdGame.getCategory());
-        assertEquals(aConsole, createdGame.getConsole());
+        assertEquals(aCategory.toString(), createdGame.getCategory().toString());
+        assertEquals(aConsole.toString(), createdGame.getConsole().toString());
         assertEquals(aInventory, createdGame.getInventory());
         assertEquals(aPrice, createdGame.getPrice());
         assertEquals(aDescription, createdGame.getDescription());
-        assertEquals(aStatus, createdGame.getStatus());
+        assertEquals(aStatus.toString(), createdGame.getStatus().toString());
         verify(gameRepository, times(1)).save(game);
     }
 
@@ -89,11 +82,11 @@ public class GameServiceTests {
         assertNotNull(createdGame);
         assertEquals(aName, createdGame.getName());
         assertEquals(aCategory, createdGame.getCategory());
-        assertEquals(aConsole, createdGame.getConsole());
+        assertEquals(aConsole.toString(), createdGame.getConsole().toString());
         assertEquals(aInventory, createdGame.getInventory());
         assertEquals(aPrice, createdGame.getPrice());
         assertEquals(aDescription, createdGame.getDescription());
-        assertEquals(aStatus, createdGame.getStatus());
+        assertEquals(aStatus.toString(), createdGame.getStatus().toString());
     }
 
     @Test
