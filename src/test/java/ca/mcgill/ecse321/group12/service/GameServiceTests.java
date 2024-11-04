@@ -94,7 +94,6 @@ public class GameServiceTests {
         assertEquals(aStatus, createdGame.getStatus());
     }
 
-    /* 
     @Test
     public void testReadGameByInvalidId() {
         // Set up
@@ -102,7 +101,7 @@ public class GameServiceTests {
 
         // Act
         // Assert
-        CustomException e = assertThrows(EventRegistrationException.class, () -> service.findPersonById(id));
+        CustomException e = assertThrows(CustomException.class, () -> gameService.findGameById(id));
         assertEquals("There is no person with ID " + id + ".", e.getMessage());
         // assertThrows is basically like the following:
         // try {
@@ -112,6 +111,5 @@ public class GameServiceTests {
         // assertEquals("There is no person with ID " + id + ".", e.getMessage());
         // }
     }
-        */
 
 }
