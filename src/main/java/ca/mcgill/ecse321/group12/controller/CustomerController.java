@@ -24,7 +24,7 @@ public class CustomerController {
 	 * @param eid The primary key of the customer to find.
 	 * @return The empllyee with the given ID.
 	 */
-	@GetMapping("/customer/{eid}")
+	@GetMapping("/customers/{eid}")
 	public CustomerResponseDto findCustomerById(@PathVariable int eid) {
 		Customer customer = customerService.findCustomerById(eid);
 		return new CustomerResponseDto(customer);
@@ -34,7 +34,7 @@ public class CustomerController {
 	 * Get all customers
 	 * @return All customers.
 	 */
-	@GetMapping("/customer/all")
+	@GetMapping("/customers")
 	public Iterable<Customer> findAllCustomers() {
 		Iterable<Customer> allCustomers = customerService.findAllCustomers();
 		return allCustomers;
@@ -44,7 +44,7 @@ public class CustomerController {
 	 * Delete an customer.
 	 * @param customer The customer to delete.
 	 */
-	@DeleteMapping("/customer/{eid}")
+	@DeleteMapping("/customers/{eid}")
 	public void deleteCustomerById(@PathVariable int eid) {
 		customerService.deleteCustomerById(eid);
 	}
@@ -54,7 +54,7 @@ public class CustomerController {
 	 * @param customer The customer to create.
 	 * @return The created customer, including their ID.
 	 */
-	@PostMapping("/customer")
+	@PostMapping("/customers")
 	public CustomerResponseDto createPerson(@RequestBody CustomerRequestDto customer) {
 		Customer createdCustomer = customerService.createCustomer(customer.getEmail(), customer.getPassword(),
 				customer.getName(), customer.getPhoneNumber());
