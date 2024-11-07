@@ -25,7 +25,7 @@ public class GameService {
 	public Game findGameById(int gameId) {
 		Game game = gameRepository.findGameById(gameId);
 		if (game == null) {
-			throw new CustomException(HttpStatus.NOT_FOUND ,"There is no game with ID " + gameId + ".");
+			throw new CustomException(HttpStatus.NOT_FOUND, "There is no game with ID " + gameId + ".");
 		}
 		return game;
 	}
@@ -33,12 +33,12 @@ public class GameService {
 	public Iterable<Game> findGames(Optional<GameStatus> status) {
 		Iterable<Game> games = gameRepository.findAll();
 
-        // if no status is provided then all the games are returned
+		// if no status is provided then all the games are returned
 		if (status.isEmpty()) {
 			return games;
 		}
 		else {
-            // filters out the game by their status 
+			// filters out the game by their status
 			List<Game> filteredGames = new ArrayList<>();
 			for (Game game : games) {
 				if (game.getStatus() == status.get()) {
@@ -53,7 +53,7 @@ public class GameService {
 	public void deleteGameById(int gameId) {
 
 		Game gameToDelete = gameRepository.findGameById(gameId);
-        // checks if the game exists before deleting
+		// checks if the game exists before deleting
 		if (gameToDelete == null) {
 			throw new IllegalArgumentException("No game has this id.");
 		}
@@ -65,18 +65,18 @@ public class GameService {
 	public Game createGame(Category aCategory, Console aConsole, int aInventory, float aPrice, String aName,
 			String aDescription, GameStatus aStatus) {
 
-        // input validation
+		// input validation
 		if (aInventory < 0) {
-			throw new IllegalArgumentException("Inventory has to be a positive integer.");
+			throw new CustomException(HttpStatus.BAD_REQUEST, "Inventory has to be a positive integer.");
 		}
 		if (aPrice < 0) {
-			throw new IllegalArgumentException("Price has to be a positive number.");
+			throw new CustomException(HttpStatus.BAD_REQUEST, "Price has to be a positive number.");
 		}
 		if (aName.isBlank()) {
-			throw new IllegalArgumentException("Name cannot be empty.");
+			throw new CustomException(HttpStatus.BAD_REQUEST, "Name cannot be empty.");
 		}
 		if (aDescription.isBlank()) {
-			throw new IllegalArgumentException("Description cannot be empty.");
+			throw new CustomException(HttpStatus.BAD_REQUEST, "Description cannot be empty.");
 		}
 
 		Game gameToCreate = new Game();
@@ -95,18 +95,18 @@ public class GameService {
 	public Game updateGame(int aId, Category aCategory, Console aConsole, int aInventory, float aPrice, String aName,
 			String aDescription, GameStatus aStatus) {
 
-        // input validation
+		// input validation
 		if (aInventory < 0) {
-			throw new IllegalArgumentException("Inventory has to be a positive integer.");
+			throw new CustomException(HttpStatus.BAD_REQUEST, "Inventory has to be a positive integer.");
 		}
 		if (aPrice < 0) {
-			throw new IllegalArgumentException("Price has to be a positive number.");
+			throw new CustomException(HttpStatus.BAD_REQUEST, "Price has to be a positive number.");
 		}
 		if (aName.isBlank()) {
-			throw new IllegalArgumentException("Name cannot be empty.");
+			throw new CustomException(HttpStatus.BAD_REQUEST, "Name cannot be empty.");
 		}
 		if (aDescription.isBlank()) {
-			throw new IllegalArgumentException("Description cannot be empty.");
+			throw new CustomException(HttpStatus.BAD_REQUEST, "Description cannot be empty.");
 		}
 
 		Game gameToUpdate = gameRepository.findGameById(aId);
