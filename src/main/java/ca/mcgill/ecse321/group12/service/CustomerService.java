@@ -19,11 +19,11 @@ public class CustomerService {
 	 * @return The Customer with the given ID.
 	 */
 	public Customer findCustomerById(int id) {
-		Customer emp = customerRepo.findCustomerById(id);
-		if (emp == null) {
+		Customer cus = customerRepo.findCustomerById(id);
+		if (cus == null) {
 			throw new IllegalArgumentException("There is no customer with ID " + id + ".");
 		}
-		return emp;
+		return cus;
 	}
 
 	/**
