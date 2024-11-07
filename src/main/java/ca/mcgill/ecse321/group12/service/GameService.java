@@ -25,7 +25,7 @@ public class GameService {
 	public Game findGameById(int gameId) {
 		Game game = gameRepository.findGameById(gameId);
 		if (game == null) {
-			throw new CustomException(HttpStatus.NOT_FOUND ,"There is no game with ID " + gameId + ".");
+			throw new CustomException(HttpStatus.NOT_FOUND, "There is no game with ID " + gameId + ".");
 		}
 		return game;
 	}
