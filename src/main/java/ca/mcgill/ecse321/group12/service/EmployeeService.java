@@ -70,8 +70,12 @@ public class EmployeeService {
 	 * @return A list of all employees
 	 */
 	@Transactional
-	public Employee updateEmployeeById(int id) {
+	public Employee updateEmployeeById(int id, String email, String password, String name, String phoneNumber) {
 		Employee employeeToUpdate = employeeRepo.findEmployeeById(id);
+		employeeToUpdate.setEmail(email);
+		employeeToUpdate.setName(name);
+		employeeToUpdate.setPassword(password);
+		employeeToUpdate.setPhoneNumber(phoneNumber);
 		return employeeToUpdate;
 	}
 
