@@ -14,25 +14,25 @@ public class CustomerService {
 	private CustomerRepository customerRepo;
 
 	/**
-	 * Return the Customer with the given ID.
-	 * @param id The primary key of the Customer to find.
-	 * @return The Customer with the given ID.
+	 * Return the customer with the given ID.
+	 * @param id The primary key of the customer to find.
+	 * @return The customer with the given ID.
 	 */
 	public Customer findCustomerById(int id) {
-		Customer cus = customerRepo.findCustomerById(id);
-		if (cus == null) {
+		Customer emp = customerRepo.findCustomerById(id);
+		if (emp == null) {
 			throw new IllegalArgumentException("There is no customer with ID " + id + ".");
 		}
-		return cus;
+		return emp;
 	}
 
 	/**
-	 * Create a new Customer.
-	 * @param email The email of the new Customer.
-	 * @param password The password of the new Customer.
-	 * @param name The name of the new Customer.
-	 * @param phoneNumber The phoneNumber of the new Customer.
-	 * @return The newly created Customer.
+	 * Create a new customer.
+	 * @param email The email of the new customer.
+	 * @param password The password of the new customer.
+	 * @param name The name of the new customer.
+	 * @param phoneNumber The phoneNumber of the new customer.
+	 * @return The newly created customer.
 	 */
 	@Transactional
 	public Customer createCustomer(String email, String password, String name, String phoneNumber) {
@@ -45,8 +45,8 @@ public class CustomerService {
 	}
 
 	/**
-	 * Delete the Customer with the given ID.
-	 * @param id The primary key of the Customer to delete.
+	 * Delete the customer with the given ID.
+	 * @param id The primary key of the customer to delete.
 	 */
 	@Transactional
 	public void deleteCustomerById(int id) {
@@ -55,8 +55,8 @@ public class CustomerService {
 	}
 
 	/**
-	 * Find all Customers
-	 * @return A list of all Customers
+	 * Find all customers
+	 * @return A list of all customers
 	 */
 	@Transactional
 	public Iterable<Customer> findAllCustomers() {
