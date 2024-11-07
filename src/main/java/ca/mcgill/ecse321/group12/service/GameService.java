@@ -67,16 +67,16 @@ public class GameService {
 
 		// input validation
 		if (aInventory < 0) {
-			throw new IllegalArgumentException("Inventory has to be a positive integer.");
+			throw new CustomException(HttpStatus.BAD_REQUEST, "Inventory has to be a positive integer.");
 		}
 		if (aPrice < 0) {
-			throw new IllegalArgumentException("Price has to be a positive number.");
+			throw new CustomException(HttpStatus.BAD_REQUEST, "Price has to be a positive number.");
 		}
 		if (aName.isBlank()) {
-			throw new IllegalArgumentException("Name cannot be empty.");
+			throw new CustomException(HttpStatus.BAD_REQUEST, "Name cannot be empty.");
 		}
 		if (aDescription.isBlank()) {
-			throw new IllegalArgumentException("Description cannot be empty.");
+			throw new CustomException(HttpStatus.BAD_REQUEST, "Description cannot be empty.");
 		}
 
 		Game gameToCreate = new Game();
@@ -97,16 +97,16 @@ public class GameService {
 
 		// input validation
 		if (aInventory < 0) {
-			throw new IllegalArgumentException("Inventory has to be a positive integer.");
+			throw new CustomException(HttpStatus.BAD_REQUEST, "Inventory has to be a positive integer.");
 		}
 		if (aPrice < 0) {
-			throw new IllegalArgumentException("Price has to be a positive number.");
+			throw new CustomException(HttpStatus.BAD_REQUEST, "Price has to be a positive number.");
 		}
 		if (aName.isBlank()) {
-			throw new IllegalArgumentException("Name cannot be empty.");
+			throw new CustomException(HttpStatus.BAD_REQUEST, "Name cannot be empty.");
 		}
 		if (aDescription.isBlank()) {
-			throw new IllegalArgumentException("Description cannot be empty.");
+			throw new CustomException(HttpStatus.BAD_REQUEST, "Description cannot be empty.");
 		}
 
 		Game gameToUpdate = gameRepository.findGameById(aId);
