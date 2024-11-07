@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import ca.mcgill.ecse321.group12.dto.ReviewRequestDto;
 import ca.mcgill.ecse321.group12.dto.ReviewResponseDto;
 import ca.mcgill.ecse321.group12.model.Review;
 import ca.mcgill.ecse321.group12.service.ReviewService;
@@ -22,26 +23,36 @@ public class ReviewController {
      * @return the review with the given id
      */
 
-    @GetMapping(value = { "/review/{id}" })
-    public ReviewResponseDto getReview(@PathVariable("id") int id) {
+    @GetMapping("/review/{id}")
+    public ReviewResponseDto getReview(@PathVariable int id) {
         Review review = reviewService.findReviewById(id);
         return new ReviewResponseDto(review);
     }
 
 
     /**
-     * Create a review with the given parameters
-     * @param likeCount the number of likes the review has
-     * @param rating the rating set by author of the review
-     * @param text the text contained in the review
+     * Create a review 
+     * @param review the review to create 
      * @return the created review
      */
-    @PostMapping(value = { "/review/{likeCount}/{rating}/{text}" })
-    public ReviewResponseDto createReview(@PathVariable("likeCount") int likeCount, @PathVariable("rating") int rating,
-    @PathVariable("text") String text) {
+    @PostMapping("/review")
+    public ReviewResponseDto createReview(@RequestBody ReviewRequestDto review) {
         // #1: create new review
-        Review createdReview = reviewService.createReview(likeCount, rating, text);
+        Review createdReview = reviewService.createReview(review.getLikeCount(), review.getRating(), review.getReview());
         // #2: return the created review
         return new ReviewResponseDto(createdReview);
+    }
+
+    /**
+     * Update the review with the given id
+     * @param id the primary key of the review
+     * @return the updated review
+     */
+    @PostMapping("/review/{id}")
+    public ReviewResponseDto updateReview(@PathVariable int id, @RequestBody ReviewRequestDto review){
+        // #1: update the review
+        Review updatedReview = reviewService.updateReview(id, review.getLikeCount(), review.getRating(), review.getReview());
+        // #2: return the updated review
+        return new ReviewResponseDto(updatedReview);
     }
 }
