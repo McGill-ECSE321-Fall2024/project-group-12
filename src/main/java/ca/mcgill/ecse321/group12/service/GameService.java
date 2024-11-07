@@ -50,18 +50,6 @@ public class GameService {
 	}
 
 	@Transactional
-	public void deleteGameById(int gameId) {
-
-		Game gameToDelete = gameRepository.findGameById(gameId);
-		// checks if the game exists before deleting
-		if (gameToDelete == null) {
-			throw new CustomException(HttpStatus.NOT_FOUND, "No game has this id.");
-		}
-
-		gameRepository.delete(gameToDelete);
-	}
-
-	@Transactional
 	public Game createGame(Category aCategory, Console aConsole, int aInventory, float aPrice, String aName,
 			String aDescription, GameStatus aStatus) {
 
