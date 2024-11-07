@@ -31,7 +31,7 @@ public class Game {
 
 	public enum GameStatus {
 
-		PendingApproval, InCatalog, PendingArchival, Archived
+		PendingApproval, InCatalog, PendingArchival, Archived, Rejected
 
 	}
 
