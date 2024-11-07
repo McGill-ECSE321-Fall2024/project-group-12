@@ -34,6 +34,17 @@ public class CartService {
 	 * @return Cart
 	 */
 	@Transactional
+	public Cart createCart() {
+		Cart cartToCreate = new Cart();
+		return cartRepo.save(cartToCreate);
+	}
+
+	/**
+	 * CARMIN DON"T USE THIS
+	 * Create a cart
+	 * @return Cart
+	 */
+	@Transactional
 	public Cart createCart(int cartId) {
 		Cart cartToCreate = new Cart(cartId);
 		return cartRepo.save(cartToCreate);
