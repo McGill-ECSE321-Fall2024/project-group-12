@@ -1,11 +1,13 @@
 package ca.mcgill.ecse321.group12.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import ca.mcgill.ecse321.group12.model.Employee;
 import ca.mcgill.ecse321.group12.repository.EmployeeRepository;
 import jakarta.transaction.Transactional;
+import ca.mcgill.ecse321.group12.exception.CustomException;
 
 @Service
 public class EmployeeService {
@@ -21,7 +23,7 @@ public class EmployeeService {
 	public Employee findEmployeeById(int id) {
 		Employee emp = employeeRepo.findEmployeeById(id);
 		if (emp == null) {
-			throw new IllegalArgumentException("There is no employee with ID " + id + ".");
+			throw new CustomException(HttpStatus.NOT_FOUND, "There is no employee with ID " + id + ".");
 		}
 		return emp;
 	}
@@ -61,6 +63,16 @@ public class EmployeeService {
 	@Transactional
 	public Iterable<Employee> findAllEmployees() {
 		return employeeRepo.findAll();
+	}
+
+	/**
+	 * Update employee with the given ID
+	 * @return A list of all employees
+	 */
+	@Transactional
+	public Employee updateEmployeeById(int id) {
+		Employee employeeToUpdate = employeeRepo.findEmployeeById(id);
+		return employeeToUpdate;
 	}
 
 }
