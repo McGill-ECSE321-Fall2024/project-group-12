@@ -98,23 +98,34 @@ public class EmployeeServiceTests {
     }
 
     @Test
-    public void testUpdatePersonByValidId() {
+    public void testUpdateEmployeeByValidId() {
+        // Set up
         int id = 42;
-        Employee 
+        Employee employee = new Employee();
+        employee.setEmail("email@mail.mcgill.ca");
+        employee.setName("johnny");
+        employee.setPassword("123456");
+        employee.setPhoneNumber("2041234567");
+        when(employeeRepository.findEmployeeById(id)).thenReturn(employee);
+        // Act
+        // Assert
+        CustomException e = assertThrows(CustomException.class, () -> employeeService.findEmployeeById(id));
+        assertEquals("There is no employee with ID " + id + ".", e.getMessage());
+
     }
 
     @Test
-    public void testUpdatePersonByInvalidId() {
+    public void testUpdateEmployeeByInvalidId() {
 
     }
 
     @Test
-    public void deletePersonByValidId() {
+    public void deleteEmployeeByValidId() {
 
     }
 
     @Test
-    public void deletePersonByInvalidId() {
+    public void deleteEmployeeByInvalidId() {
 
     }
 
