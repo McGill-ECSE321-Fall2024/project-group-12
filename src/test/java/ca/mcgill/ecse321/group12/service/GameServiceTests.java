@@ -1,6 +1,5 @@
 package ca.mcgill.ecse321.group12.service;
 
-import org.hibernate.dialect.function.array.ArrayToStringFunction;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
