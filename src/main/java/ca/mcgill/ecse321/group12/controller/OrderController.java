@@ -1,5 +1,7 @@
 package ca.mcgill.ecse321.group12.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,6 +13,7 @@ import ca.mcgill.ecse321.group12.dto.OrderResponseDto;
 import ca.mcgill.ecse321.group12.model.CardPayment;
 import ca.mcgill.ecse321.group12.model.Cart;
 import ca.mcgill.ecse321.group12.model.Customer;
+import ca.mcgill.ecse321.group12.model.Game;
 import ca.mcgill.ecse321.group12.model.Order;
 import ca.mcgill.ecse321.group12.service.CardPaymentService;
 import ca.mcgill.ecse321.group12.service.CartService;
@@ -56,15 +59,16 @@ public class OrderController {
 		CardPayment payment = cardPaymentService.createCardPayment(body.getNameOnCard(), body.getCvc(),
 				body.getCardNumber(), body.getBillingAddress(), body.getIsSaved(), body.getExpiryDate());
 
+		List<Game> games = cart.getGames();
 		// #3: check all games in cart are in stock. if they are, subtract 1 from stock.
 		// If not, order FAILS
-		gameService.reduceGamesInventory(cart.getGames());
+		gameService.reduceGamesInventory(games);
 
-		// #4: empty user's cart
+		// #4: create order object
+		Order order = orderService.createOrder(body.getDeliveryAddress(), games, customer, payment);
+
+		// #5: empty user's cart
 		cartService.clearCart(body.getCustomerId());
-
-		// #5: create order object
-		Order order = orderService.createOrder(body.getDeliveryAddress(), cart.getGames(), customer, payment);
 
 		return new OrderResponseDto(order);
 

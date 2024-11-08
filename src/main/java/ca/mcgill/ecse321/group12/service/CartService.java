@@ -68,11 +68,11 @@ public class CartService {
 
 		Cart cart = findCartById(cartId);
 
-		// go through each game and take it out of the cart
 		List<Game> games = cart.getGames();
 
-		for (int i = 0; i < games.size(); i++) {
-			cart.removeGame(games.get(i));
+		// go through each game and take it out of the cart
+		while (games.size() > 0) {
+			cart.removeGame(games.get(0));
 		}
 
 		return cartRepo.save(cart);
