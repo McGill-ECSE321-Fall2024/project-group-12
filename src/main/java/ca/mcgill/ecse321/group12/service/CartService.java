@@ -41,6 +41,16 @@ public class CartService {
 	}
 
 	/**
+	 * Create a cart
+	 * @return Cart
+	 */
+	@Transactional
+	public Cart createCart(int cartId) {
+		Cart cartToCreate = new Cart(cartId);
+		return cartRepo.save(cartToCreate);
+	}
+
+	/**
 	 * Add game to cart
 	 * @return Cart
 	 */
@@ -50,7 +60,6 @@ public class CartService {
 		Game gameToAdd = gameService.findGameById(gameId);
 		cartToUpdate.addGame(gameToAdd);
 		return cartRepo.save(cartToUpdate);
-
 	}
 
 	/**
