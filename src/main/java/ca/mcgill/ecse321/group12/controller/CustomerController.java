@@ -10,14 +10,24 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ca.mcgill.ecse321.group12.dto.CustomerRequestDto;
 import ca.mcgill.ecse321.group12.dto.CustomerResponseDto;
+import ca.mcgill.ecse321.group12.model.Cart;
 import ca.mcgill.ecse321.group12.model.Customer;
+import ca.mcgill.ecse321.group12.model.Wishlist;
 import ca.mcgill.ecse321.group12.service.CustomerService;
+import ca.mcgill.ecse321.group12.service.WishlistService;
+import ca.mcgill.ecse321.group12.service.CartService;
 
 @RestController
 public class CustomerController {
 
 	@Autowired
 	private CustomerService customerService;
+
+    @Autowired
+    private CartService cartService;
+
+    @Autowired
+    private WishlistService wishlistService;
 
 	/**
 	 * Return the customer with the given ID.
@@ -56,8 +66,10 @@ public class CustomerController {
 	 */
 	@PostMapping("/customers")
 	public CustomerResponseDto createPerson(@RequestBody CustomerRequestDto customer) {
+        Wishlist wishlist =  wishlistService.createWishlist();
+        Cart cart = cartService.createCart();
 		Customer createdCustomer = customerService.createCustomer(customer.getEmail(), customer.getPassword(),
-				customer.getName(), customer.getPhoneNumber());
+				customer.getName(), customer.getPhoneNumber(), wishlist, cart);
 		return new CustomerResponseDto(createdCustomer);
 	}
 }

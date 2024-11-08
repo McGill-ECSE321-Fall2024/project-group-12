@@ -6,6 +6,9 @@ import org.springframework.stereotype.Service;
 import ca.mcgill.ecse321.group12.model.Customer;
 import ca.mcgill.ecse321.group12.repository.CustomerRepository;
 import jakarta.transaction.Transactional;
+import ca.mcgill.ecse321.group12.model.Wishlist;
+import ca.mcgill.ecse321.group12.model.Cart;
+
 
 @Service
 public class CustomerService {
@@ -25,6 +28,7 @@ public class CustomerService {
 		}
 		return emp;
 	}
+//int aId, String aEmail, String aPassword, String aName, String aPhoneNumber, Wishlist aWishlist,Cart aCart
 
 	/**
 	 * Create a new customer.
@@ -32,15 +36,19 @@ public class CustomerService {
 	 * @param password The password of the new customer.
 	 * @param name The name of the new customer.
 	 * @param phoneNumber The phoneNumber of the new customer.
+     * @param wishlist The wishlist of the new customer.
+     * @param cart The cart of the new customer.
 	 * @return The newly created customer.
 	 */
 	@Transactional
-	public Customer createCustomer(String email, String password, String name, String phoneNumber) {
+	public Customer createCustomer(String email, String password, String name, String phoneNumber, Wishlist wishlist, Cart cart) {
 		Customer customerToCreate = new Customer();
 		customerToCreate.setEmail(email);
 		customerToCreate.setPassword(password);
 		customerToCreate.setName(name);
 		customerToCreate.setPhoneNumber(phoneNumber);
+        customerToCreate.setWishlist(wishlist);
+        customerToCreate.setCart(cart);
 		return customerRepo.save(customerToCreate);
 	}
 
