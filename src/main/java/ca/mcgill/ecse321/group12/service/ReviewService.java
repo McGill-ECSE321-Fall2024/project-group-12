@@ -69,13 +69,13 @@ public class ReviewService {
     public Review updateReview(int id, int likeCount, int rating, String text) {
         Review review = reviewRepository.findReviewById(id);
         if (likeCount < 0) {
-            throw new IllegalArgumentException("Like count cannot be negative.");
+            throw new CustomException(HttpStatus.BAD_REQUEST, "Like count cannot be negative.");
         }
         if (rating < 0 || rating > 5) {
-            throw new IllegalArgumentException("Rating must be between 0 and 5.");
+            throw new CustomException(HttpStatus.BAD_REQUEST, "Rating must be between 0 and 5.");
         }
         if (text == null || text.trim().length() == 0) {
-            throw new IllegalArgumentException("Review text cannot be empty.");
+            throw new CustomException(HttpStatus.BAD_REQUEST, "Review text cannot be empty.");
         }
         review.setLikeCount(likeCount);
         review.setRating(rating);
