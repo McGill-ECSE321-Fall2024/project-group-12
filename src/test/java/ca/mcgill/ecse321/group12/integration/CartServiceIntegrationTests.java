@@ -21,7 +21,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 
-import ca.mcgill.ecse321.group12.model.Cart;
 import ca.mcgill.ecse321.group12.model.Customer;
 import ca.mcgill.ecse321.group12.model.Game.Category;
 import ca.mcgill.ecse321.group12.model.Game.Console;
@@ -55,7 +54,7 @@ public class CartServiceIntegrationTests {
 
 	private int validId;
 
-	private Cart cart;
+	private CustomerResponseDto customer;
 
 	private GameResponseDto game;
 
@@ -67,8 +66,7 @@ public class CartServiceIntegrationTests {
 		ResponseEntity<CustomerResponseDto> customerResponse = client.postForEntity("/customers", customerRequest,
 				CustomerResponseDto.class);
 		// Save the response
-		this.cart = customerResponse.getBody().getCart();
-		this.validId = this.cart.getId();
+		this.customer = customerResponse.getBody();
 		// Create (POST) a game to use it for tests
 		GameRequestDto gameRequest = new GameRequestDto(Category.Action, Console.PC, 1, 1.0f, "Game Name...",
 				"Game Description...", GameStatus.Archived);
@@ -89,6 +87,7 @@ public class CartServiceIntegrationTests {
 	@Order(1)
 	public void testFindCartByValidId() {
 		// Arrange
+		this.validId = this.customer.getCart().getId();
 		String url = "/cart/" + this.validId;
 
 		// Act
@@ -108,6 +107,7 @@ public class CartServiceIntegrationTests {
 	public void testAddGameToCart() {
 		// Start with an empty cart, add a game to the cart
 		// Arrange
+		this.validId = this.customer.getCart().getId();
 		String url = "/cart/" + this.validId;
 
 		// Act
