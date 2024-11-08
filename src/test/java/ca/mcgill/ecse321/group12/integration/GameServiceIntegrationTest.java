@@ -88,6 +88,78 @@ public class GameServiceIntegrationTest {
 	 */
 	@Test
 	@Order(1)
+	public void testCreateGameWithInvalidInventory() {
+		// Arrange
+		GameRequestDto request = new GameRequestDto(VALID_CATEGORY, VALID_CONSOLE, INVALID_INVENTORY, VALID_PRICE,
+				VALID_NAME, VALID_DESCRIPTION, VALID_STATUS);
+
+		// Act
+		ResponseEntity<GameResponseDto> response = client.postForEntity("/games", request, GameResponseDto.class);
+
+		// Assert
+		assertNotNull(response);
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+	}
+
+	/**
+	 * @author Julien Heng
+	 */
+	@Test
+	@Order(2)
+	public void testCreateGameWithInvalidPrice() {
+		// Arrange
+		GameRequestDto request = new GameRequestDto(VALID_CATEGORY, VALID_CONSOLE, VALID_INVENTORY, INVALID_PRICE,
+				VALID_NAME, VALID_DESCRIPTION, VALID_STATUS);
+
+		// Act
+		ResponseEntity<GameResponseDto> response = client.postForEntity("/games", request, GameResponseDto.class);
+
+		// Assert
+		assertNotNull(response);
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+	}
+
+	/**
+	 * @author Julien Heng
+	 */
+	@Test
+	@Order(3)
+	public void testCreateGameWithInvalidName() {
+		// Arrange
+		GameRequestDto request = new GameRequestDto(VALID_CATEGORY, VALID_CONSOLE, VALID_INVENTORY, VALID_PRICE,
+				INVALID_NAME, VALID_DESCRIPTION, VALID_STATUS);
+
+		// Act
+		ResponseEntity<GameResponseDto> response = client.postForEntity("/games", request, GameResponseDto.class);
+
+		// Assert
+		assertNotNull(response);
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+	}
+	
+	/**
+	 * @author Julien Heng
+	 */
+	@Test
+	@Order(3)
+	public void testCreateGameWithInvalidDescription() {
+		// Arrange
+		GameRequestDto request = new GameRequestDto(VALID_CATEGORY, VALID_CONSOLE, VALID_INVENTORY, VALID_PRICE,
+				INVALID_NAME, VALID_DESCRIPTION, VALID_STATUS);
+
+		// Act
+		ResponseEntity<GameResponseDto> response = client.postForEntity("/games", request, GameResponseDto.class);
+
+		// Assert
+		assertNotNull(response);
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+	}
+
+	/**
+	 * @author Julien Heng
+	 */
+	@Test
+	@Order(4)
 	public void testCreateValidGame() {
 		// Arrange
 		GameRequestDto request = new GameRequestDto(VALID_CATEGORY, VALID_CONSOLE, VALID_INVENTORY, VALID_PRICE,
@@ -118,7 +190,7 @@ public class GameServiceIntegrationTest {
 	 * @author Julien Heng
 	 */
 	@Test
-	@Order(2)
+	@Order(5)
 	public void testReadGameByValidId() {
 		// Arrange
 		String url = "/games/" + this.validId;
@@ -146,7 +218,7 @@ public class GameServiceIntegrationTest {
 	 * @author Julien Heng
 	 */
 	@Test
-	@Order(3)
+	@Order(6)
 	public void testUpdateGameWithInvalidPrice() {
 		// Arrange
 		String url = "/games/" + this.validId;
@@ -167,7 +239,7 @@ public class GameServiceIntegrationTest {
 	 * @author Julien Heng
 	 */
 	@Test
-	@Order(4)
+	@Order(7)
 	public void testUpdateGameWithInvalidInventory() {
 		// Arrange
 		String url = "/games/" + this.validId;
@@ -188,7 +260,7 @@ public class GameServiceIntegrationTest {
 	 * @author Julien Heng
 	 */
 	@Test
-	@Order(5)
+	@Order(8)
 	public void testUpdateGameWithInvalidName() {
 		// Arrange
 		String url = "/games/" + this.validId;
@@ -209,7 +281,7 @@ public class GameServiceIntegrationTest {
 	 * @author Julien Heng
 	 */
 	@Test
-	@Order(6)
+	@Order(9)
 	public void testUpdateGameWithInvalidDescription() {
 		// Arrange
 		String url = "/games/" + this.validId;
@@ -230,7 +302,7 @@ public class GameServiceIntegrationTest {
 	 * @author Julien Heng
 	 */
 	@Test
-	@Order(7)
+	@Order(10)
 	public void testUpdateGameWithValidInventory() {
 		// Arrange
 		String url = "/games/" + this.validId;
