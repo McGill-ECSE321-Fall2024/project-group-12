@@ -47,7 +47,7 @@ public class ReviewService {
             throw new CustomException(HttpStatus.BAD_REQUEST, "Rating must be between 0 and 5.");
         }
         if (text == null || text.trim().length() == 0) {
-            throw new CustomException(HttpStatus.BAD_REQUEST("Review text cannot be empty.");
+            throw new CustomException(HttpStatus.BAD_REQUEST, "Review text cannot be empty.");
         }
         Review review = new Review();
         review.setLikeCount(likeCount);
