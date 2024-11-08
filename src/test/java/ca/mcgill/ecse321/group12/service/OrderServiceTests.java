@@ -166,4 +166,51 @@ public class OrderServiceTests {
 
 	}
 
+  /**
+   * test that an order can be successfully returned
+   * @author James Madden
+   */
+  @Test
+  public void testSuccessfullyReturnOrder() {
+
+    when(orderRepo.save(any(Order.class))).thenAnswer((InvocationOnMock iom) -> iom.getArgument(0));
+
+    // create an order object with the relevant properties
+    Order order = new Order();
+    order.setStatus(OrderStatus.Delivered);
+
+    // attempt to return the order
+    int id = order.getId();
+		when(orderRepo.findOrderById(id)).thenReturn(order);
+
+    Order returnedOrder = service.updateStatus(id, OrderStatus.Returned);
+
+    // check that the order was returned successfully
+    assertNotNull(returnedOrder);
+    assertEquals(OrderStatus.Returned, returnedOrder.getStatus());
+    
+  }
+
+  /**
+   * test that returning an order will fail if the wrong status is provided
+   * @author James Madden
+   */
+  @Test
+  public void testUnsuccessfullyReturnOrder() {
+
+    when(orderRepo.save(any(Order.class))).thenAnswer((InvocationOnMock iom) -> iom.getArgument(0));
+
+    // create an order object with the relevant properties
+    Order order = new Order();
+    order.setStatus(OrderStatus.Delivered);
+
+    // attempt to return the order
+    int id = order.getId();
+		when(orderRepo.findOrderById(id)).thenReturn(order);
+
+    CustomException error = assertThrows(CustomException.class, () -> service.updateStatus(id, OrderStatus.Shipping));
+		assertEquals("Order status cannot be updated to " + OrderStatus.Shipping + ".", error.getMessage());
+
+  }
+
 }
