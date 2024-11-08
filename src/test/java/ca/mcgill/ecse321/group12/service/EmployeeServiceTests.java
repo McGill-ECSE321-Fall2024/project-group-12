@@ -111,7 +111,6 @@ public class EmployeeServiceTests {
         // Assert
         CustomException e = assertThrows(CustomException.class, () -> employeeService.findEmployeeById(id));
         assertEquals("There is no employee with ID " + id + ".", e.getMessage());
-
     }
 
     @Test

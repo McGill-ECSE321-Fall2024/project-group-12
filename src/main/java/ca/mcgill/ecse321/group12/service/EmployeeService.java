@@ -43,7 +43,11 @@ public class EmployeeService {
 		employeeToCreate.setPassword(password);
 		employeeToCreate.setName(name);
 		employeeToCreate.setPhoneNumber(phoneNumber);
-		return employeeRepo.save(employeeToCreate);
+		Employee savedEmployee = employeeRepo.save(employeeToCreate);
+		if (savedEmployee.getEmail() == null) {
+			throw new CustomException(HttpStatus.BAD_REQUEST, "Create employee failed. Employee with this email already exists in the system. ");
+		}
+		return savedEmployee;
 	}
 
 	/**
@@ -70,13 +74,16 @@ public class EmployeeService {
 	 * @return A list of all employees
 	 */
 	@Transactional
-	public Employee updateEmployeeById(int id, String email, String password, String name, String phoneNumber) {
+	public Employee updateEmployeeById(int id, String newEmail, String password, String name, String phoneNumber) {
 		Employee employeeToUpdate = employeeRepo.findEmployeeById(id);
-		employeeToUpdate.setEmail(email);
+		String previousEmail = employeeToUpdate.getEmail();
+		employeeToUpdate.setEmail(newEmail);
 		employeeToUpdate.setName(name);
 		employeeToUpdate.setPassword(password);
 		employeeToUpdate.setPhoneNumber(phoneNumber);
+		if (!previousEmail.equals(newEmail) && employeeToUpdate.getEmail().equals(previousEmail)) {
+			throw new CustomException(HttpStatus.BAD_REQUEST, "Update employee failed. Employee with this email already exists in the system. ");
+		}
 		return employeeToUpdate;
 	}
-
 }
