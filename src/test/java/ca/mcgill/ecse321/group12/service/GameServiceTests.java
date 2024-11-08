@@ -33,6 +33,7 @@ public class GameServiceTests {
 	private GameService gameService;
 
 	/**
+	 * Tries to create a game with valid fields
 	 * @author Julien Heng
 	 */
 	@SuppressWarnings("null")
@@ -72,6 +73,89 @@ public class GameServiceTests {
 		assertEquals(aDescription, createdGame.getDescription());
 		assertEquals(aStatus, createdGame.getStatus());
 		verify(gameRepository, times(1)).save(any(Game.class));
+	}
+
+	/**
+	 * @author Julien Heng
+	 */
+	@Test
+	public void testCreateGameWithInvalidPrice() {
+		// Arrange
+		Category aCategory = Category.Action;
+		Console aConsole = Console.PC;
+		int aInventory = 1;
+		float aPrice = -1.2f;
+		String aName = "Game Name...";
+		String aDescription = "Game Description...";
+		GameStatus aStatus = GameStatus.Archived;
+
+		// Act
+
+		// Assert
+		CustomException e = assertThrows(CustomException.class, () -> gameService.createGame(aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus));
+		assertEquals("Price has to be a positive number.", e.getMessage());
+	}
+
+	/**
+	 * @author Julien Heng
+	 */
+	@Test
+	public void testCreateGameWithInvalidInventory() {
+		// Arrange
+		Category aCategory = Category.Action;
+		Console aConsole = Console.PC;
+		int aInventory = -1;
+		float aPrice = 1.2f;
+		String aName = "Game Name...";
+		String aDescription = "Game Description...";
+		GameStatus aStatus = GameStatus.Archived;
+
+		// Act
+
+		// Assert
+		CustomException e = assertThrows(CustomException.class, () -> gameService.createGame(aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus));
+		assertEquals("Inventory has to be a positive number.", e.getMessage());
+	}
+
+	/**
+	 * @author Julien Heng
+	 */
+	@Test
+	public void testCreateGameWithInvalidName() {
+		// Arrange
+		Category aCategory = Category.Action;
+		Console aConsole = Console.PC;
+		int aInventory = 1;
+		float aPrice = 1.2f;
+		String aName = "";
+		String aDescription = "Game Description...";
+		GameStatus aStatus = GameStatus.Archived;
+
+		// Act
+
+		// Assert
+		CustomException e = assertThrows(CustomException.class, () -> gameService.createGame(aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus));
+		assertEquals("Name cannot be empty.", e.getMessage());
+	}
+	/**
+	 * @author Julien Heng
+	 */
+	@Test
+	public void testCreateGameWithInvalidDescription() {
+		// Arrange
+		Category aCategory = Category.Action;
+		Console aConsole = Console.PC;
+		int aInventory = 1;
+		float aPrice = 1.2f;
+		String aName = "Game name";
+		String aDescription = "";
+		GameStatus aStatus = GameStatus.Archived;
+
+		// Act
+
+		// Assert
+		CustomException e = assertThrows(CustomException.class, () -> gameService.createGame(aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus));
+		assertEquals("Description cannot be empty.", e.getMessage());
 	}
 
 	/**

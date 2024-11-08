@@ -84,8 +84,8 @@ public class GameServiceIntegrationTest {
 	}
 
 	/**
-	 * @author Julien Heng
 	 * Tries to create a game with an invalid inventory value.
+	 * @author Julien Heng
 	 */
 	@Test
 	@Order(1)
@@ -103,8 +103,8 @@ public class GameServiceIntegrationTest {
 	}
 
 	/**
-	 * @author Julien Heng
 	 * Tries to create a game with an invalid price value.
+	 * @author Julien Heng
 	 */
 	@Test
 	@Order(2)
@@ -122,8 +122,8 @@ public class GameServiceIntegrationTest {
 	}
 
 	/**
-	 * @author Julien Heng
 	 * Tries to create a game with an empty name.
+	 * @author Julien Heng
 	 */
 	@Test
 	@Order(3)
@@ -141,8 +141,8 @@ public class GameServiceIntegrationTest {
 	}
 	
 	/**
-	 * @author Julien Heng
 	 * Tries to create a game with an empty description.
+	 * @author Julien Heng
 	 */
 	@Test
 	@Order(3)
@@ -160,8 +160,8 @@ public class GameServiceIntegrationTest {
 	}
 
 	/**
-	 * @author Julien Heng
 	 * Tries to create a game with valid fields.
+	 * @author Julien Heng
 	 */
 	@Test
 	@Order(4)
@@ -192,8 +192,8 @@ public class GameServiceIntegrationTest {
 	}
 
 	/**
-	 * @author Julien Heng
 	 * Tries to read a game with an existing ID.
+	 * @author Julien Heng
 	 */
 	@Test
 	@Order(5)
@@ -221,8 +221,8 @@ public class GameServiceIntegrationTest {
 	}
 
 	/**
-	 * @author Julien Heng
 	 * Tries to read a game with a non-existing ID.
+	 * @author Julien Heng
 	 */
 	@Test
 	@Order(6)
@@ -240,8 +240,8 @@ public class GameServiceIntegrationTest {
 	}
 
 	/**
-	 * @author Julien Heng
 	 * Tries to update a game with an invalid price value.
+	 * @author Julien Heng
 	 */
 	@Test
 	@Order(7)
@@ -262,8 +262,8 @@ public class GameServiceIntegrationTest {
 	}
 
 	/**
-	 * @author Julien Heng
 	 * Tries to update a game with an invalid inventory value.
+	 * @author Julien Heng
 	 */
 	@Test
 	@Order(8)
@@ -284,8 +284,8 @@ public class GameServiceIntegrationTest {
 	}
 
 	/**
-	 * @author Julien Heng
 	 * Tries to update a game with an empty name.
+	 * @author Julien Heng
 	 */
 	@Test
 	@Order(9)
@@ -306,8 +306,8 @@ public class GameServiceIntegrationTest {
 	}
 
 	/**
-	 * @author Julien Heng
 	 * Tries to update a game with an empty description.
+	 * @author Julien Heng
 	 */
 	@Test
 	@Order(10)
@@ -328,8 +328,8 @@ public class GameServiceIntegrationTest {
 	}
 
 	/**
+	 * Tries to update a game with a valid fields.
 	 * @author Julien Heng
-	 * Tries to update a game with a valid fields..
 	 */
 	@Test
 	@Order(11)
