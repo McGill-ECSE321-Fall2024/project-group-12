@@ -175,8 +175,8 @@ public class GameServiceTests {
 	}
 
 	/**
-	 * @author Julien Heng
-	 * Updating a game with a negative inventory should not be allowed.
+	 * @author Julien Heng Updating a game with a negative inventory should not be
+	 * allowed.
 	 */
 	@Test
 	public void testUpdateGameWithInvalidInventory() {
@@ -222,8 +222,8 @@ public class GameServiceTests {
 	}
 
 	/**
-	 * @author Julien Heng
-	 * Updating a game with a null or empty name should not be allowed.
+	 * @author Julien Heng Updating a game with a null or empty name should not be
+	 * allowed.
 	 */
 	@Test
 	public void testUpdateGameWithInvalidName() {
@@ -269,8 +269,8 @@ public class GameServiceTests {
 	}
 
 	/**
-	 * @author Julien Heng
-	 * Updating a game with a null or empty description should not be allowed.
+	 * @author Julien Heng Updating a game with a null or empty description should not be
+	 * allowed.
 	 */
 	@Test
 	public void testUpdateGameWithInvalidDescription() {
@@ -316,8 +316,7 @@ public class GameServiceTests {
 	}
 
 	/**
-	 * @author Julien Heng
-	 * Updating a game with a negative price should not be allowed.
+	 * @author Julien Heng Updating a game with a negative price should not be allowed.
 	 */
 	@Test
 	public void testUpdateGameWithInvalidPrice() {
