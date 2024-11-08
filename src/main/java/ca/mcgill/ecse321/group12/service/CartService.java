@@ -1,5 +1,7 @@
 package ca.mcgill.ecse321.group12.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,8 +41,10 @@ public class CartService {
 		Cart cart = findCartById(cartId);
 
 		// go through each game and take it out of the cart
-		for (Game game : cart.getGames()) {
-			cart.removeGame(game);
+		List<Game> games = cart.getGames();
+
+		for (int i = 0; i < games.size(); i++) {
+			cart.removeGame(games.get(i));
 		}
 
 		return cartRepo.save(cart);

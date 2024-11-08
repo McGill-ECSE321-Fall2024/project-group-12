@@ -31,4 +31,36 @@ public class OrderResponseDto {
 
 	}
 
+	public int getId () {
+		return id;
+	}
+
+	public Date getPurchaseDate () {
+		return purchaseDate;
+	}
+
+	public String getDeliveryAddress () {
+		return deliveryAddress;
+	}
+
+	public OrderStatus getStatus () {
+		return status;
+	}
+
+	public void setId (int newId) {
+		id = newId;
+	}
+
+	public void setPurchaseDate (Date newPurchaseDate) {
+		purchaseDate = newPurchaseDate;
+	}
+
+	public void setDeliveryAddress (String newDeliveryAddress) {
+		deliveryAddress = newDeliveryAddress;
+	}
+
+	public void setStatus (OrderStatus newStatus) {
+		status = newStatus;
+	}
+
 }
