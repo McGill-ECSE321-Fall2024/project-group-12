@@ -24,6 +24,7 @@ public class EmployeeController {
 
 	/**
 	 * Return the employee with the given ID.
+	 * @author Amy Ding
 	 * @param eid The primary key of the employee to find.
 	 * @return The empllyee with the given ID.
 	 */
@@ -35,6 +36,7 @@ public class EmployeeController {
 
 	/**
 	 * Get all employees
+	 * @author Amy Ding
 	 * @return All employees.
 	 */
 	@GetMapping("/employees")
@@ -45,6 +47,7 @@ public class EmployeeController {
 
 	/**
 	 * Delete an employee.
+	 * @author Amy Ding
 	 * @param employee The employee to delete.
 	 */
 	@DeleteMapping("/employees/{eid}")
@@ -54,6 +57,7 @@ public class EmployeeController {
 
 	/**
 	 * Create a new employee.
+	 * @author Amy Ding
 	 * @param employee The employee to create.
 	 * @return The created employee, including their ID.
 	 */
@@ -67,6 +71,7 @@ public class EmployeeController {
 
 	/**
 	 * Update an employee.
+	 * @author Amy Ding
 	 * @param employee The employee to update.
 	 * @return The updated employee, including their ID.
 	 */

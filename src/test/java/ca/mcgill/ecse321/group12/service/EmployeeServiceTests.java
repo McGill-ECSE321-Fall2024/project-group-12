@@ -28,13 +28,13 @@ public class EmployeeServiceTests {
 	@InjectMocks
 	private EmployeeService employeeService;
 
-	@SuppressWarnings("null")
 
      /**
      * Test to create an employee with valid inputs
 	 * @author Amy Ding
 	 * @return void
 	 */
+	@SuppressWarnings("null")
 	@Test
 	public void testCreateValidEmployee() {
 		// Arrange
