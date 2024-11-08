@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,6 +40,18 @@ public class OrderController {
 
 	@Autowired
 	private CustomerService customerService;
+
+	/**
+	 * Return an order by id
+	 * @author James Madden
+	 */
+	@GetMapping("/order/{id}")
+	public OrderResponseDto getOrder(@PathVariable int id) {
+		
+		Order order = orderService.findOrderById(id);
+		return new OrderResponseDto(order);
+
+	}
 
 	/**
 	 * Create a new order, based on the games in the specified user's cart
