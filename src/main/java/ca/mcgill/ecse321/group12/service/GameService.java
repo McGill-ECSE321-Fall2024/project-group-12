@@ -109,4 +109,29 @@ public class GameService {
 		return gameRepository.save(gameToUpdate);
 	}
 
+	/**
+	 * Goes through each game specified and reduces its stock. If any game is out of
+	 * stock, it will throw an error and the transaction will be cancelled.
+	 * @author James Madden
+	 * @param games
+	 */
+	@Transactional
+	public void reduceGamesInventory(List<Game> games) {
+
+		// go through each game
+		for (Game game : games) {
+
+			// error if the inventory is 0
+			if (game.getInventory() <= 0) {
+				throw new CustomException(HttpStatus.BAD_REQUEST, "Game " + game.getName() + " is out of stock.");
+			}
+			else {
+				game.setInventory(game.getInventory() - 1);
+				gameRepository.save(game);
+			}
+
+		}
+
+	}
+
 }
