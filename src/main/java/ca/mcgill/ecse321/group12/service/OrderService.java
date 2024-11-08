@@ -71,7 +71,7 @@ public class OrderService {
 	 * @author James Madden
 	 */
 	@Transactional
-	public Order updateStatus (int id, OrderStatus status) {
+	public Order updateStatus(int id, OrderStatus status) {
 
 		// make sure the status is being set to Returned
 		if (status != OrderStatus.Returned) {
