@@ -31,7 +31,6 @@ public class CartServiceTests {
 	public void testCreateValidCart() {
 		// Arrange
 		when(repo.save(any(Cart.class))).thenAnswer((InvocationOnMock iom) -> iom.getArgument(0));
-		int id = 1;
 
 		// Act
 		Cart createdCart = service.createCart();
