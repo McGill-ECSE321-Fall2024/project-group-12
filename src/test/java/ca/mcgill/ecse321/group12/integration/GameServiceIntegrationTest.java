@@ -36,6 +36,7 @@ public class GameServiceIntegrationTest {
 	@Autowired
 	private TestRestTemplate client;
 
+	@Autowired
 	private GameRepository gameRepository;
 
 	private final String VALID_NAME = "Game Test Integration";
