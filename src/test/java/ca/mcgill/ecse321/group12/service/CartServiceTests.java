@@ -14,6 +14,8 @@ import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.mockito.invocation.InvocationOnMock;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 
 import ca.mcgill.ecse321.group12.exception.CustomException;
 import ca.mcgill.ecse321.group12.model.Cart;
@@ -25,6 +27,7 @@ import ca.mcgill.ecse321.group12.repository.CartRepository;
 import ca.mcgill.ecse321.group12.repository.GameRepository;
 
 @SpringBootTest
+@MockitoSettings(strictness = Strictness.STRICT_STUBS)
 public class CartServiceTests {
 
 	@Mock
@@ -107,6 +110,7 @@ public class CartServiceTests {
 		assertNotNull(updatedCart);
 		assertEquals(cart.getGames(), updatedCart.getGames());
 	}
+
 	/**
 	 * Check that all games are successfully removed from the cart
 	 * @author James Madden
