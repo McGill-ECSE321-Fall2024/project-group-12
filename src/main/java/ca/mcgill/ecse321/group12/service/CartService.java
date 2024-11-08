@@ -48,12 +48,7 @@ public class CartService {
 	public Cart addGameToCart(int cartId, int gameId, GameService gameService) {
 		Cart cartToUpdate = findCartById(cartId);
 		Game gameToAdd = gameService.findGameById(gameId);
-		try {
-			cartToUpdate.addGame(gameToAdd);
-		}
-		catch (CustomException e) {
-
-		}
+		cartToUpdate.addGame(gameToAdd);
 		return cartRepo.save(cartToUpdate);
 
 	}

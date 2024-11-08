@@ -12,7 +12,6 @@ import ca.mcgill.ecse321.group12.dto.CartResponseDto;
 import ca.mcgill.ecse321.group12.model.Cart;
 import ca.mcgill.ecse321.group12.service.CartService;
 import ca.mcgill.ecse321.group12.service.GameService;
-import ca.mcgill.ecse321.group12.exception.CustomException;
 
 @RestController
 public class CartController {
@@ -39,15 +38,8 @@ public class CartController {
 	 */
 	@PutMapping("/cart/{cartId}")
 	public CartResponseDto addGameToCart(@PathVariable int cartId, @RequestBody CartRequestDto cart) {
-		try {
-			cartService.findCartById(cartId);
-		}
-		catch (CustomException e) {
-			cartService.createCart();
-		}
-
+		cartService.findCartById(cartId);
 		Cart thisCart = cartService.addGameToCart(cartId, cart.getGameId(), gameService);
-
 		return new CartResponseDto(thisCart);
 	}
 }
