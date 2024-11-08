@@ -11,6 +11,8 @@ import static org.mockito.Mockito.when;
 import java.sql.Date;
 import java.time.LocalDate;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -114,30 +116,32 @@ public class EmployeeServiceTests {
         // Assert
         CustomException e = assertThrows(CustomException.class, () -> employeeService.findEmployeeById(id));
         assertEquals("There is no employee with ID " + id + ".", e.getMessage());
-        // assertThrows is basically like the following:
-        // try {
-        // service.findPersonById(id);
-        // fail("No exception was thrown.");
-        // } catch (IllegalArgumentException e) {
-        // assertEquals("There is no person with ID " + id + ".", e.getMessage());
-        // }
     }
 
     @Test
     public void testUpdateEmployeeByValidArguments() {
         int id = 42;
         Employee employee = new Employee();
-        employee.setEmail("email@mail.mcgill.ca");
-        employee.setName("johnny");
-        employee.setPassword("123456");
-        employee.setPhoneNumber("2041234567");
+        String email = "ea@mail.mcgill.ca";
+        String name = "johnny";
+        String password = "123456";
+        String phoneNumber = "2041234567";
+        employee.setId(id);
+        employee.setEmail(email);
+        employee.setName(name);
+        employee.setPassword(password);
+        employee.setPhoneNumber(phoneNumber);
+
         String newEmail ="newemail@mail.mcgill.ca";
         String newName = "john";
         String newPassword = "123456";
         String newPhoneNumber = "2047654321";
+
         when(employeeRepository.findEmployeeById(id)).thenReturn(employee);
-        
+        when(employeeRepository.save(any(Employee.class))).thenReturn(employee);
+   
         // Act
+        employeeService.createEmployee(email, password, name, phoneNumber);
         employeeService.updateEmployeeById(id, newEmail, newPassword, newName, newPhoneNumber);
         
         // Assert
@@ -178,14 +182,39 @@ public class EmployeeServiceTests {
         assertEquals("Update employee failed. Employee with this email already exists in the system.", e.getMessage());
     }
 
-    @Test
-    public void deleteEmployeeByValidId() {
+    // @Test
+    // public void deleteEmployeeByValidId() {
+    //     int id = 42;
+    //     Employee employee = new Employee();
+    //     String email = "ea@mail.mcgill.ca";
+    //     String name = "johnny";
+    //     String password = "123456";
+    //     String phoneNumber = "2041234567";
+    //     employee.setId(id);
+    //     employee.setEmail(email);
+    //     employee.setName(name);
+    //     employee.setPassword(password);
+    //     employee.setPhoneNumber(phoneNumber);
 
-    }
+    //     when(employeeRepository.findEmployeeById(id)).thenReturn(employee);
+    //     when(employeeRepository.save(any(Employee.class))).thenReturn(employee);
+    //     when(employeeRepository.deleteById(id)).thenReturn(employee);
+   
+    //     // Act
+    //     employeeService.createEmployee(email, password, name, phoneNumber);
+    //     employeeService.deleteEmployeeByIdEmployeeById(id);
+        
+    //     // Assert
+    //     assertNotNull(employee);
+    //     assertEquals(newEmail, employee.getEmail());
+    //     assertEquals(newName, employee.getName());
+    //     assertEquals(newPassword, employee.getPassword());
+    //     assertEquals(newPhoneNumber, employee.getPhoneNumber());
+    // }
 
-    @Test
-    public void deleteEmployeeByInvalidId() {
+    // @Test
+    // public void deleteEmployeeByInvalidId() {
 
-    }
+    // }
 
 }
