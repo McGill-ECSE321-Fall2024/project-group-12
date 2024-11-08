@@ -30,7 +30,6 @@ public class GameService {
 		return game;
 	}
 
-
 	public Iterable<Game> findGames(Optional<GameStatus> status) {
 		Iterable<Game> games = gameRepository.findAll();
 
@@ -136,4 +135,3 @@ public class GameService {
 	}
 
 }
-

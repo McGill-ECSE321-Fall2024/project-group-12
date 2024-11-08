@@ -18,8 +18,10 @@ public class CartController {
 
 	@Autowired
 	private CartService cartService;
+
 	@Autowired
 	private GameService gameService;
+
 	/**
 	 * Return the cart with the given ID.
 	 * @param cartId The primary key of the cart to find.
@@ -42,4 +44,5 @@ public class CartController {
 		Cart thisCart = cartService.addGameToCart(cartId, cart.getGameId(), gameService);
 		return new CartResponseDto(thisCart);
 	}
+
 }

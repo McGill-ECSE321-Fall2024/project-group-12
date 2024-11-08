@@ -31,35 +31,35 @@ public class OrderResponseDto {
 
 	}
 
-	public int getId () {
+	public int getId() {
 		return id;
 	}
 
-	public Date getPurchaseDate () {
+	public Date getPurchaseDate() {
 		return purchaseDate;
 	}
 
-	public String getDeliveryAddress () {
+	public String getDeliveryAddress() {
 		return deliveryAddress;
 	}
 
-	public OrderStatus getStatus () {
+	public OrderStatus getStatus() {
 		return status;
 	}
 
-	public void setId (int newId) {
+	public void setId(int newId) {
 		id = newId;
 	}
 
-	public void setPurchaseDate (Date newPurchaseDate) {
+	public void setPurchaseDate(Date newPurchaseDate) {
 		purchaseDate = newPurchaseDate;
 	}
 
-	public void setDeliveryAddress (String newDeliveryAddress) {
+	public void setDeliveryAddress(String newDeliveryAddress) {
 		deliveryAddress = newDeliveryAddress;
 	}
 
-	public void setStatus (OrderStatus newStatus) {
+	public void setStatus(OrderStatus newStatus) {
 		status = newStatus;
 	}
 

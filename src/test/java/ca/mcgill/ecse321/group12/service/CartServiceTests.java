@@ -101,7 +101,6 @@ public class CartServiceTests {
 		assertNotNull(clearedCart);
 		assertEquals(0, clearedCart.getGames().size());
 
-
 	}
 
 }

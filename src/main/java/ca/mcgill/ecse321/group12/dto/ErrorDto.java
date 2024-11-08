@@ -3,25 +3,27 @@ package ca.mcgill.ecse321.group12.dto;
 import java.util.List;
 
 public class ErrorDto {
-    private List<String> errors;
 
-    @SuppressWarnings("unused")
-    private ErrorDto() {
-    }
+	private List<String> errors;
 
-    public ErrorDto(List<String> errors) {
-        this.errors = errors;
-    }
+	@SuppressWarnings("unused")
+	private ErrorDto() {
+	}
 
-    public ErrorDto(String error) {
-        this.errors = List.of(error);
-    }
+	public ErrorDto(List<String> errors) {
+		this.errors = errors;
+	}
 
-    public List<String> getErrors() {
-        return errors;
-    }
+	public ErrorDto(String error) {
+		this.errors = List.of(error);
+	}
 
-    public void setErrors(List<String> errors) {
-        this.errors = errors;
-    }
+	public List<String> getErrors() {
+		return errors;
+	}
+
+	public void setErrors(List<String> errors) {
+		this.errors = errors;
+	}
+
 }

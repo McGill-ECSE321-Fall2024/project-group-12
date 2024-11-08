@@ -26,7 +26,7 @@ public class OrderService {
 	 * find and return an order from ID. Throw a CustomException if not found
 	 * @author James Madden
 	 */
-	public Order findOrderById (int id) {
+	public Order findOrderById(int id) {
 
 		Order order = repo.findOrderById(id);
 
@@ -43,7 +43,7 @@ public class OrderService {
 	 * @author James Madden
 	 */
 	@Transactional
-	public Order createOrder (String deliveryAddress, List<Game> games, Customer customer, CardPayment cardPayment) {
+	public Order createOrder(String deliveryAddress, List<Game> games, Customer customer, CardPayment cardPayment) {
 
 		// create the order
 		Order order = new Order();

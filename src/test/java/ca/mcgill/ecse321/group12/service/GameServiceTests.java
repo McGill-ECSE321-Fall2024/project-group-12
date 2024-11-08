@@ -337,11 +337,12 @@ public class GameServiceTests {
 	}
 
 	/**
-	 * Test that the stock of a list of games will be successfully reduced when every stock is at least 1.
+	 * Test that the stock of a list of games will be successfully reduced when every
+	 * stock is at least 1.
 	 * @author James Madden
 	 */
 	@Test
-	public void testSuccessfullyReduceGameInventory () {
+	public void testSuccessfullyReduceGameInventory() {
 
 		// create games
 		Game game1 = new Game();
@@ -379,7 +380,7 @@ public class GameServiceTests {
 	 * @author James Madden
 	 */
 	@Test
-	public void testUnsuccessfullyReduceGameInventory () {
+	public void testUnsuccessfullyReduceGameInventory() {
 
 		// create games
 		Game game1 = new Game();

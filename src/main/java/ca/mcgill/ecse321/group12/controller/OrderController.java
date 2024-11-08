@@ -47,7 +47,7 @@ public class OrderController {
 	 */
 	@GetMapping("/order/{id}")
 	public OrderResponseDto getOrder(@PathVariable int id) {
-		
+
 		Order order = orderService.findOrderById(id);
 		return new OrderResponseDto(order);
 
