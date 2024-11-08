@@ -8,11 +8,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.sql.Date;
-import java.time.LocalDate;
-
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -71,7 +66,6 @@ public class EmployeeServiceTests {
 		String phoneNumber2 = "123456";
 
 		Employee employee = new Employee();
-		Employee employee2 = new Employee();
 
 		employee.setEmail(email);
 		employee.setPassword(password);
@@ -112,9 +106,8 @@ public class EmployeeServiceTests {
 
 	@Test
 	public void testReadEmployeeByInvalidId() {
-		// Set up
+		// Arrange
 		int id = -1;
-		// Default is to return null, so you could omit this
 		when(employeeRepository.findEmployeeById(id)).thenReturn(null);
 
 		// Act
@@ -125,12 +118,14 @@ public class EmployeeServiceTests {
 
 	@Test
 	public void testUpdateEmployeeByValidArguments() {
+        // Arrange
 		int id = 42;
 		Employee employee = new Employee();
 		String email = "ea@mail.mcgill.ca";
 		String name = "johnny";
 		String password = "123456";
 		String phoneNumber = "2041234567";
+
 		employee.setId(id);
 		employee.setEmail(email);
 		employee.setName(name);
@@ -159,6 +154,7 @@ public class EmployeeServiceTests {
 
 	@Test
 	public void testUpdateEmployeeByInvalidEmail() {
+        // Arrange
 		int id = 42;
 		Employee employee = new Employee();
 		String name = "amy";
@@ -177,12 +173,12 @@ public class EmployeeServiceTests {
 		employee.setPhoneNumber(phoneNumber);
 		when(employeeRepository.findEmployeeById(id)).thenReturn(employee);
 		when(employeeRepository.save(any(Employee.class))).thenReturn(employee);
+
 		// Act
 		employeeService.createEmployee(email, password, name, phoneNumber);
 		employeeService.createEmployee(email2, password2, name2, phoneNumber2);
 
 		// Assert
-
 		CustomException e = assertThrows(CustomException.class,
 				() -> employeeService.updateEmployeeById(id, email2, password, name, phoneNumber));
 		assertEquals("Update employee failed. Employee with this email already exists in the system.", e.getMessage());
