@@ -34,6 +34,16 @@ public class CartService {
 	 * @return Cart
 	 */
 	@Transactional
+	public Cart createCart() {
+		Cart cartToCreate = new Cart();
+		return cartRepo.save(cartToCreate);
+	}
+
+	/**
+	 * CARMIN DON"T USE THIS Create a cart
+	 * @return Cart
+	 */
+	@Transactional
 	public Cart createCart(int cartId) {
 		Cart cartToCreate = new Cart(cartId);
 		return cartRepo.save(cartToCreate);
@@ -47,12 +57,7 @@ public class CartService {
 	public Cart addGameToCart(int cartId, int gameId, GameService gameService) {
 		Cart cartToUpdate = findCartById(cartId);
 		Game gameToAdd = gameService.findGameById(gameId);
-		try {
-			cartToUpdate.addGame(gameToAdd);
-		}
-		catch (CustomException e) {
-
-		}
+		cartToUpdate.addGame(gameToAdd);
 		return cartRepo.save(cartToUpdate);
 	}
 

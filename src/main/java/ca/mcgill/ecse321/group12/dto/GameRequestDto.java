@@ -35,6 +35,17 @@ public class GameRequestDto {
 		this.status = model.getStatus();
 	}
 
+	public GameRequestDto(Category category, Console console, int inventory, float price, String name,
+			String description, GameStatus status) {
+		this.category = category;
+		this.console = console;
+		this.inventory = inventory;
+		this.price = price;
+		this.name = name;
+		this.description = description;
+		this.status = status;
+	}
+
 	public Category getCategory() {
 		return this.category;
 	}
@@ -61,6 +72,34 @@ public class GameRequestDto {
 
 	public GameStatus getStatus() {
 		return this.status;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+
+	public void getConsole(Console console) {
+		this.console = console;
+	}
+
+	public void getInventory(int inventory) {
+		this.inventory = inventory;
+	}
+
+	public void getPrice(float price) {
+		this.price = price;
+	}
+
+	public void getName(String name) {
+		this.name = name;
+	}
+
+	public void getDescription(String description) {
+		this.description = description;
+	}
+
+	public void getStatus(GameStatus status) {
+		this.status = status;
 	}
 
 }
