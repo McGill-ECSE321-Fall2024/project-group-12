@@ -124,7 +124,7 @@ public class GameService {
 
 			// error if the inventory is 0
 			if (game.getInventory() <= 0) {
-				throw new IllegalArgumentException("Game " + game.getName() + " is out of stock.");
+				throw new CustomException(HttpStatus.BAD_REQUEST, "Game " + game.getName() + " is out of stock.");
 			}
 			else {
 				game.setInventory(game.getInventory() - 1);
