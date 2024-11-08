@@ -1,5 +1,8 @@
 package ca.mcgill.ecse321.group12.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -7,15 +10,10 @@ import org.junit.jupiter.api.Test;
 import static org.mockito.ArgumentMatchers.any;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.invocation.InvocationOnMock;
-
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
-import java.util.ArrayList;
-import java.util.List;
-
+import org.mockito.invocation.InvocationOnMock;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import ca.mcgill.ecse321.group12.exception.CustomException;
@@ -34,6 +32,9 @@ public class GameServiceTests {
 	@InjectMocks
 	private GameService gameService;
 
+	/**
+	 * @author Julien Heng
+	 */
 	@SuppressWarnings("null")
 	@Test
 	public void testCreateValidGame() {
@@ -73,6 +74,9 @@ public class GameServiceTests {
 		verify(gameRepository, times(1)).save(any(Game.class));
 	}
 
+	/**
+	 * @author Julien Heng
+	 */
 	@Test
 	public void testReadGameByValidId() {
 		// Arrange
@@ -103,6 +107,9 @@ public class GameServiceTests {
 		assertEquals(aStatus, createdGame.getStatus());
 	}
 
+	/**
+	 * @author Julien Heng
+	 */
 	@Test
 	public void testReadGameByInvalidId() {
 		// Set up
@@ -114,6 +121,9 @@ public class GameServiceTests {
 		assertEquals("There is no game with ID " + id + ".", e.getMessage());
 	}
 
+	/**
+	 * @author Julien Heng
+	 */
 	@Test
 	public void testUpdateGameWithValidArguments() {
 		// Arrange
@@ -164,6 +174,10 @@ public class GameServiceTests {
 		assertEquals(updatedStatus, updatedGame.getStatus());
 	}
 
+	/**
+	 * @author Julien Heng
+	 * Updating a game with a negative inventory should not be allowed.
+	 */
 	@Test
 	public void testUpdateGameWithInvalidInventory() {
 		// Arrange
@@ -207,6 +221,10 @@ public class GameServiceTests {
 		assertEquals("Inventory has to be a positive integer.", e.getMessage());
 	}
 
+	/**
+	 * @author Julien Heng
+	 * Updating a game with a null or empty name should not be allowed.
+	 */
 	@Test
 	public void testUpdateGameWithInvalidName() {
 		// Arrange
@@ -250,6 +268,10 @@ public class GameServiceTests {
 		assertEquals("Name cannot be empty.", e.getMessage());
 	}
 
+	/**
+	 * @author Julien Heng
+	 * Updating a game with a null or empty description should not be allowed.
+	 */
 	@Test
 	public void testUpdateGameWithInvalidDescription() {
 		// Arrange
@@ -293,6 +315,10 @@ public class GameServiceTests {
 		assertEquals("Description cannot be empty.", e.getMessage());
 	}
 
+	/**
+	 * @author Julien Heng
+	 * Updating a game with a negative price should not be allowed.
+	 */
 	@Test
 	public void testUpdateGameWithInvalidPrice() {
 		// Arrange
@@ -360,7 +386,7 @@ public class GameServiceTests {
 		// mock the saving method
 		when(gameRepository.save(any(Game.class))).thenAnswer((InvocationOnMock iom) -> iom.getArgument(0));
 
-		List<Game> games = new ArrayList<Game>();
+		List<Game> games = new ArrayList<>();
 		games.add(game1);
 		games.add(game2);
 		games.add(game3);
@@ -401,7 +427,7 @@ public class GameServiceTests {
 		// mock the saving method
 		when(gameRepository.save(any(Game.class))).thenAnswer((InvocationOnMock iom) -> iom.getArgument(0));
 
-		List<Game> games = new ArrayList<Game>();
+		List<Game> games = new ArrayList<>();
 		games.add(game1);
 		games.add(game2);
 		games.add(game3);
@@ -433,7 +459,7 @@ public class GameServiceTests {
 		game3.setInventory(inv3);
 
 		// make list of games
-		List<Game> games = new ArrayList<Game>();
+		List<Game> games = new ArrayList<>();
 		games.add(game1);
 		games.add(game2);
 		games.add(game3);
