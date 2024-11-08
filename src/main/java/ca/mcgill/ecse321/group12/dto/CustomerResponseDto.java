@@ -15,7 +15,7 @@ public class CustomerResponseDto {
 	@SuppressWarnings("unused")
 	private CustomerResponseDto() {
 	}
-	
+
 	public CustomerResponseDto(Customer model) {
 		this.id = model.getId();
 		this.email = model.getEmail();

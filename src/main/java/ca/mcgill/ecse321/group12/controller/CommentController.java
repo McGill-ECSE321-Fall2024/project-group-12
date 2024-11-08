@@ -59,4 +59,5 @@ public class CommentController {
 		Comment createdComment = commentService.createComment(comment.getText());
 		return new CommentResponseDto(createdComment);
 	}
+
 }

@@ -35,4 +35,5 @@ public class WishlistService {
 		Wishlist wishlistToCreate = new Wishlist();
 		return wishlistRepo.save(wishlistToCreate);
 	}
+
 }

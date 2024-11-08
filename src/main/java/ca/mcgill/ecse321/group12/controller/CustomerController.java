@@ -23,11 +23,11 @@ public class CustomerController {
 	@Autowired
 	private CustomerService customerService;
 
-    @Autowired
-    private CartService cartService;
+	@Autowired
+	private CartService cartService;
 
-    @Autowired
-    private WishlistService wishlistService;
+	@Autowired
+	private WishlistService wishlistService;
 
 	/**
 	 * Return the customer with the given ID.
@@ -66,10 +66,11 @@ public class CustomerController {
 	 */
 	@PostMapping("/customers")
 	public CustomerResponseDto createPerson(@RequestBody CustomerRequestDto customer) {
-        Wishlist wishlist =  wishlistService.createWishlist();
-        Cart cart = cartService.createCart();
+		Wishlist wishlist = wishlistService.createWishlist();
+		Cart cart = cartService.createCart();
 		Customer createdCustomer = customerService.createCustomer(customer.getEmail(), customer.getPassword(),
 				customer.getName(), customer.getPhoneNumber(), wishlist, cart);
 		return new CustomerResponseDto(createdCustomer);
 	}
+
 }
