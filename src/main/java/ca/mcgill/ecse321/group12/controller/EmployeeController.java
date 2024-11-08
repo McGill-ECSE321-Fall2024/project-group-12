@@ -69,7 +69,9 @@ public class EmployeeController {
 	 */
 	@PutMapping("/employees/{eid}")
 	public EmployeeResponseDto updateEmployee(@PathVariable int eid, @RequestBody EmployeeRequestDto employee) {
-		Employee updatedEmployee = employeeService.updateEmployeeById(eid, employee.getEmail(), employee.getPassword(), employee.getName(), employee.getPhoneNumber());
+		Employee updatedEmployee = employeeService.updateEmployeeById(eid, employee.getEmail(), employee.getPassword(),
+				employee.getName(), employee.getPhoneNumber());
 		return new EmployeeResponseDto(updatedEmployee);
 	}
+
 }
