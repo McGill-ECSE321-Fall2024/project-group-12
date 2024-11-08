@@ -22,6 +22,9 @@ public class GameService {
 	@Autowired
 	private GameRepository gameRepository;
 
+	/**
+	 * @author Julien Heng
+	 */
 	public Game findGameById(int gameId) {
 		Game game = gameRepository.findGameById(gameId);
 		if (game == null) {
@@ -30,6 +33,9 @@ public class GameService {
 		return game;
 	}
 
+	/**
+	 * @author Julien Heng
+	 */
 	public Iterable<Game> findGames(Optional<GameStatus> status) {
 		Iterable<Game> games = gameRepository.findAll();
 
@@ -49,6 +55,9 @@ public class GameService {
 		}
 	}
 
+	/**
+	 * @author Julien Heng
+	 */
 	@Transactional
 	public Game createGame(Category aCategory, Console aConsole, int aInventory, float aPrice, String aName,
 			String aDescription, GameStatus aStatus) {
@@ -79,6 +88,9 @@ public class GameService {
 		return gameRepository.save(gameToCreate);
 	}
 
+	/**
+	 * @author Julien Heng
+	 */
 	@Transactional
 	public Game updateGame(int aId, Category aCategory, Console aConsole, int aInventory, float aPrice, String aName,
 			String aDescription, GameStatus aStatus) {

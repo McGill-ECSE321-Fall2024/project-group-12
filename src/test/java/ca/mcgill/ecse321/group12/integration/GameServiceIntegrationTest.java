@@ -83,6 +83,9 @@ public class GameServiceIntegrationTest {
 		gameRepository.deleteAll();
 	}
 
+	/**
+	 * @author Julien Heng
+	 */
 	@Test
 	@Order(1)
 	public void testCreateValidGame() {
@@ -111,6 +114,9 @@ public class GameServiceIntegrationTest {
 		this.validId = createdGame.getId();
 	}
 
+	/**
+	 * @author Julien Heng
+	 */
 	@Test
 	@Order(2)
 	public void testReadGameByValidId() {
@@ -136,6 +142,9 @@ public class GameServiceIntegrationTest {
 
 	}
 
+	/**
+	 * @author Julien Heng
+	 */
 	@Test
 	@Order(3)
 	public void testUpdateGameWithInvalidPrice() {
@@ -154,6 +163,9 @@ public class GameServiceIntegrationTest {
 
 	}
 
+	/**
+	 * @author Julien Heng
+	 */
 	@Test
 	@Order(4)
 	public void testUpdateGameWithInvalidInventory() {
@@ -172,6 +184,9 @@ public class GameServiceIntegrationTest {
 
 	}
 
+	/**
+	 * @author Julien Heng
+	 */
 	@Test
 	@Order(5)
 	public void testUpdateGameWithInvalidName() {
@@ -190,6 +205,9 @@ public class GameServiceIntegrationTest {
 
 	}
 
+	/**
+	 * @author Julien Heng
+	 */
 	@Test
 	@Order(6)
 	public void testUpdateGameWithInvalidDescription() {
@@ -208,6 +226,9 @@ public class GameServiceIntegrationTest {
 
 	}
 
+	/**
+	 * @author Julien Heng
+	 */
 	@Test
 	@Order(7)
 	public void testUpdateGameWithValidInventory() {
