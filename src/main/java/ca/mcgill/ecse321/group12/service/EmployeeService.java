@@ -46,7 +46,7 @@ public class EmployeeService {
 		employeeToCreate.setName(name);
 		employeeToCreate.setPhoneNumber(phoneNumber);
 		Employee savedEmployee = employeeRepo.save(employeeToCreate);
-		
+
 		if (savedEmployee.getEmail() == null) {
 			throw new CustomException(HttpStatus.BAD_REQUEST,
 					"Create employee failed. Employee with this email already exists in the system.");
@@ -95,4 +95,5 @@ public class EmployeeService {
 		}
 		return employeeToUpdate;
 	}
+
 }

@@ -44,7 +44,6 @@ public class EmployeeRequestDto {
 		this.phoneNumber = model.getPhoneNumber();
 	}
 
-	
 	public String getPassword() {
 		return password;
 	}
@@ -76,4 +75,5 @@ public class EmployeeRequestDto {
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
+
 }

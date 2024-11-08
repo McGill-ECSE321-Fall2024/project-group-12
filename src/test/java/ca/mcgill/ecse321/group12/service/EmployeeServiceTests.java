@@ -28,9 +28,8 @@ public class EmployeeServiceTests {
 	@InjectMocks
 	private EmployeeService employeeService;
 
-
-     /**
-     * Test to create an employee with valid inputs
+	/**
+	 * Test to create an employee with valid inputs
 	 * @author Amy Ding
 	 * @return void
 	 */
@@ -64,7 +63,8 @@ public class EmployeeServiceTests {
 	}
 
 	/**
-     * Test to create an employee account with an email that is already associated with another employee account
+	 * Test to create an employee account with an email that is already associated with
+	 * another employee account
 	 * @author Amy Ding
 	 * @return void
 	 */
@@ -96,8 +96,8 @@ public class EmployeeServiceTests {
 		assertEquals("Create employee failed. Employee with this email already exists in the system.", e.getMessage());
 	}
 
-	 /**
-     * Test to get an employee account with an id that is valid
+	/**
+	 * Test to get an employee account with an id that is valid
 	 * @author Amy Ding
 	 * @return void
 	 */
@@ -123,8 +123,8 @@ public class EmployeeServiceTests {
 		assertEquals(employee.getPhoneNumber(), foundEmployee.getPhoneNumber());
 	}
 
-	 /**
-     * Test to get an employee with an invalid id
+	/**
+	 * Test to get an employee with an invalid id
 	 * @author Amy Ding
 	 * @return void
 	 */
@@ -140,8 +140,8 @@ public class EmployeeServiceTests {
 		assertEquals("There is no employee with ID " + id + ".", e.getMessage());
 	}
 
-	 /**
-     * Test to update an employee account with valid inputs
+	/**
+	 * Test to update an employee account with valid inputs
 	 * @author Amy Ding
 	 * @return void
 	 */
@@ -182,7 +182,8 @@ public class EmployeeServiceTests {
 	}
 
 	/**
-     * Test to update an employee account with an email that is already associated with a different account
+	 * Test to update an employee account with an email that is already associated with a
+	 * different account
 	 * @author Amy Ding
 	 * @return void
 	 */
@@ -219,7 +220,7 @@ public class EmployeeServiceTests {
 	}
 
 	/**
-     * Test to delete an employee with a valid id
+	 * Test to delete an employee with a valid id
 	 * @author Amy Ding
 	 * @return void
 	 */
@@ -243,7 +244,7 @@ public class EmployeeServiceTests {
 	}
 
 	/**
-     * Test to attempt to delete an employee with an id that doesn't exist in the database
+	 * Test to attempt to delete an employee with an id that doesn't exist in the database
 	 * @author Amy Ding
 	 * @return void
 	 */
@@ -257,4 +258,5 @@ public class EmployeeServiceTests {
 		// Assert
 		assertEquals("There is no employee with ID " + id + ".", e.getMessage());
 	}
+
 }
