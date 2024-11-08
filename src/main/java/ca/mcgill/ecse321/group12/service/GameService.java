@@ -134,4 +134,19 @@ public class GameService {
 
 	}
 
+	/**
+	 * Increase the game inventory since the games have been returned
+	 * @author James Madden
+	 */
+	@Transactional
+	public void returnGames(List<Game> games) {
+
+		// go through each game
+		for (Game game : games) {
+			game.setInventory(game.getInventory() + 1);
+			gameRepository.save(game);
+		}
+
+	}
+
 }
