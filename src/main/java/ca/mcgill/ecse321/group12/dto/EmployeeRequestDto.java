@@ -17,6 +17,12 @@ public class EmployeeRequestDto {
 	private EmployeeRequestDto() {
 	}
 
+	public EmployeeRequestDto(String email, String password, String name, String phoneNumber) {
+		this.password = password;
+		this.email = email;
+		this.name = name;
+		this.phoneNumber = phoneNumber;
+	}
 	public EmployeeRequestDto(Employee model) {
 		this.password = model.getPassword();
 		this.email = model.getEmail();

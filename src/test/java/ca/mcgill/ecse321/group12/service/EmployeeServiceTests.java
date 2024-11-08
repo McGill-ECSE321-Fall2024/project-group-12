@@ -2,6 +2,7 @@ package ca.mcgill.ecse321.group12.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
@@ -12,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 
 import ca.mcgill.ecse321.group12.model.Employee;
 import ca.mcgill.ecse321.group12.repository.EmployeeRepository;
@@ -186,4 +188,33 @@ public class EmployeeServiceTests {
 		assertEquals("Update employee failed. Employee with this email already exists in the system.", e.getMessage());
 	}
 
+	@Test
+	public void testDeleteEmployeeByValidId() {
+		// Arrange
+		int id = 42;
+		Employee employee = new Employee();
+		employee.setEmail("email@mail.mcgill.ca");
+		employee.setName("johnny");
+		employee.setPassword("123456");
+		employee.setPhoneNumber("2041234567");
+
+		// Act
+		HttpStatus deletedEmployee = employeeService.deleteEmployeeById(id);
+
+		// Assert
+		assertEquals(deletedEmployee, HttpStatus.OK);
+		
+	}
+
+	@Test
+	public void testDeleteEmployeeByInvalidId() {
+		// Arrange
+		int id = 100;
+		when(employeeRepository.findEmployeeById(id)).thenReturn(null);
+
+		// Act & Assert
+		employeeService.deleteEmployeeById(id);
+		CustomException e = assertThrows(CustomException.class, () -> employeeService.deleteEmployeeById(id));
+		assertEquals("There is no employee with ID " + id + ".", e.getMessage());
+	}
 }

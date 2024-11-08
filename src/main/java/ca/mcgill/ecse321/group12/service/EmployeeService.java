@@ -44,6 +44,7 @@ public class EmployeeService {
 		employeeToCreate.setName(name);
 		employeeToCreate.setPhoneNumber(phoneNumber);
 		Employee savedEmployee = employeeRepo.save(employeeToCreate);
+		
 		if (savedEmployee.getEmail() == null) {
 			throw new CustomException(HttpStatus.BAD_REQUEST,
 					"Create employee failed. Employee with this email already exists in the system.");
@@ -56,9 +57,10 @@ public class EmployeeService {
 	 * @param id The primary key of the employee to delete.
 	 */
 	@Transactional
-	public void deleteEmployeeById(int id) {
+	public HttpStatus deleteEmployeeById(int id) {
 		Employee employeeToDelete = employeeRepo.findEmployeeById(id);
 		employeeRepo.delete(employeeToDelete);
+		return HttpStatus.OK;
 	}
 
 	/**

@@ -96,7 +96,6 @@ public class GameServiceIntegrationTest {
 		assertEquals(VALID_DESCRIPTION, game.getDescription());
 		assertEquals(VALID_STATUS, game.getStatus());
 		assertEquals(this.validId, game.getId());
-
 	}
 
 }
