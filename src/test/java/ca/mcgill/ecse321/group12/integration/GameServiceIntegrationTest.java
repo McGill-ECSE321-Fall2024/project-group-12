@@ -39,24 +39,39 @@ public class GameServiceIntegrationTest {
 	private GameRepository gameRepository;
 
 	private final String VALID_NAME = "Game Test Integration";
+
 	private final Category VALID_CATEGORY = Category.Action;
+
 	private final int VALID_INVENTORY = 10;
+
 	private final float VALID_PRICE = 79.99f;
+
 	private final String VALID_DESCRIPTION = "This is a test game for integration testing";
+
 	private final Console VALID_CONSOLE = Console.PC;
+
 	private final GameStatus VALID_STATUS = GameStatus.InCatalog;
 
 	private final String VALID_NAME_2 = "Game Test Integration 2";
+
 	private final Category VALID_CATEGORY_2 = Category.Adventure;
+
 	private final int VALID_INVENTORY_2 = 15;
+
 	private final float VALID_PRICE_2 = 99.99f;
+
 	private final String VALID_DESCRIPTION_2 = "This is a test game for integration testing 2";
+
 	private final Console VALID_CONSOLE_2 = Console.PlayStation;
+
 	private final GameStatus VALID_STATUS_2 = GameStatus.Archived;
 
 	private final String INVALID_NAME = "";
+
 	private final int INVALID_INVENTORY = -10;
+
 	private final float INVALID_PRICE = -79.99f;
+
 	private final String INVALID_DESCRIPTION = "";
 
 	private int validId;
