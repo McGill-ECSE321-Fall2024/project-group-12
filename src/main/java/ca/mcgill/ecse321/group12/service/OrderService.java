@@ -4,8 +4,10 @@ import java.util.List;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import ca.mcgill.ecse321.group12.exception.CustomException;
 import ca.mcgill.ecse321.group12.model.CardPayment;
 import ca.mcgill.ecse321.group12.model.Customer;
 import ca.mcgill.ecse321.group12.model.Game;
@@ -21,11 +23,27 @@ public class OrderService {
 	OrderRepository repo;
 
 	/**
+	 * find and return an order from ID. Throw a CustomException if not found
+	 * @author James Madden
+	 */
+	public Order findOrderById (int id) {
+
+		Order order = repo.findOrderById(id);
+
+		if (order == null) {
+			throw new CustomException(HttpStatus.NOT_FOUND, "There is no order with ID " + id + ".");
+		}
+
+		return order;
+
+	}
+
+	/**
 	 * Creates a new order and adds it to the database
 	 * @author James Madden
 	 */
 	@Transactional
-	public Order createOrder(String deliveryAddress, List<Game> games, Customer customer, CardPayment cardPayment) {
+	public Order createOrder (String deliveryAddress, List<Game> games, Customer customer, CardPayment cardPayment) {
 
 		// create the order
 		Order order = new Order();

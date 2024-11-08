@@ -41,7 +41,8 @@ public class OrderServiceTests {
 	private OrderService service;
 
   /**
-   * Test that an order can be successfully created
+   * Test that an order can be successfully created.
+   * Error for games being out of stock is tested seperately in integration and GameService tests.
    * @author James Madden
    */
   @Test
@@ -117,55 +118,56 @@ public class OrderServiceTests {
     assertEquals(cardPayment, createdOrder.getCardPayment());
 
   }
-  
+
   /**
-   * test that if a game is out of stock, the order will not be placed.
+   * test if an order can be retrieved by its ID.
    * @author James Madden
    */
   @Test
-  public void testFailToPlaceOrderOutOfStock () {
+  public void testFindOrderByValidId () {
 
-    // create a game
-    Game game = new Game();
-    game.setName("Game 1");
-    game.setPrice(80);
-    game.setInventory(0);
-    game.setStatus(GameStatus.InCatalog);
-
-    // create a cart
-    Cart cart = new Cart();
-    cart.addGame(game);
-
-    // create a customer
-    Customer customer = new Customer();
-    customer.setCart(cart);
-
-    // create a card payment
-    CardPayment cardPayment = new CardPayment();
-
-    // fields for the order
-    String deliveryAddress = "680 Rue Sherbrooke";
-    int purchaseTotal = 80;
-    Date purchaseDate = new Date();
-    OrderStatus orderStatus = OrderStatus.Delivered;
-    List<Game> games = new ArrayList<Game>();
-    games.add(game);
-
-    // finally, create an order
+    // create an order
     Order order = new Order();
-    order.addGame(game);
+    order.setDeliveryAddress("3480 Rue University");
+    order.setPurchaseDate(new Date());
+    order.setPurchaseTotal(62);
+    order.setStatus(OrderStatus.Delivered);
+
+    Customer customer = new Customer();
     order.setCustomer(customer);
-    order.setDeliveryAddress(deliveryAddress);
-    order.setPurchaseTotal(purchaseTotal);
-    order.setPurchaseDate(purchaseDate);
-    order.setStatus(orderStatus);
-    
-    // check that an error is thrown
-    CustomException e = assertThrows(CustomException.class, () -> service.createOrder(deliveryAddress, games, customer, cardPayment));
-		assertEquals("Game " + game.getName() + " is out of stock.", e.getMessage());
-    assertEquals(HttpStatus.BAD_REQUEST, e.getStatus());
 
+    Game game = new Game();
+    order.addGame(game);
 
+    int id = order.getId();
+    when(orderRepo.findOrderById(id)).thenReturn(order);
+
+    // find the order
+    Order retrievedOrder = service.findOrderById(id);
+
+    // check that the properties were preserved
+    assertNotNull(retrievedOrder);
+    assertEquals(order.getDeliveryAddress(), retrievedOrder.getDeliveryAddress());
+    assertEquals(order.getPurchaseDate(), retrievedOrder.getPurchaseDate());
+    assertEquals(order.getPurchaseTotal(), retrievedOrder.getPurchaseTotal());
+    assertEquals(order.getStatus(), retrievedOrder.getStatus());
+    assertEquals(order.getCustomer(), retrievedOrder.getCustomer());
+    assertEquals(order.getGames(), retrievedOrder.getGames());
+
+  }
+
+  /**
+   * test that getting an order fails when invalid ID is provided
+   * @author James Madden
+   */
+  @Test
+  public void testFindOrderByInvalidId () {
+
+    int id = 0;
+    when(orderRepo.findOrderById(id)).thenReturn(null);
+
+    CustomException error = assertThrows(CustomException.class, () -> service.findOrderById(id));
+    assertEquals("There is no order with ID " + id + ".", error.getMessage());
 
   }
 
