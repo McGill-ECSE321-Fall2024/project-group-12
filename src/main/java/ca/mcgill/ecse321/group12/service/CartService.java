@@ -9,6 +9,7 @@ import ca.mcgill.ecse321.group12.repository.CartRepository;
 import jakarta.transaction.Transactional;
 import ca.mcgill.ecse321.group12.exception.CustomException;
 import ca.mcgill.ecse321.group12.model.Game;
+import java.util.List;
 
 @Service
 public class CartService {
@@ -40,7 +41,7 @@ public class CartService {
 	}
 
 	/**
-	 * CARMIN DON"T USE THIS Create a cart
+	 * Create a cart
 	 * @return Cart
 	 */
 	@Transactional
@@ -59,6 +60,27 @@ public class CartService {
 		Game gameToAdd = gameService.findGameById(gameId);
 		cartToUpdate.addGame(gameToAdd);
 		return cartRepo.save(cartToUpdate);
+	}
+
+	/**
+	 * removes all games from the cart
+	 * @author James Madden
+	 * @param cartId
+	 */
+	@Transactional
+	public Cart clearCart(int cartId) {
+
+		Cart cart = findCartById(cartId);
+
+		List<Game> games = cart.getGames();
+
+		// go through each game and take it out of the cart
+		while (games.size() > 0) {
+			cart.removeGame(games.get(0));
+		}
+
+		return cartRepo.save(cart);
+
 	}
 
 }
