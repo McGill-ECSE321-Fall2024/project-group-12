@@ -69,10 +69,10 @@ public class GameService {
 		if (aPrice < 0) {
 			throw new CustomException(HttpStatus.BAD_REQUEST, "Price has to be a positive number.");
 		}
-		if (aName != null && aName.isBlank()) {
+		if (aName == null || aName.isBlank()) {
 			throw new CustomException(HttpStatus.BAD_REQUEST, "Name cannot be empty.");
 		}
-		if (aDescription != null && aDescription.isBlank()) {
+		if (aDescription == null || aDescription.isBlank()) {
 			throw new CustomException(HttpStatus.BAD_REQUEST, "Description cannot be empty.");
 		}
 
@@ -102,10 +102,10 @@ public class GameService {
 		if (aPrice < 0) {
 			throw new CustomException(HttpStatus.BAD_REQUEST, "Price has to be a positive number.");
 		}
-		if (aName != null && aName.isBlank()) {
+		if (aName == null || aName.isBlank()) {
 			throw new CustomException(HttpStatus.BAD_REQUEST, "Name cannot be empty.");
 		}
-		if (aDescription != null && aDescription.isBlank()) {
+		if (aDescription == null || aDescription.isBlank()) {
 			throw new CustomException(HttpStatus.BAD_REQUEST, "Description cannot be empty.");
 		}
 

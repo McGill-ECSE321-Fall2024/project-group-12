@@ -85,6 +85,7 @@ public class GameServiceIntegrationTest {
 
 	/**
 	 * @author Julien Heng
+	 * Tries to create a game with an invalid inventory value.
 	 */
 	@Test
 	@Order(1)
@@ -103,6 +104,7 @@ public class GameServiceIntegrationTest {
 
 	/**
 	 * @author Julien Heng
+	 * Tries to create a game with an invalid price value.
 	 */
 	@Test
 	@Order(2)
@@ -121,6 +123,7 @@ public class GameServiceIntegrationTest {
 
 	/**
 	 * @author Julien Heng
+	 * Tries to create a game with an empty name.
 	 */
 	@Test
 	@Order(3)
@@ -139,6 +142,7 @@ public class GameServiceIntegrationTest {
 	
 	/**
 	 * @author Julien Heng
+	 * Tries to create a game with an empty description.
 	 */
 	@Test
 	@Order(3)
@@ -157,6 +161,7 @@ public class GameServiceIntegrationTest {
 
 	/**
 	 * @author Julien Heng
+	 * Tries to create a game with valid fields.
 	 */
 	@Test
 	@Order(4)
@@ -188,6 +193,7 @@ public class GameServiceIntegrationTest {
 
 	/**
 	 * @author Julien Heng
+	 * Tries to read a game with an existing ID.
 	 */
 	@Test
 	@Order(5)
@@ -216,9 +222,29 @@ public class GameServiceIntegrationTest {
 
 	/**
 	 * @author Julien Heng
+	 * Tries to read a game with a non-existing ID.
 	 */
 	@Test
 	@Order(6)
+	public void testReadGameByInvalidId() {
+		// Arrange
+		int invalidId = this.validId + 1;
+		String url = "/games/" + invalidId;
+
+		// Act
+		ResponseEntity<GameResponseDto> response = client.getForEntity(url, GameResponseDto.class);
+
+		// Assert
+		assertNotNull(response);
+		assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+	}
+
+	/**
+	 * @author Julien Heng
+	 * Tries to update a game with an invalid price value.
+	 */
+	@Test
+	@Order(7)
 	public void testUpdateGameWithInvalidPrice() {
 		// Arrange
 		String url = "/games/" + this.validId;
@@ -237,9 +263,10 @@ public class GameServiceIntegrationTest {
 
 	/**
 	 * @author Julien Heng
+	 * Tries to update a game with an invalid inventory value.
 	 */
 	@Test
-	@Order(7)
+	@Order(8)
 	public void testUpdateGameWithInvalidInventory() {
 		// Arrange
 		String url = "/games/" + this.validId;
@@ -258,9 +285,10 @@ public class GameServiceIntegrationTest {
 
 	/**
 	 * @author Julien Heng
+	 * Tries to update a game with an empty name.
 	 */
 	@Test
-	@Order(8)
+	@Order(9)
 	public void testUpdateGameWithInvalidName() {
 		// Arrange
 		String url = "/games/" + this.validId;
@@ -279,9 +307,10 @@ public class GameServiceIntegrationTest {
 
 	/**
 	 * @author Julien Heng
+	 * Tries to update a game with an empty description.
 	 */
 	@Test
-	@Order(9)
+	@Order(10)
 	public void testUpdateGameWithInvalidDescription() {
 		// Arrange
 		String url = "/games/" + this.validId;
@@ -300,10 +329,11 @@ public class GameServiceIntegrationTest {
 
 	/**
 	 * @author Julien Heng
+	 * Tries to update a game with a valid fields..
 	 */
 	@Test
-	@Order(10)
-	public void testUpdateGameWithValidInventory() {
+	@Order(11)
+	public void testUpdateGameWithValidArguments() {
 		// Arrange
 		String url = "/games/" + this.validId;
 		GameRequestDto body = new GameRequestDto(VALID_CATEGORY_2, VALID_CONSOLE_2, VALID_INVENTORY_2, VALID_PRICE_2,
