@@ -66,6 +66,7 @@ public class CartServiceIntegrationTests {
 		CustomerRequestDto customerRequest = new CustomerRequestDto(customer);
 		ResponseEntity<CustomerResponseDto> customerResponse = client.postForEntity("/customers", customerRequest,
 				CustomerResponseDto.class);
+		// Save the response
 		this.cart = customerResponse.getBody().getCart();
 		this.validId = this.cart.getId();
 		// Create (POST) a game to use it for tests
@@ -73,6 +74,7 @@ public class CartServiceIntegrationTests {
 				"Game Description...", GameStatus.Archived);
 		ResponseEntity<GameResponseDto> gameResponse = client.postForEntity("/games", gameRequest,
 				GameResponseDto.class);
+		// Save the response
 		this.game = gameResponse.getBody();
 	}
 
@@ -97,6 +99,7 @@ public class CartServiceIntegrationTests {
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		CartResponseDto cart = response.getBody();
 		assertNotNull(cart);
+		// Check that the cart found has the correct ID
 		assertEquals(this.validId, cart.getId());
 	}
 
@@ -108,11 +111,13 @@ public class CartServiceIntegrationTests {
 		String url = "/cart/" + this.validId;
 
 		// Act
+		// Add the game ID (of the game to be added to cart) to the request body
 		CartRequestDto body = new CartRequestDto();
 		body.setGameId(this.game.getId());
 		RequestEntity<CartRequestDto> CartRequestEntity = RequestEntity.put(url)
 			.accept(MediaType.APPLICATION_JSON)
 			.body(body);
+		// PUT request
 		ResponseEntity<CartResponseDto> response = client.exchange(url, HttpMethod.PUT, CartRequestEntity,
 				CartResponseDto.class);
 
@@ -121,6 +126,7 @@ public class CartServiceIntegrationTests {
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		CartResponseDto cart = response.getBody();
 		assertNotNull(cart);
+		// Check each game attribute
 		assertEquals(this.game.getCategory(), cart.getGames().get(0).getCategory());
 		assertEquals(this.game.getConsole(), cart.getGames().get(0).getConsole());
 		assertEquals(this.game.getInventory(), cart.getGames().get(0).getInventory());
