@@ -68,6 +68,7 @@ public class OrderService {
 
 	/**
 	 * Updates an order's status. Only allowed if the new status is returned.
+	 * @author James Madden
 	 */
 	@Transactional
 	public Order updateStatus (int id, OrderStatus status) {
