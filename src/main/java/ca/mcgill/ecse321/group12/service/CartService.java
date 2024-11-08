@@ -40,16 +40,6 @@ public class CartService {
 	}
 
 	/**
-	 * CARMIN DON"T USE THIS Create a cart
-	 * @return Cart
-	 */
-	@Transactional
-	public Cart createCart(int cartId) {
-		Cart cartToCreate = new Cart(cartId);
-		return cartRepo.save(cartToCreate);
-	}
-
-	/**
 	 * Add game to cart
 	 * @return Cart
 	 */

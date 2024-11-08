@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.http.HttpStatus;
 
 import ca.mcgill.ecse321.group12.dto.CartRequestDto;
 import ca.mcgill.ecse321.group12.dto.CartResponseDto;
@@ -28,6 +30,7 @@ public class CartController {
 	 * @return The cart with the given ID.
 	 */
 	@GetMapping("/cart/{cartId}")
+	@ResponseStatus(HttpStatus.OK)
 	public CartResponseDto findCartById(@PathVariable int cartId) {
 		Cart cart = cartService.findCartById(cartId);
 		return new CartResponseDto(cart);
@@ -39,6 +42,7 @@ public class CartController {
 	 * @return The cart with the given ID.
 	 */
 	@PutMapping("/cart/{cartId}")
+	@ResponseStatus(HttpStatus.OK)
 	public CartResponseDto addGameToCart(@PathVariable int cartId, @RequestBody CartRequestDto cart) {
 		cartService.findCartById(cartId);
 		Cart thisCart = cartService.addGameToCart(cartId, cart.getGameId(), gameService);
