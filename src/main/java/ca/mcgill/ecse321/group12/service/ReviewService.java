@@ -68,6 +68,9 @@ public class ReviewService {
     @Transactional
     public Review updateReview(int id, int likeCount, int rating, String text) {
         Review review = reviewRepository.findReviewById(id);
+        if (review == null) {
+            throw new CustomException(HttpStatus.NOT_FOUND, "There is no review with ID " + reviewId + ".");
+        }
         if (likeCount < 0) {
             throw new CustomException(HttpStatus.BAD_REQUEST, "Like count cannot be negative.");
         }
