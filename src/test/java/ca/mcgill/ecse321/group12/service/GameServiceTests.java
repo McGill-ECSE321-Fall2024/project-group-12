@@ -117,7 +117,7 @@ public class GameServiceTests {
 	@Test
 	public void testUpdateGameWithValidArguments() {
 		// Arrange
-		int id = 40;
+		int id = 47;
 		Category aCategory = Category.Action;
 		Console aConsole = Console.PC;
 		int aInventory = 1;
