@@ -43,7 +43,7 @@ public class CartController {
 			cartService.findCartById(cartId);
 		}
 		catch (CustomException e) {
-			cartService.createCart(cartId);
+			cartService.createCart();
 		}
 
 		Cart thisCart = cartService.addGameToCart(cartId, cart.getGameId(), gameService);

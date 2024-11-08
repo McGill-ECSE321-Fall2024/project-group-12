@@ -34,7 +34,7 @@ public class CartServiceTests {
 		int id = 1;
 
 		// Act
-		Cart createdCart = service.createCart(id);
+		Cart createdCart = service.createCart();
 
 		// Assert
 		assertNotNull(createdCart);

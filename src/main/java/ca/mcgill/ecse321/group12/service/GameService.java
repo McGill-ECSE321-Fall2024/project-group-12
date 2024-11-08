@@ -110,8 +110,6 @@ public class GameService {
 		return gameRepository.save(gameToUpdate);
 	}
 
-}
-
 	/**
 	 * Goes through each game specified and reduces its stock. If any game is out of
 	 * stock, it will throw an error and the transaction will be cancelled.

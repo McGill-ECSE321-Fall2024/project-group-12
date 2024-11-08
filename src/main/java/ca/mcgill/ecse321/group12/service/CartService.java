@@ -56,6 +56,8 @@ public class CartService {
 		}
 		return cartRepo.save(cartToUpdate);
 
+	}
+
   /**
 	 * removes all games from the cart
 	 * @author James Madden
