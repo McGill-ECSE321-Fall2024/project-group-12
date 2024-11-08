@@ -1,9 +1,11 @@
 package ca.mcgill.ecse321.group12.dto;
 
 import java.util.Date;
+import java.util.List;
 
 import ca.mcgill.ecse321.group12.model.Order;
 import ca.mcgill.ecse321.group12.model.Order.OrderStatus;
+import ca.mcgill.ecse321.group12.model.Game;
 
 public class OrderResponseDto {
 
@@ -15,6 +17,8 @@ public class OrderResponseDto {
 	private String deliveryAddress;
 
 	private OrderStatus status;
+
+	private List<Game> games;
 
 	// associations?
 
@@ -28,6 +32,7 @@ public class OrderResponseDto {
 		purchaseDate = order.getPurchaseDate();
 		deliveryAddress = order.getDeliveryAddress();
 		status = order.getStatus();
+		games = order.getGames();
 
 	}
 
@@ -47,6 +52,10 @@ public class OrderResponseDto {
 		return status;
 	}
 
+	public List<Game> getGames() {
+		return games;
+	}
+
 	public void setId(int newId) {
 		id = newId;
 	}
@@ -61,6 +70,10 @@ public class OrderResponseDto {
 
 	public void setStatus(OrderStatus newStatus) {
 		status = newStatus;
+	}
+
+	public void setGames(List<Game> newGames) {
+		games = newGames;
 	}
 
 }

@@ -66,4 +66,25 @@ public class OrderService {
 
 	}
 
+	/**
+	 * Updates an order's status. Only allowed if the new status is returned.
+	 * @author James Madden
+	 */
+	@Transactional
+	public Order updateStatus(int id, OrderStatus status) {
+
+		// make sure the status is being set to Returned
+		if (status != OrderStatus.Returned) {
+			throw new CustomException(HttpStatus.NOT_FOUND, "Order status cannot be updated to " + status + ".");
+		}
+
+		// find the order and set the status
+		Order order = findOrderById(id);
+
+		order.setStatus(status);
+
+		return repo.save(order);
+
+	}
+
 }

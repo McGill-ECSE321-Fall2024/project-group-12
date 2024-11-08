@@ -3,15 +3,19 @@ package ca.mcgill.ecse321.group12.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import ca.mcgill.ecse321.group12.dto.OrderRequestDto;
 import ca.mcgill.ecse321.group12.dto.OrderResponseDto;
+import ca.mcgill.ecse321.group12.dto.OrderReturnRequestDto;
 import ca.mcgill.ecse321.group12.model.CardPayment;
 import ca.mcgill.ecse321.group12.model.Cart;
 import ca.mcgill.ecse321.group12.model.Customer;
@@ -61,6 +65,7 @@ public class OrderController {
 	 * @return
 	 */
 	@PostMapping("/orders")
+	@ResponseStatus(HttpStatus.CREATED)
 	public OrderResponseDto createOrder(@Validated @RequestBody OrderRequestDto body) {
 
 		// #1: get customer
@@ -84,6 +89,24 @@ public class OrderController {
 		// #5: empty user's cart
 		cartService.clearCart(body.getCustomerId());
 
+		return new OrderResponseDto(order);
+
+	}
+
+	/**
+	 * Set an order's status to returned and bring back the inventory of all the games
+	 * @author James Madden
+	 */
+	@PutMapping("/orders/{id}")
+	public OrderResponseDto returnOrder(@Validated @RequestBody OrderReturnRequestDto body, @PathVariable int id) {
+
+		// update the order status to returned
+		Order order = orderService.updateStatus(id, body.getStatus());
+
+		// update the inventory for each game
+		gameService.returnGames(order.getGames());
+
+		// return the modified order
 		return new OrderResponseDto(order);
 
 	}

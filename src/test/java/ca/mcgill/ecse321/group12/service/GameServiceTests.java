@@ -412,4 +412,40 @@ public class GameServiceTests {
 
 	}
 
+	/**
+	 * Test that when an order is returned, the inventory on all games are updated
+	 * @author James Madden
+	 */
+	public void testReturnGame() {
+
+		// mock the saving method
+		when(gameRepository.save(any(Game.class))).thenAnswer((InvocationOnMock iom) -> iom.getArgument(0));
+
+		// create games
+		Game game1 = new Game();
+		Game game2 = new Game();
+		Game game3 = new Game();
+		int inv1 = 9;
+		int inv2 = 19;
+		int inv3 = 29;
+		game1.setInventory(inv1);
+		game2.setInventory(inv2);
+		game3.setInventory(inv3);
+
+		// make list of games
+		List<Game> games = new ArrayList<Game>();
+		games.add(game1);
+		games.add(game2);
+		games.add(game3);
+
+		// use the service method to increase inventory
+		gameService.returnGames(games);
+
+		// check that the inventories were updated correctly
+		assertEquals(inv1 + 1, games.get(0).getInventory());
+		assertEquals(inv2 + 1, games.get(1).getInventory());
+		assertEquals(inv3 + 1, games.get(2).getInventory());
+
+	}
+
 }
