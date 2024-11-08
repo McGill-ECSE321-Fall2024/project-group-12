@@ -61,7 +61,6 @@ public class EmployeeController {
 				employee.getName(), employee.getPhoneNumber());
 		return new EmployeeResponseDto(createdEmployee);
 	}
-
 	/**
 	 * Update an employee.
 	 * @param employee The employee to update.
@@ -73,5 +72,4 @@ public class EmployeeController {
 				employee.getName(), employee.getPhoneNumber());
 		return new EmployeeResponseDto(updatedEmployee);
 	}
-
 }

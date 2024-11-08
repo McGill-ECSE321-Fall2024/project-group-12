@@ -34,6 +34,8 @@ enum Console { PlayStation, XBox, PC, Switch };
 
 enum GameStatus { PendingApproval, InCatalog, PendingArchival, Archived };
 
+enum OrderStatus { Shipping, Delivered, Returned };
+
 class Game
 {
   unique Integer id;
@@ -78,6 +80,7 @@ class Cart
 class Order
 {
   unique Integer id;
+  OrderStatus status;
   Date purchaseDate;
   Float purchaseTotal;
   deliveryAddress;
