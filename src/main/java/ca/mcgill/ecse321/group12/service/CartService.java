@@ -40,8 +40,7 @@ public class CartService {
 	}
 
 	/**
-	 * CARMIN DON"T USE THIS
-	 * Create a cart
+	 * CARMIN DON"T USE THIS Create a cart
 	 * @return Cart
 	 */
 	@Transactional
