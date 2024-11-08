@@ -45,7 +45,7 @@ public class OrderController {
 	 * Return an order by id
 	 * @author James Madden
 	 */
-	@GetMapping("/order/{id}")
+	@GetMapping("/orders/{id}")
 	public OrderResponseDto getOrder(@PathVariable int id) {
 
 		Order order = orderService.findOrderById(id);
@@ -60,7 +60,7 @@ public class OrderController {
 	 * @param body
 	 * @return
 	 */
-	@PostMapping("/order")
+	@PostMapping("/orders")
 	public OrderResponseDto createOrder(@Validated @RequestBody OrderRequestDto body) {
 
 		// #1: get customer
