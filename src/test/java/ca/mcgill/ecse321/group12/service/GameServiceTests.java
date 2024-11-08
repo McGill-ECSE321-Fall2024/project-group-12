@@ -7,9 +7,15 @@ import org.junit.jupiter.api.Test;
 import static org.mockito.ArgumentMatchers.any;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.invocation.InvocationOnMock;
+
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.boot.test.context.SpringBootTest;
 
 import ca.mcgill.ecse321.group12.exception.CustomException;
@@ -328,6 +334,81 @@ public class GameServiceTests {
 		CustomException e = assertThrows(CustomException.class, () -> gameService.updateGame(id, updatedCategory,
 				updatedConsole, updatedInventory, updatedPrice, updatedName, updatedDescription, updatedStatus));
 		assertEquals("Price has to be a positive number.", e.getMessage());
+	}
+
+	/**
+	 * Test that the stock of a list of games will be successfully reduced when every stock is at least 1.
+	 * @author James Madden
+	 */
+	@Test
+	public void testSuccessfullyReduceGameInventory () {
+
+		// create games
+		Game game1 = new Game();
+		Game game2 = new Game();
+		Game game3 = new Game();
+
+		// set their inventories
+		int inv1 = 1;
+		int inv2 = 50;
+		int inv3 = 1000;
+		game1.setInventory(inv1);
+		game2.setInventory(inv2);
+		game3.setInventory(inv3);
+
+		// mock the saving method
+		when(gameRepository.save(any(Game.class))).thenAnswer((InvocationOnMock iom) -> iom.getArgument(0));
+
+		List<Game> games = new ArrayList<Game>();
+		games.add(game1);
+		games.add(game2);
+		games.add(game3);
+
+		// call the method
+		gameService.reduceGamesInventory(games);
+
+		// check the inventory of the games is one less than it was
+		assertEquals(inv1 - 1, game1.getInventory());
+		assertEquals(inv2 - 1, game2.getInventory());
+		assertEquals(inv3 - 1, game3.getInventory());
+
+	}
+
+	/**
+	 * Test that if a game is out of stock, reduceGamesInventory will throw an error.
+	 * @author James Madden
+	 */
+	@Test
+	public void testUnsuccessfullyReduceGameInventory () {
+
+		// create games
+		Game game1 = new Game();
+		game1.setName("Game 1");
+		Game game2 = new Game();
+		game2.setName("Game 2");
+		Game game3 = new Game();
+		game3.setName("Game 3");
+
+		// set their inventories
+		int inv1 = 1;
+		int inv2 = 50;
+		int inv3 = 0;
+		game1.setInventory(inv1);
+		game2.setInventory(inv2);
+		game3.setInventory(inv3);
+
+		// mock the saving method
+		when(gameRepository.save(any(Game.class))).thenAnswer((InvocationOnMock iom) -> iom.getArgument(0));
+
+		List<Game> games = new ArrayList<Game>();
+		games.add(game1);
+		games.add(game2);
+		games.add(game3);
+
+		// call the method and expect an error
+		CustomException error = assertThrows(CustomException.class, () -> gameService.reduceGamesInventory(games));
+		assertEquals("Game " + game3.getName() + " is out of stock.", error.getMessage());
+
 	}
 
 }
