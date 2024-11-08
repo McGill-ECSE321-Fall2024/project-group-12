@@ -150,7 +150,7 @@ public class EmployeeServiceIntegrationTests {
     @Test
     @Order(6)
     public void testUpdateEmployeeByInvalidId() {
-        // Creating a new line 
+        // Creating a new employee
         EmployeeRequestDto request = new EmployeeRequestDto(VALID_EMAIL, VALID_PASSWORD, VALID_NAME, VALID_PHONENUMBER);
         ResponseEntity<EmployeeResponseDto> response = client.postForEntity("/employees", request, EmployeeResponseDto.class);
         assertNotNull(response);
@@ -171,6 +171,28 @@ public class EmployeeServiceIntegrationTests {
     @Test
     @Order(7)
     public void testDeleteEmployeeByValidId() {
+        // Arrange
+        String url = "/employees/" + this.validId;
         
+        // Act
+        client.delete(url);
+        ResponseEntity<EmployeeResponseDto> response = client.getForEntity(url, EmployeeResponseDto.class);
+
+        // Assert
+        assertNotNull(response);
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+
+    @Test
+    @Order(8)
+    public void testDeleteEmployeeByInvalidId() {
+        // Arrange
+        String url = "/employees/" + this.invalidId;
+        // Act & Assert
+        ResponseEntity<String> response = client.exchange(url, HttpMethod.DELETE, null, String.class);
+        // Assert
+        assertNotNull(response);
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        assertTrue(response.getBody().contains("There is no employee with ID " + this.invalidId + "."));
     }
 }

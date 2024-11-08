@@ -198,6 +198,8 @@ public class EmployeeServiceTests {
 		employee.setPassword("123456");
 		employee.setPhoneNumber("2041234567");
 
+		when(employeeRepository.findEmployeeById(id)).thenReturn(employee);
+
 		// Act
 		HttpStatus deletedEmployee = employeeService.deleteEmployeeById(id);
 
@@ -211,10 +213,9 @@ public class EmployeeServiceTests {
 		// Arrange
 		int id = 100;
 		when(employeeRepository.findEmployeeById(id)).thenReturn(null);
-
-		// Act & Assert
-		employeeService.deleteEmployeeById(id);
+		// Act
 		CustomException e = assertThrows(CustomException.class, () -> employeeService.deleteEmployeeById(id));
+		// Assert
 		assertEquals("There is no employee with ID " + id + ".", e.getMessage());
 	}
 }

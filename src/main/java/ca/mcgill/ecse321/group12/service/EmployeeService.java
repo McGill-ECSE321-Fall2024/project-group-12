@@ -58,7 +58,7 @@ public class EmployeeService {
 	 */
 	@Transactional
 	public HttpStatus deleteEmployeeById(int id) {
-		Employee employeeToDelete = employeeRepo.findEmployeeById(id);
+		Employee employeeToDelete = findEmployeeById(id);
 		employeeRepo.delete(employeeToDelete);
 		return HttpStatus.OK;
 	}
