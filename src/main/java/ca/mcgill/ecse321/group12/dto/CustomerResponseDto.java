@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.group12.dto;
 
+import ca.mcgill.ecse321.group12.model.Cart;
 import ca.mcgill.ecse321.group12.model.Customer;
 
 public class CustomerResponseDto {
@@ -12,6 +13,8 @@ public class CustomerResponseDto {
 
 	private String phoneNumber;
 
+	private Cart cart;
+
 	@SuppressWarnings("unused")
 	private CustomerResponseDto() {
 	}
@@ -21,6 +24,7 @@ public class CustomerResponseDto {
 		this.email = model.getEmail();
 		this.name = model.getName();
 		this.phoneNumber = model.getPhoneNumber();
+		this.cart = model.getCart();
 	}
 
 	public int getId() {
@@ -53,6 +57,10 @@ public class CustomerResponseDto {
 
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
+	}
+
+	public Cart getCart() {
+		return cart;
 	}
 
 }

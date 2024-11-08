@@ -6,7 +6,7 @@ public class CartRequestDto {
 
 	private int gameId;
 
-	private CartRequestDto() {
+	public CartRequestDto() {
 	}
 
 	public int getId() {
