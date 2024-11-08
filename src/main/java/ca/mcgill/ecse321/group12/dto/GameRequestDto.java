@@ -35,8 +35,8 @@ public class GameRequestDto {
 		this.status = model.getStatus();
 	}
 
-	public GameRequestDto(Category category, Console console, int inventory, float price, String name, String description,
-			GameStatus status) {
+	public GameRequestDto(Category category, Console console, int inventory, float price, String name,
+			String description, GameStatus status) {
 		this.category = category;
 		this.console = console;
 		this.inventory = inventory;
