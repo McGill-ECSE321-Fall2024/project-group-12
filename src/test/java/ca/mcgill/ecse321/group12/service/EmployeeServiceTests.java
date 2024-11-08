@@ -2,8 +2,8 @@ package ca.mcgill.ecse321.group12.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -29,6 +29,12 @@ public class EmployeeServiceTests {
 	private EmployeeService employeeService;
 
 	@SuppressWarnings("null")
+
+     /**
+     * Test to create an employee with valid inputs
+	 * @author Amy Ding
+	 * @return void
+	 */
 	@Test
 	public void testCreateValidEmployee() {
 		// Arrange
@@ -57,8 +63,13 @@ public class EmployeeServiceTests {
 		verify(employeeRepository, times(1)).save(any(Employee.class));
 	}
 
-	public void testCreateEmployeeWithInvalidEmail() { // email is already associated with
-														// a different account
+	/**
+     * Test to create an employee account with an email that is already associated with another employee account
+	 * @author Amy Ding
+	 * @return void
+	 */
+	@Test
+	public void testCreateEmployeeWithInvalidEmail() {
 		// Arrange
 		String name = "amy";
 		String email = "hahaha@mail.mcgill.ca";
@@ -85,6 +96,11 @@ public class EmployeeServiceTests {
 		assertEquals("Create employee failed. Employee with this email already exists in the system.", e.getMessage());
 	}
 
+	 /**
+     * Test to get an employee account with an id that is valid
+	 * @author Amy Ding
+	 * @return void
+	 */
 	@Test
 	public void testReadEmployeeByValidId() {
 		// Arrange
@@ -107,6 +123,11 @@ public class EmployeeServiceTests {
 		assertEquals(employee.getPhoneNumber(), foundEmployee.getPhoneNumber());
 	}
 
+	 /**
+     * Test to get an employee with an invalid id
+	 * @author Amy Ding
+	 * @return void
+	 */
 	@Test
 	public void testReadEmployeeByInvalidId() {
 		// Arrange
@@ -119,6 +140,11 @@ public class EmployeeServiceTests {
 		assertEquals("There is no employee with ID " + id + ".", e.getMessage());
 	}
 
+	 /**
+     * Test to update an employee account with valid inputs
+	 * @author Amy Ding
+	 * @return void
+	 */
 	@Test
 	public void testUpdateEmployeeByValidArguments() {
 		// Arrange
@@ -155,9 +181,13 @@ public class EmployeeServiceTests {
 		assertEquals(newPhoneNumber, employee.getPhoneNumber());
 	}
 
+	/**
+     * Test to update an employee account with an email that is already associated with a different account
+	 * @author Amy Ding
+	 * @return void
+	 */
 	@Test
-	public void testUpdateEmployeeByInvalidEmail() { // email is already associated with a
-														// different account
+	public void testUpdateEmployeeByInvalidEmail() {
 		// Arrange
 		int id = 42;
 		Employee employee = new Employee();
@@ -188,6 +218,11 @@ public class EmployeeServiceTests {
 		assertEquals("Update employee failed. Employee with this email already exists in the system.", e.getMessage());
 	}
 
+	/**
+     * Test to delete an employee with a valid id
+	 * @author Amy Ding
+	 * @return void
+	 */
 	@Test
 	public void testDeleteEmployeeByValidId() {
 		// Arrange
@@ -205,9 +240,13 @@ public class EmployeeServiceTests {
 
 		// Assert
 		assertEquals(deletedEmployee, HttpStatus.OK);
-		
 	}
 
+	/**
+     * Test to attempt to delete an employee with an id that doesn't exist in the database
+	 * @author Amy Ding
+	 * @return void
+	 */
 	@Test
 	public void testDeleteEmployeeByInvalidId() {
 		// Arrange

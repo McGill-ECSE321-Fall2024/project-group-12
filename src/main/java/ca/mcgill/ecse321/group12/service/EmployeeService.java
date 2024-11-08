@@ -17,6 +17,7 @@ public class EmployeeService {
 
 	/**
 	 * Return the employee with the given ID.
+	 * @author Amy Ding
 	 * @param id The primary key of the employee to find.
 	 * @return The employee with the given ID.
 	 */
@@ -30,6 +31,7 @@ public class EmployeeService {
 
 	/**
 	 * Create a new employee.
+	 * @author Amy Ding
 	 * @param email The email of the new employee.
 	 * @param password The password of the new employee.
 	 * @param name The name of the new employee.
@@ -54,6 +56,7 @@ public class EmployeeService {
 
 	/**
 	 * Delete the employee with the given ID.
+	 * @author Amy Ding
 	 * @param id The primary key of the employee to delete.
 	 */
 	@Transactional
@@ -65,6 +68,7 @@ public class EmployeeService {
 
 	/**
 	 * Find all employees
+	 * @author Amy Ding
 	 * @return A list of all employees
 	 */
 	@Transactional
@@ -74,6 +78,7 @@ public class EmployeeService {
 
 	/**
 	 * Update employee with the given ID
+	 * @author Amy Ding
 	 * @return A list of all employees
 	 */
 	@Transactional
@@ -90,5 +95,4 @@ public class EmployeeService {
 		}
 		return employeeToUpdate;
 	}
-
 }

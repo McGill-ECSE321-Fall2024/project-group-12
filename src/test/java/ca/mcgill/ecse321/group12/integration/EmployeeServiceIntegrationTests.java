@@ -4,9 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.time.LocalDate;
-
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
@@ -14,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.TestMethodOrder;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -25,8 +23,6 @@ import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.event.annotation.AfterTestClass;
 
-import ca.mcgill.ecse321.group12.dto.ErrorDto;
-import ca.mcgill.ecse321.group12.model.Employee;
 import ca.mcgill.ecse321.group12.repository.EmployeeRepository;
 import ca.mcgill.ecse321.group12.dto.EmployeeRequestDto;
 import ca.mcgill.ecse321.group12.dto.EmployeeResponseDto;
@@ -49,12 +45,22 @@ public class EmployeeServiceIntegrationTests {
     private int validId;
     private int invalidId = -1;
 
+     /**
+     * Clears database before and after tests
+	 * @author Amy Ding
+	 * @return void
+	 */
     @BeforeAll
     @AfterTestClass
     public void clearDatabase() {
         employeeRepository.deleteAll();
     }
 
+    /**
+     * Test to create an employee with valid inputs
+	 * @author Amy Ding
+	 * @return void
+	 */
     @Test
     @Order(1)
     public void testCreateValidEmployee() {
@@ -78,6 +84,11 @@ public class EmployeeServiceIntegrationTests {
         this.validId = createdEmployee.getId();
     }
 
+    /**
+     * Test to create an employee account with an email that is already associated with another employee account
+	 * @author Amy Ding
+	 * @return void
+	 */
     @Test
     @Order(2)
     public void testCreateInvalidEmployee() {
@@ -92,6 +103,11 @@ public class EmployeeServiceIntegrationTests {
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
 
+    /**
+     * Test to get an employee account with an id that is valid
+	 * @author Amy Ding
+	 * @return void
+	 */
     @Test
     @Order(3)
     public void testReadEmployeeByValidId() {
@@ -112,6 +128,11 @@ public class EmployeeServiceIntegrationTests {
         assertEquals(this.validId, employee.getId());
     }
 
+    /**
+     * Test to get an employee with an invalid id
+	 * @author Amy Ding
+	 * @return void
+	 */
     @Test
     @Order(4)
     public void testReadEmployeeByInvalidId() {
@@ -126,9 +147,14 @@ public class EmployeeServiceIntegrationTests {
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 
+    /**
+     * Test to update an employee account with valid inputs
+	 * @author Amy Ding
+	 * @return void
+	 */
     @Test
     @Order(5)
-    public void testUpdateEmployeeByValidId() {
+    public void testUpdateEmployeeByValidInputs() {
         // Arrange
         String url = "/employees/" + this.validId;
         EmployeeRequestDto body = new EmployeeRequestDto(VALID_EMAIL2, VALID_PASSWORD, VALID_NAME, VALID_PHONENUMBER);
@@ -147,9 +173,14 @@ public class EmployeeServiceIntegrationTests {
         assertEquals(this.validId, employee.getId());
     }
 
+    /**
+     * Test to update an employee account with an email that is already associated with a different account
+	 * @author Amy Ding
+	 * @return void
+	 */
     @Test
     @Order(6)
-    public void testUpdateEmployeeByInvalidId() {
+    public void testUpdateEmployeeByInvalidEmail() {
         // Creating a new employee
         EmployeeRequestDto request = new EmployeeRequestDto(VALID_EMAIL, VALID_PASSWORD, VALID_NAME, VALID_PHONENUMBER);
         ResponseEntity<EmployeeResponseDto> response = client.postForEntity("/employees", request, EmployeeResponseDto.class);
@@ -167,7 +198,12 @@ public class EmployeeServiceIntegrationTests {
         assertNotNull(response2);
         assertEquals(HttpStatus.BAD_REQUEST, response2.getStatusCode());
     }
-    
+
+    /**
+     * Test to delete an employee with a valid id
+	 * @author Amy Ding
+	 * @return void
+	 */
     @Test
     @Order(7)
     public void testDeleteEmployeeByValidId() {
@@ -183,6 +219,11 @@ public class EmployeeServiceIntegrationTests {
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 
+    /**
+     * Test to attempt to delete an employee with an id that doesn't exist in the database
+	 * @author Amy Ding
+	 * @return void
+	 */
     @Test
     @Order(8)
     public void testDeleteEmployeeByInvalidId() {
