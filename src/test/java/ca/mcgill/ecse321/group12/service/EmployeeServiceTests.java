@@ -186,39 +186,4 @@ public class EmployeeServiceTests {
 		assertEquals("Update employee failed. Employee with this email already exists in the system.", e.getMessage());
 	}
 
-	// @Test
-	// public void deleteEmployeeByValidId() {
-	// int id = 42;
-	// Employee employee = new Employee();
-	// String email = "ea@mail.mcgill.ca";
-	// String name = "johnny";
-	// String password = "123456";
-	// String phoneNumber = "2041234567";
-	// employee.setId(id);
-	// employee.setEmail(email);
-	// employee.setName(name);
-	// employee.setPassword(password);
-	// employee.setPhoneNumber(phoneNumber);
-
-	// when(employeeRepository.findEmployeeById(id)).thenReturn(employee);
-	// when(employeeRepository.save(any(Employee.class))).thenReturn(employee);
-	// when(employeeRepository.deleteById(id)).thenReturn(employee);
-
-	// // Act
-	// employeeService.createEmployee(email, password, name, phoneNumber);
-	// employeeService.deleteEmployeeByIdEmployeeById(id);
-
-	// // Assert
-	// assertNotNull(employee);
-	// assertEquals(newEmail, employee.getEmail());
-	// assertEquals(newName, employee.getName());
-	// assertEquals(newPassword, employee.getPassword());
-	// assertEquals(newPhoneNumber, employee.getPhoneNumber());
-	// }
-
-	// @Test
-	// public void deleteEmployeeByInvalidId() {
-
-	// }
-
 }

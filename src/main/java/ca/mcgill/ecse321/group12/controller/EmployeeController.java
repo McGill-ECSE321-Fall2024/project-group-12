@@ -63,7 +63,7 @@ public class EmployeeController {
 	}
 
 	/**
-	 * Put a new employee.
+	 * Update an employee.
 	 * @param employee The employee to update.
 	 * @return The updated employee, including their ID.
 	 */
