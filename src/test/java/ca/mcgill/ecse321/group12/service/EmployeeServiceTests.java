@@ -55,7 +55,7 @@ public class EmployeeServiceTests {
 		verify(employeeRepository, times(1)).save(any(Employee.class));
 	}
 
-	public void testCreateEmployeeWithInvalidEmail() {
+	public void testCreateEmployeeWithInvalidEmail() { // email is already associated with a different account
 		// Arrange
 		String name = "amy";
 		String email = "hahaha@mail.mcgill.ca";
@@ -115,7 +115,7 @@ public class EmployeeServiceTests {
 		CustomException e = assertThrows(CustomException.class, () -> employeeService.findEmployeeById(id));
 		assertEquals("There is no employee with ID " + id + ".", e.getMessage());
 	}
-
+    
 	@Test
 	public void testUpdateEmployeeByValidArguments() {
         // Arrange
@@ -153,7 +153,7 @@ public class EmployeeServiceTests {
 	}
 
 	@Test
-	public void testUpdateEmployeeByInvalidEmail() {
+	public void testUpdateEmployeeByInvalidEmail() { // email is already associated with a different account
         // Arrange
 		int id = 42;
 		Employee employee = new Employee();
