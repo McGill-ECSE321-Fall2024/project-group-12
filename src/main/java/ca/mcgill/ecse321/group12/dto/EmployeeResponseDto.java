@@ -16,6 +16,11 @@ public class EmployeeResponseDto {
 	private EmployeeResponseDto() {
 	}
 
+	/**
+	 * Constructor
+	 * @author Amy Ding
+	 * @param model A valid employee
+	 */
 	public EmployeeResponseDto(Employee model) {
 		this.id = model.getId();
 		this.email = model.getEmail();
