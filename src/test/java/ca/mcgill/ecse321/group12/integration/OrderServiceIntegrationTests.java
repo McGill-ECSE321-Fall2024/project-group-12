@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.catalina.connector.Response;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
@@ -27,7 +26,6 @@ import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 
 import ca.mcgill.ecse321.group12.model.Customer;
-import ca.mcgill.ecse321.group12.model.Game;
 import ca.mcgill.ecse321.group12.model.Game.Category;
 import ca.mcgill.ecse321.group12.model.Game.Console;
 import ca.mcgill.ecse321.group12.model.Game.GameStatus;
@@ -36,7 +34,6 @@ import ca.mcgill.ecse321.group12.repository.CartRepository;
 import ca.mcgill.ecse321.group12.repository.CustomerRepository;
 import ca.mcgill.ecse321.group12.repository.GameRepository;
 import ca.mcgill.ecse321.group12.repository.OrderRepository;
-import ca.mcgill.ecse321.group12.repository.ReviewRepository;
 import ca.mcgill.ecse321.group12.dto.CartRequestDto;
 import ca.mcgill.ecse321.group12.dto.CartResponseDto;
 import ca.mcgill.ecse321.group12.dto.CustomerRequestDto;
@@ -45,6 +42,7 @@ import ca.mcgill.ecse321.group12.dto.GameRequestDto;
 import ca.mcgill.ecse321.group12.dto.GameResponseDto;
 import ca.mcgill.ecse321.group12.dto.OrderRequestDto;
 import ca.mcgill.ecse321.group12.dto.OrderResponseDto;
+import ca.mcgill.ecse321.group12.dto.OrderReturnRequestDto;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -287,6 +285,7 @@ public class OrderServiceIntegrationTests {
     assertEquals(HttpStatus.CREATED, response.getStatusCode());
 
     OrderResponseDto order = response.getBody();
+    assertNotNull(order);
     // save the ID for use in later tests
     orderId = order.getId();
 
@@ -375,6 +374,37 @@ public class OrderServiceIntegrationTests {
 
   /**
    * final step: return the order
+   * check that the status is set correctly, and the game inventory is updated
+   * @author James Madden
    */
+  @Test
+  @Order(5)
+  public void testReturnOrder () {
+
+    // create the return request
+    OrderReturnRequestDto req = new OrderReturnRequestDto();
+    req.setStatus(OrderStatus.Returned);
+
+    // send the PUT request
+    RequestEntity<OrderReturnRequestDto> reqEntity = RequestEntity.put("/orders/" + orderId)
+      .accept(MediaType.APPLICATION_JSON)
+      .body(req);
+    ResponseEntity<OrderResponseDto> resp = client.exchange("/orders/" + orderId, HttpMethod.PUT, reqEntity, OrderResponseDto.class);
+
+    // make sure both PUTs were successful
+    assertNotNull(resp);
+    assertEquals(HttpStatus.OK, resp.getStatusCode());
+
+    // check the order has been returned, and the game inventories updated
+    OrderResponseDto order = resp.getBody();
+    assertNotNull(order);
+    List<GameResponseDto> games = order.getGames();
+
+    assertNotNull(order);
+    assertEquals(OrderStatus.Returned, order.getStatus());
+    assertEquals(gameDtos.get(0).getInventory(), games.get(0).getInventory());
+    assertEquals(gameDtos.get(2).getInventory(), games.get(1).getInventory());
+
+  }
 
 }
