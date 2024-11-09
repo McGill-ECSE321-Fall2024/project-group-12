@@ -15,13 +15,13 @@ public class OrderResponseDto {
 
 	private Date purchaseDate;
 
+	private float purchaseTotal;
+
 	private String deliveryAddress;
 
 	private OrderStatus status;
 
 	private List<GameResponseDto> games;
-
-	// associations?
 
 	@SuppressWarnings("unused")
 	private OrderResponseDto() {
@@ -31,6 +31,7 @@ public class OrderResponseDto {
 
 		id = order.getId();
 		purchaseDate = order.getPurchaseDate();
+		purchaseTotal = order.getPurchaseTotal();
 		deliveryAddress = order.getDeliveryAddress();
 		status = order.getStatus();
 		games = new ArrayList<GameResponseDto>();
@@ -47,6 +48,10 @@ public class OrderResponseDto {
 
 	public Date getPurchaseDate() {
 		return purchaseDate;
+	}
+
+	public float getPurchaseTotal() {
+		return purchaseTotal;
 	}
 
 	public String getDeliveryAddress() {
@@ -67,6 +72,10 @@ public class OrderResponseDto {
 
 	public void setPurchaseDate(Date newPurchaseDate) {
 		purchaseDate = newPurchaseDate;
+	}
+
+	public void setPurchaseTotal(float newPurchaseTotal) {
+		purchaseTotal = newPurchaseTotal;
 	}
 
 	public void setDeliveryAddress(String newDeliveryAddress) {
