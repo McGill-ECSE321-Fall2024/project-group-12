@@ -8,8 +8,7 @@ public class OrderReturnRequestDto {
 	// allowed)
 	private OrderStatus status;
 
-	@SuppressWarnings("unused")
-	private OrderReturnRequestDto() {
+  public OrderReturnRequestDto() {
 	}
 
 	public OrderStatus getStatus() {
