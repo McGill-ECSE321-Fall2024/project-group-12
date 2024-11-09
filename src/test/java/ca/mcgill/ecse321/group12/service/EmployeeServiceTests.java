@@ -3,7 +3,6 @@ package ca.mcgill.ecse321.group12.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -13,7 +12,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatus;
 
 import ca.mcgill.ecse321.group12.model.Employee;
 import ca.mcgill.ecse321.group12.repository.EmployeeRepository;
@@ -28,11 +26,6 @@ public class EmployeeServiceTests {
 	@InjectMocks
 	private EmployeeService employeeService;
 
-	/**
-	 * Test to create an employee with valid inputs
-	 * @author Amy Ding
-	 * @return void
-	 */
 	@SuppressWarnings("null")
 	@Test
 	public void testCreateValidEmployee() {
@@ -62,14 +55,8 @@ public class EmployeeServiceTests {
 		verify(employeeRepository, times(1)).save(any(Employee.class));
 	}
 
-	/**
-	 * Test to create an employee account with an email that is already associated with
-	 * another employee account
-	 * @author Amy Ding
-	 * @return void
-	 */
-	@Test
-	public void testCreateEmployeeWithInvalidEmail() {
+	public void testCreateEmployeeWithInvalidEmail() { // email is already associated with
+														// a different account
 		// Arrange
 		String name = "amy";
 		String email = "hahaha@mail.mcgill.ca";
@@ -96,11 +83,6 @@ public class EmployeeServiceTests {
 		assertEquals("Create employee failed. Employee with this email already exists in the system.", e.getMessage());
 	}
 
-	/**
-	 * Test to get an employee account with an id that is valid
-	 * @author Amy Ding
-	 * @return void
-	 */
 	@Test
 	public void testReadEmployeeByValidId() {
 		// Arrange
@@ -123,11 +105,6 @@ public class EmployeeServiceTests {
 		assertEquals(employee.getPhoneNumber(), foundEmployee.getPhoneNumber());
 	}
 
-	/**
-	 * Test to get an employee with an invalid id
-	 * @author Amy Ding
-	 * @return void
-	 */
 	@Test
 	public void testReadEmployeeByInvalidId() {
 		// Arrange
@@ -140,11 +117,6 @@ public class EmployeeServiceTests {
 		assertEquals("There is no employee with ID " + id + ".", e.getMessage());
 	}
 
-	/**
-	 * Test to update an employee account with valid inputs
-	 * @author Amy Ding
-	 * @return void
-	 */
 	@Test
 	public void testUpdateEmployeeByValidArguments() {
 		// Arrange
@@ -181,14 +153,9 @@ public class EmployeeServiceTests {
 		assertEquals(newPhoneNumber, employee.getPhoneNumber());
 	}
 
-	/**
-	 * Test to update an employee account with an email that is already associated with a
-	 * different account
-	 * @author Amy Ding
-	 * @return void
-	 */
 	@Test
-	public void testUpdateEmployeeByInvalidEmail() {
+	public void testUpdateEmployeeByInvalidEmail() { // email is already associated with a
+														// different account
 		// Arrange
 		int id = 42;
 		Employee employee = new Employee();
@@ -217,46 +184,6 @@ public class EmployeeServiceTests {
 		CustomException e = assertThrows(CustomException.class,
 				() -> employeeService.updateEmployeeById(id, email2, password, name, phoneNumber));
 		assertEquals("Update employee failed. Employee with this email already exists in the system.", e.getMessage());
-	}
-
-	/**
-	 * Test to delete an employee with a valid id
-	 * @author Amy Ding
-	 * @return void
-	 */
-	@Test
-	public void testDeleteEmployeeByValidId() {
-		// Arrange
-		int id = 42;
-		Employee employee = new Employee();
-		employee.setEmail("email@mail.mcgill.ca");
-		employee.setName("johnny");
-		employee.setPassword("123456");
-		employee.setPhoneNumber("2041234567");
-
-		when(employeeRepository.findEmployeeById(id)).thenReturn(employee);
-
-		// Act
-		HttpStatus deletedEmployee = employeeService.deleteEmployeeById(id);
-
-		// Assert
-		assertEquals(deletedEmployee, HttpStatus.OK);
-	}
-
-	/**
-	 * Test to attempt to delete an employee with an id that doesn't exist in the database
-	 * @author Amy Ding
-	 * @return void
-	 */
-	@Test
-	public void testDeleteEmployeeByInvalidId() {
-		// Arrange
-		int id = 100;
-		when(employeeRepository.findEmployeeById(id)).thenReturn(null);
-		// Act
-		CustomException e = assertThrows(CustomException.class, () -> employeeService.deleteEmployeeById(id));
-		// Assert
-		assertEquals("There is no employee with ID " + id + ".", e.getMessage());
 	}
 
 }

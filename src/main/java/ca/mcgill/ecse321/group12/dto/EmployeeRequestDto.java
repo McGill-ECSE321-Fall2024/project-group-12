@@ -17,26 +17,6 @@ public class EmployeeRequestDto {
 	private EmployeeRequestDto() {
 	}
 
-	/**
-	 * Constructor
-	 * @author Amy Ding
-	 * @param email The email for the employee being created
-	 * @param password The password for the employee being created
-	 * @param name The name for the employee being created
-	 * @param phoneNumber The phone number for the employee being created
-	 */
-	public EmployeeRequestDto(String email, String password, String name, String phoneNumber) {
-		this.password = password;
-		this.email = email;
-		this.name = name;
-		this.phoneNumber = phoneNumber;
-	}
-
-	/**
-	 * Constructor
-	 * @author Amy Ding
-	 * @param model A valid employee
-	 */
 	public EmployeeRequestDto(Employee model) {
 		this.password = model.getPassword();
 		this.email = model.getEmail();

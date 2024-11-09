@@ -1,14 +1,12 @@
 package ca.mcgill.ecse321.group12.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import ca.mcgill.ecse321.group12.dto.EmployeeRequestDto;
@@ -24,7 +22,6 @@ public class EmployeeController {
 
 	/**
 	 * Return the employee with the given ID.
-	 * @author Amy Ding
 	 * @param eid The primary key of the employee to find.
 	 * @return The empllyee with the given ID.
 	 */
@@ -36,7 +33,6 @@ public class EmployeeController {
 
 	/**
 	 * Get all employees
-	 * @author Amy Ding
 	 * @return All employees.
 	 */
 	@GetMapping("/employees")
@@ -47,7 +43,6 @@ public class EmployeeController {
 
 	/**
 	 * Delete an employee.
-	 * @author Amy Ding
 	 * @param employee The employee to delete.
 	 */
 	@DeleteMapping("/employees/{eid}")
@@ -57,12 +52,10 @@ public class EmployeeController {
 
 	/**
 	 * Create a new employee.
-	 * @author Amy Ding
 	 * @param employee The employee to create.
 	 * @return The created employee, including their ID.
 	 */
 	@PostMapping("/employees")
-	@ResponseStatus(HttpStatus.CREATED)
 	public EmployeeResponseDto createEmployee(@RequestBody EmployeeRequestDto employee) {
 		Employee createdEmployee = employeeService.createEmployee(employee.getEmail(), employee.getPassword(),
 				employee.getName(), employee.getPhoneNumber());
@@ -71,7 +64,6 @@ public class EmployeeController {
 
 	/**
 	 * Update an employee.
-	 * @author Amy Ding
 	 * @param employee The employee to update.
 	 * @return The updated employee, including their ID.
 	 */
