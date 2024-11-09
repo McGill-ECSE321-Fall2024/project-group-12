@@ -77,10 +77,6 @@ public class EmployeeServiceTests {
 
 		// Act
 		employeeService.createEmployee(email, password, name, phoneNumber);
-		// make sure the employee was created successfully
-		// set employee's email to null to simulate what happens when employee was already taken
-		employee.setEmail(null);
-
 		// Assert
 		CustomException e = assertThrows(CustomException.class,
 				() -> employeeService.createEmployee(email, password2, name2, phoneNumber2));
@@ -164,7 +160,7 @@ public class EmployeeServiceTests {
 		int id = 42;
 		Employee employee = new Employee();
 		String name = "amy";
-		String email = "amy_d@mail.mcgill.ca";
+		String email = "hahaha@mail.mcgill.ca";
 		String password = "12345678";
 		String phoneNumber = "2041123455";
 
