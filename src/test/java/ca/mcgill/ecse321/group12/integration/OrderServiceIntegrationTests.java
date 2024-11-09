@@ -297,14 +297,11 @@ public class OrderServiceIntegrationTests {
     assertEquals(OrderStatus.Delivered, order.getStatus());
     // check the games are correct
     List<GameResponseDto> games = order.getGames();
-    // inventory of the games should go down
-    gameDtos.get(0).setInventory(gameDtos.get(0).getInventory() - 1);
-    gameDtos.get(2).setInventory(gameDtos.get(2).getInventory() - 1);
     assertEquals(gameDtos.get(0).getId(), games.get(0).getId());
     assertEquals(gameDtos.get(0).getName(), games.get(0).getName());
     assertEquals(gameDtos.get(0).getCategory(), games.get(0).getCategory());
     assertEquals(gameDtos.get(0).getConsole(), games.get(0).getConsole());
-    assertEquals(gameDtos.get(0).getInventory(), games.get(0).getInventory());
+    assertEquals(gameDtos.get(0).getInventory() - 1, games.get(0).getInventory());
     assertEquals(gameDtos.get(0).getPrice(), games.get(0).getPrice());
     assertEquals(gameDtos.get(0).getDescription(), games.get(0).getDescription());
     assertEquals(gameDtos.get(0).getStatus(), games.get(0).getStatus());
@@ -313,7 +310,7 @@ public class OrderServiceIntegrationTests {
     assertEquals(gameDtos.get(2).getName(), games.get(1).getName());
     assertEquals(gameDtos.get(2).getCategory(), games.get(1).getCategory());
     assertEquals(gameDtos.get(2).getConsole(), games.get(1).getConsole());
-    assertEquals(gameDtos.get(2).getInventory(), games.get(1).getInventory());
+    assertEquals(gameDtos.get(2).getInventory() - 1, games.get(1).getInventory());
     assertEquals(gameDtos.get(2).getPrice(), games.get(1).getPrice());
     assertEquals(gameDtos.get(2).getDescription(), games.get(1).getDescription());
     assertEquals(gameDtos.get(2).getStatus(), games.get(1).getStatus());
@@ -375,5 +372,9 @@ public class OrderServiceIntegrationTests {
     assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 
   }
+
+  /**
+   * final step: return the order
+   */
 
 }
