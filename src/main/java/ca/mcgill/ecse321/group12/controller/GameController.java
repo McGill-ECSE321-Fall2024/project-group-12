@@ -31,6 +31,7 @@ public class GameController {
 	 * Return the game with the given ID.
 	 * @param id The primary key of the person to find.
 	 * @return The game with the given ID.
+	 * @author Julien Heng
 	 */
 	@GetMapping("/games/{id}")
 	@ResponseStatus(HttpStatus.OK)
@@ -42,7 +43,8 @@ public class GameController {
 	/**
 	 * Return all games.
 	 * @param status filters out game by status.
-	 * @return All games.
+	 * @return All games of the specified status.
+	 * @author Julien Heng
 	 */
 	@GetMapping("/games")
 	@ResponseStatus(HttpStatus.OK)
@@ -64,6 +66,7 @@ public class GameController {
 	 * @param id The primary key for the game to be updated.
 	 * @param game The game to create.
 	 * @return The created game, including their ID.
+	 * @author Julien Heng
 	 */
 	@PutMapping("/games/{id}")
 	@ResponseStatus(HttpStatus.OK)
@@ -77,6 +80,7 @@ public class GameController {
 	 * Create a new game.
 	 * @param game The game to create.
 	 * @return The created game, including their ID.
+	 * @author Julien Heng
 	 */
 	@PostMapping("/games")
 	@ResponseStatus(HttpStatus.CREATED)
