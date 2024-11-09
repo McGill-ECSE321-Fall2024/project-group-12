@@ -27,6 +27,7 @@ import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 
 import ca.mcgill.ecse321.group12.model.Customer;
+import ca.mcgill.ecse321.group12.model.Game;
 import ca.mcgill.ecse321.group12.model.Game.Category;
 import ca.mcgill.ecse321.group12.model.Game.Console;
 import ca.mcgill.ecse321.group12.model.Game.GameStatus;
@@ -201,8 +202,61 @@ public class OrderServiceIntegrationTests {
   @Order(2)
   public void testAddToCart () {
 
-    
+    // get the ID of the customer's cart
+    int cartId = customer.getCart().getId();
+
+    // add the two available in stock games to the cart
+    CartRequestDto req1 = new CartRequestDto();
+    CartRequestDto req2 = new CartRequestDto();
+    req1.setGameId(gameDtos.get(0).getId());
+    req2.setGameId(gameDtos.get(2).getId());
+
+    // PUT both games into the cart
+    RequestEntity<CartRequestDto> reqEntity1 = RequestEntity.put("/cart/" + cartId)
+      .accept(MediaType.APPLICATION_JSON)
+      .body(req1);
+    RequestEntity<CartRequestDto> reqEntity2 = RequestEntity.put("/cart/" + cartId)
+      .accept(MediaType.APPLICATION_JSON)
+      .body(req2);
+    ResponseEntity<CartResponseDto> resp1 = client.exchange("/cart/" + cartId, HttpMethod.PUT, reqEntity1, CartResponseDto.class);
+    ResponseEntity<CartResponseDto> resp2 = client.exchange("/cart/" + cartId, HttpMethod.PUT, reqEntity2, CartResponseDto.class);
+
+    // make sure both PUTs were successful
+    assertNotNull(resp1);
+    assertNotNull(resp2);
+    assertEquals(HttpStatus.OK, resp1.getStatusCode());
+    assertEquals(HttpStatus.OK, resp2.getStatusCode());
+
+    // get the latest values for cart from resp2
+    CartResponseDto cart = resp2.getBody();
+    assertNotNull(cart);
+    List<Game> games = cart.getGames();
+    // check each entry in the cart is correct
+    assertEquals(gameDtos.get(0).getId(), games.get(0).getId());
+    assertEquals(gameDtos.get(0).getName(), games.get(0).getName());
+    assertEquals(gameDtos.get(0).getCategory(), games.get(0).getCategory());
+    assertEquals(gameDtos.get(0).getConsole(), games.get(0).getConsole());
+    assertEquals(gameDtos.get(0).getInventory(), games.get(0).getInventory());
+    assertEquals(gameDtos.get(0).getPrice(), games.get(0).getPrice());
+    assertEquals(gameDtos.get(0).getDescription(), games.get(0).getDescription());
+    assertEquals(gameDtos.get(0).getStatus(), games.get(0).getStatus());
+
+    assertEquals(gameDtos.get(2).getId(), games.get(1).getId());
+    assertEquals(gameDtos.get(2).getName(), games.get(1).getName());
+    assertEquals(gameDtos.get(2).getCategory(), games.get(1).getCategory());
+    assertEquals(gameDtos.get(2).getConsole(), games.get(1).getConsole());
+    assertEquals(gameDtos.get(2).getInventory(), games.get(1).getInventory());
+    assertEquals(gameDtos.get(2).getPrice(), games.get(1).getPrice());
+    assertEquals(gameDtos.get(2).getDescription(), games.get(1).getDescription());
+    assertEquals(gameDtos.get(2).getStatus(), games.get(1).getStatus());
+
+    // cart should be 2 long
+    assertEquals(2, games.size());
 
   }
+
+  /**
+   * step three: place the order
+   */
 
 }
