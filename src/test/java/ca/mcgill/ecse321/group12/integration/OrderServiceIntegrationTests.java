@@ -326,5 +326,54 @@ public class OrderServiceIntegrationTests {
    * and also tests that the cart was cleared after the last test.
    * @author James Madden
    */
+  @Test
+  @Order(4)
+  public void testUnsuccessfullyPlaceOrder () {
+
+    // add game2 to the cart
+    // get the ID of the customer's cart
+    int cartId = customer.getCart().getId();
+
+    // add the two available in stock games to the cart
+    CartRequestDto cartReq = new CartRequestDto();
+    cartReq.setGameId(gameDtos.get(1).getId());
+
+    // PUT both games into the cart
+    RequestEntity<CartRequestDto> reqEntity = RequestEntity.put("/cart/" + cartId)
+      .accept(MediaType.APPLICATION_JSON)
+      .body(cartReq);
+    ResponseEntity<CartResponseDto> cartResp = client.exchange("/cart/" + cartId, HttpMethod.PUT, reqEntity, CartResponseDto.class);
+
+    // make sure both PUTs were successful
+    assertNotNull(cartResp);
+    assertEquals(HttpStatus.OK, cartResp.getStatusCode());
+
+    // get the latest values for cart
+    CartResponseDto cart = cartResp.getBody();
+    assertNotNull(cart);
+    List<GameResponseDto> games = cart.getGames();
+    // make sure the cart only has one game in it
+    assertEquals(1, games.size());
+
+    // place the order now
+    // set request properties
+    OrderRequestDto req = new OrderRequestDto();
+    req.setBillingAddress("3480 Rue University");
+    req.setDeliveryAddress("3480 Rue University");
+    req.setCardNumber("4520 0000 0000 0000");
+    req.setCvc("100");
+    req.setExpiryDate("01/30");
+    req.setNameOnCard("James Madden");
+    req.setIsSaved(true);
+    req.setCustomerId(customer.getId());
+
+    // send the post request
+    ResponseEntity<OrderResponseDto> response = client.postForEntity("/orders", req, OrderResponseDto.class);
+
+    // make sure the request errored
+    assertNotNull(response);
+    assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+
+  }
 
 }
