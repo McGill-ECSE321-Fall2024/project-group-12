@@ -139,7 +139,7 @@ public class GameServiceIntegrationTest {
 		assertNotNull(response);
 		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 	}
-	
+
 	/**
 	 * Tries to create a game with an empty description.
 	 * @author Julien Heng

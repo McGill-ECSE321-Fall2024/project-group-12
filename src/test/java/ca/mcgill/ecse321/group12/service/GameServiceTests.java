@@ -93,7 +93,8 @@ public class GameServiceTests {
 		// Act
 
 		// Assert
-		CustomException e = assertThrows(CustomException.class, () -> gameService.createGame(aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus));
+		CustomException e = assertThrows(CustomException.class,
+				() -> gameService.createGame(aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus));
 		assertEquals("Price has to be a positive number.", e.getMessage());
 	}
 
@@ -115,7 +116,8 @@ public class GameServiceTests {
 		// Act
 
 		// Assert
-		CustomException e = assertThrows(CustomException.class, () -> gameService.createGame(aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus));
+		CustomException e = assertThrows(CustomException.class,
+				() -> gameService.createGame(aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus));
 		assertEquals("Inventory has to be a positive integer.", e.getMessage());
 	}
 
@@ -137,9 +139,11 @@ public class GameServiceTests {
 		// Act
 
 		// Assert
-		CustomException e = assertThrows(CustomException.class, () -> gameService.createGame(aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus));
+		CustomException e = assertThrows(CustomException.class,
+				() -> gameService.createGame(aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus));
 		assertEquals("Name cannot be empty.", e.getMessage());
 	}
+
 	/**
 	 * Tries to create a game with an invalid description.
 	 * @author Julien Heng
@@ -158,7 +162,8 @@ public class GameServiceTests {
 		// Act
 
 		// Assert
-		CustomException e = assertThrows(CustomException.class, () -> gameService.createGame(aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus));
+		CustomException e = assertThrows(CustomException.class,
+				() -> gameService.createGame(aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus));
 		assertEquals("Description cannot be empty.", e.getMessage());
 	}
 
@@ -266,8 +271,9 @@ public class GameServiceTests {
 	}
 
 	/**
-	 * Updating a game with a negative inventory should not be allowed and should raise an error.
-	 * @author Julien Heng 
+	 * Updating a game with a negative inventory should not be allowed and should raise an
+	 * error.
+	 * @author Julien Heng
 	 */
 	@Test
 	public void testUpdateGameWithInvalidInventory() {
@@ -302,8 +308,9 @@ public class GameServiceTests {
 	}
 
 	/**
-	 * Updating a game with a null or empty name should not be allowed and should raise an error.
-	 * @author Julien Heng 
+	 * Updating a game with a null or empty name should not be allowed and should raise an
+	 * error.
+	 * @author Julien Heng
 	 */
 	@Test
 	public void testUpdateGameWithInvalidName() {
@@ -338,8 +345,9 @@ public class GameServiceTests {
 	}
 
 	/**
-	 * Updating a game with a null or empty description should not be allowed and should raise an error.
-	 * @author Julien Heng 
+	 * Updating a game with a null or empty description should not be allowed and should
+	 * raise an error.
+	 * @author Julien Heng
 	 */
 	@Test
 	public void testUpdateGameWithInvalidDescription() {
@@ -375,7 +383,7 @@ public class GameServiceTests {
 
 	/**
 	 * Updating a game with a negative price should raise an error.
-	 * @author Julien Heng 
+	 * @author Julien Heng
 	 */
 	@Test
 	public void testUpdateGameWithInvalidPrice() {
