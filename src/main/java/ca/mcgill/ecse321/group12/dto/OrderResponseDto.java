@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.group12.dto;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -14,13 +15,13 @@ public class OrderResponseDto {
 
 	private Date purchaseDate;
 
+	private float purchaseTotal;
+
 	private String deliveryAddress;
 
 	private OrderStatus status;
 
-	private List<Game> games;
-
-	// associations?
+	private List<GameResponseDto> games;
 
 	@SuppressWarnings("unused")
 	private OrderResponseDto() {
@@ -30,9 +31,14 @@ public class OrderResponseDto {
 
 		id = order.getId();
 		purchaseDate = order.getPurchaseDate();
+		purchaseTotal = order.getPurchaseTotal();
 		deliveryAddress = order.getDeliveryAddress();
 		status = order.getStatus();
-		games = order.getGames();
+		games = new ArrayList<GameResponseDto>();
+
+		for (Game game : order.getGames()) {
+			this.games.add(new GameResponseDto(game));
+		}
 
 	}
 
@@ -44,6 +50,10 @@ public class OrderResponseDto {
 		return purchaseDate;
 	}
 
+	public float getPurchaseTotal() {
+		return purchaseTotal;
+	}
+
 	public String getDeliveryAddress() {
 		return deliveryAddress;
 	}
@@ -52,7 +62,7 @@ public class OrderResponseDto {
 		return status;
 	}
 
-	public List<Game> getGames() {
+	public List<GameResponseDto> getGames() {
 		return games;
 	}
 
@@ -64,6 +74,10 @@ public class OrderResponseDto {
 		purchaseDate = newPurchaseDate;
 	}
 
+	public void setPurchaseTotal(float newPurchaseTotal) {
+		purchaseTotal = newPurchaseTotal;
+	}
+
 	public void setDeliveryAddress(String newDeliveryAddress) {
 		deliveryAddress = newDeliveryAddress;
 	}
@@ -72,7 +86,7 @@ public class OrderResponseDto {
 		status = newStatus;
 	}
 
-	public void setGames(List<Game> newGames) {
+	public void setGames(List<GameResponseDto> newGames) {
 		games = newGames;
 	}
 
