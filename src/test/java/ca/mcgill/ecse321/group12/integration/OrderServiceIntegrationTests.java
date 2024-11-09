@@ -230,7 +230,7 @@ public class OrderServiceIntegrationTests {
     // get the latest values for cart from resp2
     CartResponseDto cart = resp2.getBody();
     assertNotNull(cart);
-    List<Game> games = cart.getGames();
+    List<GameResponseDto> games = cart.getGames();
     // check each entry in the cart is correct
     assertEquals(gameDtos.get(0).getId(), games.get(0).getId());
     assertEquals(gameDtos.get(0).getName(), games.get(0).getName());
