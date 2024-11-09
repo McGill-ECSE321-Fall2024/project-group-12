@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.group12.dto;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -18,7 +19,7 @@ public class OrderResponseDto {
 
 	private OrderStatus status;
 
-	private List<Game> games;
+	private List<GameResponseDto> games;
 
 	// associations?
 
@@ -32,7 +33,11 @@ public class OrderResponseDto {
 		purchaseDate = order.getPurchaseDate();
 		deliveryAddress = order.getDeliveryAddress();
 		status = order.getStatus();
-		games = order.getGames();
+		games = new ArrayList<GameResponseDto>();
+
+		for (Game game : order.getGames()) {
+			this.games.add(new GameResponseDto(game));
+		}
 
 	}
 
@@ -52,7 +57,7 @@ public class OrderResponseDto {
 		return status;
 	}
 
-	public List<Game> getGames() {
+	public List<GameResponseDto> getGames() {
 		return games;
 	}
 
@@ -72,7 +77,7 @@ public class OrderResponseDto {
 		status = newStatus;
 	}
 
-	public void setGames(List<Game> newGames) {
+	public void setGames(List<GameResponseDto> newGames) {
 		games = newGames;
 	}
 

@@ -21,8 +21,7 @@ public class OrderRequestDto {
 
 	private String expiryDate;
 
-	@SuppressWarnings("unused")
-	private OrderRequestDto() {
+  public OrderRequestDto() {
 	}
 
 	public int getCustomerId() {
