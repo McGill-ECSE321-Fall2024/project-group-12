@@ -70,8 +70,4 @@ public class GameResponseDto {
 		return this.id;
 	}
 
-	public void setInventory(int newInventory) {
-		inventory = newInventory;
-	}
-
 }
