@@ -8,7 +8,7 @@ public class CartResponseDto {
 
 	private int id;
 
-	private List<Game> games;
+	private List<GameResponseDto> games;
 
 	@SuppressWarnings("unused")
 	private CartResponseDto() {
@@ -16,7 +16,11 @@ public class CartResponseDto {
 
 	public CartResponseDto(Cart model) {
 		this.id = model.getId();
-		this.games = model.getGames();
+		this.games = new ArrayList<GameResponseDto>();
+
+		for (Game game : model.getGames()) {
+			this.games.add(new GameResponseDto(game));
+		}
 	}
 
 	public int getId() {
@@ -27,11 +31,11 @@ public class CartResponseDto {
 		this.id = id;
 	}
 
-	public List<Game> getGames() {
+	public List<GameResponseDto> getGames() {
 		return games;
 	}
 
-	public void setGames(List<Game> games) {
+	public void setGames(List<GameResponseDto> games) {
 		this.games = games;
 	}
 
