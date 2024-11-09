@@ -42,6 +42,8 @@ import ca.mcgill.ecse321.group12.dto.CustomerRequestDto;
 import ca.mcgill.ecse321.group12.dto.CustomerResponseDto;
 import ca.mcgill.ecse321.group12.dto.GameRequestDto;
 import ca.mcgill.ecse321.group12.dto.GameResponseDto;
+import ca.mcgill.ecse321.group12.dto.OrderRequestDto;
+import ca.mcgill.ecse321.group12.dto.OrderResponseDto;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -63,6 +65,7 @@ public class OrderServiceIntegrationTests {
   // variables from the setup
   private CustomerResponseDto customer;
   private List<GameResponseDto> gameDtos;
+  int orderId;
 
   /**
    * In order to create an order, a customer, cart, and games must be present in the database.
@@ -256,7 +259,37 @@ public class OrderServiceIntegrationTests {
   }
 
   /**
-   * step three: place the order
+   * step three: successfully place an order
+   * send payment info and check order is created properly
+   * @author James Madden
    */
+  @Test
+  @Order(3)
+  public void testSuccessfullyPlaceOrder () {
+
+    // set request properties
+    OrderRequestDto req = new OrderRequestDto();
+    req.setBillingAddress("680 Sherbrooke");
+    req.setCardNumber("4520 0000 0000 0000");
+    req.setCvc("100");
+    req.setExpiryDate("01/30");
+    req.setNameOnCard("James Madden");
+    req.setIsSaved(true);
+    req.setCustomerId(customer.getId());
+
+    // send the post request
+    ResponseEntity<OrderResponseDto> response = client.postForEntity("/orders", req, OrderResponseDto.class);
+
+    // make sure the response was successful
+    assertNotNull(response);
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+
+    OrderResponseDto order = response.getBody();
+    // save the ID for use in later tests
+    orderId = order.getId();
+
+    // check the properties on the order were set correctly
+
+  }
 
 }
