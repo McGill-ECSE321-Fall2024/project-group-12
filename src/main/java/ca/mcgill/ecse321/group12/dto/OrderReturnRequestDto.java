@@ -8,7 +8,7 @@ public class OrderReturnRequestDto {
 	// allowed)
 	private OrderStatus status;
 
-  public OrderReturnRequestDto() {
+	public OrderReturnRequestDto() {
 	}
 
 	public OrderStatus getStatus() {

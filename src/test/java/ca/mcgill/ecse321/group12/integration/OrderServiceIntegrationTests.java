@@ -48,363 +48,346 @@ import ca.mcgill.ecse321.group12.dto.OrderReturnRequestDto;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestInstance(Lifecycle.PER_CLASS)
 public class OrderServiceIntegrationTests {
-  
-  @Autowired
-  private TestRestTemplate client;
 
-  @Autowired
-  private OrderRepository orderRepo;
-  @Autowired
-  private CustomerRepository customerRepo;
-  @Autowired
-  private CartRepository cartRepo;
-  @Autowired
-  private GameRepository gameRepo;
+	@Autowired
+	private TestRestTemplate client;
 
-  // variables from the setup
-  private CustomerResponseDto customer;
-  private List<GameResponseDto> gameDtos;
-  int orderId;
+	@Autowired
+	private OrderRepository orderRepo;
 
-  /**
-   * In order to create an order, a customer, cart, and games must be present in the database.
-   * Add those in here.
-   * @author James Madden
-   */
-  @BeforeAll
-  public void setup () {
-    
-    // create a new customer to use their cart for the tests
-    Customer customer = new Customer();
-    CustomerRequestDto customerRequest = new CustomerRequestDto(customer);
-    ResponseEntity<CustomerResponseDto> customerResponse = client.postForEntity("/customers", customerRequest, CustomerResponseDto.class);
-    // save the response
-    this.customer = customerResponse.getBody();
-    
-    // create games for use in tests
-    GameRequestDto game1 = new GameRequestDto(
-      Category.Action, 
-      Console.Switch, 
-      10, 
-      10f, 
-      "Action Game",
-      "Action-packed game filled with action", 
-      GameStatus.InCatalog
-    );
-    GameRequestDto game2 = new GameRequestDto(
-      Category.Puzzle, 
-      Console.XBox, 
-      0, 
-      60f, 
-      "XBox Puzzle",
-      "Can you solve it?", 
-      GameStatus.InCatalog
-    );
-    GameRequestDto game3 = new GameRequestDto(
-      Category.Adventure, 
-      Console.PC, 
-      100, 
-      80f, 
-      "Adventure VI",
-      "Explore the world!", 
-      GameStatus.InCatalog
-    );
-    GameRequestDto game4 = new GameRequestDto(
-      Category.Sports, 
-      Console.PlayStation, 
-      0, 
-      100f, 
-      "Not Available",
-      "This game shouldn't show up when browsing", 
-      GameStatus.PendingApproval
-    );
-    // and post them to the database
-    GameResponseDto gameResp1 = client.postForEntity("/games", game1, GameResponseDto.class).getBody();
-    GameResponseDto gameResp2 = client.postForEntity("/games", game2, GameResponseDto.class).getBody();
-    GameResponseDto gameResp3 = client.postForEntity("/games", game3, GameResponseDto.class).getBody();
-    GameResponseDto gameResp4 = client.postForEntity("/games", game4, GameResponseDto.class).getBody();
+	@Autowired
+	private CustomerRepository customerRepo;
 
-    // save the game request dtos for reference later
-    gameDtos = new ArrayList<GameResponseDto>();
-    gameDtos.add(gameResp1);
-    gameDtos.add(gameResp2);
-    gameDtos.add(gameResp3);
-    gameDtos.add(gameResp4);
+	@Autowired
+	private CartRepository cartRepo;
 
-  }
+	@Autowired
+	private GameRepository gameRepo;
 
-  /**
-   * delete all the data from the database after the tests are run
-   * @author James Madden
-   */
-  @AfterAll
-  public void clearDb () {
-    orderRepo.deleteAll();
-    customerRepo.deleteAll();
-    cartRepo.deleteAll();
-    gameRepo.deleteAll();
-  }
+	// variables from the setup
+	private CustomerResponseDto customer;
 
-  /**
-   * first step of the use cases: browse games.
-   * see that GET /games successfully returns the games created in setup, and filters out
-   * the game marked as awaiting approval.
-   */
-  @Test
-  @Order(1)
-  public void testBrowseGames() {
+	private List<GameResponseDto> gameDtos;
 
-    // load all the games available for purchase
-    ResponseEntity<List<GameResponseDto>> response = client.exchange("/games?status=InCatalog", HttpMethod.GET, null, new ParameterizedTypeReference<List<GameResponseDto>>() {});
-    List<GameResponseDto> games = response.getBody();
+	int orderId;
 
-    // check the request was successful and the games were returned
-    assertNotNull(games);
-    assertEquals(HttpStatus.OK, response.getStatusCode());
-    // check all the properties of each game
-    assertEquals(gameDtos.get(0).getId(), games.get(0).getId());
-    assertEquals(gameDtos.get(0).getName(), games.get(0).getName());
-    assertEquals(gameDtos.get(0).getCategory(), games.get(0).getCategory());
-    assertEquals(gameDtos.get(0).getConsole(), games.get(0).getConsole());
-    assertEquals(gameDtos.get(0).getInventory(), games.get(0).getInventory());
-    assertEquals(gameDtos.get(0).getPrice(), games.get(0).getPrice());
-    assertEquals(gameDtos.get(0).getDescription(), games.get(0).getDescription());
-    assertEquals(gameDtos.get(0).getStatus(), games.get(0).getStatus());
+	/**
+	 * In order to create an order, a customer, cart, and games must be present in the
+	 * database. Add those in here.
+	 * @author James Madden
+	 */
+	@BeforeAll
+	public void setup() {
 
-    assertEquals(gameDtos.get(1).getId(), games.get(1).getId());
-    assertEquals(gameDtos.get(1).getName(), games.get(1).getName());
-    assertEquals(gameDtos.get(1).getCategory(), games.get(1).getCategory());
-    assertEquals(gameDtos.get(1).getConsole(), games.get(1).getConsole());
-    assertEquals(gameDtos.get(1).getInventory(), games.get(1).getInventory());
-    assertEquals(gameDtos.get(1).getPrice(), games.get(1).getPrice());
-    assertEquals(gameDtos.get(1).getDescription(), games.get(1).getDescription());
-    assertEquals(gameDtos.get(1).getStatus(), games.get(1).getStatus());
+		// create a new customer to use their cart for the tests
+		Customer customer = new Customer();
+		CustomerRequestDto customerRequest = new CustomerRequestDto(customer);
+		ResponseEntity<CustomerResponseDto> customerResponse = client.postForEntity("/customers", customerRequest,
+				CustomerResponseDto.class);
+		// save the response
+		this.customer = customerResponse.getBody();
 
-    
-    assertEquals(gameDtos.get(2).getId(), games.get(2).getId());
-    assertEquals(gameDtos.get(2).getName(), games.get(2).getName());
-    assertEquals(gameDtos.get(2).getCategory(), games.get(2).getCategory());
-    assertEquals(gameDtos.get(2).getConsole(), games.get(2).getConsole());
-    assertEquals(gameDtos.get(2).getInventory(), games.get(2).getInventory());
-    assertEquals(gameDtos.get(2).getPrice(), games.get(2).getPrice());
-    assertEquals(gameDtos.get(2).getDescription(), games.get(2).getDescription());
-    assertEquals(gameDtos.get(2).getStatus(), games.get(2).getStatus());
+		// create games for use in tests
+		GameRequestDto game1 = new GameRequestDto(Category.Action, Console.Switch, 10, 10f, "Action Game",
+				"Action-packed game filled with action", GameStatus.InCatalog);
+		GameRequestDto game2 = new GameRequestDto(Category.Puzzle, Console.XBox, 0, 60f, "XBox Puzzle",
+				"Can you solve it?", GameStatus.InCatalog);
+		GameRequestDto game3 = new GameRequestDto(Category.Adventure, Console.PC, 100, 80f, "Adventure VI",
+				"Explore the world!", GameStatus.InCatalog);
+		GameRequestDto game4 = new GameRequestDto(Category.Sports, Console.PlayStation, 0, 100f, "Not Available",
+				"This game shouldn't show up when browsing", GameStatus.PendingApproval);
+		// and post them to the database
+		GameResponseDto gameResp1 = client.postForEntity("/games", game1, GameResponseDto.class).getBody();
+		GameResponseDto gameResp2 = client.postForEntity("/games", game2, GameResponseDto.class).getBody();
+		GameResponseDto gameResp3 = client.postForEntity("/games", game3, GameResponseDto.class).getBody();
+		GameResponseDto gameResp4 = client.postForEntity("/games", game4, GameResponseDto.class).getBody();
 
-    // and then check the returned list was only 3 long (since the fourth is PendingApproval)
-    assertEquals(3, games.size());
+		// save the game request dtos for reference later
+		gameDtos = new ArrayList<GameResponseDto>();
+		gameDtos.add(gameResp1);
+		gameDtos.add(gameResp2);
+		gameDtos.add(gameResp3);
+		gameDtos.add(gameResp4);
 
-  }
+	}
 
-  /**
-   * step two: add games to cart
-   * now that we've browsed games, we can add some to the cart so we can make a purchase.
-   * @author James Madden
-   */
-  @Test
-  @Order(2)
-  public void testAddToCart () {
+	/**
+	 * delete all the data from the database after the tests are run
+	 * @author James Madden
+	 */
+	@AfterAll
+	public void clearDb() {
+		orderRepo.deleteAll();
+		customerRepo.deleteAll();
+		cartRepo.deleteAll();
+		gameRepo.deleteAll();
+	}
 
-    // get the ID of the customer's cart
-    int cartId = customer.getCart().getId();
+	/**
+	 * first step of the use cases: browse games. see that GET /games successfully returns
+	 * the games created in setup, and filters out the game marked as awaiting approval.
+	 */
+	@Test
+	@Order(1)
+	public void testBrowseGames() {
 
-    // add the two available in stock games to the cart
-    CartRequestDto req1 = new CartRequestDto();
-    CartRequestDto req2 = new CartRequestDto();
-    req1.setGameId(gameDtos.get(0).getId());
-    req2.setGameId(gameDtos.get(2).getId());
+		// load all the games available for purchase
+		ResponseEntity<List<GameResponseDto>> response = client.exchange("/games?status=InCatalog", HttpMethod.GET,
+				null, new ParameterizedTypeReference<List<GameResponseDto>>() {
+				});
+		List<GameResponseDto> games = response.getBody();
 
-    // PUT both games into the cart
-    RequestEntity<CartRequestDto> reqEntity1 = RequestEntity.put("/cart/" + cartId)
-      .accept(MediaType.APPLICATION_JSON)
-      .body(req1);
-    RequestEntity<CartRequestDto> reqEntity2 = RequestEntity.put("/cart/" + cartId)
-      .accept(MediaType.APPLICATION_JSON)
-      .body(req2);
-    ResponseEntity<CartResponseDto> resp1 = client.exchange("/cart/" + cartId, HttpMethod.PUT, reqEntity1, CartResponseDto.class);
-    ResponseEntity<CartResponseDto> resp2 = client.exchange("/cart/" + cartId, HttpMethod.PUT, reqEntity2, CartResponseDto.class);
+		// check the request was successful and the games were returned
+		assertNotNull(games);
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		// check all the properties of each game
+		assertEquals(gameDtos.get(0).getId(), games.get(0).getId());
+		assertEquals(gameDtos.get(0).getName(), games.get(0).getName());
+		assertEquals(gameDtos.get(0).getCategory(), games.get(0).getCategory());
+		assertEquals(gameDtos.get(0).getConsole(), games.get(0).getConsole());
+		assertEquals(gameDtos.get(0).getInventory(), games.get(0).getInventory());
+		assertEquals(gameDtos.get(0).getPrice(), games.get(0).getPrice());
+		assertEquals(gameDtos.get(0).getDescription(), games.get(0).getDescription());
+		assertEquals(gameDtos.get(0).getStatus(), games.get(0).getStatus());
 
-    // make sure both PUTs were successful
-    assertNotNull(resp1);
-    assertNotNull(resp2);
-    assertEquals(HttpStatus.OK, resp1.getStatusCode());
-    assertEquals(HttpStatus.OK, resp2.getStatusCode());
+		assertEquals(gameDtos.get(1).getId(), games.get(1).getId());
+		assertEquals(gameDtos.get(1).getName(), games.get(1).getName());
+		assertEquals(gameDtos.get(1).getCategory(), games.get(1).getCategory());
+		assertEquals(gameDtos.get(1).getConsole(), games.get(1).getConsole());
+		assertEquals(gameDtos.get(1).getInventory(), games.get(1).getInventory());
+		assertEquals(gameDtos.get(1).getPrice(), games.get(1).getPrice());
+		assertEquals(gameDtos.get(1).getDescription(), games.get(1).getDescription());
+		assertEquals(gameDtos.get(1).getStatus(), games.get(1).getStatus());
 
-    // get the latest values for cart from resp2
-    CartResponseDto cart = resp2.getBody();
-    assertNotNull(cart);
-    List<GameResponseDto> games = cart.getGames();
-    // check each entry in the cart is correct
-    assertEquals(gameDtos.get(0).getId(), games.get(0).getId());
-    assertEquals(gameDtos.get(0).getName(), games.get(0).getName());
-    assertEquals(gameDtos.get(0).getCategory(), games.get(0).getCategory());
-    assertEquals(gameDtos.get(0).getConsole(), games.get(0).getConsole());
-    assertEquals(gameDtos.get(0).getInventory(), games.get(0).getInventory());
-    assertEquals(gameDtos.get(0).getPrice(), games.get(0).getPrice());
-    assertEquals(gameDtos.get(0).getDescription(), games.get(0).getDescription());
-    assertEquals(gameDtos.get(0).getStatus(), games.get(0).getStatus());
+		assertEquals(gameDtos.get(2).getId(), games.get(2).getId());
+		assertEquals(gameDtos.get(2).getName(), games.get(2).getName());
+		assertEquals(gameDtos.get(2).getCategory(), games.get(2).getCategory());
+		assertEquals(gameDtos.get(2).getConsole(), games.get(2).getConsole());
+		assertEquals(gameDtos.get(2).getInventory(), games.get(2).getInventory());
+		assertEquals(gameDtos.get(2).getPrice(), games.get(2).getPrice());
+		assertEquals(gameDtos.get(2).getDescription(), games.get(2).getDescription());
+		assertEquals(gameDtos.get(2).getStatus(), games.get(2).getStatus());
 
-    assertEquals(gameDtos.get(2).getId(), games.get(1).getId());
-    assertEquals(gameDtos.get(2).getName(), games.get(1).getName());
-    assertEquals(gameDtos.get(2).getCategory(), games.get(1).getCategory());
-    assertEquals(gameDtos.get(2).getConsole(), games.get(1).getConsole());
-    assertEquals(gameDtos.get(2).getInventory(), games.get(1).getInventory());
-    assertEquals(gameDtos.get(2).getPrice(), games.get(1).getPrice());
-    assertEquals(gameDtos.get(2).getDescription(), games.get(1).getDescription());
-    assertEquals(gameDtos.get(2).getStatus(), games.get(1).getStatus());
+		// and then check the returned list was only 3 long (since the fourth is
+		// PendingApproval)
+		assertEquals(3, games.size());
 
-    // cart should be 2 long
-    assertEquals(2, games.size());
+	}
 
-  }
+	/**
+	 * step two: add games to cart now that we've browsed games, we can add some to the
+	 * cart so we can make a purchase.
+	 * @author James Madden
+	 */
+	@Test
+	@Order(2)
+	public void testAddToCart() {
 
-  /**
-   * step three: successfully place an order
-   * send payment info and check order is created properly
-   * @author James Madden
-   */
-  @Test
-  @Order(3)
-  public void testSuccessfullyPlaceOrder () {
+		// get the ID of the customer's cart
+		int cartId = customer.getCart().getId();
 
-    // set request properties
-    OrderRequestDto req = new OrderRequestDto();
-    req.setBillingAddress("680 Sherbrooke");
-    req.setDeliveryAddress("680 Sherbrooke");
-    req.setCardNumber("4520 0000 0000 0000");
-    req.setCvc("100");
-    req.setExpiryDate("01/30");
-    req.setNameOnCard("James Madden");
-    req.setIsSaved(true);
-    req.setCustomerId(customer.getId());
+		// add the two available in stock games to the cart
+		CartRequestDto req1 = new CartRequestDto();
+		CartRequestDto req2 = new CartRequestDto();
+		req1.setGameId(gameDtos.get(0).getId());
+		req2.setGameId(gameDtos.get(2).getId());
 
-    // send the post request
-    ResponseEntity<OrderResponseDto> response = client.postForEntity("/orders", req, OrderResponseDto.class);
+		// PUT both games into the cart
+		RequestEntity<CartRequestDto> reqEntity1 = RequestEntity.put("/cart/" + cartId)
+			.accept(MediaType.APPLICATION_JSON)
+			.body(req1);
+		RequestEntity<CartRequestDto> reqEntity2 = RequestEntity.put("/cart/" + cartId)
+			.accept(MediaType.APPLICATION_JSON)
+			.body(req2);
+		ResponseEntity<CartResponseDto> resp1 = client.exchange("/cart/" + cartId, HttpMethod.PUT, reqEntity1,
+				CartResponseDto.class);
+		ResponseEntity<CartResponseDto> resp2 = client.exchange("/cart/" + cartId, HttpMethod.PUT, reqEntity2,
+				CartResponseDto.class);
 
-    // make sure the response was successful
-    assertNotNull(response);
-    assertEquals(HttpStatus.CREATED, response.getStatusCode());
+		// make sure both PUTs were successful
+		assertNotNull(resp1);
+		assertNotNull(resp2);
+		assertEquals(HttpStatus.OK, resp1.getStatusCode());
+		assertEquals(HttpStatus.OK, resp2.getStatusCode());
 
-    OrderResponseDto order = response.getBody();
-    assertNotNull(order);
-    // save the ID for use in later tests
-    orderId = order.getId();
+		// get the latest values for cart from resp2
+		CartResponseDto cart = resp2.getBody();
+		assertNotNull(cart);
+		List<GameResponseDto> games = cart.getGames();
+		// check each entry in the cart is correct
+		assertEquals(gameDtos.get(0).getId(), games.get(0).getId());
+		assertEquals(gameDtos.get(0).getName(), games.get(0).getName());
+		assertEquals(gameDtos.get(0).getCategory(), games.get(0).getCategory());
+		assertEquals(gameDtos.get(0).getConsole(), games.get(0).getConsole());
+		assertEquals(gameDtos.get(0).getInventory(), games.get(0).getInventory());
+		assertEquals(gameDtos.get(0).getPrice(), games.get(0).getPrice());
+		assertEquals(gameDtos.get(0).getDescription(), games.get(0).getDescription());
+		assertEquals(gameDtos.get(0).getStatus(), games.get(0).getStatus());
 
-    // check the properties on the order were set correctly
-    // credit card properties aren't returned for security, so those can't be checked
-    assertEquals(req.getDeliveryAddress(), order.getDeliveryAddress());
-    assertEquals(gameDtos.get(0).getPrice() + gameDtos.get(2).getPrice(), order.getPurchaseTotal());
-    assertEquals(OrderStatus.Delivered, order.getStatus());
-    // check the games are correct
-    List<GameResponseDto> games = order.getGames();
-    assertEquals(gameDtos.get(0).getId(), games.get(0).getId());
-    assertEquals(gameDtos.get(0).getName(), games.get(0).getName());
-    assertEquals(gameDtos.get(0).getCategory(), games.get(0).getCategory());
-    assertEquals(gameDtos.get(0).getConsole(), games.get(0).getConsole());
-    assertEquals(gameDtos.get(0).getInventory() - 1, games.get(0).getInventory());
-    assertEquals(gameDtos.get(0).getPrice(), games.get(0).getPrice());
-    assertEquals(gameDtos.get(0).getDescription(), games.get(0).getDescription());
-    assertEquals(gameDtos.get(0).getStatus(), games.get(0).getStatus());
+		assertEquals(gameDtos.get(2).getId(), games.get(1).getId());
+		assertEquals(gameDtos.get(2).getName(), games.get(1).getName());
+		assertEquals(gameDtos.get(2).getCategory(), games.get(1).getCategory());
+		assertEquals(gameDtos.get(2).getConsole(), games.get(1).getConsole());
+		assertEquals(gameDtos.get(2).getInventory(), games.get(1).getInventory());
+		assertEquals(gameDtos.get(2).getPrice(), games.get(1).getPrice());
+		assertEquals(gameDtos.get(2).getDescription(), games.get(1).getDescription());
+		assertEquals(gameDtos.get(2).getStatus(), games.get(1).getStatus());
 
-    assertEquals(gameDtos.get(2).getId(), games.get(1).getId());
-    assertEquals(gameDtos.get(2).getName(), games.get(1).getName());
-    assertEquals(gameDtos.get(2).getCategory(), games.get(1).getCategory());
-    assertEquals(gameDtos.get(2).getConsole(), games.get(1).getConsole());
-    assertEquals(gameDtos.get(2).getInventory() - 1, games.get(1).getInventory());
-    assertEquals(gameDtos.get(2).getPrice(), games.get(1).getPrice());
-    assertEquals(gameDtos.get(2).getDescription(), games.get(1).getDescription());
-    assertEquals(gameDtos.get(2).getStatus(), games.get(1).getStatus());
+		// cart should be 2 long
+		assertEquals(2, games.size());
 
-  }
+	}
 
-  /**
-   * step four: unsuccessfully attempt to purchase a game that's out of stock
-   * checks that the order request fails if a game with no stock is in the inventory,
-   * and also tests that the cart was cleared after the last test.
-   * @author James Madden
-   */
-  @Test
-  @Order(4)
-  public void testUnsuccessfullyPlaceOrder () {
+	/**
+	 * step three: successfully place an order send payment info and check order is
+	 * created properly
+	 * @author James Madden
+	 */
+	@Test
+	@Order(3)
+	public void testSuccessfullyPlaceOrder() {
 
-    // add game2 to the cart
-    // get the ID of the customer's cart
-    int cartId = customer.getCart().getId();
+		// set request properties
+		OrderRequestDto req = new OrderRequestDto();
+		req.setBillingAddress("680 Sherbrooke");
+		req.setDeliveryAddress("680 Sherbrooke");
+		req.setCardNumber("4520 0000 0000 0000");
+		req.setCvc("100");
+		req.setExpiryDate("01/30");
+		req.setNameOnCard("James Madden");
+		req.setIsSaved(true);
+		req.setCustomerId(customer.getId());
 
-    // add the two available in stock games to the cart
-    CartRequestDto cartReq = new CartRequestDto();
-    cartReq.setGameId(gameDtos.get(1).getId());
+		// send the post request
+		ResponseEntity<OrderResponseDto> response = client.postForEntity("/orders", req, OrderResponseDto.class);
 
-    // PUT both games into the cart
-    RequestEntity<CartRequestDto> reqEntity = RequestEntity.put("/cart/" + cartId)
-      .accept(MediaType.APPLICATION_JSON)
-      .body(cartReq);
-    ResponseEntity<CartResponseDto> cartResp = client.exchange("/cart/" + cartId, HttpMethod.PUT, reqEntity, CartResponseDto.class);
+		// make sure the response was successful
+		assertNotNull(response);
+		assertEquals(HttpStatus.CREATED, response.getStatusCode());
 
-    // make sure both PUTs were successful
-    assertNotNull(cartResp);
-    assertEquals(HttpStatus.OK, cartResp.getStatusCode());
+		OrderResponseDto order = response.getBody();
+		assertNotNull(order);
+		// save the ID for use in later tests
+		orderId = order.getId();
 
-    // get the latest values for cart
-    CartResponseDto cart = cartResp.getBody();
-    assertNotNull(cart);
-    List<GameResponseDto> games = cart.getGames();
-    // make sure the cart only has one game in it
-    assertEquals(1, games.size());
+		// check the properties on the order were set correctly
+		// credit card properties aren't returned for security, so those can't be checked
+		assertEquals(req.getDeliveryAddress(), order.getDeliveryAddress());
+		assertEquals(gameDtos.get(0).getPrice() + gameDtos.get(2).getPrice(), order.getPurchaseTotal());
+		assertEquals(OrderStatus.Delivered, order.getStatus());
+		// check the games are correct
+		List<GameResponseDto> games = order.getGames();
+		assertEquals(gameDtos.get(0).getId(), games.get(0).getId());
+		assertEquals(gameDtos.get(0).getName(), games.get(0).getName());
+		assertEquals(gameDtos.get(0).getCategory(), games.get(0).getCategory());
+		assertEquals(gameDtos.get(0).getConsole(), games.get(0).getConsole());
+		assertEquals(gameDtos.get(0).getInventory() - 1, games.get(0).getInventory());
+		assertEquals(gameDtos.get(0).getPrice(), games.get(0).getPrice());
+		assertEquals(gameDtos.get(0).getDescription(), games.get(0).getDescription());
+		assertEquals(gameDtos.get(0).getStatus(), games.get(0).getStatus());
 
-    // place the order now
-    // set request properties
-    OrderRequestDto req = new OrderRequestDto();
-    req.setBillingAddress("3480 Rue University");
-    req.setDeliveryAddress("3480 Rue University");
-    req.setCardNumber("4520 0000 0000 0000");
-    req.setCvc("100");
-    req.setExpiryDate("01/30");
-    req.setNameOnCard("James Madden");
-    req.setIsSaved(true);
-    req.setCustomerId(customer.getId());
+		assertEquals(gameDtos.get(2).getId(), games.get(1).getId());
+		assertEquals(gameDtos.get(2).getName(), games.get(1).getName());
+		assertEquals(gameDtos.get(2).getCategory(), games.get(1).getCategory());
+		assertEquals(gameDtos.get(2).getConsole(), games.get(1).getConsole());
+		assertEquals(gameDtos.get(2).getInventory() - 1, games.get(1).getInventory());
+		assertEquals(gameDtos.get(2).getPrice(), games.get(1).getPrice());
+		assertEquals(gameDtos.get(2).getDescription(), games.get(1).getDescription());
+		assertEquals(gameDtos.get(2).getStatus(), games.get(1).getStatus());
 
-    // send the post request
-    ResponseEntity<OrderResponseDto> response = client.postForEntity("/orders", req, OrderResponseDto.class);
+	}
 
-    // make sure the request errored
-    assertNotNull(response);
-    assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+	/**
+	 * step four: unsuccessfully attempt to purchase a game that's out of stock checks
+	 * that the order request fails if a game with no stock is in the inventory, and also
+	 * tests that the cart was cleared after the last test.
+	 * @author James Madden
+	 */
+	@Test
+	@Order(4)
+	public void testUnsuccessfullyPlaceOrder() {
 
-  }
+		// add game2 to the cart
+		// get the ID of the customer's cart
+		int cartId = customer.getCart().getId();
 
-  /**
-   * final step: return the order
-   * check that the status is set correctly, and the game inventory is updated
-   * @author James Madden
-   */
-  @Test
-  @Order(5)
-  public void testReturnOrder () {
+		// add the two available in stock games to the cart
+		CartRequestDto cartReq = new CartRequestDto();
+		cartReq.setGameId(gameDtos.get(1).getId());
 
-    // create the return request
-    OrderReturnRequestDto req = new OrderReturnRequestDto();
-    req.setStatus(OrderStatus.Returned);
+		// PUT both games into the cart
+		RequestEntity<CartRequestDto> reqEntity = RequestEntity.put("/cart/" + cartId)
+			.accept(MediaType.APPLICATION_JSON)
+			.body(cartReq);
+		ResponseEntity<CartResponseDto> cartResp = client.exchange("/cart/" + cartId, HttpMethod.PUT, reqEntity,
+				CartResponseDto.class);
 
-    // send the PUT request
-    RequestEntity<OrderReturnRequestDto> reqEntity = RequestEntity.put("/orders/" + orderId)
-      .accept(MediaType.APPLICATION_JSON)
-      .body(req);
-    ResponseEntity<OrderResponseDto> resp = client.exchange("/orders/" + orderId, HttpMethod.PUT, reqEntity, OrderResponseDto.class);
+		// make sure both PUTs were successful
+		assertNotNull(cartResp);
+		assertEquals(HttpStatus.OK, cartResp.getStatusCode());
 
-    // make sure both PUTs were successful
-    assertNotNull(resp);
-    assertEquals(HttpStatus.OK, resp.getStatusCode());
+		// get the latest values for cart
+		CartResponseDto cart = cartResp.getBody();
+		assertNotNull(cart);
+		List<GameResponseDto> games = cart.getGames();
+		// make sure the cart only has one game in it
+		assertEquals(1, games.size());
 
-    // check the order has been returned, and the game inventories updated
-    OrderResponseDto order = resp.getBody();
-    assertNotNull(order);
-    List<GameResponseDto> games = order.getGames();
+		// place the order now
+		// set request properties
+		OrderRequestDto req = new OrderRequestDto();
+		req.setBillingAddress("3480 Rue University");
+		req.setDeliveryAddress("3480 Rue University");
+		req.setCardNumber("4520 0000 0000 0000");
+		req.setCvc("100");
+		req.setExpiryDate("01/30");
+		req.setNameOnCard("James Madden");
+		req.setIsSaved(true);
+		req.setCustomerId(customer.getId());
 
-    assertNotNull(order);
-    assertEquals(OrderStatus.Returned, order.getStatus());
-    assertEquals(gameDtos.get(0).getInventory(), games.get(0).getInventory());
-    assertEquals(gameDtos.get(2).getInventory(), games.get(1).getInventory());
+		// send the post request
+		ResponseEntity<OrderResponseDto> response = client.postForEntity("/orders", req, OrderResponseDto.class);
 
-  }
+		// make sure the request errored
+		assertNotNull(response);
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+
+	}
+
+	/**
+	 * final step: return the order check that the status is set correctly, and the game
+	 * inventory is updated
+	 * @author James Madden
+	 */
+	@Test
+	@Order(5)
+	public void testReturnOrder() {
+
+		// create the return request
+		OrderReturnRequestDto req = new OrderReturnRequestDto();
+		req.setStatus(OrderStatus.Returned);
+
+		// send the PUT request
+		RequestEntity<OrderReturnRequestDto> reqEntity = RequestEntity.put("/orders/" + orderId)
+			.accept(MediaType.APPLICATION_JSON)
+			.body(req);
+		ResponseEntity<OrderResponseDto> resp = client.exchange("/orders/" + orderId, HttpMethod.PUT, reqEntity,
+				OrderResponseDto.class);
+
+		// make sure both PUTs were successful
+		assertNotNull(resp);
+		assertEquals(HttpStatus.OK, resp.getStatusCode());
+
+		// check the order has been returned, and the game inventories updated
+		OrderResponseDto order = resp.getBody();
+		assertNotNull(order);
+		List<GameResponseDto> games = order.getGames();
+
+		assertNotNull(order);
+		assertEquals(OrderStatus.Returned, order.getStatus());
+		assertEquals(gameDtos.get(0).getInventory(), games.get(0).getInventory());
+		assertEquals(gameDtos.get(2).getInventory(), games.get(1).getInventory());
+
+	}
 
 }
