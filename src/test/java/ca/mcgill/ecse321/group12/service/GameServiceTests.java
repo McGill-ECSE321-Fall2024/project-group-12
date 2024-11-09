@@ -33,6 +33,7 @@ public class GameServiceTests {
 	private GameService gameService;
 
 	/**
+	 * Tries to create a game with valid fields.
 	 * @author Julien Heng
 	 */
 	@SuppressWarnings("null")
@@ -75,6 +76,99 @@ public class GameServiceTests {
 	}
 
 	/**
+	 * Tries to create a game with an invalid price value.
+	 * @author Julien Heng
+	 */
+	@Test
+	public void testCreateGameWithInvalidPrice() {
+		// Arrange
+		Category aCategory = Category.Action;
+		Console aConsole = Console.PC;
+		int aInventory = 1;
+		float aPrice = -1.2f;
+		String aName = "Game Name...";
+		String aDescription = "Game Description...";
+		GameStatus aStatus = GameStatus.Archived;
+
+		// Act
+
+		// Assert
+		CustomException e = assertThrows(CustomException.class,
+				() -> gameService.createGame(aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus));
+		assertEquals("Price has to be a positive number.", e.getMessage());
+	}
+
+	/**
+	 * Tries to create a game with an invalid inventory value.
+	 * @author Julien Heng
+	 */
+	@Test
+	public void testCreateGameWithInvalidInventory() {
+		// Arrange
+		Category aCategory = Category.Action;
+		Console aConsole = Console.PC;
+		int aInventory = -1;
+		float aPrice = 1.2f;
+		String aName = "Game Name...";
+		String aDescription = "Game Description...";
+		GameStatus aStatus = GameStatus.Archived;
+
+		// Act
+
+		// Assert
+		CustomException e = assertThrows(CustomException.class,
+				() -> gameService.createGame(aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus));
+		assertEquals("Inventory has to be a positive integer.", e.getMessage());
+	}
+
+	/**
+	 * Tries to create a game with an invalid name.
+	 * @author Julien Heng
+	 */
+	@Test
+	public void testCreateGameWithInvalidName() {
+		// Arrange
+		Category aCategory = Category.Action;
+		Console aConsole = Console.PC;
+		int aInventory = 1;
+		float aPrice = 1.2f;
+		String aName = "";
+		String aDescription = "Game Description...";
+		GameStatus aStatus = GameStatus.Archived;
+
+		// Act
+
+		// Assert
+		CustomException e = assertThrows(CustomException.class,
+				() -> gameService.createGame(aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus));
+		assertEquals("Name cannot be empty.", e.getMessage());
+	}
+
+	/**
+	 * Tries to create a game with an invalid description.
+	 * @author Julien Heng
+	 */
+	@Test
+	public void testCreateGameWithInvalidDescription() {
+		// Arrange
+		Category aCategory = Category.Action;
+		Console aConsole = Console.PC;
+		int aInventory = 1;
+		float aPrice = 1.2f;
+		String aName = "Game name";
+		String aDescription = "";
+		GameStatus aStatus = GameStatus.Archived;
+
+		// Act
+
+		// Assert
+		CustomException e = assertThrows(CustomException.class,
+				() -> gameService.createGame(aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus));
+		assertEquals("Description cannot be empty.", e.getMessage());
+	}
+
+	/**
+	 * Tries to read a game with an existing ID.
 	 * @author Julien Heng
 	 */
 	@Test
@@ -108,6 +202,7 @@ public class GameServiceTests {
 	}
 
 	/**
+	 * Tries to read a game with a non-existing ID.
 	 * @author Julien Heng
 	 */
 	@Test
@@ -122,6 +217,7 @@ public class GameServiceTests {
 	}
 
 	/**
+	 * Tries to update a game with valid fields.
 	 * @author Julien Heng
 	 */
 	@Test
@@ -175,8 +271,9 @@ public class GameServiceTests {
 	}
 
 	/**
-	 * @author Julien Heng Updating a game with a negative inventory should not be
-	 * allowed.
+	 * Updating a game with a negative inventory should not be allowed and should raise an
+	 * error.
+	 * @author Julien Heng
 	 */
 	@Test
 	public void testUpdateGameWithInvalidInventory() {
@@ -201,17 +298,6 @@ public class GameServiceTests {
 		String updatedDescription = "Game Description 2...";
 		GameStatus updatedStatus = GameStatus.InCatalog;
 
-		Game updatedGame = new Game();
-		updatedGame.setCategory(updatedCategory);
-		updatedGame.setConsole(updatedConsole);
-		updatedGame.setInventory(updatedInventory);
-		updatedGame.setPrice(updatedPrice);
-		updatedGame.setName(updatedName);
-		updatedGame.setStatus(updatedStatus);
-		updatedGame.setDescription(updatedDescription);
-
-		when(gameRepository.save(any(Game.class))).thenReturn(updatedGame);
-
 		// Act
 
 		// Assert
@@ -222,8 +308,9 @@ public class GameServiceTests {
 	}
 
 	/**
-	 * @author Julien Heng Updating a game with a null or empty name should not be
-	 * allowed.
+	 * Updating a game with a null or empty name should not be allowed and should raise an
+	 * error.
+	 * @author Julien Heng
 	 */
 	@Test
 	public void testUpdateGameWithInvalidName() {
@@ -248,17 +335,6 @@ public class GameServiceTests {
 		String updatedDescription = "Game Description 2...";
 		GameStatus updatedStatus = GameStatus.InCatalog;
 
-		Game updatedGame = new Game();
-		updatedGame.setCategory(updatedCategory);
-		updatedGame.setConsole(updatedConsole);
-		updatedGame.setInventory(updatedInventory);
-		updatedGame.setPrice(updatedPrice);
-		updatedGame.setName(updatedName);
-		updatedGame.setStatus(updatedStatus);
-		updatedGame.setDescription(updatedDescription);
-
-		when(gameRepository.save(any(Game.class))).thenReturn(updatedGame);
-
 		// Act
 
 		// Assert
@@ -269,8 +345,9 @@ public class GameServiceTests {
 	}
 
 	/**
-	 * @author Julien Heng Updating a game with a null or empty description should not be
-	 * allowed.
+	 * Updating a game with a null or empty description should not be allowed and should
+	 * raise an error.
+	 * @author Julien Heng
 	 */
 	@Test
 	public void testUpdateGameWithInvalidDescription() {
@@ -295,17 +372,6 @@ public class GameServiceTests {
 		String updatedDescription = "";
 		GameStatus updatedStatus = GameStatus.InCatalog;
 
-		Game updatedGame = new Game();
-		updatedGame.setCategory(updatedCategory);
-		updatedGame.setConsole(updatedConsole);
-		updatedGame.setInventory(updatedInventory);
-		updatedGame.setPrice(updatedPrice);
-		updatedGame.setName(updatedName);
-		updatedGame.setStatus(updatedStatus);
-		updatedGame.setDescription(updatedDescription);
-
-		when(gameRepository.save(any(Game.class))).thenReturn(updatedGame);
-
 		// Act
 
 		// Assert
@@ -316,7 +382,8 @@ public class GameServiceTests {
 	}
 
 	/**
-	 * @author Julien Heng Updating a game with a negative price should not be allowed.
+	 * Updating a game with a negative price should raise an error.
+	 * @author Julien Heng
 	 */
 	@Test
 	public void testUpdateGameWithInvalidPrice() {
@@ -340,17 +407,6 @@ public class GameServiceTests {
 		String updatedName = "Game Name 2...";
 		String updatedDescription = "Game Description 2...";
 		GameStatus updatedStatus = GameStatus.InCatalog;
-
-		Game updatedGame = new Game();
-		updatedGame.setCategory(updatedCategory);
-		updatedGame.setConsole(updatedConsole);
-		updatedGame.setInventory(updatedInventory);
-		updatedGame.setPrice(updatedPrice);
-		updatedGame.setName(updatedName);
-		updatedGame.setStatus(updatedStatus);
-		updatedGame.setDescription(updatedDescription);
-
-		when(gameRepository.save(any(Game.class))).thenReturn(updatedGame);
 
 		// Act
 
