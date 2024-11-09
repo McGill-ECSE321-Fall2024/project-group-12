@@ -31,6 +31,7 @@ import ca.mcgill.ecse321.group12.model.Game;
 import ca.mcgill.ecse321.group12.model.Game.Category;
 import ca.mcgill.ecse321.group12.model.Game.Console;
 import ca.mcgill.ecse321.group12.model.Game.GameStatus;
+import ca.mcgill.ecse321.group12.model.Order.OrderStatus;
 import ca.mcgill.ecse321.group12.repository.CartRepository;
 import ca.mcgill.ecse321.group12.repository.CustomerRepository;
 import ca.mcgill.ecse321.group12.repository.GameRepository;
@@ -270,6 +271,7 @@ public class OrderServiceIntegrationTests {
     // set request properties
     OrderRequestDto req = new OrderRequestDto();
     req.setBillingAddress("680 Sherbrooke");
+    req.setDeliveryAddress("680 Sherbrooke");
     req.setCardNumber("4520 0000 0000 0000");
     req.setCvc("100");
     req.setExpiryDate("01/30");
@@ -282,14 +284,47 @@ public class OrderServiceIntegrationTests {
 
     // make sure the response was successful
     assertNotNull(response);
-    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertEquals(HttpStatus.CREATED, response.getStatusCode());
 
     OrderResponseDto order = response.getBody();
     // save the ID for use in later tests
     orderId = order.getId();
 
     // check the properties on the order were set correctly
+    // credit card properties aren't returned for security, so those can't be checked
+    assertEquals(req.getDeliveryAddress(), order.getDeliveryAddress());
+    assertEquals(gameDtos.get(0).getPrice() + gameDtos.get(2).getPrice(), order.getPurchaseTotal());
+    assertEquals(OrderStatus.Delivered, order.getStatus());
+    // check the games are correct
+    List<GameResponseDto> games = order.getGames();
+    // inventory of the games should go down
+    gameDtos.get(0).setInventory(gameDtos.get(0).getInventory() - 1);
+    gameDtos.get(2).setInventory(gameDtos.get(2).getInventory() - 1);
+    assertEquals(gameDtos.get(0).getId(), games.get(0).getId());
+    assertEquals(gameDtos.get(0).getName(), games.get(0).getName());
+    assertEquals(gameDtos.get(0).getCategory(), games.get(0).getCategory());
+    assertEquals(gameDtos.get(0).getConsole(), games.get(0).getConsole());
+    assertEquals(gameDtos.get(0).getInventory(), games.get(0).getInventory());
+    assertEquals(gameDtos.get(0).getPrice(), games.get(0).getPrice());
+    assertEquals(gameDtos.get(0).getDescription(), games.get(0).getDescription());
+    assertEquals(gameDtos.get(0).getStatus(), games.get(0).getStatus());
+
+    assertEquals(gameDtos.get(2).getId(), games.get(1).getId());
+    assertEquals(gameDtos.get(2).getName(), games.get(1).getName());
+    assertEquals(gameDtos.get(2).getCategory(), games.get(1).getCategory());
+    assertEquals(gameDtos.get(2).getConsole(), games.get(1).getConsole());
+    assertEquals(gameDtos.get(2).getInventory(), games.get(1).getInventory());
+    assertEquals(gameDtos.get(2).getPrice(), games.get(1).getPrice());
+    assertEquals(gameDtos.get(2).getDescription(), games.get(1).getDescription());
+    assertEquals(gameDtos.get(2).getStatus(), games.get(1).getStatus());
 
   }
+
+  /**
+   * step four: unsuccessfully attempt to purchase a game that's out of stock
+   * checks that the order request fails if a game with no stock is in the inventory,
+   * and also tests that the cart was cleared after the last test.
+   * @author James Madden
+   */
 
 }
