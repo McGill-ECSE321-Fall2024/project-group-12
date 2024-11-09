@@ -249,10 +249,12 @@ public class EmployeeServiceIntegrationTests {
 		String url = "/employees/" + this.invalidId;
 		// Act & Assert
 		ResponseEntity<String> response = client.exchange(url, HttpMethod.DELETE, null, String.class);
+		String error = response.getBody();
 		// Assert
 		assertNotNull(response);
+		assertNotNull(error);
 		assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-		assertTrue(response.getBody().contains("There is no employee with ID " + this.invalidId + "."));
+		assertTrue(error.contains("There is no employee with ID " + this.invalidId + "."));
 	}
 
 }
