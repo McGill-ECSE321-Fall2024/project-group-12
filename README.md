@@ -40,7 +40,7 @@ Julien: "Hey. I am a U2 Software Engineering student at McGill! A fun fact about
 | ---------------- | ---------------- | ----- | ---- |
 | James Madden     | Tech Lead        |    18 |  |
 | Sophia Li        | Project Manager  | 18    | |
-| Amy Ding         | UI/UX Designer   |  18   | - Implemented employee related use cases - Updated Wiki for Software Quality Assurance Plan - Took meeting minutes |
+| Amy Ding         | UI/UX Designer   |  18   | <ul><li> Implemented employee related use cases</li><li>Updated Wiki for Software Quality Assurance Plan</li><li>Took meeting minutes<.li></ul>|
 | Julien Heng      | Developer        |  13   | |
 | Kennedy Olsen    | Business Analyst |  18   | |
 | Carmin Loup Vidé | Scrum Master     |    18 | |
