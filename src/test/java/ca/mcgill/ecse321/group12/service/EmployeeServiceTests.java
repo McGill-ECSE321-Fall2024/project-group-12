@@ -2,7 +2,6 @@ package ca.mcgill.ecse321.group12.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -92,7 +91,8 @@ public class EmployeeServiceTests {
 		// Act
 		employeeService.createEmployee(email, password, name, phoneNumber);
 		// make sure the employee was created successfully
-		// set employee's email to null to simulate what happens when employee was already taken
+		// set employee's email to null to simulate what happens when employee was already
+		// taken
 		employee.setEmail(null);
 
 		// Assert
