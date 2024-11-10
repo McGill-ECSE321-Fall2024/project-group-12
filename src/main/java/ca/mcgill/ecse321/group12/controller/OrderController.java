@@ -1,6 +1,7 @@
 package ca.mcgill.ecse321.group12.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -66,7 +68,8 @@ public class OrderController {
 	 */
 	@PostMapping("/orders")
 	@ResponseStatus(HttpStatus.CREATED)
-	public OrderResponseDto createOrder(@Validated @RequestBody OrderRequestDto body) {
+	public OrderResponseDto createOrder(@Validated @RequestParam(value = "discount") Optional<String> discount,
+			@RequestBody(required = true) OrderRequestDto body) {
 
 		// #1: get customer
 		Customer customer = customerService.findCustomerById(body.getCustomerId());
@@ -84,10 +87,10 @@ public class OrderController {
 		gameService.reduceGamesInventory(games);
 
 		// #4: create order object
-		Order order = orderService.createOrder(body.getDeliveryAddress(), games, customer, payment);
+		Order order = orderService.createOrder(body.getDeliveryAddress(), games, customer, payment, discount);
 
 		// #5: empty user's cart
-		cartService.clearCart(body.getCustomerId());
+		cartService.clearCart(cart.getId());
 
 		return new OrderResponseDto(order);
 
