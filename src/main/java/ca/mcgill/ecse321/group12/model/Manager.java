@@ -3,11 +3,25 @@
 
 package ca.mcgill.ecse321.group12.model;
 
+import java.util.Collection;
+import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
 import jakarta.persistence.Entity;
 
 // line 21 "../../../../../../ReindeerGames.ump"
 @Entity
 public class Manager extends UserRole {
+
+	/**
+	 * set permissions for user auth
+	 */
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return List.of(new SimpleGrantedAuthority("ROLE_MANAGER"), new SimpleGrantedAuthority("ROLE_USER"));
+	}
 
 	// ------------------------
 	// MEMBER VARIABLES
