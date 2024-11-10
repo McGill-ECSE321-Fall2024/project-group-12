@@ -15,6 +15,8 @@ import jakarta.persistence.Entity;
 @Entity
 public class Manager extends UserRole {
 
+	private UserType userType = UserType.MANAGER;
+
 	/**
 	 * set permissions for user auth
 	 */

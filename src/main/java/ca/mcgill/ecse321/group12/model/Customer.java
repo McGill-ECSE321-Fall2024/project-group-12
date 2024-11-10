@@ -27,6 +27,8 @@ public class Customer extends UserRole {
 	@OneToOne
 	private Cart cart;
 
+	private UserType userType = UserType.CUSTOMER;
+
 	/**
 	 * set permissions for user auth
 	 */

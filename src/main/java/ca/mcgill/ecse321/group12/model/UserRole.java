@@ -49,6 +49,8 @@ public class UserRole implements UserDetails {
 
 	private String phoneNumber;
 
+	private UserType userType = UserType.USER;
+
 	/**
 	 * required methods for Spring Security
 	 * @author James Madden
@@ -68,6 +70,9 @@ public class UserRole implements UserDetails {
 		public String getValue() {
 			return type;
 		}
+	}
+	public UserType getUserType() {
+		return userType;
 	}
 	@Override
 	public String getUsername() {
