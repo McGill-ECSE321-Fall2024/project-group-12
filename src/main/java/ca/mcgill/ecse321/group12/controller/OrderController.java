@@ -68,7 +68,8 @@ public class OrderController {
 	 */
 	@PostMapping("/orders")
 	@ResponseStatus(HttpStatus.CREATED)
-	public OrderResponseDto createOrder(@Validated @RequestParam(value = "discount") Optional<String> discount, @RequestBody(required = true) OrderRequestDto body) {
+	public OrderResponseDto createOrder(@Validated @RequestParam(value = "discount") Optional<String> discount,
+			@RequestBody(required = true) OrderRequestDto body) {
 
 		// #1: get customer
 		Customer customer = customerService.findCustomerById(body.getCustomerId());

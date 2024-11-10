@@ -44,7 +44,8 @@ public class OrderService {
 	 * @author James Madden
 	 */
 	@Transactional
-	public Order createOrder(String deliveryAddress, List<Game> games, Customer customer, CardPayment cardPayment, Optional<String> discount) {
+	public Order createOrder(String deliveryAddress, List<Game> games, Customer customer, CardPayment cardPayment,
+			Optional<String> discount) {
 
 		// create the order
 		Order order = new Order();
