@@ -8,4 +8,6 @@ public interface CustomerRepository extends CrudRepository<Customer, Integer> {
 
 	Customer findCustomerById(int id);
 
+	Customer findCustomerByEmail(String email);
+
 }

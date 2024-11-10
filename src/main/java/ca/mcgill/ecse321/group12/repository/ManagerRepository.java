@@ -8,4 +8,6 @@ public interface ManagerRepository extends CrudRepository<Manager, Integer> {
 
 	Manager findManagerById(int id);
 
+	Manager findManagerByEmail(String email);
+
 }
