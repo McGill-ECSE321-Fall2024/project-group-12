@@ -90,7 +90,7 @@ public class OrderController {
 		Order order = orderService.createOrder(body.getDeliveryAddress(), games, customer, payment, discount);
 
 		// #5: empty user's cart
-		cartService.clearCart(customerService.findCustomerById(cart.getId());
+		cartService.clearCart(cart.getId());
 
 		return new OrderResponseDto(order);
 
