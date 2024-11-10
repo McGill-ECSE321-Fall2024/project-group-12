@@ -22,7 +22,7 @@ Sophia: "Hi! I am a U2 Software Engineering student at McGill. A fun fact about 
 Julien: "Hey. I am a U2 Software Engineering student at McGill! A fun fact about me is I am from France."
 
 
-### See project reports on our [Wiki](https://github.com/McGill-ECSE321-Fall2024/project-group-12/wiki)
+### See project reports and meeting minutes on our [Wiki](https://github.com/McGill-ECSE321-Fall2024/project-group-12/wiki)
 
 ## Team Members
 ### Deliverable 1
