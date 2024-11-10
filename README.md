@@ -36,7 +36,7 @@ Julien: "Hey. I am a U2 Software Engineering student at McGill! A fun fact about
 | Carmin Loup Vidé | Scrum Master     |  18                   |
 
 ### Deliverable 2
-| Name             | Team Roles       | Hours | Effort |
+| Name             | Team Roles       | Hours | Individual Effort |
 | ---------------- | ---------------- | ----- | ---- |
 | James Madden     | Tech Lead        |    18 | <ul><li> Implemented order related use cases</li></ul>|
 | Sophia Li        | Project Manager  | 18    | <ul><li> Implemented cart related use cases</li></ul> |
