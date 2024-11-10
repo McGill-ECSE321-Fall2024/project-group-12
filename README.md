@@ -25,7 +25,8 @@ Julien: "Hey. I am a U2 Software Engineering student at McGill! A fun fact about
 ### See project reports on our [Wiki](https://github.com/McGill-ECSE321-Fall2024/project-group-12/wiki)
 
 ## Team Members
-| Name             | Team Roles       | Hours (Deliverable 1) |
+### Deliverable 1
+| Name             | Team Roles       | Hours |
 | ---------------- | ---------------- | --------------------- |
 | James Madden     | Tech Lead        |  18                   |
 | Sophia Li        | Project Manager  |  18                   |
@@ -33,6 +34,18 @@ Julien: "Hey. I am a U2 Software Engineering student at McGill! A fun fact about
 | Julien Heng      | Developer        |  13                   |
 | Kennedy Olsen    | Business Analyst |  18                   |
 | Carmin Loup Vidé | Scrum Master     |  18                   |
+
+### Deliverable 2
+| Name             | Team Roles       | Hours | Effort |
+| ---------------- | ---------------- | ----- | ---- |
+| James Madden     | Tech Lead        |    18 |  |
+| Sophia Li        | Project Manager  | 18    | |
+| Amy Ding         | UI/UX Designer   |  18   | - Implemented employee related use cases - Updated Wiki for Software Quality Assurance Plan - Took meeting minutes |
+| Julien Heng      | Developer        |  13   | |
+| Kennedy Olsen    | Business Analyst |  18   | |
+| Carmin Loup Vidé | Scrum Master     |    18 | |
+
+
 
 ## Contributing
 To ensure high quality, well tested code, do the following when contributing to this project:  
