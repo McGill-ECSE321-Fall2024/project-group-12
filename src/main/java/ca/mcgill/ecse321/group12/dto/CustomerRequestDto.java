@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.group12.dto;
-
+import ca.mcgill.ecse321.group12.model.Cart;
+import ca.mcgill.ecse321.group12.model.Wishlist;
 import ca.mcgill.ecse321.group12.model.Customer;
 
 public class CustomerRequestDto {
@@ -12,6 +13,10 @@ public class CustomerRequestDto {
 
 	private String phoneNumber;
 
+	private Cart cart;
+
+	private Wishlist wishlist;
+
 	@SuppressWarnings("unused")
 	private CustomerRequestDto() {
 	}
@@ -21,6 +26,8 @@ public class CustomerRequestDto {
 		this.email = model.getEmail();
 		this.name = model.getName();
 		this.phoneNumber = model.getPhoneNumber();
+		this.cart = model.getCart();
+		this.wishlist = model.getWishlist();
 	}
 
 	public String getPassword() {
@@ -39,6 +46,14 @@ public class CustomerRequestDto {
 		return phoneNumber;
 	}
 
+	public Cart getCart() {
+		return cart;
+	}
+
+	public Wishlist getWishlist() {
+		return wishlist;
+	}
+
 	public void setPassword(String password) {
 		this.password = password;
 	}
@@ -53,6 +68,14 @@ public class CustomerRequestDto {
 
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
+	}
+
+	public void setCart(Cart cart) {
+		this.cart = cart;
+	}
+
+	public void setWishlist(Wishlist wishlist) {
+		this.wishlist = wishlist;
 	}
 
 }

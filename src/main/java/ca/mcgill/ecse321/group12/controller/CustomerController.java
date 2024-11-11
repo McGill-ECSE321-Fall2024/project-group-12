@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -71,6 +72,18 @@ public class CustomerController {
 		Customer createdCustomer = customerService.createCustomer(customer.getEmail(), customer.getPassword(),
 				customer.getName(), customer.getPhoneNumber(), wishlist, cart);
 		return new CustomerResponseDto(createdCustomer);
+	}
+
+		/**
+	 * Update an customer.
+	 * @param customer The customer to update.
+	 * @return The updated customer, including their ID.
+	 */
+	@PutMapping("/customers/{eid}")
+	public CustomerResponseDto updateCustomer(@PathVariable int eid, @RequestBody CustomerRequestDto customer) {
+		Customer updatedCustomer = customerService.updateCustomerById(eid, customer.getEmail(), customer.getPassword(),
+				customer.getName(), customer.getPhoneNumber(), customer.getWishlist(), customer.getCart());
+		return new CustomerResponseDto(updatedCustomer);
 	}
 
 }

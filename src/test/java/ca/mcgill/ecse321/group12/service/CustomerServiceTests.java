@@ -72,7 +72,7 @@ public class CustomerServiceTests {
 
 		// Arrange
 		String name = "Cunégonde";
-		String email = "cune@mail.mcgill.ca";
+		String email = "cunelaplusbelle@mail.mcgill.ca";
 		String password = "yolo";
 		String phoneNumber = "293092804";
 
@@ -107,66 +107,36 @@ public class CustomerServiceTests {
 	 */
 	@Test
 	public void testCreateCustomerWithInvalidEmail() { 
-														
-		// Arrange
-        // create games
-        Game game1 = new Game();
-        Game game2 = new Game();
-        Game game3 = new Game();
-
-        game1.setInventory(100);
-        game1.setPrice(20);
-        game1.setStatus(GameStatus.InCatalog);
-        game1.setName("Game 1");
-
-        game2.setPrice(50);
-        game2.setStatus(GameStatus.InCatalog);
-        game2.setInventory(10);
-        game2.setName("Game 2");
-
-        game3.setInventory(50);
-        game3.setPrice(30);
-        game3.setStatus(GameStatus.InCatalog);
-        game3.setName("Game 3");
-
-        // create cart
+    // Arrange
+		String name = "Cunégonde";
+		String email = "cune@mail.mcgill.ca";
+		String password = "12345678";
+		String phoneNumber = "902332908";
+		String name2 = "Cunëcûle";
+		String password2 = "theorye";
+		String phoneNumber2 = "6498113794";
         Cart cart = new Cart();
-        cart.addGame(game1);
-        cart.addGame(game2);
-
-        // create wishlist
         Wishlist wishlist = new Wishlist();
-        wishlist.addGame(game3);
 
+		Customer customer = new Customer();
 
-        // Arrange
-        String name1 = "Cunégonde";
-        String name2 = "Cunécule";
-        String email = "cune@mail.mcgill.ca";
-        String password1 = "yolo";
-        String password2 = "yola";
-        String phoneNumber1 = "293092804";
-        String phoneNumber2 = "293092805";
-
-        Customer customer = new Customer();
-
-        customer.setEmail(email);
-        customer.setPassword(password1);
-        customer.setName(name1);
-        customer.setPhoneNumber(phoneNumber1);
+		customer.setEmail(email);
+		customer.setPassword(password);
+		customer.setName(name);
+		customer.setPhoneNumber(phoneNumber);
         customer.setCart(cart);
         customer.setWishlist(wishlist);
 
 		when(customerRepository.save(any(Customer.class))).thenReturn(customer);
 
 		// Act
-		customerService.createCustomer(email, password1, name1, phoneNumber1, wishlist, cart);
-
+		customerService.createCustomer(email, password, name, phoneNumber, wishlist, cart);
 		// Assert
 		CustomException e = assertThrows(CustomException.class,
 				() -> customerService.createCustomer(email, password2, name2, phoneNumber2, wishlist, cart));
 		assertEquals("Create customer failed. Customer with this email already exists in the system.", e.getMessage());
 	}
+
 
     /**
 	 * Test reading a customer by valid ID (customer exists in the system).
@@ -251,9 +221,12 @@ public class CustomerServiceTests {
 
 
 
-/* 
-    
 
+    
+    /**
+	 * Test updating a customer by valid arguments (customer exists in the system).
+	 * @author Carmin Vidé
+	 */  
 	@Test
 	public void testUpdateCustomerByValidArguments() {
 		// Arrange
@@ -263,24 +236,30 @@ public class CustomerServiceTests {
 		String name = "johnny";
 		String password = "123456";
 		String phoneNumber = "2041234567";
+		Cart cart = new Cart();
+		Wishlist wishlist = new Wishlist();
 
 		customer.setId(id);
 		customer.setEmail(email);
 		customer.setName(name);
 		customer.setPassword(password);
 		customer.setPhoneNumber(phoneNumber);
+		customer.setCart(cart);
+		customer.setWishlist(wishlist);
 
 		String newEmail = "newemail@mail.mcgill.ca";
 		String newName = "john";
 		String newPassword = "123456";
 		String newPhoneNumber = "2047654321";
+		Cart newCart = new Cart();
+		Wishlist newWishlist = new Wishlist();
 
 		when(customerRepository.findCustomerById(id)).thenReturn(customer);
 		when(customerRepository.save(any(Customer.class))).thenReturn(customer);
 
 		// Act
-		customerService.createCustomer(email, password, name, phoneNumber);
-		customerService.updateCustomerById(id, newEmail, newPassword, newName, newPhoneNumber);
+		customerService.createCustomer(email, password, name, phoneNumber, wishlist, cart);
+		customerService.updateCustomerById(id, newEmail, newPassword, newName, newPhoneNumber, newWishlist, newCart);
 
 		// Assert
 		assertNotNull(customer);
@@ -288,11 +267,16 @@ public class CustomerServiceTests {
 		assertEquals(newName, customer.getName());
 		assertEquals(newPassword, customer.getPassword());
 		assertEquals(newPhoneNumber, customer.getPhoneNumber());
+		assertEquals(newCart, customer.getCart());
 	}
 
+	/**
+	 * Test updating a customer by invalid email (email is already associated with a different account).
+	 * @author Carmin Vidé
+	 */  
 	@Test
-	public void testUpdateCustomerByInvalidEmail() { // email is already associated with a
-														// different account
+	public void testUpdateCustomerByInvalidEmail() { 
+
 		// Arrange
 		int id = 42;
 		Customer customer = new Customer();
@@ -300,27 +284,33 @@ public class CustomerServiceTests {
 		String email = "hahaha@mail.mcgill.ca";
 		String password = "12345678";
 		String phoneNumber = "2041123455";
+		Cart cart = new Cart();
+		Wishlist wishlist = new Wishlist();
 
 		String name2 = "jogn";
 		String email2 = "lol@gmail.com";
 		String password2 = "123";
 		String phoneNumber2 = "123456";
+		Cart cart2 = new Cart();
+		Wishlist wishlist2 = new Wishlist();
 
 		customer.setEmail(email);
 		customer.setName(name);
 		customer.setPassword(password);
 		customer.setPhoneNumber(phoneNumber);
+		customer.setCart(cart);
+		customer.setWishlist(wishlist);
 		when(customerRepository.findCustomerById(id)).thenReturn(customer);
 		when(customerRepository.save(any(Customer.class))).thenReturn(customer);
 
 		// Act
-		customerService.createCustomer(email, password, name, phoneNumber);
-		customerService.createCustomer(email2, password2, name2, phoneNumber2);
+		customerService.createCustomer(email, password, name, phoneNumber, wishlist, cart);
+		customerService.createCustomer(email2, password2, name2, phoneNumber2, wishlist2, cart2);
 
 		// Assert
 		CustomException e = assertThrows(CustomException.class,
-				() -> customerService.updateCustomerById(id, email2, password, name, phoneNumber));
+				() -> customerService.updateCustomerById(id, email2, password, name, phoneNumber, wishlist, cart));
 		assertEquals("Update customer failed. Customer with this email already exists in the system.", e.getMessage());
 	}
-*/
+
 }
