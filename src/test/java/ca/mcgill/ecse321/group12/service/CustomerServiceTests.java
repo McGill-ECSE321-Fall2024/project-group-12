@@ -109,7 +109,7 @@ public class CustomerServiceTests {
 	public void testCreateCustomerWithInvalidEmail() { 
     // Arrange
 		String name = "Cunégonde";
-		String email = "cune@mail.mcgill.ca";
+		String email = "cuneee@mail.mcgill.ca";
 		String password = "12345678";
 		String phoneNumber = "902332908";
 		String name2 = "Cunëcûle";
@@ -232,10 +232,10 @@ public class CustomerServiceTests {
 		// Arrange
 		int id = 42;
 		Customer customer = new Customer();
-		String email = "ea@mail.mcgill.ca";
-		String name = "johnny";
-		String password = "123456";
-		String phoneNumber = "2041234567";
+		String email = "ceun@mail.mcgill.ca";
+		String name = "Ceunïa";
+		String password = "hI13J";
+		String phoneNumber = "173890443";
 		Cart cart = new Cart();
 		Wishlist wishlist = new Wishlist();
 
@@ -247,10 +247,10 @@ public class CustomerServiceTests {
 		customer.setCart(cart);
 		customer.setWishlist(wishlist);
 
-		String newEmail = "newemail@mail.mcgill.ca";
-		String newName = "john";
-		String newPassword = "123456";
-		String newPhoneNumber = "2047654321";
+		String newEmail = "newCeun@mail.mcgill.ca";
+		String newName = "Qeunïa";
+		String newPassword = "hduçéh!'çh";
+		String newPhoneNumber = "2892465320";
 		Cart newCart = new Cart();
 		Wishlist newWishlist = new Wishlist();
 
@@ -280,17 +280,17 @@ public class CustomerServiceTests {
 		// Arrange
 		int id = 42;
 		Customer customer = new Customer();
-		String name = "amy";
-		String email = "hahaha@mail.mcgill.ca";
-		String password = "12345678";
-		String phoneNumber = "2041123455";
+		String name = "Cuivêtre";
+		String email = "Cuivre@mail.mcgill.ca";
+		String password = "OHHITHERE";
+		String phoneNumber = "870426921";
 		Cart cart = new Cart();
 		Wishlist wishlist = new Wishlist();
 
-		String name2 = "jogn";
-		String email2 = "lol@gmail.com";
-		String password2 = "123";
-		String phoneNumber2 = "123456";
+		String name2 = "Hlovis";
+		String email2 = "hlol@gmail.com";
+		String password2 = "uhc^$";
+		String phoneNumber2 = "8327946028";
 		Cart cart2 = new Cart();
 		Wishlist wishlist2 = new Wishlist();
 
