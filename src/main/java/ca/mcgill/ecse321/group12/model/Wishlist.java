@@ -33,7 +33,7 @@ public class Wishlist {
 
 	// Wishlist Associations
 	@ManyToMany
-	private List<Game> games;
+	private List<Game> games = new ArrayList<>(); //
 
 	// ------------------------
 	// CONSTRUCTOR
@@ -117,7 +117,7 @@ public class Wishlist {
 	/* Code from template association_AddUnidirectionalMany */
 	public boolean addGame(Game aGame) {
 		boolean wasAdded = false;
-		if (games.isEmpty() == false && games.contains(aGame)) {
+		if (games.contains(aGame)) {
 			return false;
 		}
 		games.add(aGame);
