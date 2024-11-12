@@ -52,7 +52,10 @@ public class CommentServiceIntegrationTests {
         //review = reviewRepository.save(new Review());
 	}
 
-	@SuppressWarnings("null")
+    /**
+     * Test creating a comment with valid arguments.
+     * @author Carmin Vidé
+     */
     @Test
 	@Order(1)
 	public void testCreateCommentWithValidText() {
@@ -76,6 +79,10 @@ public class CommentServiceIntegrationTests {
         this.review = createdComment.getReview();
 	}
 
+    /**
+     * Test creating a comment with invalid text.
+     * @author Carmin Vidé
+     */
     @Test
     @Order(2)
     public void testCreatingCommentWithInvalidText() {
@@ -90,6 +97,10 @@ public class CommentServiceIntegrationTests {
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
 
+    /**
+     * Test retrieving a comment by its id.
+     * @author Carmin Vidé
+     */
 	@Test
 	@Order(3)
 	public void testFindCommentById() {
@@ -112,6 +123,10 @@ public class CommentServiceIntegrationTests {
         this.commentId = createdComment.getId(); 
 	}
 
+    /**
+     * Test retrieving a comment with an invalid id.
+     * @author Carmin Vidé
+     */
 	@Test
 	@Order(4)
 	public void testFindCommentByIdWithInvalidId() {
@@ -126,6 +141,10 @@ public class CommentServiceIntegrationTests {
 		assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
 	}
 
+    /**
+     * Test updating a comment with valid arguments.
+     * @author Carmin Vidé
+     */
     @Test
     @Order(5)
     public void testUpdateComment() {
@@ -152,6 +171,10 @@ public class CommentServiceIntegrationTests {
 	}
     
 
+    /**
+     * Test deleting a comment with valid id.
+     * @author Carmin Vidé
+     */
     @Test
     @Order(6)
     public void testDeleteComment() {
@@ -165,7 +188,11 @@ public class CommentServiceIntegrationTests {
         assertNotNull(response);
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
-
+    
+    /**
+     * Test deleting a comment with invalid id.
+     * @author Carmin Vidé
+     */
     @Test
     @Order(7)
     public void testDeleteCommentWithInvalidId() {

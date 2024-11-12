@@ -31,7 +31,7 @@ public class CommentServiceTests {
 
 	/**
 	 * Test creating a comment with valid arguments.
-	 * @Author Carmin Vidé
+     * @author Carmin Vidé
 	 */
 	@Test
 
@@ -57,7 +57,7 @@ public class CommentServiceTests {
 
 	/**
 	 * Test creating a comment with invalid text.
-	 * @Author Carmin Vidé
+	 * @author Carmin Vidé
 	 */
 	@Test
 	public void testCreateCommentWithInvalidText() {
@@ -72,7 +72,7 @@ public class CommentServiceTests {
 
 	/**
 	 * Test retrieving a comment by its id.
-	 * @Author Carmin Vidé
+	 * @author Carmin Vidé
 	 */
 	@Test
 	public void testFindCommentById() {
@@ -94,7 +94,7 @@ public class CommentServiceTests {
 
 	/**
 	 * Test retrieving a comment with an invalid id.
-	 * @Author Carmin Vidé
+	 * @author Carmin Vidé
 	 */
 	@Test
 	public void testFindCommentByInvalidId() {
@@ -110,7 +110,7 @@ public class CommentServiceTests {
 
 	/**
 	 * Test updating a comment by its id.
-	 * @Author Carmin Vidé
+	 * @author Carmin Vidé
 	 */
 	@Test
 	public void testUpdateCommentByValidArguments() {
@@ -140,7 +140,7 @@ public class CommentServiceTests {
 
 	/**
 	 * Test updating a comment with an invalid text.
-	 * @Author Carmin Vidé
+	 * @author Carmin Vidé
 	 */
 	@Test
 	public void testUpdateCommentByInvalidText() {
@@ -166,7 +166,7 @@ public class CommentServiceTests {
 
 	/**
 	 * Test deleting a comment by its id.
-	 * @Author Carmin Vidé
+	 * @author Carmin Vidé
 	 */
 	@Test
 	public void testDeleteCommentById() {

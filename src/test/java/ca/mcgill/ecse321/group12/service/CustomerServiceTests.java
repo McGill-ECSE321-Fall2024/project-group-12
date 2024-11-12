@@ -108,12 +108,9 @@ public class CustomerServiceTests {
 	public void testCreateCustomerWithInvalidEmail() {
 		// Arrange
 		String name = "Cunégonde";
-		String email = "cuneee@mail.mcgill.ca";
+		String email = null;
 		String password = "12345678";
 		String phoneNumber = "902332908";
-		String name2 = "Cunëcûle";
-		String password2 = "theorye";
-		String phoneNumber2 = "6498113794";
 		Cart cart = new Cart();
 		Wishlist wishlist = new Wishlist();
 
@@ -127,13 +124,9 @@ public class CustomerServiceTests {
 		customer.setWishlist(wishlist);
 
 		when(customerRepository.save(any(Customer.class))).thenReturn(customer);
-
-		// Act
-		customerService.createCustomer(email, password, name, phoneNumber, wishlist, cart);
-		customer.setEmail(null);
 		// Assert
 		CustomException e = assertThrows(CustomException.class,
-				() -> customerService.createCustomer(email, password2, name2, phoneNumber2, wishlist, cart));
+				() -> customerService.createCustomer(email, password, name, phoneNumber, wishlist, cart));
 
 		assertEquals("Create customer failed. Customer with this email already exists in the system.", e.getMessage());
 	}
@@ -279,13 +272,6 @@ public class CustomerServiceTests {
 		Cart cart = new Cart();
 		Wishlist wishlist = new Wishlist();
 
-		String name2 = "Hlovis";
-		String email2 = "hlol@gmail.com";
-		String password2 = "uhc^$";
-		String phoneNumber2 = "8327946028";
-		Cart cart2 = new Cart();
-		Wishlist wishlist2 = new Wishlist();
-
 		customer.setEmail(email);
 		customer.setName(name);
 		customer.setPassword(password);
@@ -297,11 +283,10 @@ public class CustomerServiceTests {
 
 		// Act
 		customerService.createCustomer(email, password, name, phoneNumber, wishlist, cart);
-		customerService.createCustomer(email2, password2, name2, phoneNumber2, wishlist2, cart2);
 
 		// Assert
 		CustomException e = assertThrows(CustomException.class,
-				() -> customerService.updateCustomerById(id, email, password, name, phoneNumber, wishlist, cart));
+				() -> customerService.updateCustomerById(id, null, password, name, phoneNumber, wishlist, cart));
 		assertEquals("Update customer failed. Customer with this email already exists in the system.", e.getMessage());
 	}
 

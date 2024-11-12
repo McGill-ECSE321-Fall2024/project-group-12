@@ -40,15 +40,15 @@ public class CustomerServiceIntegrationTests {
 	@Autowired
 	private TestRestTemplate client;
 
-	private final String VALID_NAME = "amyding";
+	private final String VALID_NAME = "Cunegonde";
 
-	private final String VALID_EMAIL = "amyding@gmail.ca";
+	private final String VALID_EMAIL = "cune@mail.mcgill.ca";
 
-	private final String VALID_EMAIL2 = "amy@gmail.ca";
+	private final String VALID_EMAIL2 = "hlosthalthethird@mail.mcgill.ca";
 
-	private final String VALID_PASSWORD = "password123";
+	private final String VALID_PASSWORD = "weizhiiiii";
 
-	private final String VALID_PHONENUMBER = "2047989416";
+	private final String VALID_PHONENUMBER = "889427879";
 
 	private Cart cart;
 
@@ -72,7 +72,6 @@ public class CustomerServiceIntegrationTests {
 	/**
 	 * Test to create an customer with valid inputs
 	 * @author Carmin Vidé
-	 * @return void
 	 */
 
 	// A new cart and wishlist are created when the customer is created: not in the Dto
@@ -105,7 +104,6 @@ public class CustomerServiceIntegrationTests {
 	 * Test to create an customer account with an email that is already associated with
 	 * another customer account
 	 * @author Carmin Vidé
-	 * @return void
 	 */
 	@Test
 	@Order(2)
@@ -125,7 +123,6 @@ public class CustomerServiceIntegrationTests {
 	/**
 	 * Test to get an customer account with an id that is valid
 	 * @author Carmin Vidé
-	 * @return void
 	 */
 	@Test
 	@Order(3)
@@ -152,7 +149,6 @@ public class CustomerServiceIntegrationTests {
 	/**
 	 * Test to get an customer with an invalid id
 	 * @author Carmin Vidé
-	 * @return void
 	 */
 	@Test
 	@Order(4)
@@ -171,8 +167,7 @@ public class CustomerServiceIntegrationTests {
 	/**
 	 * Test to update an customer account with valid inputs and an id that is valid in the
 	 * database
-	 * @Author Carmin Vidé
-	 * @return void
+	 * @author Carmin Vidé
 	 */
 	@Test
 	@Order(5)
@@ -204,7 +199,6 @@ public class CustomerServiceIntegrationTests {
 	 * Test to update an customer account with an email that is already associated with a
 	 * different account
 	 * @author Carmin Vidé
-	 * @return void
 	 */
 	@Test
 	@Order(6)
@@ -235,7 +229,6 @@ public class CustomerServiceIntegrationTests {
 	/**
 	 * Test to delete an customer with a valid id
 	 * @author Carmin Vidé
-	 * @return void
 	 */
 	@Test
 	@Order(7)
@@ -255,7 +248,6 @@ public class CustomerServiceIntegrationTests {
 	/**
 	 * Test to attempt to delete an customer with an id that doesn't exist in the database
 	 * @author Carmin Vidé
-	 * @return void
 	 */
 	@Test
 	@Order(8)
@@ -273,24 +265,4 @@ public class CustomerServiceIntegrationTests {
 	}
 
 }
-
-/*
- * @Test
- *
- * @Order(5) public void testUpdateCustomerByValidInputs() { // Arrange String url =
- * "/customers/" + this.validId; CustomerRequestDto body = new
- * CustomerRequestDto(VALID_EMAIL2, VALID_PASSWORD, VALID_NAME, VALID_PHONENUMBER,
- * this.cart, this.wishlist); RequestEntity<CustomerRequestDto> request =
- * RequestEntity.put(url) .accept(MediaType.APPLICATION_PROBLEM_JSON) .body(body); // Act
- * ResponseEntity<CustomerResponseDto> response = client.exchange(url, HttpMethod.PUT,
- * request, CustomerResponseDto.class);
- *
- * // Assert assertNotNull(response); assertEquals(HttpStatus.OK,
- * response.getStatusCode()); CustomerResponseDto customer = response.getBody();
- * assertNotNull(customer); assertEquals(VALID_NAME, customer.getName());
- * assertEquals(VALID_EMAIL2, customer.getEmail()); assertEquals(VALID_PHONENUMBER,
- * customer.getPhoneNumber()); assertEquals(this.validId, customer.getId());
- * assertEquals(this.cart, customer.getCart()); assertEquals(this.wishlist,
- * customer.getWishlist()); }
- */
 

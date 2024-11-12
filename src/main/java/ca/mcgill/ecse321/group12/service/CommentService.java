@@ -25,13 +25,14 @@ public class CommentService {
 	 * Return the comment with the given ID.
 	 * @param id The primary key of the comment to find.
 	 * @return The comment with the given ID.
+	 * @author Carmin Vidé
 	 */
 	public Comment findCommentById(int id) {
-		Comment emp = commentRepo.findCommentById(id);
-		if (emp == null) {
+		Comment com = commentRepo.findCommentById(id);
+		if (com == null) {
 			throw new CustomException(HttpStatus.NOT_FOUND, "There is no comment with ID " + id + ".");
 		}
-		return emp;
+		return com;
 	}
 
 	/**
@@ -39,11 +40,12 @@ public class CommentService {
 	 * @param text The text of the new comment.
 	 * @param review The review of the new comment.
 	 * @return The newly created comment.
+	 * @author Carmin Vidé
 	 */
 	@Transactional
 	public Comment createComment(String text, Review review) {
 		if (text == null || text.trim().length() == 0) {
-			throw new CustomException(HttpStatus.BAD_REQUEST, "Comment text cannot be empty.");
+			throw new CustomException(HttpStatus.BAD_REQUEST, "Comment text cannot be comty.");
 		}
 		Comment commentToCreate = new Comment();
 		commentToCreate.setText(text);
@@ -54,6 +56,7 @@ public class CommentService {
 	/**
 	 * Delete the comment with the given ID.
 	 * @param id The primary key of the comment to delete.
+	 * @author Carmin Vidé
 	 */
 	@Transactional
 	public void deleteCommentById(int id) {
@@ -68,14 +71,15 @@ public class CommentService {
 	/**
 	 * Find all comments
 	 * @return A list of all comments
+	 * @author Carmin Vidé
 	 */
 	@Transactional
 	public Iterable<Comment> findAllComments() {
 		return commentRepo.findAll();
 	}
 
-	/*
-	 * /** Find comments by review
+
+	/* /** Find comments by review
 	 *
 	 * @param review The review to search for
 	 *
@@ -87,14 +91,19 @@ public class CommentService {
 	 * commentRepo.findAll()) { if (comment.getReview().equals(review)) {
 	 * ((ArrayList<Comment>) comments).add(comment); } } return comments; }
 	 */
+
 	/**
 	 * Update the text of a comment.
+	 * @param id The primary key of the comment to update.
+	 * @param text The new text of the comment.
+	 * @return The updated comment.
+	 * @Author Carmin Vidé
 	 */
 	@Transactional
 	public Comment updateCommentById(int id, String text) {
 		Comment commentToUpdate = commentRepo.findCommentById(id);
 		if (text == null || text.trim().length() == 0) {
-			throw new CustomException(HttpStatus.BAD_REQUEST, "Comment text cannot be empty.");
+			throw new CustomException(HttpStatus.BAD_REQUEST, "Comment text cannot be comty.");
 		}
 		commentToUpdate.setText(text);
 		return commentRepo.save(commentToUpdate);

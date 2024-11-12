@@ -36,6 +36,7 @@ public class CustomerController {
 	 * Return the customer with the given ID.
 	 * @param eid The primary key of the customer to find.
 	 * @return The empllyee with the given ID.
+	 * @author Carmin Vidé
 	 */
 	@GetMapping("/customers/{eid}")
 	public CustomerResponseDto findCustomerById(@PathVariable int eid) {
@@ -46,6 +47,7 @@ public class CustomerController {
 	/**
 	 * Get all customers
 	 * @return All customers.
+	 * @author Carmin Vidé
 	 */
 	@GetMapping("/customers")
 	public Iterable<Customer> findAllCustomers() {
@@ -55,7 +57,8 @@ public class CustomerController {
 
 	/**
 	 * Delete an customer.
-	 * @param customer The customer to delete.
+	 * @param eid The primary key of the customer to delete.
+	 * @author Carmin Vidé
 	 */
 	@DeleteMapping("/customers/{eid}")
 	public void deleteCustomerById(@PathVariable int eid) {
@@ -68,6 +71,7 @@ public class CustomerController {
 	 * Create a new customer.
 	 * @param customer The customer to create.
 	 * @return The created customer, including their ID.
+	 * @author Carmin Vidé
 	 */
 	@PostMapping("/customers")
 	@ResponseStatus(HttpStatus.CREATED)
@@ -84,7 +88,9 @@ public class CustomerController {
 		/**
 	 * Update an customer.
 	 * @param customer The customer to update.
+	 * @param eid The primary key for the customer to be updated.
 	 * @return The updated customer, including their ID.
+	 * @author Carmin Vidé
 	 */
 	@PutMapping("/customers/{eid}")
 	public CustomerResponseDto updateCustomer(@PathVariable int eid, @RequestBody CustomerRequestDto customer) {

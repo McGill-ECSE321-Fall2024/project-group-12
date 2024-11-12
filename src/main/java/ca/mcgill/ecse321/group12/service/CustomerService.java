@@ -21,13 +21,14 @@ public class CustomerService {
 	 * Return the customer with the given ID.
 	 * @param id The primary key of the customer to find.
 	 * @return The customer with the given ID.
+	 * @author Carmin Vidé
 	 */
 	public Customer findCustomerById(int id) {
-		Customer emp = customerRepo.findCustomerById(id);
-		if (emp == null) {
+		Customer cus = customerRepo.findCustomerById(id);
+		if (cus == null) {
 			throw new CustomException(HttpStatus.NOT_FOUND, "There is no customer with ID " + id + ".");
 		}
-		return emp;
+		return cus;
 	}
 
 	/**
@@ -39,6 +40,7 @@ public class CustomerService {
 	 * @param cart The cart of the new customer.
 	 * @param wishlist The wishlist of the new customer.
 	 * @return The newly created customer.
+	 * @author Carmin Vidé
 	 */
 	@Transactional
 	public Customer createCustomer(String email, String password, String name, String phoneNumber, Wishlist wishlist,
@@ -51,6 +53,7 @@ public class CustomerService {
 		customerToCreate.setCart(cart);
 		customerToCreate.setWishlist(wishlist);
 		Customer savedCustomer = customerRepo.save(customerToCreate);
+		System.out.println("BDUZFIPAOFEBIUP" + savedCustomer.getEmail());
 		if (savedCustomer.getEmail() == null) {
 			throw new CustomException(HttpStatus.BAD_REQUEST,
 					"Create customer failed. Customer with this email already exists in the system.");
@@ -61,6 +64,7 @@ public class CustomerService {
 	/**
 	 * Delete the customer with the given ID.
 	 * @param id The primary key of the customer to delete.
+	 * @author Carmin Vidé
 	 */
 	@Transactional
 	public void deleteCustomerById(int id) {
@@ -75,6 +79,7 @@ public class CustomerService {
 	/**
 	 * Find all customers
 	 * @return A list of all customers
+	 * @author Carmin Vidé
 	 */
 	@Transactional
 	public Iterable<Customer> findAllCustomers() {
@@ -83,7 +88,15 @@ public class CustomerService {
 
 	/**
 	 * Update customer with the given ID
+	 * @param id The primary key of the customer to update.
+	 * @param newEmail The new email of the customer.
+	 * @param password The new password of the customer.
+	 * @param name The new name of the customer.
+	 * @param phoneNumber The new phone number of the customer.
+	 * @param cart The new cart of the customer.
+	 * @param wishlist The new wishlist of the customer.
 	 * @return Updated customer
+	 * @author Carmin Vidé
 	 */
 	@Transactional
 	public Customer updateCustomerById(int id, String newEmail, String password, String name, String phoneNumber,

@@ -25,7 +25,8 @@ public class CommentController {
 	/**
 	 * Return the comment with the given ID.
 	 * @param eid The primary key of the comment to find.
-	 * @return The empllyee with the given ID.
+	 * @return The comment with the given ID.
+	 * @author Carmin Vidé
 	 */
 	@GetMapping("/comments/{eid}")
 	public CommentResponseDto findCommentById(@PathVariable int eid) {
@@ -36,6 +37,7 @@ public class CommentController {
 	/**
 	 * Get all comments
 	 * @return All comments.
+	 * @author Carmin Vidé
 	 */
 	@GetMapping("/comments")
 	public Iterable<Comment> findAllComments() {
@@ -45,7 +47,8 @@ public class CommentController {
 
 	/**
 	 * Delete an comment.
-	 * @param comment The comment to delete.
+	 * @param eid The primary key of the comment to delete.
+	 * @author Carmin Vidé
 	 */
 	@DeleteMapping("/comments/{eid}")
 	public void deleteCommentById(@PathVariable int eid) {
@@ -55,8 +58,8 @@ public class CommentController {
 	/**
 	 * Create a new comment.
 	 * @param comment The comment to create.
-	 * @param review The review of the new comment.
 	 * @return The created comment, including their ID.
+	 * @author Carmin Vidé
 	 */
 	@PostMapping("/comments")
 	@ResponseStatus(HttpStatus.CREATED)
@@ -68,7 +71,9 @@ public class CommentController {
 	/**
 	 * Update an comment.
 	 * @param comment The comment to update.
+	 * @param eid The primary key for the comment to be updated.
 	 * @return The updated comment, including their ID.
+	 * @author Carmin Vidé
 	 */
 	@PutMapping("/comments/{eid}")
 	public CommentResponseDto updateComment(@PathVariable int eid, @RequestBody CommentRequestDto comment) {
