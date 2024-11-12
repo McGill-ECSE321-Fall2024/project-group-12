@@ -8,13 +8,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import ca.mcgill.ecse321.group12.model.Manager;
-import ca.mcgill.ecse321.group12.model.Customer;
-import ca.mcgill.ecse321.group12.model.Employee;
 import ca.mcgill.ecse321.group12.model.UserRole;
-import ca.mcgill.ecse321.group12.repository.CustomerRepository;
-import ca.mcgill.ecse321.group12.repository.EmployeeRepository;
-import ca.mcgill.ecse321.group12.repository.ManagerRepository;
 import ca.mcgill.ecse321.group12.service.AuthService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
