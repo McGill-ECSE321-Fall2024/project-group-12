@@ -138,6 +138,9 @@ public class CartServiceIntegrationTests {
 		assertEquals(this.game.getId(), cart.getGames().get(0).getId());
 	}
 
+	/**
+	 * @author Julien Heng
+	 */
 	@Test
 	@Order(3)
 	public void testRemoveGameFromCartByInvalidId() {
@@ -164,6 +167,9 @@ public class CartServiceIntegrationTests {
 
 	}
 
+	/**
+	 * @author Julien Heng
+	 */
 	@Test
 	@Order(4)
 	public void testRemoveGameFromCartByInvalidString() {
@@ -186,6 +192,9 @@ public class CartServiceIntegrationTests {
 
 	}
 
+	/**
+	 * @author Julien Heng
+	 */
 	@Test
 	@Order(5)
 	public void testRemoveGameFromCartByValidId() {
