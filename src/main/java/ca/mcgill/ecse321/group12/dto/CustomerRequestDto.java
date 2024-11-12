@@ -30,6 +30,23 @@ public class CustomerRequestDto {
 		this.wishlist = model.getWishlist();
 	}
 
+	/**
+	 * Constructor
+	 * @author Carmin Vidé
+	 * @param email The email for the customer being created
+	 * @param password The password for the customer being created
+	 * @param name The name for the customer being created
+	 * @param phoneNumber The phone number for the customer being created
+	 * @param cart The cart for the customer being created
+	 * @param wishlist The wishlist for the customer being created
+	 */
+	public CustomerRequestDto(String email, String password, String name, String phoneNumber, Cart cart, Wishlist wishlist) {
+		this.password = password;
+		this.email = email;
+		this.name = name;
+		this.phoneNumber = phoneNumber;
+	}
+
 	public String getPassword() {
 		return password;
 	}
