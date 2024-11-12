@@ -95,7 +95,6 @@ public class CommentService {
 			throw new CustomException(HttpStatus.BAD_REQUEST,
 			"Comment text cannot be empty.");
 		}
-		commentToUpdate.setId(id);
 		commentToUpdate.setText(text);
 		return commentRepo.save(commentToUpdate);
 	}

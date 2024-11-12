@@ -135,8 +135,8 @@ public class CommentServiceTests {
 
         // Assert
         assertNotNull(updatedComment);
-        assertEquals(id, updatedComment.getId());
         assertEquals(newText, updatedComment.getText());
+        assertEquals(review, updatedComment.getReview());
     }
 
     /**
