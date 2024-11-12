@@ -65,8 +65,8 @@ public class OrderService {
 
 		// apply discount if present
 		if (!discount.isEmpty()) {
-			int discountAmount = Integer.parseInt(discount.get());
-			purchaseTotal = purchaseTotal * (100f - discountAmount / 100);
+			float discountAmount = Float.parseFloat(discount.get());
+			purchaseTotal *= 1f - discountAmount / 100f;
 		}
 
 		order.setPurchaseTotal(purchaseTotal);
