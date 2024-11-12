@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
 
 import ca.mcgill.ecse321.group12.dto.CustomerRequestDto;
 import ca.mcgill.ecse321.group12.dto.CustomerResponseDto;
@@ -41,6 +43,7 @@ public class CustomerController {
 		return new CustomerResponseDto(customer);
 	}
 
+
 	/**
 	 * Get all customers
 	 * @return All customers.
@@ -60,12 +63,15 @@ public class CustomerController {
 		customerService.deleteCustomerById(eid);
 	}
 
+
+
 	/**
 	 * Create a new customer.
 	 * @param customer The customer to create.
 	 * @return The created customer, including their ID.
 	 */
 	@PostMapping("/customers")
+	@ResponseStatus(HttpStatus.CREATED)
 	public CustomerResponseDto createPerson(@RequestBody CustomerRequestDto customer) {
 		Wishlist wishlist = wishlistService.createWishlist();
 		Cart cart = cartService.createCart();
@@ -73,6 +79,8 @@ public class CustomerController {
 				customer.getName(), customer.getPhoneNumber(), wishlist, cart);
 		return new CustomerResponseDto(createdCustomer);
 	}
+
+	
 
 		/**
 	 * Update an customer.
@@ -84,6 +92,7 @@ public class CustomerController {
 		Customer updatedCustomer = customerService.updateCustomerById(eid, customer.getEmail(), customer.getPassword(),
 				customer.getName(), customer.getPhoneNumber(), customer.getWishlist(), customer.getCart());
 		return new CustomerResponseDto(updatedCustomer);
-	}
 
+
+	}
 }
