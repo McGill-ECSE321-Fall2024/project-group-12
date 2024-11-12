@@ -130,12 +130,14 @@ public class CustomerServiceTests {
 
 		// Act
 		customerService.createCustomer(email, password, name, phoneNumber, wishlist, cart);
+		customer.setEmail(null);
 		// Assert
 		CustomException e = assertThrows(CustomException.class,
 				() -> customerService.createCustomer(email, password2, name2, phoneNumber2, wishlist, cart));
 
 		assertEquals("Create customer failed. Customer with this email already exists in the system.", e.getMessage());
 	}
+
 
 	/**
 	 * Test reading a customer by valid ID (customer exists in the system).
