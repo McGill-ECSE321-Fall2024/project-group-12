@@ -1,11 +1,13 @@
 package ca.mcgill.ecse321.group12.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import ca.mcgill.ecse321.group12.dto.CustomerRequestDto;
@@ -13,9 +15,9 @@ import ca.mcgill.ecse321.group12.dto.CustomerResponseDto;
 import ca.mcgill.ecse321.group12.model.Cart;
 import ca.mcgill.ecse321.group12.model.Customer;
 import ca.mcgill.ecse321.group12.model.Wishlist;
+import ca.mcgill.ecse321.group12.service.CartService;
 import ca.mcgill.ecse321.group12.service.CustomerService;
 import ca.mcgill.ecse321.group12.service.WishlistService;
-import ca.mcgill.ecse321.group12.service.CartService;
 
 @RestController
 public class CustomerController {
@@ -31,12 +33,12 @@ public class CustomerController {
 
 	/**
 	 * Return the customer with the given ID.
-	 * @param eid The primary key of the customer to find.
-	 * @return The empllyee with the given ID.
+	 * @param customerId The primary key of the customer to find.
+	 * @return The customer with the given ID.
 	 */
-	@GetMapping("/customers/{eid}")
-	public CustomerResponseDto findCustomerById(@PathVariable int eid) {
-		Customer customer = customerService.findCustomerById(eid);
+	@GetMapping("/customers/{customerId}")
+	public CustomerResponseDto findCustomerById(@PathVariable int customerId) {
+		Customer customer = customerService.findCustomerById(customerId);
 		return new CustomerResponseDto(customer);
 	}
 
@@ -54,7 +56,7 @@ public class CustomerController {
 	 * Delete an customer.
 	 * @param customer The customer to delete.
 	 */
-	@DeleteMapping("/customers/{eid}")
+	@DeleteMapping("/customers/{customerId}")
 	public void deleteCustomerById(@PathVariable int eid) {
 		customerService.deleteCustomerById(eid);
 	}
@@ -65,6 +67,7 @@ public class CustomerController {
 	 * @return The created customer, including their ID.
 	 */
 	@PostMapping("/customers")
+	@ResponseStatus(HttpStatus.CREATED)
 	public CustomerResponseDto createPerson(@RequestBody CustomerRequestDto customer) {
 		Wishlist wishlist = wishlistService.createWishlist();
 		Cart cart = cartService.createCart();
