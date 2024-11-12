@@ -1,4 +1,5 @@
 package ca.mcgill.ecse321.group12.dto;
+
 import ca.mcgill.ecse321.group12.model.Cart;
 import ca.mcgill.ecse321.group12.model.Wishlist;
 import ca.mcgill.ecse321.group12.model.Customer;
@@ -36,8 +37,8 @@ public class CustomerRequestDto {
 	 * @param email The email for the customer being created
 	 * @param password The password for the customer being created
 	 * @param name The name for the customer being created
-	 * @param phoneNumber The phone number for the customer being created
-	 * no cart or wishlist is passed in as they are created empty when a customer is created
+	 * @param phoneNumber The phone number for the customer being created no cart or
+	 * wishlist is passed in as they are created empty when a customer is created
 	 */
 	public CustomerRequestDto(String email, String password, String name, String phoneNumber) {
 		this.password = password;
@@ -46,7 +47,7 @@ public class CustomerRequestDto {
 		this.phoneNumber = phoneNumber;
 	}
 
-		/**
+	/**
 	 * Constructor
 	 * @author Carmin Vidé
 	 * @param email The email for the customer being created
@@ -54,10 +55,11 @@ public class CustomerRequestDto {
 	 * @param name The name for the customer being created
 	 * @param phoneNumber The phone number for the customer being created
 	 * @param cart The cart for the customer being created
-	 * @param wishlist The wishlist for the customer being created
-	 * cart and wishlist are added for updating a customer
+	 * @param wishlist The wishlist for the customer being created cart and wishlist are
+	 * added for updating a customer
 	 */
-	public CustomerRequestDto(String email, String password, String name, String phoneNumber, Cart cart, Wishlist wishlist) {
+	public CustomerRequestDto(String email, String password, String name, String phoneNumber, Cart cart,
+			Wishlist wishlist) {
 		this.password = password;
 		this.email = email;
 		this.name = name;

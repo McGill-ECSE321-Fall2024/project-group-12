@@ -1,6 +1,6 @@
 package ca.mcgill.ecse321.group12.service;
 
-/* 
+/*
 import java.util.ArrayList;
 import java.util.List;
 */
@@ -26,10 +26,11 @@ public class CommentService {
 	 * @param id The primary key of the comment to find.
 	 * @return The comment with the given ID.
 	 */
-	public Comment  findCommentById(int id) {
+	public Comment findCommentById(int id) {
 		Comment emp = commentRepo.findCommentById(id);
 		if (emp == null) {
-				throw new CustomException(HttpStatus.NOT_FOUND, "There is no comment with ID " + id + ".");		}
+			throw new CustomException(HttpStatus.NOT_FOUND, "There is no comment with ID " + id + ".");
+		}
 		return emp;
 	}
 
@@ -42,7 +43,7 @@ public class CommentService {
 	@Transactional
 	public Comment createComment(String text, Review review) {
 		if (text == null || text.trim().length() == 0) {
-			throw new CustomException(HttpStatus.BAD_REQUEST,"Comment text cannot be empty.");
+			throw new CustomException(HttpStatus.BAD_REQUEST, "Comment text cannot be empty.");
 		}
 		Comment commentToCreate = new Comment();
 		commentToCreate.setText(text);
@@ -68,23 +69,20 @@ public class CommentService {
 	public Iterable<Comment> findAllComments() {
 		return commentRepo.findAll();
 	}
-/*
-	/**
-	 * Find comments by review
+
+	/*
+	 * /** Find comments by review
+	 *
 	 * @param review The review to search for
+	 *
 	 * @return A list of comments with the given review
 	 */
-/*	@Transactional
-	public Iterable<Comment> findCommentsByReview(Review review) {
-		List<Comment> comments = new ArrayList<Comment>();
-		for (Comment comment : commentRepo.findAll()) {
-			if (comment.getReview().equals(review)) {
-				((ArrayList<Comment>) comments).add(comment);
-			}
-		}
-		return comments;
-	}
-*/
+	/*
+	 * @Transactional public Iterable<Comment> findCommentsByReview(Review review) {
+	 * List<Comment> comments = new ArrayList<Comment>(); for (Comment comment :
+	 * commentRepo.findAll()) { if (comment.getReview().equals(review)) {
+	 * ((ArrayList<Comment>) comments).add(comment); } } return comments; }
+	 */
 	/**
 	 * Update the text of a comment.
 	 */
@@ -92,10 +90,10 @@ public class CommentService {
 	public Comment updateCommentById(int id, String text) {
 		Comment commentToUpdate = commentRepo.findCommentById(id);
 		if (text == null || text.trim().length() == 0) {
-			throw new CustomException(HttpStatus.BAD_REQUEST,
-			"Comment text cannot be empty.");
+			throw new CustomException(HttpStatus.BAD_REQUEST, "Comment text cannot be empty.");
 		}
 		commentToUpdate.setText(text);
 		return commentRepo.save(commentToUpdate);
 	}
+
 }

@@ -32,13 +32,12 @@ public class CustomerServiceTests {
 
 	@SuppressWarnings("null")
 
-    /**
+	/**
 	 * Test creating a customer with valid arguments.
 	 * @author Carmin Vidé
 	 */
 	@Test
 	public void testCreateValidCustomer() {
-
 
 		// create games
 		Game game1 = new Game();
@@ -60,15 +59,14 @@ public class CustomerServiceTests {
 		game3.setStatus(GameStatus.InCatalog);
 		game3.setName("Game 3");
 
-        // create cart
-        Cart cart = new Cart();
-        cart.addGame(game1);
-        cart.addGame(game2);
+		// create cart
+		Cart cart = new Cart();
+		cart.addGame(game1);
+		cart.addGame(game2);
 
-        // create wishlist
-        Wishlist wishlist = new Wishlist();
-        wishlist.addGame(game3);
-
+		// create wishlist
+		Wishlist wishlist = new Wishlist();
+		wishlist.addGame(game3);
 
 		// Arrange
 		String name = "Cunégonde";
@@ -82,8 +80,8 @@ public class CustomerServiceTests {
 		customer.setPassword(password);
 		customer.setName(name);
 		customer.setPhoneNumber(phoneNumber);
-        customer.setCart(cart);
-        customer.setWishlist(wishlist);
+		customer.setCart(cart);
+		customer.setWishlist(wishlist);
 
 		when(customerRepository.save(any(Customer.class))).thenReturn(customer);
 
@@ -96,18 +94,19 @@ public class CustomerServiceTests {
 		assertEquals(email, createdCustomer.getEmail());
 		assertEquals(password, createdCustomer.getPassword());
 		assertEquals(phoneNumber, createdCustomer.getPhoneNumber());
-        assertEquals(cart, createdCustomer.getCart());
-        assertEquals(wishlist, createdCustomer.getWishlist());
+		assertEquals(cart, createdCustomer.getCart());
+		assertEquals(wishlist, createdCustomer.getWishlist());
 		verify(customerRepository, times(1)).save(any(Customer.class));
 	}
 
-    /**
-	 * Test creating a customer with invalid email (email is already associated with a different account).
+	/**
+	 * Test creating a customer with invalid email (email is already associated with a
+	 * different account).
 	 * @author Carmin Vidé
 	 */
 	@Test
-	public void testCreateCustomerWithInvalidEmail() { 
-    // Arrange
+	public void testCreateCustomerWithInvalidEmail() {
+		// Arrange
 		String name = "Cunégonde";
 		String email = "cuneee@mail.mcgill.ca";
 		String password = "12345678";
@@ -115,8 +114,8 @@ public class CustomerServiceTests {
 		String name2 = "Cunëcûle";
 		String password2 = "theorye";
 		String phoneNumber2 = "6498113794";
-        Cart cart = new Cart();
-        Wishlist wishlist = new Wishlist();
+		Cart cart = new Cart();
+		Wishlist wishlist = new Wishlist();
 
 		Customer customer = new Customer();
 
@@ -124,8 +123,8 @@ public class CustomerServiceTests {
 		customer.setPassword(password);
 		customer.setName(name);
 		customer.setPhoneNumber(phoneNumber);
-        customer.setCart(cart);
-        customer.setWishlist(wishlist);
+		customer.setCart(cart);
+		customer.setWishlist(wishlist);
 
 		when(customerRepository.save(any(Customer.class))).thenReturn(customer);
 
@@ -134,47 +133,45 @@ public class CustomerServiceTests {
 		// Assert
 		CustomException e = assertThrows(CustomException.class,
 				() -> customerService.createCustomer(email, password2, name2, phoneNumber2, wishlist, cart));
-		
+
 		assertEquals("Create customer failed. Customer with this email already exists in the system.", e.getMessage());
 	}
 
-
-    /**
+	/**
 	 * Test reading a customer by valid ID (customer exists in the system).
 	 * @author Carmin Vidé
-	 */    
+	 */
 	@Test
 	public void testReadCustomerByValidId() {
 		// Arrange
-        // create games
-        Game game1 = new Game();
-        Game game2 = new Game();
-        Game game3 = new Game();
+		// create games
+		Game game1 = new Game();
+		Game game2 = new Game();
+		Game game3 = new Game();
 
-        game1.setInventory(100);
-        game1.setPrice(20);
-        game1.setStatus(GameStatus.InCatalog);
-        game1.setName("Game 1");
+		game1.setInventory(100);
+		game1.setPrice(20);
+		game1.setStatus(GameStatus.InCatalog);
+		game1.setName("Game 1");
 
-        game2.setPrice(50);
-        game2.setStatus(GameStatus.InCatalog);
-        game2.setInventory(10);
-        game2.setName("Game 2");
+		game2.setPrice(50);
+		game2.setStatus(GameStatus.InCatalog);
+		game2.setInventory(10);
+		game2.setName("Game 2");
 
-        game3.setInventory(50);
-        game3.setPrice(30);
-        game3.setStatus(GameStatus.InCatalog);
-        game3.setName("Game 3");
+		game3.setInventory(50);
+		game3.setPrice(30);
+		game3.setStatus(GameStatus.InCatalog);
+		game3.setName("Game 3");
 
-        // create cart
-        Cart cart = new Cart();
-        cart.addGame(game1);
-        cart.addGame(game2);
+		// create cart
+		Cart cart = new Cart();
+		cart.addGame(game1);
+		cart.addGame(game2);
 
-        // create wishlist
-        Wishlist wishlist = new Wishlist();
-        wishlist.addGame(game3);
-        
+		// create wishlist
+		Wishlist wishlist = new Wishlist();
+		wishlist.addGame(game3);
 
 		int id = 42;
 		Customer customer = new Customer();
@@ -182,8 +179,8 @@ public class CustomerServiceTests {
 		customer.setName("goerger");
 		customer.setPassword("123456");
 		customer.setPhoneNumber("4898498498");
-        customer.setCart(cart);
-        customer.setWishlist(wishlist);
+		customer.setCart(cart);
+		customer.setWishlist(wishlist);
 		when(customerRepository.findCustomerById(id)).thenReturn(customer);
 
 		// Act
@@ -195,15 +192,14 @@ public class CustomerServiceTests {
 		assertEquals(customer.getEmail(), foundCustomer.getEmail());
 		assertEquals(customer.getPassword(), foundCustomer.getPassword());
 		assertEquals(customer.getPhoneNumber(), foundCustomer.getPhoneNumber());
-        assertEquals(customer.getCart(), foundCustomer.getCart());
-        assertEquals(customer.getWishlist(), foundCustomer.getWishlist());
+		assertEquals(customer.getCart(), foundCustomer.getCart());
+		assertEquals(customer.getWishlist(), foundCustomer.getWishlist());
 	}
 
-
-    /**
+	/**
 	 * Test reading a customer by invalid ID.
 	 * @author Carmin Vidé
-	 */  
+	 */
 	@Test
 	public void testReadCustomerByInvalidId() {
 		// Arrange
@@ -216,18 +212,10 @@ public class CustomerServiceTests {
 		assertEquals("There is no customer with ID " + id + ".", e.getMessage());
 	}
 
-
-
-
-
-
-
-
-    
-    /**
+	/**
 	 * Test updating a customer by valid arguments (customer exists in the system).
 	 * @author Carmin Vidé
-	 */  
+	 */
 	@Test
 	public void testUpdateCustomerByValidArguments() {
 		// Arrange
@@ -272,11 +260,12 @@ public class CustomerServiceTests {
 	}
 
 	/**
-	 * Test updating a customer by invalid email (email is already associated with a different account).
+	 * Test updating a customer by invalid email (email is already associated with a
+	 * different account).
 	 * @author Carmin Vidé
-	 */  
+	 */
 	@Test
-	public void testUpdateCustomerByInvalidEmail() { 
+	public void testUpdateCustomerByInvalidEmail() {
 
 		// Arrange
 		int id = 42;

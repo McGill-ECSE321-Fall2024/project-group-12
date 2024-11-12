@@ -29,24 +29,24 @@ import ca.mcgill.ecse321.group12.dto.CommentResponseDto;
 import ca.mcgill.ecse321.group12.dto.CustomerResponseDto;
 import ca.mcgill.ecse321.group12.model.Review;
 
-
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestInstance(Lifecycle.PER_CLASS)
 public class CommentServiceIntegrationTests {
-    @Autowired
-    private TestRestTemplate client;
 
-    @Autowired
-    private CommentRepository commentRepository;
+	@Autowired
+	private TestRestTemplate client;
 
-    private final String text = "Awesome game!";
+	@Autowired
+	private CommentRepository commentRepository;
 
-    private final Review review = new Review();
+	private final String text = "Awesome game!";
 
-    private Review commentReview;
+	private final Review review = new Review();
 
-    private int commentId;
+	private Review commentReview;
+
+	private int commentId;
 
 	@BeforeAll
 	@AfterTestClass
@@ -54,11 +54,11 @@ public class CommentServiceIntegrationTests {
 		commentRepository.deleteAll();
 	}
 
-    @Test
-    @Order(1)
-    public void testCreateComment() {
-        // Arrange
-        CommentRequestDto request = new CommentRequestDto(text, review);
+	@Test
+	@Order(1)
+	public void testCreateComment() {
+		// Arrange
+		CommentRequestDto request = new CommentRequestDto(text, review);
 		// Act
 		ResponseEntity<CommentResponseDto> response = client.postForEntity("/comments", request,
 				CommentResponseDto.class);
@@ -69,44 +69,44 @@ public class CommentServiceIntegrationTests {
 		CommentResponseDto createdComment = response.getBody();
 		assertNotNull(createdComment);
 		assertEquals(text, createdComment.getText());
-        assertNotNull(createdComment.getReview());
-        assertNotNull(createdComment.getId());
+		assertNotNull(createdComment.getReview());
+		assertNotNull(createdComment.getId());
 
 		assertTrue(createdComment.getId() > 0, "Response should have a positive ID.");
 		this.commentId = createdComment.getId();
-    }
+	}
 
-    @Test
-    @Order(2)
-    public void testFindCommentById() {
-        //Arrange
-        String url = "/comments/" + this.commentId;
+	@Test
+	@Order(2)
+	public void testFindCommentById() {
+		// Arrange
+		String url = "/comments/" + this.commentId;
 
+		// Act
+		ResponseEntity<CommentResponseDto> response = client.getForEntity(url, CommentResponseDto.class);
 
-        // Act
-        ResponseEntity<CommentResponseDto> response = client.getForEntity(url, CommentResponseDto.class);
+		// Assert
+		assertNotNull(response);
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		CommentResponseDto foundComment = response.getBody();
+		assertNotNull(foundComment);
+		assertEquals(this.commentReview, foundComment.getText());
+		assertNotNull(foundComment.getReview());
+		assertEquals(this.commentId, foundComment.getId());
+	}
 
-        // Assert
-        assertNotNull(response);
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        CommentResponseDto foundComment = response.getBody();
-        assertNotNull(foundComment);
-        assertEquals(this.commentReview, foundComment.getText());
-        assertNotNull(foundComment.getReview());
-        assertEquals(this.commentId, foundComment.getId());
-    }
+	@Test
+	@Order(3)
+	public void testFindCommentByIdWithInvalidId() {
+		// Arrange
+		String url = "/comments/0";
 
-    @Test
-    @Order(3)
-    public void testFindCommentByIdWithInvalidId() {
-        // Arrange
-        String url = "/comments/0";
+		// Act
+		ResponseEntity<CommentResponseDto> response = client.getForEntity(url, CommentResponseDto.class);
 
-        // Act
-        ResponseEntity<CommentResponseDto> response = client.getForEntity(url, CommentResponseDto.class);
+		// Assert
+		assertNotNull(response);
+		assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+	}
 
-        // Assert
-        assertNotNull(response);
-        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-    }
 }

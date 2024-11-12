@@ -43,7 +43,6 @@ public class CustomerController {
 		return new CustomerResponseDto(customer);
 	}
 
-
 	/**
 	 * Get all customers
 	 * @return All customers.
@@ -63,8 +62,6 @@ public class CustomerController {
 		customerService.deleteCustomerById(eid);
 	}
 
-
-
 	/**
 	 * Create a new customer.
 	 * @param customer The customer to create.
@@ -80,9 +77,7 @@ public class CustomerController {
 		return new CustomerResponseDto(createdCustomer);
 	}
 
-	
-
-		/**
+	/**
 	 * Update an customer.
 	 * @param customer The customer to update.
 	 * @return The updated customer, including their ID.
@@ -93,6 +88,6 @@ public class CustomerController {
 				customer.getName(), customer.getPhoneNumber(), customer.getWishlist(), customer.getCart());
 		return new CustomerResponseDto(updatedCustomer);
 
-
 	}
+
 }

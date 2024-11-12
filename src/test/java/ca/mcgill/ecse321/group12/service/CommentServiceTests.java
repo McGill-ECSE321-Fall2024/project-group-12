@@ -18,10 +18,10 @@ import ca.mcgill.ecse321.group12.exception.CustomException;
 import ca.mcgill.ecse321.group12.model.Comment;
 import ca.mcgill.ecse321.group12.repository.CommentRepository;
 
-
 @SpringBootTest
 public class CommentServiceTests {
-    @Mock
+
+	@Mock
 	private CommentRepository commentRepository;
 
 	@InjectMocks
@@ -29,161 +29,159 @@ public class CommentServiceTests {
 
 	@SuppressWarnings("null")
 
-    /**
-     * Test creating a comment with valid arguments.
-     * @Author Carmin Vidé
-     */
-    @Test
+	/**
+	 * Test creating a comment with valid arguments.
+	 * @Author Carmin Vidé
+	 */
+	@Test
 
-    public void testCreateValidComment() {
-        // Arrange
-        String text = "Awesome game!";
-        Review review = new Review();
-        Comment comment = new Comment();
-        comment.setText(text);
-        comment.setReview(review);
+	public void testCreateValidComment() {
+		// Arrange
+		String text = "Awesome game!";
+		Review review = new Review();
+		Comment comment = new Comment();
+		comment.setText(text);
+		comment.setReview(review);
 
-        when(commentRepository.save(any(Comment.class))).thenReturn(comment);
+		when(commentRepository.save(any(Comment.class))).thenReturn(comment);
 
-        // Act
-        Comment createdComment = commentService.createComment(text, review);
-
-        // Assert
-        assertNotNull(createdComment);
-        assertEquals(text, createdComment.getText());
-        assertEquals(review, createdComment.getReview());
-        verify(commentRepository, times(1)).save(any(Comment.class));
-    }
-
-    /**
-     * Test creating a comment with invalid text.
-     * @Author Carmin Vidé
-     */
-    @Test
-    public void testCreateCommentWithInvalidText() {
-        // Arrange
-        String text = null;
-        Review review = new Review();
+		// Act
+		Comment createdComment = commentService.createComment(text, review);
 
 		// Assert
-		CustomException e = assertThrows(CustomException.class,
-				() -> commentService.createComment(text, review));
+		assertNotNull(createdComment);
+		assertEquals(text, createdComment.getText());
+		assertEquals(review, createdComment.getReview());
+		verify(commentRepository, times(1)).save(any(Comment.class));
+	}
+
+	/**
+	 * Test creating a comment with invalid text.
+	 * @Author Carmin Vidé
+	 */
+	@Test
+	public void testCreateCommentWithInvalidText() {
+		// Arrange
+		String text = null;
+		Review review = new Review();
+
+		// Assert
+		CustomException e = assertThrows(CustomException.class, () -> commentService.createComment(text, review));
 		assertEquals("Comment text cannot be empty.", e.getMessage());
-    }
-    
-    /**
-     * Test retrieving a comment by its id.
-     * @Author Carmin Vidé
-     */
-    @Test
-    public void testFindCommentById() {
-        // Arrange
-        int id = 42;
-        Comment comment = new Comment();
-        comment.setText("this game kinda sucks ngl");
-        comment.setReview(new Review());
-        when(commentRepository.findCommentById(id)).thenReturn(comment);
+	}
 
-        // Act
-        Comment foundComment = commentService.findCommentById(id);
+	/**
+	 * Test retrieving a comment by its id.
+	 * @Author Carmin Vidé
+	 */
+	@Test
+	public void testFindCommentById() {
+		// Arrange
+		int id = 42;
+		Comment comment = new Comment();
+		comment.setText("this game kinda sucks ngl");
+		comment.setReview(new Review());
+		when(commentRepository.findCommentById(id)).thenReturn(comment);
 
-        // Assert
-        assertNotNull(comment);
-        assertEquals(comment.getText(), foundComment.getText());
-        assertEquals(comment.getReview(), foundComment.getReview());
-    }
+		// Act
+		Comment foundComment = commentService.findCommentById(id);
 
-    /**
-     * Test retrieving a comment with an invalid id.
-     * @Author Carmin Vidé
-     */
-    @Test
-    public void testFindCommentByInvalidId() {
-        // Arrange
-        int id = -1;
-        when(commentRepository.findCommentById(id)).thenReturn(null);
+		// Assert
+		assertNotNull(comment);
+		assertEquals(comment.getText(), foundComment.getText());
+		assertEquals(comment.getReview(), foundComment.getReview());
+	}
 
-        // Act
-        // Assert
-        CustomException e = assertThrows(CustomException.class, () -> commentService.findCommentById(id));
-        assertEquals("There is no comment with ID " + id + ".", e.getMessage());
-    }
+	/**
+	 * Test retrieving a comment with an invalid id.
+	 * @Author Carmin Vidé
+	 */
+	@Test
+	public void testFindCommentByInvalidId() {
+		// Arrange
+		int id = -1;
+		when(commentRepository.findCommentById(id)).thenReturn(null);
 
-    /**
-     * Test updating a comment by its id.
-     * @Author Carmin Vidé
-     */
-    @Test
-    public void testUpdateCommentByValidArguments() {
-        // Arrange
-        int id = 42;
-        Comment comment = new Comment();
-        String text = "pooja what is this behaviour";
-        Review review = new Review();
+		// Act
+		// Assert
+		CustomException e = assertThrows(CustomException.class, () -> commentService.findCommentById(id));
+		assertEquals("There is no comment with ID " + id + ".", e.getMessage());
+	}
 
-        comment.setId(id);
-        comment.setText(text);
-        comment.setReview(review);
+	/**
+	 * Test updating a comment by its id.
+	 * @Author Carmin Vidé
+	 */
+	@Test
+	public void testUpdateCommentByValidArguments() {
+		// Arrange
+		int id = 42;
+		Comment comment = new Comment();
+		String text = "pooja what is this behaviour";
+		Review review = new Review();
 
-        String newText = "but you're asking for it. you're dying for it!";
+		comment.setId(id);
+		comment.setText(text);
+		comment.setReview(review);
 
-        when(commentRepository.findCommentById(id)).thenReturn(comment);
-        when(commentRepository.save(any(Comment.class))).thenReturn(comment);
+		String newText = "but you're asking for it. you're dying for it!";
 
-        // Act
-        Comment updatedComment = commentService.updateCommentById(id, newText);
+		when(commentRepository.findCommentById(id)).thenReturn(comment);
+		when(commentRepository.save(any(Comment.class))).thenReturn(comment);
 
-        // Assert
-        assertNotNull(updatedComment);
-        assertEquals(newText, updatedComment.getText());
-        assertEquals(review, updatedComment.getReview());
-    }
+		// Act
+		Comment updatedComment = commentService.updateCommentById(id, newText);
 
-    /**
-     * Test updating a comment with an invalid text.
-     * @Author Carmin Vidé
-     */
-    @Test
-    public void testUpdateCommentByInvalidText() {
-        // Arrange
-        int id = 42;
-        Comment comment = new Comment();
-        String text = "pooja what is this behaviour";
-        Review review = new Review();
+		// Assert
+		assertNotNull(updatedComment);
+		assertEquals(newText, updatedComment.getText());
+		assertEquals(review, updatedComment.getReview());
+	}
 
-        comment.setId(id);
-        comment.setText(text);
-        comment.setReview(review);
+	/**
+	 * Test updating a comment with an invalid text.
+	 * @Author Carmin Vidé
+	 */
+	@Test
+	public void testUpdateCommentByInvalidText() {
+		// Arrange
+		int id = 42;
+		Comment comment = new Comment();
+		String text = "pooja what is this behaviour";
+		Review review = new Review();
 
-        String newText = null;
+		comment.setId(id);
+		comment.setText(text);
+		comment.setReview(review);
 
-        when(commentRepository.findCommentById(id)).thenReturn(comment);
+		String newText = null;
 
-        // Act
-        // Assert
-		CustomException e = assertThrows(CustomException.class,
-				() -> commentService.createComment(newText, review));
+		when(commentRepository.findCommentById(id)).thenReturn(comment);
+
+		// Act
+		// Assert
+		CustomException e = assertThrows(CustomException.class, () -> commentService.createComment(newText, review));
 		assertEquals("Comment text cannot be empty.", e.getMessage());
-    }
+	}
 
-    /**
-     * Test deleting a comment by its id.
-     * @Author Carmin Vidé
-     */
-    @Test
-    public void testDeleteCommentById() {
-        // Arrange
-        int id = 42;
-        Comment comment = new Comment();
-        comment.setText("this game kinda sucks ngl");
-        comment.setReview(new Review());
-        when(commentRepository.findCommentById(id)).thenReturn(comment);
+	/**
+	 * Test deleting a comment by its id.
+	 * @Author Carmin Vidé
+	 */
+	@Test
+	public void testDeleteCommentById() {
+		// Arrange
+		int id = 42;
+		Comment comment = new Comment();
+		comment.setText("this game kinda sucks ngl");
+		comment.setReview(new Review());
+		when(commentRepository.findCommentById(id)).thenReturn(comment);
 
-        // Act
-        commentService.deleteCommentById(id);
+		// Act
+		commentService.deleteCommentById(id);
 
-        // Assert
-        verify(commentRepository, times(1)).delete(comment);
-    }
+		// Assert
+		verify(commentRepository, times(1)).delete(comment);
+	}
 
 }

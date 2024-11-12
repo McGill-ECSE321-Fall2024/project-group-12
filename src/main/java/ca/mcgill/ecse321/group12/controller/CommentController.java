@@ -43,7 +43,6 @@ public class CommentController {
 		return allComments;
 	}
 
-
 	/**
 	 * Delete an comment.
 	 * @param comment The comment to delete.

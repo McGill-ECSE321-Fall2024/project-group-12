@@ -41,7 +41,8 @@ public class CustomerService {
 	 * @return The newly created customer.
 	 */
 	@Transactional
-	public Customer createCustomer(String email, String password, String name, String phoneNumber, Wishlist wishlist, Cart cart) {
+	public Customer createCustomer(String email, String password, String name, String phoneNumber, Wishlist wishlist,
+			Cart cart) {
 		Customer customerToCreate = new Customer();
 		customerToCreate.setEmail(email);
 		customerToCreate.setPassword(password);
@@ -81,7 +82,8 @@ public class CustomerService {
 	 * @return Updated customer
 	 */
 	@Transactional
-	public Customer updateCustomerById(int id, String newEmail, String password, String name, String phoneNumber, Wishlist wishlist, Cart cart) {
+	public Customer updateCustomerById(int id, String newEmail, String password, String name, String phoneNumber,
+			Wishlist wishlist, Cart cart) {
 		Customer customerToUpdate = customerRepo.findCustomerById(id);
 		String previousEmail = customerToUpdate.getEmail();
 		customerToUpdate.setEmail(newEmail);

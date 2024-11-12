@@ -70,7 +70,7 @@ public class CustomerResponseDto {
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
-    
+
 	public void setCart(Cart cart) {
 		this.cart = cart;
 	}

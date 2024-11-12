@@ -13,7 +13,7 @@ public class CommentRequestDto {
 	private CommentRequestDto() {
 	}
 
-			/**
+	/**
 	 * Constructor
 	 * @author Carmin Vidé
 	 * @param text The text for the comment being created
