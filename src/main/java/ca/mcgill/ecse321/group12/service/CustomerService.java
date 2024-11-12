@@ -53,7 +53,6 @@ public class CustomerService {
 		customerToCreate.setCart(cart);
 		customerToCreate.setWishlist(wishlist);
 		Customer savedCustomer = customerRepo.save(customerToCreate);
-		System.out.println("BDUZFIPAOFEBIUP" + savedCustomer.getEmail());
 		if (savedCustomer.getEmail() == null) {
 			throw new CustomException(HttpStatus.BAD_REQUEST,
 					"Create customer failed. Customer with this email already exists in the system.");
