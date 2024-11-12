@@ -38,10 +38,10 @@ Julien: "Hey. I am a U2 Software Engineering student at McGill! A fun fact about
 ### Deliverable 2
 | Name             | Team Roles       | Hours | Individual Effort |
 | ---------------- | ---------------- | ----- | ---- |
-| James Madden     | Tech Lead        |     | <ul><li> Implemented order related use cases</li></ul>|
+| James Madden     | Tech Lead        |     | <ul><li> Implemented order related use cases</li><li> Implemented authentication</li></ul>|
 | Sophia Li        | Project Manager  |     | <ul><li> Implemented cart related use cases</li></ul> |
 | Amy Ding         | UI/UX Designer   |     | <ul><li> Implemented employee related use cases</li><li>Updated Wiki for Software Quality Assurance Plan</li><li>Took meeting minutes</li></ul>|
-| Julien Heng      | Developer        |     | <ul><li> Implemented game related use cases</li></ul> |
+| Julien Heng      | Developer        |     | <ul><li> Implemented game related use cases</li><li> Implemented discounts on orders</li></ul> |
 | Kennedy Olsen    | Business Analyst |     | |
 | Carmin Vidé | Scrum Master     |     | <ul><li> Implemented customer and comment related use cases</li></ul>|
 
