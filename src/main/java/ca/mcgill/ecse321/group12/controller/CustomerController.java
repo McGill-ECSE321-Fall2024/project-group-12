@@ -35,7 +35,7 @@ public class CustomerController {
 	/**
 	 * Return the customer with the given ID.
 	 * @param eid The primary key of the customer to find.
-	 * @return The empllyee with the given ID.
+	 * @return The customer with the given ID.
 	 * @author Carmin Vidé
 	 */
 	@GetMapping("/customers/{eid}")
@@ -56,7 +56,7 @@ public class CustomerController {
 	}
 
 	/**
-	 * Delete an customer.
+	 * Delete a customer.
 	 * @param eid The primary key of the customer to delete.
 	 * @author Carmin Vidé
 	 */
@@ -82,7 +82,7 @@ public class CustomerController {
 	}
 
 	/**
-	 * Update an customer.
+	 * Update a customer.
 	 * @param customer The customer to update.
 	 * @param eid The primary key for the customer to be updated.
 	 * @return The updated customer, including their ID.
