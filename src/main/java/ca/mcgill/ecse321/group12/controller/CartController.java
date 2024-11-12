@@ -41,37 +41,43 @@ public class CartController {
 	}
 
 	/**
-	 * Modifies the cart (add, remove or clear)
-	 * If no request parameters are passed, the gameId in the request body is added to the cart
-	 * If a request parameter "remove" is passed with the value "all", all games are removed from the cart
-	 * If a request parameter "remove" is passed with a gameId, the game with that gameId is removed from the cart
+	 * Modifies the cart (add, remove or clear) If no request parameters are passed, the
+	 * gameId in the request body is added to the cart If a request parameter "remove" is
+	 * passed with the value "all", all games are removed from the cart If a request
+	 * parameter "remove" is passed with a gameId, the game with that gameId is removed
+	 * from the cart
 	 * @param cartId The primary key of the cart to find.
 	 * @return The cart with the given ID.
 	 */
 	@PutMapping("/cart/{cartId}")
 	@ResponseStatus(HttpStatus.OK)
-	public CartResponseDto addGameToCart(@PathVariable int cartId, @RequestBody(required = false) CartRequestDto cart, @RequestParam(value = "remove") Optional<String> remove) {
+	public CartResponseDto addGameToCart(@PathVariable int cartId, @RequestBody(required = false) CartRequestDto cart,
+			@RequestParam(value = "remove") Optional<String> remove) {
 		cartService.findCartById(cartId);
 
 		// checks if the request parameter "remove" is passed
 		if (!remove.isEmpty()) {
 
-			// checks if the value of the request parameter "remove" is "all" or an integer
+			// checks if the value of the request parameter "remove" is "all" or an
+			// integer
 			String param = remove.get();
 			if (param.equals("all")) {
 				// clears the cart
 				Cart thisCart = cartService.clearCart(cartId);
 				return new CartResponseDto(thisCart);
-			} else {
-				// removes the game with the gameId passed in the request parameter "remove"
+			}
+			else {
+				// removes the game with the gameId passed in the request parameter
+				// "remove"
 				int gameId = Integer.parseInt(param);
 				Cart thisCart = cartService.removeGame(cartId, gameId, gameService);
 				return new CartResponseDto(thisCart);
 			}
-		} else {
+		}
+		else {
 
 			if (cart == null) {
-				throw new CustomException(HttpStatus.BAD_REQUEST,"No game ID provided.");
+				throw new CustomException(HttpStatus.BAD_REQUEST, "No game ID provided.");
 			}
 
 			// adds the game with the gameId in the request body to the cart

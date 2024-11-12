@@ -396,8 +396,11 @@ public class OrderServiceIntegrationTests {
 
 		// get the ID of the customer's cart and clear it
 		int cartId = customer.getCart().getId();
-		ResponseEntity<CartResponseDto> cartRes =client.exchange("/cart/" + cartId + "?remove=all", HttpMethod.PUT, null, CartResponseDto.class);
-		
+		ResponseEntity<CartResponseDto> cartRes = client.exchange("/cart/" + cartId + "?remove=all", HttpMethod.PUT,
+				null, CartResponseDto.class);
+		assertNotNull(cartRes);
+		assertEquals(HttpStatus.OK, cartRes.getStatusCode());
+
 		// add the two available in stock games to the cart
 		CartRequestDto req1 = new CartRequestDto();
 		CartRequestDto req2 = new CartRequestDto();
@@ -416,6 +419,12 @@ public class OrderServiceIntegrationTests {
 		ResponseEntity<CartResponseDto> resp2 = client.exchange("/cart/" + cartId, HttpMethod.PUT, reqEntity2,
 				CartResponseDto.class);
 
+		// make sure both PUTs were successful
+		assertNotNull(resp1);
+		assertNotNull(resp2);
+		assertEquals(HttpStatus.OK, resp1.getStatusCode());
+		assertEquals(HttpStatus.OK, resp2.getStatusCode());
+
 		// set request properties
 		OrderRequestDto req = new OrderRequestDto();
 		req.setBillingAddress("3480 Rue University");
@@ -428,12 +437,12 @@ public class OrderServiceIntegrationTests {
 		req.setCustomerId(customer.getId());
 
 		// send the post request
-		ResponseEntity<OrderResponseDto> response = client.postForEntity("/orders?discount=20", req, OrderResponseDto.class);
+		ResponseEntity<OrderResponseDto> response = client.postForEntity("/orders?discount=20", req,
+				OrderResponseDto.class);
 
 		// make sure the response was successful
 		assertNotNull(response);
 		assertEquals(HttpStatus.CREATED, response.getStatusCode());
-		
 
 		OrderResponseDto order = response.getBody();
 		assertNotNull(order);
@@ -461,7 +470,6 @@ public class OrderServiceIntegrationTests {
 		// make sure the price of the order matches the discounted value
 		float gamePrices = (gameDtos.get(0).getPrice() + gameDtos.get(2).getPrice()) * 0.8f;
 		assertEquals(order.getPurchaseTotal(), gamePrices);
-		
 
 	}
 
