@@ -173,10 +173,12 @@ public class CommentServiceIntegrationTests {
         String url = "/comments/0";
 
         // Act
-        ResponseEntity<Void> response = client.exchange(url, HttpMethod.DELETE, null, Void.class);
+        ResponseEntity<String> response = client.exchange(url, HttpMethod.DELETE, null, String.class);
+		String error = response.getBody();
 
         // Assert
         assertNotNull(response);
+        assertNotNull(error);
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 
