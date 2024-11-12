@@ -1,12 +1,14 @@
 package ca.mcgill.ecse321.group12.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import ca.mcgill.ecse321.group12.model.Customer;
 import ca.mcgill.ecse321.group12.repository.CustomerRepository;
 import jakarta.transaction.Transactional;
 import ca.mcgill.ecse321.group12.model.Wishlist;
+import ca.mcgill.ecse321.group12.exception.CustomException;
 import ca.mcgill.ecse321.group12.model.Cart;
 
 @Service
@@ -23,7 +25,7 @@ public class CustomerService {
 	public Customer findCustomerById(int id) {
 		Customer emp = customerRepo.findCustomerById(id);
 		if (emp == null) {
-			throw new IllegalArgumentException("There is no customer with ID " + id + ".");
+			throw new CustomException(HttpStatus.NOT_FOUND, "There is no customer with ID " + id + ".");
 		}
 		return emp;
 	}

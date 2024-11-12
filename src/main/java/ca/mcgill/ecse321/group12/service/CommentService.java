@@ -1,8 +1,10 @@
 package ca.mcgill.ecse321.group12.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import ca.mcgill.ecse321.group12.exception.CustomException;
 import ca.mcgill.ecse321.group12.model.Comment;
 import ca.mcgill.ecse321.group12.repository.CommentRepository;
 import jakarta.transaction.Transactional;
@@ -21,7 +23,7 @@ public class CommentService {
 	public Comment findCommentById(int id) {
 		Comment emp = commentRepo.findCommentById(id);
 		if (emp == null) {
-			throw new IllegalArgumentException("There is no comment with ID " + id + ".");
+			throw new CustomException(HttpStatus.NOT_FOUND, "There is no comment with ID " + id + ".");
 		}
 		return emp;
 	}
