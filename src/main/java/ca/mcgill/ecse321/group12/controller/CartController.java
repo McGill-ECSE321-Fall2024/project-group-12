@@ -69,9 +69,16 @@ public class CartController {
 			else {
 				// removes the game with the gameId passed in the request parameter
 				// "remove"
-				int gameId = Integer.parseInt(param);
-				Cart thisCart = cartService.removeGame(cartId, gameId, gameService);
-				return new CartResponseDto(thisCart);
+				try {
+					int gameId = Integer.parseInt(param);
+					Cart thisCart = cartService.removeGame(cartId, gameId, gameService);
+					return new CartResponseDto(thisCart);
+				}
+				catch (NumberFormatException e) {
+					// if the gameId is not an integer, throws an exception
+					throw new CustomException(HttpStatus.BAD_REQUEST, "Invalid game ID provided.");
+				}
+				
 			}
 		}
 		else {
