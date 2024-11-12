@@ -19,8 +19,8 @@ public class AuthResponseDto {
     token = newToken;
   }
 
-  public void setUserType(UserType userType) {
-    throw new UnsupportedOperationException("Unimplemented method 'setUserType'");
+  public void setUserType(UserType newUserType) {
+    userType = newUserType;
   }
 
 }
