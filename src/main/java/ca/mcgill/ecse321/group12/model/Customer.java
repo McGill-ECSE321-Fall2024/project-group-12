@@ -29,6 +29,10 @@ public class Customer extends UserRole {
 
 	private UserType userType = UserType.CUSTOMER;
 
+	public UserType getUserType() {
+		return userType;
+	}
+
 	/**
 	 * set permissions for user auth
 	 */

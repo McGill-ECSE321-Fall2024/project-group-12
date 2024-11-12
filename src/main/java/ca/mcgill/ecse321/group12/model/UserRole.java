@@ -19,7 +19,7 @@ import jakarta.persistence.GeneratedValue;
 // line 11 "../../../../../../ReindeerGames.ump"
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class UserRole implements UserDetails {
+abstract public class UserRole implements UserDetails {
 
 	// ------------------------
 	// STATIC VARIABLES
@@ -49,8 +49,6 @@ public class UserRole implements UserDetails {
 
 	private String phoneNumber;
 
-	private UserType userType = UserType.USER;
-
 	/**
 	 * required methods for Spring Security
 	 * @author James Madden
@@ -71,9 +69,7 @@ public class UserRole implements UserDetails {
 			return type;
 		}
 	}
-	public UserType getUserType() {
-		return userType;
-	}
+	abstract public UserType getUserType();
 	@Override
 	public String getUsername() {
 		return email;

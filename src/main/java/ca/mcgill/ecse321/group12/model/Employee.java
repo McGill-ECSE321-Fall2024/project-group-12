@@ -17,6 +17,10 @@ public class Employee extends UserRole {
 
 	private UserType userType = UserType.EMPLOYEE;
 
+	public UserType getUserType() {
+		return userType;
+	}
+
 	/**
 	 * set permissions for user auth
 	 */

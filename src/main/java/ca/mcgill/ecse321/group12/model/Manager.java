@@ -17,6 +17,10 @@ public class Manager extends UserRole {
 
 	private UserType userType = UserType.MANAGER;
 
+	public UserType getUserType() {
+		return userType;
+	}
+
 	/**
 	 * set permissions for user auth
 	 */
