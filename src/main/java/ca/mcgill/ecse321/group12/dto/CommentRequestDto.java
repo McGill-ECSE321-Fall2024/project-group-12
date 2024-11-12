@@ -1,7 +1,6 @@
 package ca.mcgill.ecse321.group12.dto;
 
 import ca.mcgill.ecse321.group12.model.Comment;
-
 import ca.mcgill.ecse321.group12.model.Review;
 
 public class CommentRequestDto {
@@ -12,6 +11,17 @@ public class CommentRequestDto {
 
 	@SuppressWarnings("unused")
 	private CommentRequestDto() {
+	}
+
+			/**
+	 * Constructor
+	 * @author Carmin Vidé
+	 * @param text The text for the comment being created
+	 * @param review The review for the comment being created
+	 */
+	public CommentRequestDto(String text, Review review) {
+		this.text = text;
+		this.review = review;
 	}
 
 	public CommentRequestDto(Comment model) {

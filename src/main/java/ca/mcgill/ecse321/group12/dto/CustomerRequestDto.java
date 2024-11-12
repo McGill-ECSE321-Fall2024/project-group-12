@@ -46,6 +46,26 @@ public class CustomerRequestDto {
 		this.phoneNumber = phoneNumber;
 	}
 
+		/**
+	 * Constructor
+	 * @author Carmin Vidé
+	 * @param email The email for the customer being created
+	 * @param password The password for the customer being created
+	 * @param name The name for the customer being created
+	 * @param phoneNumber The phone number for the customer being created
+	 * @param cart The cart for the customer being created
+	 * @param wishlist The wishlist for the customer being created
+	 * cart and wishlist are added for updating a customer
+	 */
+	public CustomerRequestDto(String email, String password, String name, String phoneNumber, Cart cart, Wishlist wishlist) {
+		this.password = password;
+		this.email = email;
+		this.name = name;
+		this.phoneNumber = phoneNumber;
+		this.cart = cart;
+		this.wishlist = wishlist;
+	}
+
 	public String getPassword() {
 		return password;
 	}

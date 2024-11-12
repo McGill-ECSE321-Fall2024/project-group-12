@@ -50,9 +50,9 @@ public class CustomerServiceIntegrationTests {
 
 	private final String VALID_PHONENUMBER = "2047989416";
 
-    private final Cart CART = new Cart();
+    private Cart cart;
 
-    private final Wishlist WISHLIST = new Wishlist();
+    private Wishlist wishlist;
 
 	private int validId;
 
@@ -94,11 +94,10 @@ public class CustomerServiceIntegrationTests {
 		assertEquals(VALID_NAME, createdCustomer.getName());
 		assertEquals(VALID_EMAIL, createdCustomer.getEmail());
 		assertEquals(VALID_PHONENUMBER, createdCustomer.getPhoneNumber());
-        assertEquals(CART, createdCustomer.getCart());
-        assertEquals(WISHLIST, createdCustomer.getWishlist());
 		assertNotNull(createdCustomer.getId());
+        assertNotNull(createdCustomer.getCart());
+        assertNotNull(createdCustomer.getWishlist());
 		assertTrue(createdCustomer.getId() > 0, "Response should have a positive ID.");
-
 		this.validId = createdCustomer.getId();
 	}
 
@@ -146,8 +145,9 @@ public class CustomerServiceIntegrationTests {
 		assertEquals(VALID_EMAIL, customer.getEmail());
 		assertEquals(VALID_PHONENUMBER, customer.getPhoneNumber());
 		assertEquals(this.validId, customer.getId());
+        assertEquals(this.cart, customer.getCart());
+        assertEquals(this.wishlist, customer.getWishlist());
 	}
-
 	/**
 	 * Test to get an customer with an invalid id
 	 * @author Carmin Vidé
@@ -167,34 +167,44 @@ public class CustomerServiceIntegrationTests {
 		assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
 	}
 
-	/**
-	 * Test to update an customer account with valid inputs
-	 * @author Carmin Vidé
-	 * @return void
-	 */
-	@Test
-	@Order(5)
-	public void testUpdateCustomerByValidInputs() {
-		// Arrange
-		String url = "/customers/" + this.validId;
-		CustomerRequestDto body = new CustomerRequestDto(VALID_EMAIL2, VALID_PASSWORD, VALID_NAME, VALID_PHONENUMBER);
-		RequestEntity<CustomerRequestDto> request = RequestEntity.put(url)
-			.accept(MediaType.APPLICATION_PROBLEM_JSON)
-			.body(body);
-		// Act
-		ResponseEntity<CustomerResponseDto> response = client.exchange(url, HttpMethod.PUT, request,
-				CustomerResponseDto.class);
+    /**
+     * Test to update an customer account with valid inputs and an id that is valid
+     * in the database
+     * @Author Carmin Vidé
+     * @return void
+     */
+    @Test
+    @Order(5)
+    public void testUpdateCustomerByValidArguments() {
+        // Creating a new customer
+        CustomerRequestDto request = new CustomerRequestDto(VALID_EMAIL2, VALID_PASSWORD, VALID_NAME, VALID_PHONENUMBER);
+        ResponseEntity<CustomerResponseDto> response = client.postForEntity("/customers", request,
+                CustomerResponseDto.class);
+        assertNotNull(response);
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
 
-		// Assert
-		assertNotNull(response);
-		assertEquals(HttpStatus.OK, response.getStatusCode());
-		CustomerResponseDto customer = response.getBody();
-		assertNotNull(customer);
-		assertEquals(VALID_NAME, customer.getName());
-		assertEquals(VALID_EMAIL2, customer.getEmail());
-		assertEquals(VALID_PHONENUMBER, customer.getPhoneNumber());
-		assertEquals(this.validId, customer.getId());
-	}
+        // Arrange
+        String url = "/customers/" + this.validId;
+        CustomerRequestDto body = new CustomerRequestDto(VALID_EMAIL2, VALID_PASSWORD, VALID_NAME, VALID_PHONENUMBER, this.cart, this.wishlist);
+        RequestEntity<CustomerRequestDto> request2 = RequestEntity.put(url)
+            .accept(MediaType.APPLICATION_JSON)
+            .body(body);
+        // Act
+        ResponseEntity<CustomerResponseDto> response2 = client.exchange(url, HttpMethod.PUT, request2,
+                CustomerResponseDto.class);
+
+        // Assert
+        assertNotNull(response2);
+        assertEquals(HttpStatus.OK, response2.getStatusCode());
+        CustomerResponseDto updatedCustomer = response2.getBody();
+        assertNotNull(updatedCustomer);
+        assertEquals(VALID_NAME, updatedCustomer.getName());
+        assertEquals(VALID_EMAIL2, updatedCustomer.getEmail());
+        assertEquals(VALID_PHONENUMBER, updatedCustomer.getPhoneNumber());
+        assertEquals(this.validId, updatedCustomer.getId());
+        assertEquals(this.cart, updatedCustomer.getCart());
+        assertEquals(this.wishlist, updatedCustomer.getWishlist());
+    }
 
 	/**
 	 * Test to update an customer account with an email that is already associated with a
@@ -214,7 +224,7 @@ public class CustomerServiceIntegrationTests {
 
 		// Arrange
 		String url = "/customers/" + this.validId;
-		CustomerRequestDto body = new CustomerRequestDto(VALID_EMAIL, VALID_PASSWORD, VALID_NAME, VALID_PHONENUMBER);
+		CustomerRequestDto body = new CustomerRequestDto(VALID_EMAIL, VALID_PASSWORD, VALID_NAME, VALID_PHONENUMBER, this.cart, this.wishlist);
 		RequestEntity<CustomerRequestDto> request2 = RequestEntity.put(url)
 			.accept(MediaType.APPLICATION_PROBLEM_JSON)
 			.body(body);
@@ -268,3 +278,31 @@ public class CustomerServiceIntegrationTests {
 	}
 
 }
+
+
+/*	
+	@Test
+	@Order(5)
+	public void testUpdateCustomerByValidInputs() {
+		// Arrange
+		String url = "/customers/" + this.validId;
+		CustomerRequestDto body = new CustomerRequestDto(VALID_EMAIL2, VALID_PASSWORD, VALID_NAME, VALID_PHONENUMBER, this.cart, this.wishlist);
+		RequestEntity<CustomerRequestDto> request = RequestEntity.put(url)
+			.accept(MediaType.APPLICATION_PROBLEM_JSON)
+			.body(body);
+		// Act
+		ResponseEntity<CustomerResponseDto> response = client.exchange(url, HttpMethod.PUT, request,
+				CustomerResponseDto.class);
+
+		// Assert
+		assertNotNull(response);
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		CustomerResponseDto customer = response.getBody();
+		assertNotNull(customer);
+		assertEquals(VALID_NAME, customer.getName());
+		assertEquals(VALID_EMAIL2, customer.getEmail());
+		assertEquals(VALID_PHONENUMBER, customer.getPhoneNumber());
+		assertEquals(this.validId, customer.getId());
+        assertEquals(this.cart, customer.getCart());
+        assertEquals(this.wishlist, customer.getWishlist());
+	} */
