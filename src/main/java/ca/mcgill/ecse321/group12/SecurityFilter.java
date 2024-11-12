@@ -26,12 +26,6 @@ public class SecurityFilter extends OncePerRequestFilter {
   
   @Autowired
   AuthService authService;
-  @Autowired
-  CustomerRepository customerRepo;
-  @Autowired
-  EmployeeRepository employeeRepo;
-  @Autowired
-  ManagerRepository managerRepo;
 
   /**
    * check for a valid token and provide the auth'd user to Controller methods
@@ -50,18 +44,7 @@ public class SecurityFilter extends OncePerRequestFilter {
       // get the email of the user
       String email = authService.validateToken(token);
       // find that user
-      UserRole user;
-      // check if they're a manager
-      Manager manager = managerRepo.findManagerByEmail(email);
-      Employee employee = employeeRepo.findEmployeeByEmail(email);
-      Customer customer = customerRepo.findCustomerByEmail(email);
-      if (manager != null) {
-        user = manager;
-      } else if (employee != null) {
-        user = employee;
-      } else {
-        user = customer;
-      }
+      UserRole user = authService.getUserFromEmail(email);
 
       // set the authentication for controllers to look at
       UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
