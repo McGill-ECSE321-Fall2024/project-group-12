@@ -52,6 +52,7 @@ public class AuthService {
 
   /**
    * check whether the provided token is valid
+   * @returns user's email
    * @author James Madden
    */
   public String validateToken(String token) {
@@ -96,6 +97,24 @@ public class AuthService {
     }
 
     return user;
+
+  }
+
+  /**
+   * check that the auth token sent relates to the user that the request is targetting.
+   * this is to ensure that for example, nobody can edit a user except themselves.
+   * @author James Madden
+   */
+  public void matchUserAndToken(UserRole user, String token) {
+
+    // remove the Bearer prefix from the token
+    token = token.replace("Bearer ", "");
+    // get the email and validate the token
+    String email = validateToken(token);
+    // compare the emails. if they're not the same, error
+    if (!email.equals(user.getEmail())) {
+      throw new CustomException(HttpStatus.FORBIDDEN, "You are not authorized to take this action for this user.");
+    }
 
   }
 
