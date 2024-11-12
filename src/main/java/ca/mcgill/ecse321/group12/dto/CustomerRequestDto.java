@@ -37,10 +37,9 @@ public class CustomerRequestDto {
 	 * @param password The password for the customer being created
 	 * @param name The name for the customer being created
 	 * @param phoneNumber The phone number for the customer being created
-	 * @param cart The cart for the customer being created
-	 * @param wishlist The wishlist for the customer being created
+	 * no cart or wishlist is passed in as they are created empty when a customer is created
 	 */
-	public CustomerRequestDto(String email, String password, String name, String phoneNumber, Cart cart, Wishlist wishlist) {
+	public CustomerRequestDto(String email, String password, String name, String phoneNumber) {
 		this.password = password;
 		this.email = email;
 		this.name = name;

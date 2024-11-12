@@ -74,11 +74,13 @@ public class CustomerServiceIntegrationTests {
 	 * @author Carmin Vidé
 	 * @return void
 	 */
+
+    // A new cart and wishlist are created when the customer is created: not in the Dto
 	@Test
 	@Order(1)
 	public void testCreateValidCustomer() {
 		// Arrange
-		CustomerRequestDto request = new CustomerRequestDto(VALID_EMAIL, VALID_PASSWORD, VALID_NAME, VALID_PHONENUMBER, CART, WISHLIST);
+		CustomerRequestDto request = new CustomerRequestDto(VALID_EMAIL, VALID_PASSWORD, VALID_NAME, VALID_PHONENUMBER);
 
 		// Act
 		ResponseEntity<CustomerResponseDto> response = client.postForEntity("/customers", request,
@@ -92,6 +94,8 @@ public class CustomerServiceIntegrationTests {
 		assertEquals(VALID_NAME, createdCustomer.getName());
 		assertEquals(VALID_EMAIL, createdCustomer.getEmail());
 		assertEquals(VALID_PHONENUMBER, createdCustomer.getPhoneNumber());
+        assertEquals(CART, createdCustomer.getCart());
+        assertEquals(WISHLIST, createdCustomer.getWishlist());
 		assertNotNull(createdCustomer.getId());
 		assertTrue(createdCustomer.getId() > 0, "Response should have a positive ID.");
 
@@ -108,7 +112,7 @@ public class CustomerServiceIntegrationTests {
 	@Order(2)
 	public void testCreateInvalidCustomer() {
 		// Arrange
-		CustomerRequestDto request = new CustomerRequestDto(VALID_EMAIL, VALID_PASSWORD, VALID_NAME, VALID_PHONENUMBER, CART, WISHLIST);
+		CustomerRequestDto request = new CustomerRequestDto(VALID_EMAIL, VALID_PASSWORD, VALID_NAME, VALID_PHONENUMBER);
 
 		// Act
 		ResponseEntity<CustomerResponseDto> response = client.postForEntity("/customers", request,
@@ -173,7 +177,7 @@ public class CustomerServiceIntegrationTests {
 	public void testUpdateCustomerByValidInputs() {
 		// Arrange
 		String url = "/customers/" + this.validId;
-		CustomerRequestDto body = new CustomerRequestDto(VALID_EMAIL2, VALID_PASSWORD, VALID_NAME, VALID_PHONENUMBER, CART, WISHLIST);
+		CustomerRequestDto body = new CustomerRequestDto(VALID_EMAIL2, VALID_PASSWORD, VALID_NAME, VALID_PHONENUMBER);
 		RequestEntity<CustomerRequestDto> request = RequestEntity.put(url)
 			.accept(MediaType.APPLICATION_PROBLEM_JSON)
 			.body(body);
@@ -202,7 +206,7 @@ public class CustomerServiceIntegrationTests {
 	@Order(6)
 	public void testUpdateCustomerByInvalidEmail() {
 		// Creating a new customer
-		CustomerRequestDto request = new CustomerRequestDto(VALID_EMAIL, VALID_PASSWORD, VALID_NAME, VALID_PHONENUMBER, CART, WISHLIST);
+		CustomerRequestDto request = new CustomerRequestDto(VALID_EMAIL, VALID_PASSWORD, VALID_NAME, VALID_PHONENUMBER);
 		ResponseEntity<CustomerResponseDto> response = client.postForEntity("/customers", request,
 				CustomerResponseDto.class);
 		assertNotNull(response);
@@ -210,7 +214,7 @@ public class CustomerServiceIntegrationTests {
 
 		// Arrange
 		String url = "/customers/" + this.validId;
-		CustomerRequestDto body = new CustomerRequestDto(VALID_EMAIL, VALID_PASSWORD, VALID_NAME, VALID_PHONENUMBER, CART, WISHLIST);
+		CustomerRequestDto body = new CustomerRequestDto(VALID_EMAIL, VALID_PASSWORD, VALID_NAME, VALID_PHONENUMBER);
 		RequestEntity<CustomerRequestDto> request2 = RequestEntity.put(url)
 			.accept(MediaType.APPLICATION_PROBLEM_JSON)
 			.body(body);
