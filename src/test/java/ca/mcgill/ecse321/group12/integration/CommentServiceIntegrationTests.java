@@ -26,10 +26,7 @@ import org.springframework.test.context.event.annotation.AfterTestClass;
 import ca.mcgill.ecse321.group12.repository.CommentRepository;
 import ca.mcgill.ecse321.group12.dto.CommentRequestDto;
 import ca.mcgill.ecse321.group12.dto.CommentResponseDto;
-import ca.mcgill.ecse321.group12.dto.GameRequestDto;
-import ca.mcgill.ecse321.group12.dto.GameResponseDto;
 import ca.mcgill.ecse321.group12.model.Review;
-import ca.mcgill.ecse321.group12.repository.ReviewRepository;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -43,8 +40,6 @@ public class CommentServiceIntegrationTests {
 	private CommentRepository commentRepository;
 
     private final String text = "Awesome game!";
-
-    private Review commentReview;
 
 	private int commentId;
 
@@ -60,7 +55,7 @@ public class CommentServiceIntegrationTests {
 	@SuppressWarnings("null")
     @Test
 	@Order(1)
-	public void testCreateComment() {
+	public void testCreateCommentWithValidText() {
         // Arrange
         CommentRequestDto request = new CommentRequestDto(text, review);
 
@@ -78,11 +73,25 @@ public class CommentServiceIntegrationTests {
         assertNotNull(createdComment.getId());
         assertTrue(createdComment.getId() > 0, "Response should have a positive ID.");
         this.commentId = createdComment.getId();
-        this.commentReview = createdComment.getReview();
+        this.review = createdComment.getReview();
 	}
 
+    @Test
+    @Order(2)
+    public void testCreatingCommentWithInvalidText() {
+        // Arrange
+        CommentRequestDto request = new CommentRequestDto(null, review);
+
+        // Act
+        ResponseEntity<CommentResponseDto> response = client.postForEntity("/comments", request, CommentResponseDto.class);
+
+        // Assert
+        assertNotNull(response);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
+
 	@Test
-	@Order(2)
+	@Order(3)
 	public void testFindCommentById() {
         // Arrange
         CommentRequestDto request = new CommentRequestDto(text, review);
@@ -104,7 +113,7 @@ public class CommentServiceIntegrationTests {
 	}
 
 	@Test
-	@Order(3)
+	@Order(4)
 	public void testFindCommentByIdWithInvalidId() {
 		// Arrange
 		String url = "/comments/0";
@@ -118,7 +127,7 @@ public class CommentServiceIntegrationTests {
 	}
 
     @Test
-    @Order(4)
+    @Order(5)
     public void testUpdateComment() {
 		// Arrange
 		String url = "/comments/" + this.commentId;
@@ -144,7 +153,7 @@ public class CommentServiceIntegrationTests {
     
 
     @Test
-    @Order(5)
+    @Order(6)
     public void testDeleteComment() {
         // Arrange
         String url = "/comments/" + commentId;
@@ -158,7 +167,7 @@ public class CommentServiceIntegrationTests {
     }
 
     @Test
-    @Order(6)
+    @Order(7)
     public void testDeleteCommentWithInvalidId() {
         // Arrange
         String url = "/comments/0";
