@@ -58,6 +58,10 @@ public class CommentService {
 	@Transactional
 	public void deleteCommentById(int id) {
 		Comment commentToDelete = commentRepo.findCommentById(id);
+		// throw a CustomException if no error is found
+		if (commentToDelete == null) {
+			throw new CustomException(HttpStatus.NOT_FOUND, "There is no comment with ID " + id + ".");
+		}
 		commentRepo.delete(commentToDelete);
 	}
 

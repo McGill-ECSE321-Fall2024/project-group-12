@@ -65,6 +65,10 @@ public class CustomerService {
 	@Transactional
 	public void deleteCustomerById(int id) {
 		Customer customerToDelete = customerRepo.findCustomerById(id);
+		// throw a CustomException if no error is found
+		if (customerToDelete == null) {
+			throw new CustomException(HttpStatus.NOT_FOUND, "There is no customer with ID " + id + ".");
+		}
 		customerRepo.delete(customerToDelete);
 	}
 

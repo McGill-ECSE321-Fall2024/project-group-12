@@ -101,6 +101,8 @@ public class CustomerServiceIntegrationTests {
 		this.validId = createdCustomer.getId();
         this.cart = createdCustomer.getCart();
         this.wishlist = createdCustomer.getWishlist();
+        System.out.println("Cart 1: " + this.cart);
+        System.out.println("CreatedCustomerCart 1: " + createdCustomer.getCart());
 	}
 
 	/**
@@ -147,6 +149,8 @@ public class CustomerServiceIntegrationTests {
 		assertEquals(VALID_EMAIL, customer.getEmail());
 		assertEquals(VALID_PHONENUMBER, customer.getPhoneNumber());
 		assertEquals(this.validId, customer.getId());
+        System.out.println("Cart 2: " + this.cart);
+        System.out.println("CustomerCart 2: " + customer.getCart());
 		assertEquals(this.cart, customer.getCart());
 		assertEquals(this.wishlist, customer.getWishlist());
 	}
@@ -272,7 +276,7 @@ public class CustomerServiceIntegrationTests {
 	@Order(8)
 	public void testDeleteCustomerByInvalidId() {
 		// Arrange
-		String url = "/customers/" + this.invalidId;
+		String url = "/customers/-1";
 		// Act & Assert
 		ResponseEntity<String> response = client.exchange(url, HttpMethod.DELETE, null, String.class);
 		String error = response.getBody();
@@ -280,7 +284,7 @@ public class CustomerServiceIntegrationTests {
 		assertNotNull(response);
 		assertNotNull(error);
 		assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-		assertTrue(error.contains("There is no customer with ID " + this.invalidId + "."));
+		assertTrue(error.contains("There is no customer with ID -1."));
 	}
 
 }
