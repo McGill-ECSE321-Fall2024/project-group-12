@@ -78,7 +78,7 @@ public class CartController {
 					// if the gameId is not an integer, throws an exception
 					throw new CustomException(HttpStatus.BAD_REQUEST, "Invalid game ID provided.");
 				}
-				
+
 			}
 		}
 		else {

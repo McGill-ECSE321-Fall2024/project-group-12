@@ -145,8 +145,7 @@ public class CartServiceIntegrationTests {
 		// Arrange
 		this.validId = this.customer.getCart().getId();
 		String url = "/cart/" + this.validId;
-		ResponseEntity<CartResponseDto> response = client.exchange(url, HttpMethod.GET, null,
-				CartResponseDto.class);
+		ResponseEntity<CartResponseDto> response = client.exchange(url, HttpMethod.GET, null, CartResponseDto.class);
 		assertNotNull(response);
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		CartResponseDto cart = response.getBody();
@@ -156,8 +155,8 @@ public class CartServiceIntegrationTests {
 
 		// Act
 		// Remove a game with an invalid ID
-		ResponseEntity<CartResponseDto> response2 = client.exchange(url + "?remove=" + wrongGameId , HttpMethod.PUT, null,
-				CartResponseDto.class);
+		ResponseEntity<CartResponseDto> response2 = client.exchange(url + "?remove=" + wrongGameId, HttpMethod.PUT,
+				null, CartResponseDto.class);
 
 		// Assert
 		assertNotNull(response2);
@@ -172,14 +171,13 @@ public class CartServiceIntegrationTests {
 		// Arrange
 		this.validId = this.customer.getCart().getId();
 		String url = "/cart/" + this.validId;
-		ResponseEntity<CartResponseDto> response = client.exchange(url, HttpMethod.GET, null,
-				CartResponseDto.class);
+		ResponseEntity<CartResponseDto> response = client.exchange(url, HttpMethod.GET, null, CartResponseDto.class);
 		assertNotNull(response);
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 
 		// Act
 		// Remove a game with an invalid ID
-		ResponseEntity<CartResponseDto> response2 = client.exchange(url + "?remove=" + "wrongstr" , HttpMethod.PUT, null,
+		ResponseEntity<CartResponseDto> response2 = client.exchange(url + "?remove=" + "wrongstr", HttpMethod.PUT, null,
 				CartResponseDto.class);
 
 		// Assert
@@ -195,8 +193,7 @@ public class CartServiceIntegrationTests {
 		// Arrange
 		this.validId = this.customer.getCart().getId();
 		String url = "/cart/" + this.validId;
-		ResponseEntity<CartResponseDto> response = client.exchange(url, HttpMethod.GET, null,
-				CartResponseDto.class);
+		ResponseEntity<CartResponseDto> response = client.exchange(url, HttpMethod.GET, null, CartResponseDto.class);
 		assertNotNull(response);
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		CartResponseDto cart = response.getBody();
@@ -206,7 +203,7 @@ public class CartServiceIntegrationTests {
 
 		// Act
 		// Remove a game with an invalid ID
-		ResponseEntity<CartResponseDto> response2 = client.exchange(url + "?remove=" + gameId , HttpMethod.PUT, null,
+		ResponseEntity<CartResponseDto> response2 = client.exchange(url + "?remove=" + gameId, HttpMethod.PUT, null,
 				CartResponseDto.class);
 
 		// Assert
