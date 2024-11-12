@@ -1,6 +1,7 @@
 package ca.mcgill.ecse321.group12.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,9 +17,9 @@ import ca.mcgill.ecse321.group12.dto.CustomerResponseDto;
 import ca.mcgill.ecse321.group12.model.Cart;
 import ca.mcgill.ecse321.group12.model.Customer;
 import ca.mcgill.ecse321.group12.model.Wishlist;
+import ca.mcgill.ecse321.group12.service.CartService;
 import ca.mcgill.ecse321.group12.service.CustomerService;
 import ca.mcgill.ecse321.group12.service.WishlistService;
-import ca.mcgill.ecse321.group12.service.CartService;
 
 @RestController
 public class CustomerController {
@@ -34,13 +35,13 @@ public class CustomerController {
 
 	/**
 	 * Return the customer with the given ID.
-	 * @param eid The primary key of the customer to find.
+	 * @param customerId The primary key of the customer to find.
 	 * @return The customer with the given ID.
 	 * @author Carmin Vidé
 	 */
-	@GetMapping("/customers/{eid}")
-	public CustomerResponseDto findCustomerById(@PathVariable int eid) {
-		Customer customer = customerService.findCustomerById(eid);
+	@GetMapping("/customers/{customerId}")
+	public CustomerResponseDto findCustomerById(@PathVariable int customerId) {
+		Customer customer = customerService.findCustomerById(customerId);
 		return new CustomerResponseDto(customer);
 	}
 
@@ -60,7 +61,7 @@ public class CustomerController {
 	 * @param eid The primary key of the customer to delete.
 	 * @author Carmin Vidé
 	 */
-	@DeleteMapping("/customers/{eid}")
+	@DeleteMapping("/customers/{customerId}")
 	public void deleteCustomerById(@PathVariable int eid) {
 		customerService.deleteCustomerById(eid);
 	}

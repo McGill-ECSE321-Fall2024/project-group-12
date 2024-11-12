@@ -24,13 +24,13 @@ public class CommentController {
 
 	/**
 	 * Return the comment with the given ID.
-	 * @param eid The primary key of the comment to find.
+	 * @param commentId The primary key of the comment to find.
 	 * @return The comment with the given ID.
 	 * @author Carmin Vidé
 	 */
-	@GetMapping("/comments/{eid}")
-	public CommentResponseDto findCommentById(@PathVariable int eid) {
-		Comment comment = commentService.findCommentById(eid);
+	@GetMapping("/comments/{commentId}")
+	public CommentResponseDto findCommentById(@PathVariable int commentId) {
+		Comment comment = commentService.findCommentById(commentId);
 		return new CommentResponseDto(comment);
 	}
 
@@ -47,12 +47,12 @@ public class CommentController {
 
 	/**
 	 * Delete an comment.
-	 * @param eid The primary key of the comment to delete.
+	 * @param commentId The id of the comment to delete.
 	 * @author Carmin Vidé
 	 */
-	@DeleteMapping("/comments/{eid}")
-	public void deleteCommentById(@PathVariable int eid) {
-		commentService.deleteCommentById(eid);
+	@DeleteMapping("/comments/{commentId}")
+	public void deleteCommentById(@PathVariable int commentId) {
+		commentService.deleteCommentById(commentId);
 	}
 
 	/**
