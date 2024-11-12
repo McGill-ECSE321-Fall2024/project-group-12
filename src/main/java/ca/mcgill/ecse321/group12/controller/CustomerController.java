@@ -1,6 +1,7 @@
 package ca.mcgill.ecse321.group12.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -68,7 +69,11 @@ public class CustomerController {
 	public CustomerResponseDto createPerson(@RequestBody CustomerRequestDto customer) {
 		Wishlist wishlist = wishlistService.createWishlist();
 		Cart cart = cartService.createCart();
-		Customer createdCustomer = customerService.createCustomer(customer.getEmail(), customer.getPassword(),
+
+		// encrypt the password for security
+		String encryptedPassword = new BCryptPasswordEncoder().encode(customer.getPassword());
+
+		Customer createdCustomer = customerService.createCustomer(customer.getEmail(), encryptedPassword,
 				customer.getName(), customer.getPhoneNumber(), wishlist, cart);
 		return new CustomerResponseDto(createdCustomer);
 	}
