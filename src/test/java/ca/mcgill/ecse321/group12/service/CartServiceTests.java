@@ -3,19 +3,18 @@ package ca.mcgill.ecse321.group12.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import org.junit.jupiter.api.Test;
 import static org.mockito.ArgumentMatchers.any;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatus;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 
 import ca.mcgill.ecse321.group12.exception.CustomException;
 import ca.mcgill.ecse321.group12.model.Cart;
@@ -143,6 +142,42 @@ public class CartServiceTests {
 		// check that the returned cart has no games
 		assertNotNull(clearedCart);
 		assertEquals(0, clearedCart.getGames().size());
+
+	}
+
+	/**
+	 * Check that a game is successfully removed from the cart
+	 * @author Julien Heng
+	 */
+	@Test
+	public void testRemoveGameFromCart() {
+
+		// Arrange
+		int cartId = 99;
+
+		int gameId = 101;
+		Category aCategory = Category.Action;
+		Console aConsole = Console.PC;
+		int aInventory = 1;
+		float aPrice = 1.2f;
+		String aName = "Game Name...";
+		String aDescription = "Game Description...";
+		GameStatus aStatus = GameStatus.Archived;
+		Game game = new Game(gameId, aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus);
+
+		Cart cart = new Cart();
+		when(gameRepo.findGameById(gameId)).thenReturn(game);
+		cart.addGame(gameService.findGameById(gameId));
+
+		when(repo.findCartById(cartId)).thenReturn(cart);
+		when(repo.save(any(Cart.class))).thenAnswer((InvocationOnMock iom) -> iom.getArgument(0));
+
+		// Act
+		Cart updatedCart = service.removeGame(cartId, gameId, gameService);
+
+		// Assert
+		assertNotNull(updatedCart);
+		assertEquals(cart.getGames().size(), 0);
 
 	}
 

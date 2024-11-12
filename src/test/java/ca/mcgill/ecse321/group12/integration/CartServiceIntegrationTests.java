@@ -1,9 +1,10 @@
 package ca.mcgill.ecse321.group12.integration;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import java.util.List;
 
 import org.junit.jupiter.api.AfterAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
@@ -21,6 +22,12 @@ import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 
+import ca.mcgill.ecse321.group12.dto.CartRequestDto;
+import ca.mcgill.ecse321.group12.dto.CartResponseDto;
+import ca.mcgill.ecse321.group12.dto.CustomerRequestDto;
+import ca.mcgill.ecse321.group12.dto.CustomerResponseDto;
+import ca.mcgill.ecse321.group12.dto.GameRequestDto;
+import ca.mcgill.ecse321.group12.dto.GameResponseDto;
 import ca.mcgill.ecse321.group12.model.Customer;
 import ca.mcgill.ecse321.group12.model.Game.Category;
 import ca.mcgill.ecse321.group12.model.Game.Console;
@@ -28,12 +35,6 @@ import ca.mcgill.ecse321.group12.model.Game.GameStatus;
 import ca.mcgill.ecse321.group12.repository.CartRepository;
 import ca.mcgill.ecse321.group12.repository.CustomerRepository;
 import ca.mcgill.ecse321.group12.repository.GameRepository;
-import ca.mcgill.ecse321.group12.dto.CartRequestDto;
-import ca.mcgill.ecse321.group12.dto.CartResponseDto;
-import ca.mcgill.ecse321.group12.dto.CustomerRequestDto;
-import ca.mcgill.ecse321.group12.dto.CustomerResponseDto;
-import ca.mcgill.ecse321.group12.dto.GameRequestDto;
-import ca.mcgill.ecse321.group12.dto.GameResponseDto;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -135,6 +136,90 @@ public class CartServiceIntegrationTests {
 		assertEquals(this.game.getDescription(), cart.getGames().get(0).getDescription());
 		assertEquals(this.game.getStatus(), cart.getGames().get(0).getStatus());
 		assertEquals(this.game.getId(), cart.getGames().get(0).getId());
+	}
+
+	/**
+	 * @author Julien Heng
+	 */
+	@Test
+	@Order(3)
+	public void testRemoveGameFromCartByInvalidId() {
+		// Start with non-empty cart
+		// Arrange
+		this.validId = this.customer.getCart().getId();
+		String url = "/cart/" + this.validId;
+		ResponseEntity<CartResponseDto> response = client.exchange(url, HttpMethod.GET, null, CartResponseDto.class);
+		assertNotNull(response);
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		CartResponseDto cart = response.getBody();
+		assertNotNull(cart);
+		List<GameResponseDto> games = cart.getGames();
+		int wrongGameId = games.get(0).getId() + 1;
+
+		// Act
+		// Remove a game with an invalid ID
+		ResponseEntity<CartResponseDto> response2 = client.exchange(url + "?remove=" + wrongGameId, HttpMethod.PUT,
+				null, CartResponseDto.class);
+
+		// Assert
+		assertNotNull(response2);
+		assertEquals(HttpStatus.NOT_FOUND, response2.getStatusCode());
+
+	}
+
+	/**
+	 * @author Julien Heng
+	 */
+	@Test
+	@Order(4)
+	public void testRemoveGameFromCartByInvalidString() {
+		// Start with non-empty cart
+		// Arrange
+		this.validId = this.customer.getCart().getId();
+		String url = "/cart/" + this.validId;
+		ResponseEntity<CartResponseDto> response = client.exchange(url, HttpMethod.GET, null, CartResponseDto.class);
+		assertNotNull(response);
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+
+		// Act
+		// Remove a game with an invalid ID
+		ResponseEntity<CartResponseDto> response2 = client.exchange(url + "?remove=" + "wrongstr", HttpMethod.PUT, null,
+				CartResponseDto.class);
+
+		// Assert
+		assertNotNull(response2);
+		assertEquals(HttpStatus.BAD_REQUEST, response2.getStatusCode());
+
+	}
+
+	/**
+	 * @author Julien Heng
+	 */
+	@Test
+	@Order(5)
+	public void testRemoveGameFromCartByValidId() {
+		// Start with non-empty cart
+		// Arrange
+		this.validId = this.customer.getCart().getId();
+		String url = "/cart/" + this.validId;
+		ResponseEntity<CartResponseDto> response = client.exchange(url, HttpMethod.GET, null, CartResponseDto.class);
+		assertNotNull(response);
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		CartResponseDto cart = response.getBody();
+		assertNotNull(cart);
+		List<GameResponseDto> games = cart.getGames();
+		int gameId = games.get(0).getId();
+
+		// Act
+		// Remove a game with an invalid ID
+		ResponseEntity<CartResponseDto> response2 = client.exchange(url + "?remove=" + gameId, HttpMethod.PUT, null,
+				CartResponseDto.class);
+
+		// Assert
+		assertNotNull(response2);
+		assertEquals(HttpStatus.OK, response2.getStatusCode());
+		assertEquals(0, response2.getBody().getGames().size());
+
 	}
 
 }

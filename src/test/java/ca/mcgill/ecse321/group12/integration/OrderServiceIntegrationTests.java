@@ -103,7 +103,7 @@ public class OrderServiceIntegrationTests {
 		GameResponseDto gameResp4 = client.postForEntity("/games", game4, GameResponseDto.class).getBody();
 
 		// save the game request dtos for reference later
-		gameDtos = new ArrayList<GameResponseDto>();
+		gameDtos = new ArrayList<>();
 		gameDtos.add(gameResp1);
 		gameDtos.add(gameResp2);
 		gameDtos.add(gameResp3);
@@ -387,6 +387,89 @@ public class OrderServiceIntegrationTests {
 		assertEquals(OrderStatus.Returned, order.getStatus());
 		assertEquals(gameDtos.get(0).getInventory(), games.get(0).getInventory());
 		assertEquals(gameDtos.get(2).getInventory(), games.get(1).getInventory());
+
+	}
+
+	@Test
+	@Order(6)
+	public void testPlaceDiscountedOrder() {
+
+		// get the ID of the customer's cart and clear it
+		int cartId = customer.getCart().getId();
+		ResponseEntity<CartResponseDto> cartRes = client.exchange("/cart/" + cartId + "?remove=all", HttpMethod.PUT,
+				null, CartResponseDto.class);
+		assertNotNull(cartRes);
+		assertEquals(HttpStatus.OK, cartRes.getStatusCode());
+
+		// add the two available in stock games to the cart
+		CartRequestDto req1 = new CartRequestDto();
+		CartRequestDto req2 = new CartRequestDto();
+		req1.setGameId(gameDtos.get(0).getId());
+		req2.setGameId(gameDtos.get(2).getId());
+
+		// PUT both games into the cart
+		RequestEntity<CartRequestDto> reqEntity1 = RequestEntity.put("/cart/" + cartId)
+			.accept(MediaType.APPLICATION_JSON)
+			.body(req1);
+		RequestEntity<CartRequestDto> reqEntity2 = RequestEntity.put("/cart/" + cartId)
+			.accept(MediaType.APPLICATION_JSON)
+			.body(req2);
+		ResponseEntity<CartResponseDto> resp1 = client.exchange("/cart/" + cartId, HttpMethod.PUT, reqEntity1,
+				CartResponseDto.class);
+		ResponseEntity<CartResponseDto> resp2 = client.exchange("/cart/" + cartId, HttpMethod.PUT, reqEntity2,
+				CartResponseDto.class);
+
+		// make sure both PUTs were successful
+		assertNotNull(resp1);
+		assertNotNull(resp2);
+		assertEquals(HttpStatus.OK, resp1.getStatusCode());
+		assertEquals(HttpStatus.OK, resp2.getStatusCode());
+
+		// set request properties
+		OrderRequestDto req = new OrderRequestDto();
+		req.setBillingAddress("3480 Rue University");
+		req.setDeliveryAddress("3480 Rue University");
+		req.setCardNumber("4520 0000 0000 0000");
+		req.setCvc("100");
+		req.setExpiryDate("01/30");
+		req.setNameOnCard("James Madden");
+		req.setIsSaved(true);
+		req.setCustomerId(customer.getId());
+
+		// send the post request
+		ResponseEntity<OrderResponseDto> response = client.postForEntity("/orders?discount=20", req,
+				OrderResponseDto.class);
+
+		// make sure the response was successful
+		assertNotNull(response);
+		assertEquals(HttpStatus.CREATED, response.getStatusCode());
+
+		OrderResponseDto order = response.getBody();
+		assertNotNull(order);
+
+		// make sure the games match the expected values
+		List<GameResponseDto> games = order.getGames();
+		assertEquals(gameDtos.get(0).getId(), games.get(0).getId());
+		assertEquals(gameDtos.get(0).getName(), games.get(0).getName());
+		assertEquals(gameDtos.get(0).getCategory(), games.get(0).getCategory());
+		assertEquals(gameDtos.get(0).getConsole(), games.get(0).getConsole());
+		assertEquals(gameDtos.get(0).getInventory() - 1, games.get(0).getInventory());
+		assertEquals(gameDtos.get(0).getPrice(), games.get(0).getPrice());
+		assertEquals(gameDtos.get(0).getDescription(), games.get(0).getDescription());
+		assertEquals(gameDtos.get(0).getStatus(), games.get(0).getStatus());
+
+		assertEquals(gameDtos.get(2).getId(), games.get(1).getId());
+		assertEquals(gameDtos.get(2).getName(), games.get(1).getName());
+		assertEquals(gameDtos.get(2).getCategory(), games.get(1).getCategory());
+		assertEquals(gameDtos.get(2).getConsole(), games.get(1).getConsole());
+		assertEquals(gameDtos.get(2).getInventory() - 1, games.get(1).getInventory());
+		assertEquals(gameDtos.get(2).getPrice(), games.get(1).getPrice());
+		assertEquals(gameDtos.get(2).getDescription(), games.get(1).getDescription());
+		assertEquals(gameDtos.get(2).getStatus(), games.get(1).getStatus());
+
+		// make sure the price of the order matches the discounted value
+		float gamePrices = (gameDtos.get(0).getPrice() + gameDtos.get(2).getPrice()) * 0.8f;
+		assertEquals(order.getPurchaseTotal(), gamePrices);
 
 	}
 
