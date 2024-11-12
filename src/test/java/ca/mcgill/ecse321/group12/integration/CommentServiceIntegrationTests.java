@@ -39,94 +39,96 @@ public class CommentServiceIntegrationTests {
 	@Autowired
 	private CommentRepository commentRepository;
 
-    private final String text = "Awesome game!";
+	private final String text = "Awesome game!";
 
 	private int commentId;
 
-    private Review review;
+	private Review review;
 
 	@BeforeAll
 	@AfterTestClass
 	public void clearDatabase() {
 		commentRepository.deleteAll();
-        //review = reviewRepository.save(new Review());
+		// review = reviewRepository.save(new Review());
 	}
 
-    /**
-     * Test creating a comment with valid arguments.
-     * @author Carmin Vidé
-     */
-    @Test
+	/**
+	 * Test creating a comment with valid arguments.
+	 * @author Carmin Vidé
+	 */
+	@Test
 	@Order(1)
 	public void testCreateCommentWithValidText() {
-        // Arrange
-        CommentRequestDto request = new CommentRequestDto(text, review);
+		// Arrange
+		CommentRequestDto request = new CommentRequestDto(text, review);
 
-        // Act
-        ResponseEntity<CommentResponseDto> response = client.postForEntity("/comments", request, CommentResponseDto.class);
+		// Act
+		ResponseEntity<CommentResponseDto> response = client.postForEntity("/comments", request,
+				CommentResponseDto.class);
 
-        // Assert
+		// Assert
 
-        assertNotNull(response);
-        assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        CommentResponseDto createdComment = response.getBody();
-        assertNotNull(createdComment);
-        assertEquals(text, createdComment.getText());
-        //assertNotNull(createdComment.getReview());
-        assertNotNull(createdComment.getId());
-        assertTrue(createdComment.getId() > 0, "Response should have a positive ID.");
-        this.commentId = createdComment.getId();
-        this.review = createdComment.getReview();
+		assertNotNull(response);
+		assertEquals(HttpStatus.CREATED, response.getStatusCode());
+		CommentResponseDto createdComment = response.getBody();
+		assertNotNull(createdComment);
+		assertEquals(text, createdComment.getText());
+		// assertNotNull(createdComment.getReview());
+		assertNotNull(createdComment.getId());
+		assertTrue(createdComment.getId() > 0, "Response should have a positive ID.");
+		this.commentId = createdComment.getId();
+		this.review = createdComment.getReview();
 	}
 
-    /**
-     * Test creating a comment with invalid text.
-     * @author Carmin Vidé
-     */
-    @Test
-    @Order(2)
-    public void testCreatingCommentWithInvalidText() {
-        // Arrange
-        CommentRequestDto request = new CommentRequestDto(null, review);
+	/**
+	 * Test creating a comment with invalid text.
+	 * @author Carmin Vidé
+	 */
+	@Test
+	@Order(2)
+	public void testCreatingCommentWithInvalidText() {
+		// Arrange
+		CommentRequestDto request = new CommentRequestDto(null, review);
 
-        // Act
-        ResponseEntity<CommentResponseDto> response = client.postForEntity("/comments", request, CommentResponseDto.class);
+		// Act
+		ResponseEntity<CommentResponseDto> response = client.postForEntity("/comments", request,
+				CommentResponseDto.class);
 
-        // Assert
-        assertNotNull(response);
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-    }
+		// Assert
+		assertNotNull(response);
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+	}
 
-    /**
-     * Test retrieving a comment by its id.
-     * @author Carmin Vidé
-     */
+	/**
+	 * Test retrieving a comment by its id.
+	 * @author Carmin Vidé
+	 */
 	@Test
 	@Order(3)
 	public void testFindCommentById() {
-        // Arrange
-        CommentRequestDto request = new CommentRequestDto(text, review);
-        // Act
-        ResponseEntity<CommentResponseDto> response = client.postForEntity("/comments", request,
-                CommentResponseDto.class);
+		// Arrange
+		CommentRequestDto request = new CommentRequestDto(text, review);
+		// Act
+		ResponseEntity<CommentResponseDto> response = client.postForEntity("/comments", request,
+				CommentResponseDto.class);
 
-        // Assert
-        assertNotNull(response);
-        assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        CommentResponseDto createdComment = response.getBody();
-        assertNotNull(createdComment);
-        assertEquals(text, createdComment.getText());
-        //assertNotNull(createdComment.getReview());
-        assertNotNull(createdComment.getId());
+		// Assert
+		assertNotNull(response);
+		assertEquals(HttpStatus.CREATED, response.getStatusCode());
+		CommentResponseDto createdComment = response.getBody();
+		assertNotNull(createdComment);
+		assertEquals(text, createdComment.getText());
+		// assertNotNull(createdComment.getReview());
+		assertNotNull(createdComment.getId());
 
-        assertTrue(createdComment.getId() > 0, "Response should have a positive ID.");
-        this.commentId = createdComment.getId(); 
+		assertTrue(createdComment.getId() > 0, "Response should have a positive ID.");
+		this.commentId = createdComment.getId();
 	}
 
-    /**
-     * Test retrieving a comment with an invalid id.
-     * @author Carmin Vidé
-     */
+	/**
+	 * Test retrieving a comment with an invalid id.
+	 * @author Carmin Vidé
+	 */
 	@Test
 	@Order(4)
 	public void testFindCommentByIdWithInvalidId() {
@@ -141,72 +143,72 @@ public class CommentServiceIntegrationTests {
 		assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
 	}
 
-    /**
-     * Test updating a comment with valid arguments.
-     * @author Carmin Vidé
-     */
-    @Test
-    @Order(5)
-    public void testUpdateComment() {
+	/**
+	 * Test updating a comment with valid arguments.
+	 * @author Carmin Vidé
+	 */
+	@Test
+	@Order(5)
+	public void testUpdateComment() {
 		// Arrange
 		String url = "/comments/" + this.commentId;
 		CommentRequestDto body = new CommentRequestDto(text, review);
 		RequestEntity<CommentRequestDto> request = RequestEntity.put(url).accept(MediaType.APPLICATION_JSON).body(body);
 
 		// Act
-		ResponseEntity<CommentResponseDto> response = client.exchange(url, HttpMethod.PUT, request, CommentResponseDto.class);
+		ResponseEntity<CommentResponseDto> response = client.exchange(url, HttpMethod.PUT, request,
+				CommentResponseDto.class);
 
 		// Assert
 		assertNotNull(response);
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		CommentResponseDto updatedComment = response.getBody();
-        assertNotNull(updatedComment);
-        assertEquals(text, updatedComment.getText());
-        //assertNotNull(updatedComment.getReview());
-        assertNotNull(updatedComment.getId());
+		assertNotNull(updatedComment);
+		assertEquals(text, updatedComment.getText());
+		// assertNotNull(updatedComment.getReview());
+		assertNotNull(updatedComment.getId());
 		assertTrue(updatedComment.getId() > 0, "Response should have a positive ID.");
 
 		this.commentId = updatedComment.getId();
 
 	}
-    
 
-    /**
-     * Test deleting a comment with valid id.
-     * @author Carmin Vidé
-     */
-    @Test
-    @Order(6)
-    public void testDeleteComment() {
-        // Arrange
-        String url = "/comments/" + commentId;
+	/**
+	 * Test deleting a comment with valid id.
+	 * @author Carmin Vidé
+	 */
+	@Test
+	@Order(6)
+	public void testDeleteComment() {
+		// Arrange
+		String url = "/comments/" + commentId;
 
-        // Act
-        ResponseEntity<Void> response = client.exchange(url, HttpMethod.DELETE, null, Void.class);
+		// Act
+		ResponseEntity<Void> response = client.exchange(url, HttpMethod.DELETE, null, Void.class);
 
-        // Assert
-        assertNotNull(response);
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-    }
-    
-    /**
-     * Test deleting a comment with invalid id.
-     * @author Carmin Vidé
-     */
-    @Test
-    @Order(7)
-    public void testDeleteCommentWithInvalidId() {
-        // Arrange
-        String url = "/comments/0";
+		// Assert
+		assertNotNull(response);
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+	}
 
-        // Act
-        ResponseEntity<String> response = client.exchange(url, HttpMethod.DELETE, null, String.class);
+	/**
+	 * Test deleting a comment with invalid id.
+	 * @author Carmin Vidé
+	 */
+	@Test
+	@Order(7)
+	public void testDeleteCommentWithInvalidId() {
+		// Arrange
+		String url = "/comments/0";
+
+		// Act
+		ResponseEntity<String> response = client.exchange(url, HttpMethod.DELETE, null, String.class);
 		String error = response.getBody();
 
-        // Assert
-        assertNotNull(response);
-        assertNotNull(error);
-        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-    }
+		// Assert
+		assertNotNull(response);
+		assertNotNull(error);
+		assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+	}
 
 }

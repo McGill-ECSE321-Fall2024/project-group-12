@@ -98,7 +98,7 @@ public class CustomerServiceIntegrationTests {
 		assertNotNull(createdCustomer.getWishlist());
 		assertTrue(createdCustomer.getId() > 0, "Response should have a positive ID.");
 		this.validId = createdCustomer.getId();
-    	}
+	}
 
 	/**
 	 * Test to create an customer account with an email that is already associated with
@@ -171,28 +171,28 @@ public class CustomerServiceIntegrationTests {
 	 */
 	@Test
 	@Order(5)
-    public void testUpdateCustomerByValidInputs() {
-        // Arrange
-        String url = "/customers/" + this.validId;
-        CustomerRequestDto body = new CustomerRequestDto(VALID_EMAIL2, VALID_PASSWORD, VALID_NAME, VALID_PHONENUMBER);
-        RequestEntity<CustomerRequestDto> request = RequestEntity.put(url)
-            .accept(MediaType.APPLICATION_PROBLEM_JSON)
-            .body(body);
-        // Act
-        ResponseEntity<CustomerResponseDto> response = client.exchange(url, HttpMethod.PUT, request,
-                CustomerResponseDto.class);
-    
-        // Assert
-        assertNotNull(response);
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        CustomerResponseDto customer = response.getBody();
-        assertNotNull(customer);
-        assertEquals(VALID_NAME, customer.getName());
-        assertEquals(VALID_EMAIL2, customer.getEmail());
-        assertEquals(VALID_PHONENUMBER, customer.getPhoneNumber());
-        assertEquals(this.validId, customer.getId());
-        assertNotNull(customer.getCart());
-        assertNotNull(customer.getWishlist());
+	public void testUpdateCustomerByValidInputs() {
+		// Arrange
+		String url = "/customers/" + this.validId;
+		CustomerRequestDto body = new CustomerRequestDto(VALID_EMAIL2, VALID_PASSWORD, VALID_NAME, VALID_PHONENUMBER);
+		RequestEntity<CustomerRequestDto> request = RequestEntity.put(url)
+			.accept(MediaType.APPLICATION_PROBLEM_JSON)
+			.body(body);
+		// Act
+		ResponseEntity<CustomerResponseDto> response = client.exchange(url, HttpMethod.PUT, request,
+				CustomerResponseDto.class);
+
+		// Assert
+		assertNotNull(response);
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		CustomerResponseDto customer = response.getBody();
+		assertNotNull(customer);
+		assertEquals(VALID_NAME, customer.getName());
+		assertEquals(VALID_EMAIL2, customer.getEmail());
+		assertEquals(VALID_PHONENUMBER, customer.getPhoneNumber());
+		assertEquals(this.validId, customer.getId());
+		assertNotNull(customer.getCart());
+		assertNotNull(customer.getWishlist());
 	}
 
 	/**
@@ -265,4 +265,3 @@ public class CustomerServiceIntegrationTests {
 	}
 
 }
-

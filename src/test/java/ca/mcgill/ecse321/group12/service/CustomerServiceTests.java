@@ -131,7 +131,6 @@ public class CustomerServiceTests {
 		assertEquals("Create customer failed. Customer with this email already exists in the system.", e.getMessage());
 	}
 
-
 	/**
 	 * Test reading a customer by valid ID (customer exists in the system).
 	 * @author Carmin Vidé
