@@ -1,28 +1,28 @@
 package ca.mcgill.ecse321.group12.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Test;
+import static org.mockito.ArgumentMatchers.any;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.boot.test.context.SpringBootTest;
+import static org.mockito.Mockito.when;
 import org.mockito.invocation.InvocationOnMock;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import ca.mcgill.ecse321.group12.exception.CustomException;
 import ca.mcgill.ecse321.group12.model.CardPayment;
 import ca.mcgill.ecse321.group12.model.Cart;
 import ca.mcgill.ecse321.group12.model.Customer;
 import ca.mcgill.ecse321.group12.model.Game;
-import ca.mcgill.ecse321.group12.model.Order;
 import ca.mcgill.ecse321.group12.model.Game.GameStatus;
+import ca.mcgill.ecse321.group12.model.Order;
 import ca.mcgill.ecse321.group12.model.Order.OrderStatus;
 import ca.mcgill.ecse321.group12.repository.OrderRepository;
 
@@ -100,7 +100,9 @@ public class OrderServiceTests {
 		order.setPurchaseDate(purchaseDate);
 		order.setStatus(orderStatus);
 
-		Order createdOrder = service.createOrder(deliveryAddress, games, customer, cardPayment);
+		Optional<String> discount = Optional.empty();
+
+		Order createdOrder = service.createOrder(deliveryAddress, games, customer, cardPayment, discount);
 
 		// check the fields match
 		assertNotNull(createdOrder);

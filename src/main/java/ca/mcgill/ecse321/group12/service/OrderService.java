@@ -1,7 +1,8 @@
 package ca.mcgill.ecse321.group12.service;
 
-import java.util.List;
 import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -43,7 +44,8 @@ public class OrderService {
 	 * @author James Madden
 	 */
 	@Transactional
-	public Order createOrder(String deliveryAddress, List<Game> games, Customer customer, CardPayment cardPayment) {
+	public Order createOrder(String deliveryAddress, List<Game> games, Customer customer, CardPayment cardPayment,
+			Optional<String> discount) {
 
 		// create the order
 		Order order = new Order();
@@ -60,6 +62,13 @@ public class OrderService {
 		for (Game game : games) {
 			purchaseTotal += game.getPrice();
 		}
+
+		// apply discount if present
+		if (!discount.isEmpty()) {
+			float discountAmount = Float.parseFloat(discount.get());
+			purchaseTotal *= 1f - discountAmount / 100f;
+		}
+
 		order.setPurchaseTotal(purchaseTotal);
 
 		return repo.save(order);
