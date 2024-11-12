@@ -134,6 +134,7 @@ public class CustomerServiceTests {
 		// Assert
 		CustomException e = assertThrows(CustomException.class,
 				() -> customerService.createCustomer(email, password2, name2, phoneNumber2, wishlist, cart));
+		
 		assertEquals("Create customer failed. Customer with this email already exists in the system.", e.getMessage());
 	}
 
@@ -309,7 +310,7 @@ public class CustomerServiceTests {
 
 		// Assert
 		CustomException e = assertThrows(CustomException.class,
-				() -> customerService.updateCustomerById(id, email2, password, name, phoneNumber, wishlist, cart));
+				() -> customerService.updateCustomerById(id, email, password, name, phoneNumber, wishlist, cart));
 		assertEquals("Update customer failed. Customer with this email already exists in the system.", e.getMessage());
 	}
 

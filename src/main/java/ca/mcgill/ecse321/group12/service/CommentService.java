@@ -1,10 +1,15 @@
 package ca.mcgill.ecse321.group12.service;
 
+/* 
 import java.util.ArrayList;
+import java.util.List;
+*/
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import ca.mcgill.ecse321.group12.exception.CustomException;
 import ca.mcgill.ecse321.group12.model.Comment;
 import ca.mcgill.ecse321.group12.model.Review;
 import ca.mcgill.ecse321.group12.repository.CommentRepository;
@@ -24,8 +29,7 @@ public class CommentService {
 	public Comment  findCommentById(int id) {
 		Comment emp = commentRepo.findCommentById(id);
 		if (emp == null) {
-			throw new IllegalArgumentException("There is no comment with ID " + id + ".");
-		}
+				throw new CustomException(HttpStatus.NOT_FOUND, "There is no comment with ID " + id + ".");		}
 		return emp;
 	}
 
@@ -37,6 +41,9 @@ public class CommentService {
 	 */
 	@Transactional
 	public Comment createComment(String text, Review review) {
+		if (text == null || text.trim().length() == 0) {
+			throw new IllegalArgumentException("Comment text cannot be empty.");
+		}
 		Comment commentToCreate = new Comment();
 		commentToCreate.setText(text);
 		commentToCreate.setReview(review);
@@ -61,15 +68,15 @@ public class CommentService {
 	public Iterable<Comment> findAllComments() {
 		return commentRepo.findAll();
 	}
-
+/*
 	/**
 	 * Find comments by review
 	 * @param review The review to search for
 	 * @return A list of comments with the given review
 	 */
-	@Transactional
+/*	@Transactional
 	public Iterable<Comment> findCommentsByReview(Review review) {
-		Iterable<Comment> comments = new ArrayList<Comment>();
+		List<Comment> comments = new ArrayList<Comment>();
 		for (Comment comment : commentRepo.findAll()) {
 			if (comment.getReview().equals(review)) {
 				((ArrayList<Comment>) comments).add(comment);
@@ -77,13 +84,16 @@ public class CommentService {
 		}
 		return comments;
 	}
-
+*/
 	/**
 	 * Update the text of a comment.
 	 */
 	@Transactional
 	public Comment updateCommentById(int id, String text) {
 		Comment commentToUpdate = commentRepo.findCommentById(id);
+		if (text == null || text.trim().length() == 0) {
+			throw new IllegalArgumentException("Comment text cannot be empty.");
+		}
 		commentToUpdate.setText(text);
 		return commentRepo.save(commentToUpdate);
 	}
