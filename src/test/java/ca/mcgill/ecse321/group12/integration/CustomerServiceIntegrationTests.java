@@ -99,6 +99,8 @@ public class CustomerServiceIntegrationTests {
 		assertNotNull(createdCustomer.getWishlist());
 		assertTrue(createdCustomer.getId() > 0, "Response should have a positive ID.");
 		this.validId = createdCustomer.getId();
+        this.cart = createdCustomer.getCart();
+        this.wishlist = createdCustomer.getWishlist();
 	}
 
 	/**
