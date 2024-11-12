@@ -42,7 +42,7 @@ public class CommentService {
 	@Transactional
 	public Comment createComment(String text, Review review) {
 		if (text == null || text.trim().length() == 0) {
-			throw new IllegalArgumentException("Comment text cannot be empty.");
+			throw new CustomException(HttpStatus.BAD_REQUEST,"Comment text cannot be empty.");
 		}
 		Comment commentToCreate = new Comment();
 		commentToCreate.setText(text);
@@ -92,8 +92,10 @@ public class CommentService {
 	public Comment updateCommentById(int id, String text) {
 		Comment commentToUpdate = commentRepo.findCommentById(id);
 		if (text == null || text.trim().length() == 0) {
-			throw new IllegalArgumentException("Comment text cannot be empty.");
+			throw new CustomException(HttpStatus.BAD_REQUEST,
+			"Comment text cannot be empty.");
 		}
+		commentToUpdate.setId(id);
 		commentToUpdate.setText(text);
 		return commentRepo.save(commentToUpdate);
 	}
