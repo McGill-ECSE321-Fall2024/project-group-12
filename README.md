@@ -33,7 +33,7 @@ Julien: "Hey. I am a U2 Software Engineering student at McGill! A fun fact about
 | Amy Ding         | UI/UX Designer   |  18                   |
 | Julien Heng      | Developer        |  13                   |
 | Kennedy Olsen    | Business Analyst |  18                   |
-| Carmin Loup Vidé | Scrum Master     |  18                   |
+| Carmin Vidé | Scrum Master     |  18                   |
 
 ### Deliverable 2
 | Name             | Team Roles       | Hours | Individual Effort |
@@ -43,7 +43,7 @@ Julien: "Hey. I am a U2 Software Engineering student at McGill! A fun fact about
 | Amy Ding         | UI/UX Designer   |     | <ul><li> Implemented employee related use cases</li><li>Updated Wiki for Software Quality Assurance Plan</li><li>Took meeting minutes</li></ul>|
 | Julien Heng      | Developer        |     | <ul><li> Implemented game related use cases</li></ul> |
 | Kennedy Olsen    | Business Analyst |     | |
-| Carmin Loup Vidé | Scrum Master     |     | <ul><li> Implemented customer and comment related use cases</li></ul>|
+| Carmin Vidé | Scrum Master     |     | <ul><li> Implemented customer and comment related use cases</li></ul>|
 
 
 
