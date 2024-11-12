@@ -2,8 +2,6 @@ package ca.mcgill.ecse321.group12.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,9 +15,7 @@ import ca.mcgill.ecse321.group12.service.AuthService;
 
 @RestController
 public class AuthController {
-  
-  @Autowired
-  private AuthenticationManager authenticationManager;
+
   @Autowired
   private AuthService authService;
 
@@ -34,9 +30,9 @@ public class AuthController {
     UserRole user = authService.getUserFromEmail(body.getEmail());
 
     // encrypt the password sent, and see if they match
-    String encryptedPassword = new BCryptPasswordEncoder().encode(body.getPassword());
+    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-    if (!encryptedPassword.equals(user.getPassword())) {
+    if (!encoder.matches(body.getPassword(), user.getPassword())) {
       throw new CustomException(HttpStatus.BAD_REQUEST, "password is incorrect.");
     }
 
