@@ -27,6 +27,10 @@ public class ReviewRequestDto {
 		this.likeCount = model.getLikeCount();
 	}
 
+	/**
+	 * Constructor
+	 * @author Kennedy Olsen
+	 */
 	public ReviewRequestDto(String review, int rating, int likeCount, int gameId, int customerId) {
 		this.review = review;
 		this.rating = rating;
