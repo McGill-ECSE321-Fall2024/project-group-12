@@ -4,7 +4,6 @@
 package ca.mcgill.ecse321.group12.model;
 
 import java.util.*;
-import java.util.Date;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -17,6 +16,16 @@ import jakarta.persistence.TemporalType;
 // line 78 "../../../../../../ReindeerGames.ump"
 @Entity(name = "orders")
 public class Order {
+
+	// ------------------------
+	// ENUMERATIONS
+	// ------------------------
+
+	public enum OrderStatus {
+
+		Shipping, Delivered, Returned
+
+	}
 
 	// ------------------------
 	// STATIC VARIABLES
@@ -40,6 +49,8 @@ public class Order {
 
 	private String deliveryAddress;
 
+	private OrderStatus status;
+
 	// Order Associations
 	@ManyToMany
 	private List<Game> games;
@@ -58,9 +69,10 @@ public class Order {
 		games = new ArrayList<Game>();
 	}
 
-	public Order(int aId, Date aPurchaseDate, float aPurchaseTotal, String aDeliveryAddress, Customer aCustomer,
-			CardPayment aCardPayment, Game... allGames) {
+	public Order(int aId, Date aPurchaseDate, OrderStatus aStatus, float aPurchaseTotal, String aDeliveryAddress,
+			Customer aCustomer, CardPayment aCardPayment, Game... allGames) {
 		purchaseDate = aPurchaseDate;
+		status = aStatus;
 		purchaseTotal = aPurchaseTotal;
 		deliveryAddress = aDeliveryAddress;
 		if (!setId(aId)) {
@@ -87,8 +99,8 @@ public class Order {
 	// INTERFACE
 	// ------------------------
 
-	public Order(int aId, java.util.Date purchaseDate2, float purchaseTotal2, String deliveryAddress2,
-			Customer customer2, CardPayment cardPayment2, List<Game> games2) {
+	public Order(int aId, java.util.Date purchaseDate2, OrderStatus status2, float purchaseTotal2,
+			String deliveryAddress2, Customer customer2, CardPayment cardPayment2, List<Game> games2) {
 		// TODO Auto-generated constructor stub
 	}
 
@@ -113,6 +125,13 @@ public class Order {
 	public boolean setPurchaseDate(Date aPurchaseDate) {
 		boolean wasSet = false;
 		purchaseDate = aPurchaseDate;
+		wasSet = true;
+		return wasSet;
+	}
+
+	public boolean setStatus(OrderStatus aStatus) {
+		boolean wasSet = false;
+		status = aStatus;
 		wasSet = true;
 		return wasSet;
 	}
@@ -147,6 +166,10 @@ public class Order {
 
 	public Date getPurchaseDate() {
 		return purchaseDate;
+	}
+
+	public OrderStatus getStatus() {
+		return status;
 	}
 
 	public float getPurchaseTotal() {

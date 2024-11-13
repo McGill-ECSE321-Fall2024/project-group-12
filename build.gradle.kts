@@ -1,5 +1,6 @@
 plugins {
 	java
+	jacoco
 	id("org.springframework.boot") version "3.3.4"
 	id("io.spring.dependency-management") version "1.1.6"
 	id("io.spring.javaformat") version "0.0.43"
@@ -29,4 +30,20 @@ dependencies {
 tasks.withType<Test> {
 	useJUnitPlatform()
 	testLogging { exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL }
+	finalizedBy(tasks.jacocoTestReport) // report is always generated after tests run
+}
+
+tasks.jacocoTestReport {
+    dependsOn(tasks.test) // tests are required to run before generating the report
+}
+
+tasks.jacocoTestCoverageVerification {
+	violationRules {
+		rule {
+			limit {
+				minimum = "0.75".toBigDecimal()
+			}
+		}
+	}
+	dependsOn (tasks.test) // tests are required to run before checking code coverage.
 }

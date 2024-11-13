@@ -9,7 +9,7 @@ Project scope: requirements elicitation and documentation, persistence layer, da
 Hi there! We appreciate your interest in our project. Here is a brief introduction from each member of the team: 
 
 
-James: "Hi. I am a U2 Computer Enineering student at McGill. A fun fact about me is that I speak Scottish Gaelic."
+James: "Hi. I am a U2 Computer Engineering student at McGill. A fun fact about me is that I speak Scottish Gaelic."
 
 Kennedy: "Hey! I am a U2 Computer Engineering student at McGill. A fun fact about me is that I LOVE bubble tea!"
 
@@ -22,17 +22,30 @@ Sophia: "Hi! I am a U2 Software Engineering student at McGill. A fun fact about 
 Julien: "Hey. I am a U2 Software Engineering student at McGill! A fun fact about me is I am from France."
 
 
-### See project reports on our [Wiki](https://github.com/McGill-ECSE321-Fall2024/project-group-12/wiki)
+### See project reports and meeting minutes on our [Wiki](https://github.com/McGill-ECSE321-Fall2024/project-group-12/wiki)
 
 ## Team Members
-| Name             | Team Roles       | Hours (Deliverable 1) |
+### Deliverable 1
+| Name             | Team Roles       | Hours |
 | ---------------- | ---------------- | --------------------- |
 | James Madden     | Tech Lead        |  18                   |
 | Sophia Li        | Project Manager  |  18                   |
 | Amy Ding         | UI/UX Designer   |  18                   |
 | Julien Heng      | Developer        |  13                   |
 | Kennedy Olsen    | Business Analyst |  18                   |
-| Carmin Loup Vidé | Scrum Master     |  18                   |
+| Carmin Vidé | Scrum Master     |  18                   |
+
+### Deliverable 2
+| Name             | Team Roles       | Hours | Individual Effort |
+| ---------------- | ---------------- | ----- | ---- |
+| James Madden     | Tech Lead        |  15   | <ul><li> Implemented order related use cases</li><li> Implemented authentication</li></ul>|
+| Sophia Li        | Project Manager  |  15   | <ul><li> Implemented cart related use cases</li></ul> |
+| Amy Ding         | UI/UX Designer   |  10.5    | <ul><li> Implemented employee related use cases</li><li>Updated Wiki for Software Quality Assurance Plan</li><li>Took meeting minutes</li></ul>|
+| Julien Heng      | Developer        |  15   | <ul><li> Implemented game related use cases</li><li> Implemented discounts on orders</li><li> API endpoint description</li></ul> |
+| Kennedy Olsen    | Business Analyst |  8   | |
+| Carmin Vidé | Scrum Master     |   12  | <ul><li> Implemented customer and comment related use cases</li></ul>|
+
+
 
 ## Contributing
 To ensure high quality, well tested code, do the following when contributing to this project:  
