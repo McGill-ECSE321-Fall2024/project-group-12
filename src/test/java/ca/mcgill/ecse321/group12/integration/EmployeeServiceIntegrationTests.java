@@ -401,44 +401,4 @@ public class EmployeeServiceIntegrationTests {
 
 	}
 
-	/**
-	 * Test to delete an employee with a valid id
-	 * @author Amy Ding
-	 * @return void
-	 */
-	@Test
-	@Order(15)
-	public void testDeleteEmployeeByValidId() {
-		// Arrange
-		String url = "/employees/" + this.validId;
-
-		// Act
-		client.delete(url);
-		ResponseEntity<EmployeeResponseDto> response = client.getForEntity(url, EmployeeResponseDto.class);
-
-		// Assert
-		assertNotNull(response);
-		assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-	}
-
-	/**
-	 * Test to attempt to delete an employee with an id that doesn't exist in the database
-	 * @author Amy Ding
-	 * @return void
-	 */
-	@Test
-	@Order(14)
-	public void testDeleteEmployeeByInvalidId() {
-		// Arrange
-		String url = "/employees/" + this.invalidId;
-		// Act & Assert
-		ResponseEntity<String> response = client.exchange(url, HttpMethod.DELETE, null, String.class);
-		String error = response.getBody();
-		// Assert
-		assertNotNull(response);
-		assertNotNull(error);
-		assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-		assertTrue(error.contains("There is no employee with ID " + this.invalidId + "."));
-	}
-
 }

@@ -261,52 +261,6 @@ public class EmployeeServiceTests {
 	}
 
 	/**
-	 * Test to delete an employee with a valid id
-	 * @author Amy Ding
-	 * @return void
-	 */
-	@Test
-	public void testDeleteEmployeeByValidId() {
-		// Arrange
-		int id = 42;
-		Employee employee = new Employee();
-		employee.setEmail("email@mail.mcgill.ca");
-		employee.setName("johnny");
-		employee.setPassword("123456");
-		employee.setPhoneNumber("2041234567");
-		employee.setActive(true);
-
-		when(employeeRepository.findEmployeeById(id)).thenReturn(employee);
-
-		// Act
-		employeeService.deleteEmployeeById(id);
-
-		// now try to get the employee
-		when(employeeRepository.findEmployeeById(id)).thenReturn(null);
-		// this should throw an exception
-		CustomException e = assertThrows(CustomException.class, () -> employeeService.findEmployeeById(id));
-		// Assert
-		assertEquals(HttpStatus.NOT_FOUND, e.getStatus());
-		assertEquals("There is no employee with ID " + id + ".", e.getMessage());
-	}
-
-	/**
-	 * Test to attempt to delete an employee with an id that doesn't exist in the database
-	 * @author Amy Ding
-	 * @return void
-	 */
-	@Test
-	public void testDeleteEmployeeByInvalidId() {
-		// Arrange
-		int id = 100;
-		when(employeeRepository.findEmployeeById(id)).thenReturn(null);
-		// Act
-		CustomException e = assertThrows(CustomException.class, () -> employeeService.deleteEmployeeById(id));
-		// Assert
-		assertEquals("There is no employee with ID " + id + ".", e.getMessage());
-	}
-
-	/**
 	 * Test to deactivate a currently activated employee with a valid id
 	 * @author Amy Ding
 	 * @return void

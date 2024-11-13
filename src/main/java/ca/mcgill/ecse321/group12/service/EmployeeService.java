@@ -57,24 +57,6 @@ public class EmployeeService {
 	}
 
 	/**
-	 * Delete the employee with the given ID.
-	 * @author Amy Ding
-	 * @param id The primary key of the employee to delete.
-	 */
-	@Transactional
-	public HttpStatus deleteEmployeeById(int id) {
-		Employee employeeToDelete = findEmployeeById(id);
-
-		// throw a CustomException if no error is found
-		if (employeeToDelete == null) {
-			throw new CustomException(HttpStatus.NOT_FOUND, "There is no employee with ID " + id + ".");
-		}
-
-		employeeRepo.delete(employeeToDelete);
-		return HttpStatus.OK;
-	}
-
-	/**
 	 * Find all employees
 	 * @author Amy Ding
 	 * @return A list of all employees

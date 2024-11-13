@@ -46,16 +46,6 @@ public class EmployeeController {
 	}
 
 	/**
-	 * Delete an employee.
-	 * @author Amy Ding
-	 * @param employee The employee to delete.
-	 */
-	@DeleteMapping("/employees/{eid}")
-	public void deleteEmployeeById(@PathVariable int eid) {
-		employeeService.deleteEmployeeById(eid);
-	}
-
-	/**
 	 * Deactivate an employee.
 	 * @author Amy Ding
 	 * @param employee The employee to deactivate.
