@@ -37,7 +37,7 @@ public class ManagerServiceTests {
 	 */
     @SuppressWarnings("null")
 	@Test
-	public void testCreateValidManager() {
+	public void testCreateManagerSuccessfully() {
 		// Arrange
 		String name = "manager";
 		String email = "manager@mail.mcgill.ca";
@@ -70,7 +70,7 @@ public class ManagerServiceTests {
 	 * @return void
 	 */
 	@Test
-	public void testCreateInvalidManager() {
+	public void testCreateManagerWhenExistingManager() {
 		// Arrange
 		String email = "anothermanager@mail.mcgill.ca";
 		String name = "Manager_again";
