@@ -20,9 +20,9 @@ public class Employee extends UserRole {
 	// ------------------------
 	// CONSTRUCTOR
 	// ------------------------
-	public Employee(int aId, String aEmail, String aPassword, String aName, String aPhoneNumber, boolean active) {
+	public Employee(int aId, String aEmail, String aPassword, String aName, String aPhoneNumber, boolean anActive) {
 		super(aId, aEmail, aPassword, aName, aPhoneNumber);
-		this.active = active;
+		this.active = anActive;
 	}
 
 	// ------------------------
@@ -35,9 +35,9 @@ public class Employee extends UserRole {
 	public boolean getActive() {
 		return this.active;
 	}
-	public boolean setActive(boolean active) {
+	public boolean setActive(boolean active1) {
 		boolean wasSet = false;
-		this.active = active;
+		this.active = active1;
 		wasSet = true;
 		return wasSet;
 	}

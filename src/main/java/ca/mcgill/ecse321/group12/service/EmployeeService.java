@@ -45,6 +45,7 @@ public class EmployeeService {
 		employeeToCreate.setPassword(password);
 		employeeToCreate.setName(name);
 		employeeToCreate.setPhoneNumber(phoneNumber);
+		employeeToCreate.setActive(true);
 		// employeeToCreate.set
 		Employee savedEmployee = employeeRepo.save(employeeToCreate);
 
@@ -89,14 +90,13 @@ public class EmployeeService {
 	 * @return A list of all employees
 	 */
 	@Transactional
-	public Employee updateEmployeeById(int id, String newEmail, String password, String name, String phoneNumber, boolean active) {
+	public Employee updateEmployeeById(int id, String newEmail, String password, String name, String phoneNumber) {
 		Employee employeeToUpdate = employeeRepo.findEmployeeById(id);
 		String previousEmail = employeeToUpdate.getEmail();
 		employeeToUpdate.setEmail(newEmail);
 		employeeToUpdate.setName(name);
 		employeeToUpdate.setPassword(password);
 		employeeToUpdate.setPhoneNumber(phoneNumber);
-		employeeToUpdate.setActive(active);
 		if (!previousEmail.equals(newEmail) && employeeToUpdate.getEmail().equals(previousEmail)) {
 			throw new CustomException(HttpStatus.BAD_REQUEST,
 					"Update employee failed. Employee with this email already exists in the system.");
@@ -105,15 +105,34 @@ public class EmployeeService {
 	}
 
 	/**
-	 * Disable employee with the given ID
+	 * Deactivate employee with the given ID
+	 * @author Amy Ding
+	 * @param id Id of the employee account you want to deactivate
+	 * @return The deactivated employee account
 	 */
-	public Employee disableEmployee(int id) {
-		Employee employeeToDisable = employeeRepo.findEmployeeById(id);
-		if (!employeeToDisable.getActive()) {
+	public Employee deactivateEmployeeById(int id) {
+		Employee employeeToDeactivate = employeeRepo.findEmployeeById(id);
+		if (!employeeToDeactivate.getActive()) {
 			throw new CustomException(HttpStatus.BAD_REQUEST,
-					"Employee is already disabled");
+					"Employee account is already deactivated");
 		}
-		employeeToDisable.setActive(false);
-		return employeeToDisable;
+		employeeToDeactivate.setActive(false);
+		return employeeRepo.save(employeeToDeactivate);
+	}
+	
+	/**
+	 * Enable employee with the given ID
+	 * @author Amy Ding
+	 * @param id Id of the employee account you want to enable
+	 * @return The enabled employee account
+	 */
+	public Employee activateEmployeeById(int id) {
+		Employee employeeToActivate = employeeRepo.findEmployeeById(id);
+		if (employeeToActivate.getActive()) {
+			throw new CustomException(HttpStatus.BAD_REQUEST,
+					"Employee account is already activated");
+		}
+		employeeToActivate.setActive(true);
+		return employeeRepo.save(employeeToActivate);
 	}
 }

@@ -56,6 +56,28 @@ public class EmployeeController {
 	}
 
 	/**
+	 * Deactivate an employee.
+	 * @author Amy Ding
+	 * @param employee The employee to deactivate.
+	 */
+	@PutMapping("/employees/{eid}/deactivate")
+	public EmployeeResponseDto deactivateEmployeeById(@PathVariable int eid) {
+		Employee employee = employeeService.deactivateEmployeeById(eid);
+		return new EmployeeResponseDto(employee);
+	}
+
+	/**
+	 * Activate an employee.
+	 * @author Amy Ding
+	 * @param employee The employee to activate.
+	 */
+	@PutMapping("/employees/{eid}/activate")
+	public EmployeeResponseDto activateEmployeeById(@PathVariable int eid) {
+		Employee employee = employeeService.activateEmployeeById(eid);
+		return new EmployeeResponseDto(employee);
+	}
+
+	/**
 	 * Create a new employee.
 	 * @author Amy Ding
 	 * @param employee The employee to create.
