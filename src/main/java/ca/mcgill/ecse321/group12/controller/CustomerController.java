@@ -11,11 +11,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ca.mcgill.ecse321.group12.dto.CustomerRequestDto;
 import ca.mcgill.ecse321.group12.dto.CustomerResponseDto;
+import ca.mcgill.ecse321.group12.dto.CustomerCreateResponseDto;
 import ca.mcgill.ecse321.group12.model.Cart;
 import ca.mcgill.ecse321.group12.model.Customer;
 import ca.mcgill.ecse321.group12.model.Wishlist;
 import ca.mcgill.ecse321.group12.service.CustomerService;
 import ca.mcgill.ecse321.group12.service.WishlistService;
+import ca.mcgill.ecse321.group12.service.AuthService;
 import ca.mcgill.ecse321.group12.service.CartService;
 
 @RestController
@@ -29,6 +31,9 @@ public class CustomerController {
 
 	@Autowired
 	private WishlistService wishlistService;
+
+	@Autowired
+	private AuthService authService;
 
 	/**
 	 * Return the customer with the given ID.
@@ -63,10 +68,10 @@ public class CustomerController {
 	/**
 	 * Create a new customer.
 	 * @param customer The customer to create.
-	 * @return The created customer, including their ID.
+	 * @return The created customer, including their ID and an auth token.
 	 */
 	@PostMapping("/customers")
-	public CustomerResponseDto createPerson(@RequestBody CustomerRequestDto customer) {
+	public CustomerCreateResponseDto createPerson(@RequestBody CustomerRequestDto customer) {
 		Wishlist wishlist = wishlistService.createWishlist();
 		Cart cart = cartService.createCart();
 
@@ -75,7 +80,13 @@ public class CustomerController {
 
 		Customer createdCustomer = customerService.createCustomer(customer.getEmail(), encryptedPassword,
 				customer.getName(), customer.getPhoneNumber(), wishlist, cart);
-		return new CustomerResponseDto(createdCustomer);
+		CustomerCreateResponseDto response = new CustomerCreateResponseDto(createdCustomer);
+
+		// get an auth token for this customer
+		String token = authService.generateAuthToken(createdCustomer);
+		response.setToken(token);
+
+		return response;
 	}
 
 }
