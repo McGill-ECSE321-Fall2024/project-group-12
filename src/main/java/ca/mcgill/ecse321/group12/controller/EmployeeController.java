@@ -30,7 +30,7 @@ public class EmployeeController {
 	 * Return the employee with the given ID.
 	 * @author Amy Ding
 	 * @param eid The primary key of the employee to find.
-	 * @return The empllyee with the given ID.
+	 * @return The employee with the given ID.
 	 */
 	@GetMapping("/employees/{eid}")
 	public EmployeeResponseDto findEmployeeById(@PathVariable int eid) {
