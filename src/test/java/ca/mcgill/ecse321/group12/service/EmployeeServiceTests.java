@@ -348,6 +348,40 @@ public class EmployeeServiceTests {
 	}
 
 	/**
+	 * Test to deactivate an already deactivated employee with a valid id
+	 * @author Amy Ding
+	 * @return void
+	 */
+	@Test 
+	public void testDeactivateAlreadyDeactivatedEmployee() {
+		// Arrange
+		int id = 42;
+		Employee employee = new Employee();
+		String email = "example3@mail.mcgill.ca";
+		String name = "marwan";
+		String password = "123456";
+		String phoneNumber = "2041234567";
+
+		employee.setId(id);
+		employee.setEmail(email);
+		employee.setName(name);
+		employee.setPassword(password);
+		employee.setPhoneNumber(phoneNumber);
+		employee.setActive(false);
+
+		when(employeeRepository.findEmployeeById(id)).thenReturn(employee);
+		when(employeeRepository.save(any(Employee.class))).thenReturn(employee);
+
+		// Act
+		employeeService.createEmployee(email, password, name, phoneNumber);
+
+		// Assert
+		CustomException e = assertThrows(CustomException.class, () -> employeeService.deactivateEmployeeById(id));
+		// Assert
+		assertEquals("Employee account is already deactivated", e.getMessage());
+	}
+
+	/**
 	 * Test to activate a currently deactivated employee with a valid id
 	 * @author Amy Ding
 	 * @return void
@@ -397,4 +431,39 @@ public class EmployeeServiceTests {
 		assertEquals("There is no employee with ID " + id + ".", e.getMessage());
 	}
 
+	/**
+	 * Test to activate an already activated employee with a valid id
+	 * @author Amy Ding
+	 * @return void
+	 */
+	@Test 
+	public void testActivateAlreadyActivatedEmployee() {
+		// Arrange
+		int id = 42;
+		Employee employee = new Employee();
+		String email = "example2@mail.mcgill.ca";
+		String name = "marwan";
+		String password = "123456";
+		String phoneNumber = "2041234567";
+
+		employee.setId(id);
+		employee.setEmail(email);
+		employee.setName(name);
+		employee.setPassword(password);
+		employee.setPhoneNumber(phoneNumber);
+		employee.setActive(true);
+
+		when(employeeRepository.findEmployeeById(id)).thenReturn(employee);
+		when(employeeRepository.save(any(Employee.class))).thenReturn(employee);
+
+		// Act
+		employeeService.createEmployee(email, password, name, phoneNumber);
+
+		// Assert
+		CustomException e = assertThrows(CustomException.class, () -> employeeService.activateEmployeeById(id));
+		// Assert
+		assertEquals("Employee account is already activated", e.getMessage());
+	}
+
+	
 }
