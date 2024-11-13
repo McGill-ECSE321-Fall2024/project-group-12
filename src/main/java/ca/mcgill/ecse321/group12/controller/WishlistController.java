@@ -46,14 +46,14 @@ public class WishlistController {
 	 * "remove" is passed with the value "all", all games are removed from the wishlist If
 	 * a request parameter "remove" is passed with a gameId, the game with that gameId is
 	 * removed from the wishlist
-	 * @param cartId The primary key of the cart to find.
+	 * @param wishlistId The primary key of the cart to find.
 	 * @return The cart with the given ID.
 	 */
 	@PutMapping("/wishlist/{wishlistId}")
 	@ResponseStatus(HttpStatus.OK)
 	public WishlistResponseDto addGameToCart(@PathVariable int wishlistId,
-			@RequestBody(required = false) WishlistRequestDto wishlist,
-			@RequestParam(value = "remove") Optional<String> remove) {
+			@RequestBody(required = false) WishlistRequestDto wishlist
+            @RequestParam(value = "remove") Optional<String> remove) {
 
 		wishlistService.findWishlistById(wishlistId);
 
