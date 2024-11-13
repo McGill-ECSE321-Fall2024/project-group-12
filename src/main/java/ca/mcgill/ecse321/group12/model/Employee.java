@@ -13,15 +13,17 @@ public class Employee extends UserRole {
 	// MEMBER VARIABLES
 	// ------------------------
 
+	private boolean active;
+
 	public Employee() {
 	}
 
 	// ------------------------
 	// CONSTRUCTOR
 	// ------------------------
-	public Employee(int aId, String aEmail, String aPassword, String aName, String aPhoneNumber) {
+	public Employee(int aId, String aEmail, String aPassword, String aName, String aPhoneNumber, boolean anActive) {
 		super(aId, aEmail, aPassword, aName, aPhoneNumber);
-
+		this.active = anActive;
 	}
 
 	// ------------------------
@@ -30,6 +32,17 @@ public class Employee extends UserRole {
 
 	public void delete() {
 		super.delete();
+	}
+
+	public boolean getActive() {
+		return this.active;
+	}
+
+	public boolean setActive(boolean active1) {
+		boolean wasSet = false;
+		this.active = active1;
+		wasSet = true;
+		return wasSet;
 	}
 
 }

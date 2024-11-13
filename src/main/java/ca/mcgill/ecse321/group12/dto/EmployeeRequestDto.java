@@ -13,6 +13,8 @@ public class EmployeeRequestDto {
 
 	private String phoneNumber;
 
+	private boolean active;
+
 	@SuppressWarnings("unused")
 	private EmployeeRequestDto() {
 	}
@@ -24,12 +26,14 @@ public class EmployeeRequestDto {
 	 * @param password The password for the employee being created
 	 * @param name The name for the employee being created
 	 * @param phoneNumber The phone number for the employee being created
+	 * @param active Whether the employee account is activated or not
 	 */
-	public EmployeeRequestDto(String email, String password, String name, String phoneNumber) {
+	public EmployeeRequestDto(String email, String password, String name, String phoneNumber, boolean active) {
 		this.password = password;
 		this.email = email;
 		this.name = name;
 		this.phoneNumber = phoneNumber;
+		this.active = active;
 	}
 
 	/**
@@ -42,6 +46,7 @@ public class EmployeeRequestDto {
 		this.email = model.getEmail();
 		this.name = model.getName();
 		this.phoneNumber = model.getPhoneNumber();
+		this.active = model.getActive();
 	}
 
 	public String getPassword() {
@@ -60,6 +65,10 @@ public class EmployeeRequestDto {
 		return phoneNumber;
 	}
 
+	public boolean getActive() {
+		return active;
+	}
+
 	public void setPassword(String password) {
 		this.password = password;
 	}
@@ -74,6 +83,10 @@ public class EmployeeRequestDto {
 
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 
 }

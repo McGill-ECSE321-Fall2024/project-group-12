@@ -12,6 +12,8 @@ public class EmployeeResponseDto {
 
 	private String phoneNumber;
 
+	private boolean active;
+
 	@SuppressWarnings("unused")
 	private EmployeeResponseDto() {
 	}
@@ -26,6 +28,7 @@ public class EmployeeResponseDto {
 		this.email = model.getEmail();
 		this.name = model.getName();
 		this.phoneNumber = model.getPhoneNumber();
+		this.active = model.getActive();
 	}
 
 	public int getId() {
@@ -44,6 +47,10 @@ public class EmployeeResponseDto {
 		return phoneNumber;
 	}
 
+	public boolean getActive() {
+		return active;
+	}
+
 	public void setId(int id) {
 		this.id = id;
 	}
@@ -58,6 +65,10 @@ public class EmployeeResponseDto {
 
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 
 }
