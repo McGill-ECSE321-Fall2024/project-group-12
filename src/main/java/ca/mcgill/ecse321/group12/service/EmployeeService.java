@@ -45,6 +45,7 @@ public class EmployeeService {
 		employeeToCreate.setPassword(password);
 		employeeToCreate.setName(name);
 		employeeToCreate.setPhoneNumber(phoneNumber);
+		// employeeToCreate.set
 		Employee savedEmployee = employeeRepo.save(employeeToCreate);
 
 		if (savedEmployee.getEmail() == null) {
@@ -88,13 +89,14 @@ public class EmployeeService {
 	 * @return A list of all employees
 	 */
 	@Transactional
-	public Employee updateEmployeeById(int id, String newEmail, String password, String name, String phoneNumber) {
+	public Employee updateEmployeeById(int id, String newEmail, String password, String name, String phoneNumber, boolean active) {
 		Employee employeeToUpdate = employeeRepo.findEmployeeById(id);
 		String previousEmail = employeeToUpdate.getEmail();
 		employeeToUpdate.setEmail(newEmail);
 		employeeToUpdate.setName(name);
 		employeeToUpdate.setPassword(password);
 		employeeToUpdate.setPhoneNumber(phoneNumber);
+		employeeToUpdate.setActive(active);
 		if (!previousEmail.equals(newEmail) && employeeToUpdate.getEmail().equals(previousEmail)) {
 			throw new CustomException(HttpStatus.BAD_REQUEST,
 					"Update employee failed. Employee with this email already exists in the system.");
@@ -102,4 +104,16 @@ public class EmployeeService {
 		return employeeToUpdate;
 	}
 
+	/**
+	 * Disable employee with the given ID
+	 */
+	public Employee disableEmployee(int id) {
+		Employee employeeToDisable = employeeRepo.findEmployeeById(id);
+		if (!employeeToDisable.getActive()) {
+			throw new CustomException(HttpStatus.BAD_REQUEST,
+					"Employee is already disabled");
+		}
+		employeeToDisable.setActive(false);
+		return employeeToDisable;
+	}
 }
