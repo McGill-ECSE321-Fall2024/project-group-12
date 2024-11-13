@@ -58,6 +58,7 @@ public class EmployeeServiceTests {
 		employee.setPassword(password);
 		employee.setName(name);
 		employee.setPhoneNumber(phoneNumber);
+		employee.setActive(true);
 
 		when(employeeRepository.save(any(Employee.class))).thenReturn(employee);
 
@@ -143,6 +144,7 @@ public class EmployeeServiceTests {
 		employee.setName("johnny");
 		employee.setPassword("123456");
 		employee.setPhoneNumber("2041234567");
+		employee.setActive(true);
 		when(employeeRepository.findEmployeeById(id)).thenReturn(employee);
 
 		// Act
@@ -193,6 +195,7 @@ public class EmployeeServiceTests {
 		employee.setName(name);
 		employee.setPassword(password);
 		employee.setPhoneNumber(phoneNumber);
+		employee.setActive(true);
 
 		String newEmail = "newemail@mail.mcgill.ca";
 		String newName = "john";
@@ -239,6 +242,8 @@ public class EmployeeServiceTests {
 		employee.setName(name);
 		employee.setPassword(password);
 		employee.setPhoneNumber(phoneNumber);
+		employee.setActive(true);
+
 		when(employeeRepository.findEmployeeById(id)).thenReturn(employee);
 		when(employeeRepository.save(any(Employee.class))).thenReturn(employee);
 
@@ -266,6 +271,7 @@ public class EmployeeServiceTests {
 		employee.setName("johnny");
 		employee.setPassword("123456");
 		employee.setPhoneNumber("2041234567");
+		employee.setActive(true);
 
 		when(employeeRepository.findEmployeeById(id)).thenReturn(employee);
 
@@ -464,6 +470,38 @@ public class EmployeeServiceTests {
 		// Assert
 		assertEquals("Employee account is already activated", e.getMessage());
 	}
-
 	
+	/**
+	 * Test to attempt to update a deactivated employee
+	 * @author Amy Ding
+	 * @return void
+	 */
+	@Test 
+	public void testUpdateDeactivatedEmployee() {
+		// Arrange
+		int id = 42;
+		Employee employee = new Employee();
+		String name = "amy";
+		String email = "amy_d2@mail.mcgill.ca";
+		String password = "12345678";
+		String phoneNumber = "2041123455";
+
+		String name2 = "bob";
+		employee.setEmail(email);
+		employee.setName(name);
+		employee.setPassword(password);
+		employee.setPhoneNumber(phoneNumber);
+		employee.setActive(false);
+
+		when(employeeRepository.findEmployeeById(id)).thenReturn(employee);
+		when(employeeRepository.save(any(Employee.class))).thenReturn(employee);
+
+		// Act
+		employeeService.createEmployee(email, password, name, phoneNumber);
+		// Assert
+		CustomException e = assertThrows(CustomException.class,
+				() -> employeeService.updateEmployeeById(id, email, password, name2, phoneNumber));
+		assertEquals("Update employee failed. Employee account is deactivated. Please reactivate employee account to update employee information.", e.getMessage());
+		
+	}
 }

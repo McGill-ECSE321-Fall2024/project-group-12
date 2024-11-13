@@ -92,6 +92,9 @@ public class EmployeeService {
 	@Transactional
 	public Employee updateEmployeeById(int id, String newEmail, String password, String name, String phoneNumber) {
 		Employee employeeToUpdate = employeeRepo.findEmployeeById(id);
+		if (!employeeToUpdate.getActive()) {
+			throw new CustomException(HttpStatus.BAD_REQUEST, "Update employee failed. Employee account is deactivated. Please reactivate employee account to update employee information.");
+		}
 		String previousEmail = employeeToUpdate.getEmail();
 		employeeToUpdate.setEmail(newEmail);
 		employeeToUpdate.setName(name);

@@ -218,12 +218,168 @@ public class EmployeeServiceIntegrationTests {
 	}
 
 	/**
-	 * Test to delete an employee with a valid id
+	 * Test to deactivate an activated employee with a invalid id
 	 * @author Amy Ding
 	 * @return void
 	 */
 	@Test
 	@Order(7)
+	public void testDeactivateEmployeeByInvalidId() {
+		// Arrange
+		String url = "/employees/" + this.invalidId + "/deactivate";
+		
+		// Act
+		ResponseEntity<EmployeeResponseDto> response = client.exchange(url, HttpMethod.PUT, null,
+				EmployeeResponseDto.class);
+
+		// Assert
+		assertNotNull(response);
+		assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+	}
+
+	/**
+	 * Test to deactivate an activated employee with a valid id
+	 * @author Amy Ding
+	 * @return void
+	 */
+	@Test
+	@Order(8)
+	public void testDeactivateEmployeeByValidId() {
+		// Arrange
+		String url = "/employees/" + this.validId + "/deactivate";
+		
+		// Act
+		ResponseEntity<EmployeeResponseDto> response = client.exchange(url, HttpMethod.PUT, null,
+				EmployeeResponseDto.class);
+
+		// Assert
+		assertNotNull(response);
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		EmployeeResponseDto employee = response.getBody();
+		assertNotNull(employee);
+		assertEquals(VALID_NAME, employee.getName());
+		assertEquals(VALID_EMAIL2, employee.getEmail());
+		assertEquals(VALID_PHONENUMBER, employee.getPhoneNumber());
+		assertEquals(this.validId, employee.getId());
+		assertEquals(false, employee.getActive());
+	}
+
+	/**
+	 * Test to deactivate an already deactivated employee with a valid id
+	 * @author Amy Ding
+	 * @return void
+	 */
+	@Test
+	@Order(9)
+	public void testDeactivateAlreadyDeactivatedEmployee() {
+		// Arrange
+		String url = "/employees/" + this.validId + "/deactivate";
+		
+		// Act
+		ResponseEntity<EmployeeResponseDto> response = client.exchange(url, HttpMethod.PUT, null,
+				EmployeeResponseDto.class);
+
+		// Assert
+		assertNotNull(response);
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+	}
+
+	/**
+	 * Test to attempt to update a deactivated employee with a valid id
+	 * @author Amy Ding
+	 * @return void
+	 */
+	@Test
+	@Order(10)
+	public void testUpdateDeactivatedEmployee() {
+		String url = "/employees/" + this.validId;
+		EmployeeRequestDto body = new EmployeeRequestDto(VALID_EMAIL2, VALID_PASSWORD, VALID_NAME, VALID_PHONENUMBER, true);
+		RequestEntity<EmployeeRequestDto> request = RequestEntity.put(url)
+			.accept(MediaType.APPLICATION_PROBLEM_JSON)
+			.body(body);
+		// Act
+		ResponseEntity<EmployeeResponseDto> response = client.exchange(url, HttpMethod.PUT, request,
+				EmployeeResponseDto.class);
+
+		// Assert
+		assertNotNull(response);
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+	}
+
+	/**
+	 * Test to activate a deactivated employee with a invalid id
+	 * @author Amy Ding
+	 * @return void
+	 */
+	@Test
+	@Order(11)
+	public void testActivateEmployeeByInvalidId() {
+		// Arrange
+		String url = "/employees/" + this.invalidId + "/activate";
+		
+		// Act
+		ResponseEntity<EmployeeResponseDto> response = client.exchange(url, HttpMethod.PUT, null,
+				EmployeeResponseDto.class);
+
+		// Assert
+		assertNotNull(response);
+		assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+	}
+
+	/**
+	 * Test to activate a deactivated employee with a valid id
+	 * @author Amy Ding
+	 * @return void
+	 */
+	@Test
+	@Order(12)
+	public void testActivateEmployeeByValidId() {
+		// Arrange
+		String url = "/employees/" + this.validId + "/activate";
+		
+		// Act
+		ResponseEntity<EmployeeResponseDto> response = client.exchange(url, HttpMethod.PUT, null,
+				EmployeeResponseDto.class);
+
+		// Assert
+		assertNotNull(response);
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		EmployeeResponseDto employee = response.getBody();
+		assertNotNull(employee);
+		assertEquals(VALID_NAME, employee.getName());
+		assertEquals(VALID_EMAIL2, employee.getEmail());
+		assertEquals(VALID_PHONENUMBER, employee.getPhoneNumber());
+		assertEquals(this.validId, employee.getId());
+		assertEquals(true, employee.getActive());
+	}
+
+	/**
+	 * Test to activate an already activated employee with a valid id
+	 * @author Amy Ding
+	 * @return void
+	 */
+	@Test
+	@Order(13)
+	public void testActivateAlreadyActivatedEmployee() {
+		// Arrange
+		String url = "/employees/" + this.validId + "/activate";
+		
+		// Act
+		ResponseEntity<EmployeeResponseDto> response = client.exchange(url, HttpMethod.PUT, null,
+				EmployeeResponseDto.class);
+
+		// Assert
+		assertNotNull(response);
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+	}
+
+	/**
+	 * Test to delete an employee with a valid id
+	 * @author Amy Ding
+	 * @return void
+	 */
+	@Test
+	@Order(15)
 	public void testDeleteEmployeeByValidId() {
 		// Arrange
 		String url = "/employees/" + this.validId;
@@ -243,7 +399,7 @@ public class EmployeeServiceIntegrationTests {
 	 * @return void
 	 */
 	@Test
-	@Order(8)
+	@Order(14)
 	public void testDeleteEmployeeByInvalidId() {
 		// Arrange
 		String url = "/employees/" + this.invalidId;
@@ -256,5 +412,4 @@ public class EmployeeServiceIntegrationTests {
 		assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
 		assertTrue(error.contains("There is no employee with ID " + this.invalidId + "."));
 	}
-
 }
