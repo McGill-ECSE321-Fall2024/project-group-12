@@ -5,6 +5,7 @@ public class ReviewResponseDto {
     private String review;
     private int rating;
     private int likeCount;
+    private int id;
    
     @SuppressWarnings("unused")
     private ReviewResponseDto() {
@@ -14,6 +15,7 @@ public class ReviewResponseDto {
         this.review = model.getText();
         this.rating = model.getRating();
         this.likeCount = model.getLikeCount();
+        this.id = id;
         
     }
 
@@ -27,8 +29,11 @@ public class ReviewResponseDto {
     public int getLikeCount() {
         return likeCount;
     }
-    
-    
+
+    public int getId() {
+        return id;
+    }
+
     public void setReview(String review) {
         this.review = review;
     }
