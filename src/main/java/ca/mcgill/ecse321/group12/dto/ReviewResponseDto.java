@@ -15,7 +15,7 @@ public class ReviewResponseDto {
         this.review = model.getText();
         this.rating = model.getRating();
         this.likeCount = model.getLikeCount();
-        this.id = id;
+        this.id = model.getId();
         
     }
 

@@ -20,7 +20,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
-import ca.mcgill.ecse321.group12.model.Customer;
 import ca.mcgill.ecse321.group12.model.Game.Category;
 import ca.mcgill.ecse321.group12.model.Game.Console;
 import ca.mcgill.ecse321.group12.model.Game.GameStatus;
@@ -83,13 +82,13 @@ public class ReviewServiceIntegrationTests {
         CustomerRequestDto customerRequest = new CustomerRequestDto("carmin@gmail.com", "1", "a", "7806665667");
         ResponseEntity<CustomerResponseDto> customerResponse = client.postForEntity("/customer", customerRequest, CustomerResponseDto.class);
         // save the response
-        //this.customer = customerResponse.getBody(); // delete? then chanage all uses of customer to be customerResponse (in the below tests)?
+        this.customer = customerResponse.getBody();
 
         // create a game to associate with the review
         GameRequestDto gameRequest = new GameRequestDto(Category.Action, Console.Switch, 10, 10f, "Action Game", "A game full of fun, fear, and excitement", GameStatus.InCatalog);
         // post to the database
         GameResponseDto gameDto = client.postForEntity("/games", gameRequest, GameResponseDto.class).getBody();
-
+        this.gameDto = gameDto;
 
     }
 
@@ -112,7 +111,7 @@ public class ReviewServiceIntegrationTests {
     @Order(1)
     public void testCreateReviewWithValidData() {
         // arrange
-        ReviewRequestDto reviewRequest = new ReviewRequestDto(VALID_TEXT, VALID_RATING, VALID_LIKE_COUNT, gameDto.getId(), customerResponse.getId());
+        ReviewRequestDto reviewRequest = new ReviewRequestDto(VALID_TEXT, VALID_RATING, VALID_LIKE_COUNT, gameDto.getId(), customer.getId());
         // act
         ResponseEntity<ReviewResponseDto> reviewResponse = client.postForEntity("/review", reviewRequest, ReviewResponseDto.class);
         // assert
@@ -135,7 +134,7 @@ public class ReviewServiceIntegrationTests {
     @Order(2)
     public void testCreateReviewWithInvalidText() {
         // arrange
-        ReviewRequestDto reviewRequest = new ReviewRequestDto("", VALID_RATING, VALID_LIKE_COUNT, gameDto.getId(), customerResponse.getId());
+        ReviewRequestDto reviewRequest = new ReviewRequestDto("", VALID_RATING, VALID_LIKE_COUNT, gameDto.getId(), customer.getId());
         // act
         ResponseEntity<ReviewResponseDto> reviewResponse = client.postForEntity("/review", reviewRequest, ReviewResponseDto.class);
         // assert
@@ -154,7 +153,7 @@ public class ReviewServiceIntegrationTests {
     @Order(3)
     public void testCreateReviewWithInvalidRating() {
         // arrange
-        ReviewRequestDto reviewRequest = new ReviewRequestDto(VALID_TEXT, 6, VALID_LIKE_COUNT, gameDto.getId(), customerResponse.getId());
+        ReviewRequestDto reviewRequest = new ReviewRequestDto(VALID_TEXT, 6, VALID_LIKE_COUNT, gameDto.getId(), customer.getId());
         // act
         ResponseEntity<ReviewResponseDto> reviewResponse = client.postForEntity("/review", reviewRequest, ReviewResponseDto.class);
         // assert
@@ -172,7 +171,7 @@ public class ReviewServiceIntegrationTests {
     @Test@Order(4)
     public void testCreateReviewWithInvalidLikeCount() {
         // arrange
-        ReviewRequestDto reviewRequest = new ReviewRequestDto(VALID_TEXT, VALID_RATING, -1, gameDto.getId(), customerResponse.getId());
+        ReviewRequestDto reviewRequest = new ReviewRequestDto(VALID_TEXT, VALID_RATING, -1, gameDto.getId(), customer.getId());
         // act
         ResponseEntity<ReviewResponseDto> reviewResponse = client.postForEntity("/review", reviewRequest, ReviewResponseDto.class);
         // assert
@@ -190,7 +189,7 @@ public class ReviewServiceIntegrationTests {
     @Order(5)
     public void testCreateReviewWithInvalidGame() {
         // arrange
-        ReviewRequestDto reviewRequest = new ReviewRequestDto(VALID_TEXT, VALID_RATING, VALID_LIKE_COUNT, -1, customerResponse.getId());
+        ReviewRequestDto reviewRequest = new ReviewRequestDto(VALID_TEXT, VALID_RATING, VALID_LIKE_COUNT, -1, customer.getId());
         // act
         ResponseEntity<ReviewResponseDto> reviewResponse = client.postForEntity("/review", reviewRequest, ReviewResponseDto.class);
         // assert
@@ -271,7 +270,7 @@ public class ReviewServiceIntegrationTests {
     public void testUpdateReviewWithValidData() {
         // arrange
         String url = "/review/" + this.validId;
-        ReviewRequestDto body = new ReviewRequestDto(VALID_TEXT_2, VALID_RATING_2, VALID_LIKE_COUNT_2, gameDto.getId(), customerResponse.getId());
+        ReviewRequestDto body = new ReviewRequestDto(VALID_TEXT_2, VALID_RATING_2, VALID_LIKE_COUNT_2, gameDto.getId(), customer.getId());
         RequestEntity<ReviewRequestDto> request = RequestEntity.put(url).accept(MediaType.APPLICATION_JSON).body(body);
 
         // act
@@ -299,7 +298,7 @@ public class ReviewServiceIntegrationTests {
     public void testUpdateReviewWithInvalidText() {
         // arrange
         String url = "/review/" + this.validId;
-        ReviewRequestDto body = new ReviewRequestDto("", VALID_RATING_2, VALID_LIKE_COUNT_2, gameDto.getId(), customerResponse.getId());
+        ReviewRequestDto body = new ReviewRequestDto("", VALID_RATING_2, VALID_LIKE_COUNT_2, gameDto.getId(), customer.getId());
         RequestEntity<ReviewRequestDto> request = RequestEntity.put(url).accept(MediaType.APPLICATION_JSON).body(body);
 
         // act
@@ -319,7 +318,7 @@ public class ReviewServiceIntegrationTests {
     public void testUpdateReviewWithInvalidRating() {
         // arrange
         String url = "/review/" + this.validId;
-        ReviewRequestDto body = new ReviewRequestDto(VALID_TEXT_2, 6, VALID_LIKE_COUNT_2, gameDto.getId(), customerResponse.getId());
+        ReviewRequestDto body = new ReviewRequestDto(VALID_TEXT_2, 6, VALID_LIKE_COUNT_2, gameDto.getId(), customer.getId());
         RequestEntity<ReviewRequestDto> request = RequestEntity.put(url).accept(MediaType.APPLICATION_JSON).body(body);
 
         // act
@@ -339,7 +338,7 @@ public class ReviewServiceIntegrationTests {
     public void testUpdateReviewWithInvalidLikeCount() {
         // arrange
         String url = "/review/" + this.validId;
-        ReviewRequestDto body = new ReviewRequestDto(VALID_TEXT_2, VALID_RATING_2, -1, gameDto.getId(), customerResponse.getId());
+        ReviewRequestDto body = new ReviewRequestDto(VALID_TEXT_2, VALID_RATING_2, -1, gameDto.getId(), customer.getId());
         RequestEntity<ReviewRequestDto> request = RequestEntity.put(url).accept(MediaType.APPLICATION_JSON).body(body);
 
         // act
