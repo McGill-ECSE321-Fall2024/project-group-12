@@ -97,9 +97,11 @@ public class ManagerServiceIntegrationTests {
 	public void testCreateManagerWhenExistingManager() {
 		// Arrange
 		ManagerRequestDto request = new ManagerRequestDto(VALID_EMAIL, VALID_PASSWORD, VALID_NAME, VALID_PHONENUMBER);
+
 		// Act
 		ResponseEntity<String> response = client.postForEntity("/manager", request, String.class);
 		String error = response.getBody();
+
 		// Assert
 		assertNotNull(response);
 		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
@@ -164,10 +166,10 @@ public class ManagerServiceIntegrationTests {
 		// Arrange
 		String url = "/manager";
 		ManagerRequestDto body = new ManagerRequestDto(VALID_EMAIL2, VALID_PASSWORD, VALID_NAME, VALID_PHONENUMBER);
-
 		RequestEntity<ManagerRequestDto> request = RequestEntity.put(url)
 			.accept(MediaType.APPLICATION_PROBLEM_JSON)
 			.body(body);
+
 		// Act
 		ResponseEntity<ManagerResponseDto> response = client.exchange(url, HttpMethod.PUT, request,
 				ManagerResponseDto.class);
