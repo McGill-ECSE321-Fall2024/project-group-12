@@ -107,12 +107,62 @@ public class CartServiceIntegrationTests {
 	}
 
 	/**
-	 * Test adding a game to cart.
+	 * Test finding a cart by an invalid ID.
 	 * @author Sophia
 	 */
 	@Test
 	@Order(2)
-	public void testAddGameToCart() {
+	public void testFindCartByInvalidId() {
+		// Arrange
+		this.validId = this.customer.getCart().getId();
+		int invalidId = this.validId + 1; // + 1 to the valid ID to ensure it's not the
+											// valid id (and thus invalid)
+		String url = "/cart/" + invalidId;
+
+		// Act
+		ResponseEntity<CartResponseDto> response = client.getForEntity(url, CartResponseDto.class);
+
+		// Assert
+		assertNotNull(response);
+		assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+	}
+
+	/**
+	 * Test adding a game to cart by invalid id.
+	 * @author Sophia
+	 */
+	@Test
+	@Order(3)
+	public void testAddGameToCartByInvalidId() {
+		// Start with an empty cart, add a game to the cart
+		// Arrange
+		this.validId = this.customer.getCart().getId();
+		String url = "/cart/" + this.validId;
+
+		// Act
+		// Add the game ID (of the game to be added to cart) to the request body
+		CartRequestDto body = new CartRequestDto();
+		body.setGameId(this.game.getId() + 1); // + 1 to the game ID to ensure it's not
+												// the valid id (and thus invalid)
+		RequestEntity<CartRequestDto> CartRequestEntity = RequestEntity.put(url)
+			.accept(MediaType.APPLICATION_JSON)
+			.body(body);
+		// PUT request
+		ResponseEntity<CartResponseDto> response = client.exchange(url, HttpMethod.PUT, CartRequestEntity,
+				CartResponseDto.class);
+
+		// Assert
+		assertNotNull(response);
+		assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+	}
+
+	/**
+	 * Test adding a game to cart.
+	 * @author Sophia
+	 */
+	@Test
+	@Order(4)
+	public void testAddGameToCartByValidId() {
 		// Start with an empty cart, add a game to the cart
 		// Arrange
 		this.validId = this.customer.getCart().getId();
@@ -149,7 +199,7 @@ public class CartServiceIntegrationTests {
 	 * @author Julien Heng
 	 */
 	@Test
-	@Order(3)
+	@Order(5)
 	public void testRemoveGameFromCartByInvalidId() {
 		// Start with non-empty cart
 		// Arrange
@@ -178,7 +228,7 @@ public class CartServiceIntegrationTests {
 	 * @author Julien Heng
 	 */
 	@Test
-	@Order(4)
+	@Order(6)
 	public void testRemoveGameFromCartByInvalidString() {
 		// Start with non-empty cart
 		// Arrange
@@ -203,7 +253,7 @@ public class CartServiceIntegrationTests {
 	 * @author Julien Heng
 	 */
 	@Test
-	@Order(5)
+	@Order(7)
 	public void testRemoveGameFromCartByValidId() {
 		// Start with non-empty cart
 		// Arrange
