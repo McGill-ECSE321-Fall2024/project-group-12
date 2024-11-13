@@ -8,7 +8,7 @@ import ca.mcgill.ecse321.group12.model.Wishlist;
 
 public class WishlistResponseDto {
 
-    private int id;
+	private int id;
 
 	private List<GameResponseDto> games;
 
@@ -40,5 +40,5 @@ public class WishlistResponseDto {
 	public void setGames(List<GameResponseDto> games) {
 		this.games = games;
 	}
-    
+
 }

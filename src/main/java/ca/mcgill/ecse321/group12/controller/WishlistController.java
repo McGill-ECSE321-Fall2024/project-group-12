@@ -21,15 +21,17 @@ import ca.mcgill.ecse321.group12.service.WishlistService;
 
 @Controller
 public class WishlistController {
-    @Autowired
-    private WishlistService wishlistService;
-    @Autowired
-    private GameService gameService;
 
-    /**
+	@Autowired
+	private WishlistService wishlistService;
+
+	@Autowired
+	private GameService gameService;
+
+	/**
 	 * @param wishlistId The primary key of the wishlist to find.
 	 * @return The wishlist with the given ID.
-     * @author Julien Heng
+	 * @author Julien Heng
 	 */
 	@GetMapping("/wishlist/{wishlistId}")
 	@ResponseStatus(HttpStatus.OK)
@@ -38,18 +40,19 @@ public class WishlistController {
 		return new WishlistResponseDto(wishlist);
 	}
 
-    /**
-	 * Modifies the wishlist (add, remove or clear) If no request parameters are passed, the
-	 * gameId in the request body is added to the wishlist If a request parameter "remove" is
-	 * passed with the value "all", all games are removed from the wishlist If a request
-	 * parameter "remove" is passed with a gameId, the game with that gameId is removed
-	 * from the wishlist
+	/**
+	 * Modifies the wishlist (add, remove or clear) If no request parameters are passed,
+	 * the gameId in the request body is added to the wishlist If a request parameter
+	 * "remove" is passed with the value "all", all games are removed from the wishlist If
+	 * a request parameter "remove" is passed with a gameId, the game with that gameId is
+	 * removed from the wishlist
 	 * @param cartId The primary key of the cart to find.
 	 * @return The cart with the given ID.
 	 */
 	@PutMapping("/wishlist/{wishlistId}")
 	@ResponseStatus(HttpStatus.OK)
-	public WishlistResponseDto addGameToCart(@PathVariable int wishlistId, @RequestBody(required = false) WishlistRequestDto wishlist,
+	public WishlistResponseDto addGameToCart(@PathVariable int wishlistId,
+			@RequestBody(required = false) WishlistRequestDto wishlist,
 			@RequestParam(value = "remove") Optional<String> remove) {
 
 		wishlistService.findWishlistById(wishlistId);

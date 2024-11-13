@@ -1,7 +1,8 @@
 package ca.mcgill.ecse321.group12.dto;
 
 public class WishlistRequestDto {
-    private int id;
+
+	private int id;
 
 	private int gameId;
 
@@ -23,4 +24,5 @@ public class WishlistRequestDto {
 	public void setGameId(int gameId) {
 		this.gameId = gameId;
 	}
+
 }
