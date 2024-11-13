@@ -22,16 +22,21 @@ import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 
 import ca.mcgill.ecse321.group12.model.Customer;
+import ca.mcgill.ecse321.group12.model.Employee;
 import ca.mcgill.ecse321.group12.model.Game.Category;
 import ca.mcgill.ecse321.group12.model.Game.Console;
 import ca.mcgill.ecse321.group12.model.Game.GameStatus;
 import ca.mcgill.ecse321.group12.repository.CartRepository;
 import ca.mcgill.ecse321.group12.repository.CustomerRepository;
 import ca.mcgill.ecse321.group12.repository.GameRepository;
+import ca.mcgill.ecse321.group12.dto.AuthRequestDto;
+import ca.mcgill.ecse321.group12.dto.AuthResponseDto;
 import ca.mcgill.ecse321.group12.dto.CartRequestDto;
 import ca.mcgill.ecse321.group12.dto.CartResponseDto;
+import ca.mcgill.ecse321.group12.dto.CustomerCreateResponseDto;
 import ca.mcgill.ecse321.group12.dto.CustomerRequestDto;
-import ca.mcgill.ecse321.group12.dto.CustomerResponseDto;
+import ca.mcgill.ecse321.group12.dto.EmployeeRequestDto;
+import ca.mcgill.ecse321.group12.dto.EmployeeResponseDto;
 import ca.mcgill.ecse321.group12.dto.GameRequestDto;
 import ca.mcgill.ecse321.group12.dto.GameResponseDto;
 
@@ -54,25 +59,50 @@ public class CartServiceIntegrationTests {
 
 	private int validId;
 
-	private CustomerResponseDto customer;
+	private CustomerCreateResponseDto customer;
 
 	private GameResponseDto game;
+
+	// the auth token to allow requests for this user
+	private String customerAuth;
+	private String employeeAuth;
 
 	@BeforeAll
 	public void setup() {
 		// Create (POST) a customer to use their cart for tests
 		Customer customer = new Customer();
 		CustomerRequestDto customerRequest = new CustomerRequestDto(customer);
-		ResponseEntity<CustomerResponseDto> customerResponse = client.postForEntity("/customers", customerRequest,
-				CustomerResponseDto.class);
+		ResponseEntity<CustomerCreateResponseDto> customerResponse = client.postForEntity("/customers", customerRequest,
+				CustomerCreateResponseDto.class);
 		// Save the response
 		this.customer = customerResponse.getBody();
+		// set the auth string for use in request headers
+		customerAuth = "Bearer " + this.customer.getToken();
+		// create (POST) an employee to use their authorization header for creating games
+		Employee employee = new Employee();
+		employee.setEmail("employee@company.com");
+		employee.setPassword("password");
+		EmployeeRequestDto employeeRequest = new EmployeeRequestDto(employee);
+		client.postForEntity("/employees", employeeRequest, EmployeeResponseDto.class);
+		// use the auth endpoint to get a token for the employee
+		AuthRequestDto authRequest = new AuthRequestDto();
+		authRequest.setEmail(employee.getEmail());
+		authRequest.setPassword(employee.getPassword());
+		ResponseEntity<AuthResponseDto> authResponse = client.postForEntity("/auth/signin", authRequest,AuthResponseDto.class);
+		// store the token
+		AuthResponseDto auth = authResponse.getBody();
+		assertNotNull(auth);
+		employeeAuth = "Bearer " + auth.getToken();
 		// Create (POST) a game to use it for tests
 		GameRequestDto gameRequest = new GameRequestDto(Category.Action, Console.PC, 1, 1.0f, "Game Name...",
 				"Game Description...", GameStatus.Archived);
-		ResponseEntity<GameResponseDto> gameResponse = client.postForEntity("/games", gameRequest,
-				GameResponseDto.class);
+		RequestEntity<GameRequestDto> gameReq = RequestEntity.post("/games")
+			.header("Authorization", employeeAuth)
+			.accept(MediaType.APPLICATION_JSON)
+			.body(gameRequest);
+		ResponseEntity<GameResponseDto> gameResponse = client.exchange("/games", HttpMethod.POST, gameReq, GameResponseDto.class);
 		// Save the response
+		assertEquals(HttpStatus.CREATED, gameResponse.getStatusCode());
 		this.game = gameResponse.getBody();
 	}
 
@@ -91,7 +121,12 @@ public class CartServiceIntegrationTests {
 		String url = "/cart/" + this.validId;
 
 		// Act
-		ResponseEntity<CartResponseDto> response = client.getForEntity(url, CartResponseDto.class);
+		// provide the auth header
+		RequestEntity<Void> req = RequestEntity.get(url)
+			.header("Authorization", customerAuth)
+			.accept(MediaType.APPLICATION_JSON)
+			.build();
+		ResponseEntity<CartResponseDto> response = client.exchange(url, HttpMethod.GET, req, CartResponseDto.class);
 
 		// Assert
 		assertNotNull(response);
