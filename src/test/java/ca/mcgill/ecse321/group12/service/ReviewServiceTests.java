@@ -89,6 +89,9 @@ public class ReviewServiceTests {
     
         Game createdGame = new Game(gameId, aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus);    
         Customer createdCustomer = new Customer(customerId, email, password, name, phoneNumber, wishlist, cart);
+
+        when(gameRepository.findGameById(gameId)).thenReturn(createdGame);
+        when(customerRepository.findCustomerById(customerId)).thenReturn(createdCustomer);
             
 
         Review review = new Review();
@@ -109,8 +112,8 @@ public class ReviewServiceTests {
         assertEquals(likeCount, returnedReview.getLikeCount());
         assertEquals(rating, returnedReview.getRating());
         assertEquals(reviewText, returnedReview.getText());
-        assertEquals(createdGame.getId(), returnedReview.getGame());
-        assertEquals(createdCustomer.getId(), returnedReview.getCustomer());
+        assertEquals(createdGame.getId(), returnedReview.getGame().getId());
+        assertEquals(createdCustomer.getId(), returnedReview.getCustomer().getId());
         verify(reviewRepository, times(1)).save(any(Review.class));
     }
 
@@ -136,9 +139,9 @@ public class ReviewServiceTests {
 		    when(gameRepository.findGameById(gameId)).thenReturn(createdGame);
 
             // sret up feilds to create a customer 
-            String email = "carmin@gmail.com";
+            String email = "amy@gmail.com";
             String password = "password";
-            String name = "Carmin";
+            String name = "Amy";
             String phoneNumber = "5141234567";
             Wishlist wishlist = new Wishlist();
             int customerId = 0;
@@ -148,7 +151,6 @@ public class ReviewServiceTests {
         
             // create a review
             Review review = new Review();
-            when(reviewRepository.findReviewById(reviewId)).thenReturn(review);
 
             // act
             review.setLikeCount(likeCount);
@@ -158,8 +160,9 @@ public class ReviewServiceTests {
             review.setGame(gameRepository.findGameById(gameId));
             review.setCustomer(customerRepository.findCustomerById(customerId));
             // Review createdReview = reviewService.findReviewById(reviewId);
-          //  Review createdReview = reviewService.createReview(likeCount, rating, reviewText, createdGame.getId(), createdCustomer.getId());
-          //  when(reviewRepository.findReviewById(reviewId)).thenReturn(review);
+            when(reviewRepository.save(any(Review.class))).thenReturn(review);
+            Review createdReview = reviewService.createReview(likeCount, rating, reviewText, createdGame.getId(), createdCustomer.getId());
+            when(reviewRepository.findReviewById(reviewId)).thenReturn(createdReview);
 
             // act
             Review returnedReview = reviewService.findReviewById(reviewId);
@@ -201,22 +204,21 @@ public class ReviewServiceTests {
 		    String aDescription = "Game Description...";
 		    GameStatus aStatus = GameStatus.Archived;
 
-            String email = "carmin@gmail.com";
+            String email = "julien@gmail.com";
             String password = "password";
-            String name = "Carmin";
+            String name = "Julien";
             String phoneNumber = "5141234567";
             Wishlist wishlist = new Wishlist();
             int gameId = 1;
-            int customerId = 1;
+            int customerId = 2;
 
             Cart cart = new Cart();
             // create a review
             Game createdGame = new Game(gameId, aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus);    
-           // when(gameRepository.findGameById(gameId)).thenReturn(createdGame);
+            when(gameRepository.findGameById(gameId)).thenReturn(createdGame);
 		    
-            
-
             Customer createdCustomer = new Customer(customerId, email, password, name, phoneNumber, wishlist, cart);
+            when(customerRepository.findCustomerById(customerId)).thenReturn(createdCustomer);
             
 
             Review review = reviewService.createReview(likeCount, rating, reviewText, createdGame.getId(), createdCustomer.getId());
@@ -281,6 +283,8 @@ public class ReviewServiceTests {
     
             Game createdGame = new Game(gameId, aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus);    
             Customer createdCustomer = new Customer(customerId, email, password, name, phoneNumber, wishlist, cart);
+            when(gameRepository.findGameById(gameId)).thenReturn(createdGame);
+            when(customerRepository.findCustomerById(customerId)).thenReturn(createdCustomer);
             Review review = reviewService.createReview(likeCount, rating, reviewText, createdGame.getId(), createdCustomer.getId());
         
             when(reviewRepository.findReviewById(reviewId)).thenReturn(review);
@@ -301,7 +305,7 @@ public class ReviewServiceTests {
             // act
             // assert
             CustomException exception = assertThrows(CustomException.class, () -> reviewService.updateReview(reviewId, updatedLikeCount, updatedRating, updatedReviewText, createdGame.getId(), createdCustomer.getId()));
-            assertEquals("Like count is invalid, must be a positive number.", exception.getMessage());
+            assertEquals("Like count cannot be negative.", exception.getMessage());
         }
 
         @Test
@@ -320,9 +324,9 @@ public class ReviewServiceTests {
 		    String aDescription = "Game Description...";
 		    GameStatus aStatus = GameStatus.Archived;
 
-            String email = "carmin@gmail.com";
+            String email = "sophia@gmail.com";
             String password = "password";
-            String name = "Carmin";
+            String name = "Sophia";
             String phoneNumber = "5141234567";
             Wishlist wishlist = new Wishlist();
             int gameId = 0;
@@ -333,6 +337,9 @@ public class ReviewServiceTests {
     
             Game createdGame = new Game(gameId, aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus);    
             Customer createdCustomer = new Customer(customerId, email, password, name, phoneNumber, wishlist, cart);
+            when(gameRepository.findGameById(gameId)).thenReturn(createdGame);
+            when(customerRepository.findCustomerById(customerId)).thenReturn(createdCustomer);
+
             Review review = reviewService.createReview(likeCount, rating, reviewText, createdGame.getId(), createdCustomer.getId());
             when(reviewRepository.findReviewById(reviewId)).thenReturn(review);
             
@@ -352,7 +359,7 @@ public class ReviewServiceTests {
             // act
             // assert
             CustomException exception = assertThrows(CustomException.class, () -> reviewService.updateReview(reviewId, updatedLikeCount, updatedRating, updatedReviewText, createdGame.getId(), createdCustomer.getId()));
-            assertEquals("Rating is invalid, must be a positive number.", exception.getMessage());
+            assertEquals("Rating must be between 0 and 5.", exception.getMessage());
         }
 
         @Test
@@ -371,9 +378,9 @@ public class ReviewServiceTests {
 		    String aDescription = "Game Description...";
 		    GameStatus aStatus = GameStatus.Archived;
 
-            String email = "carmin@gmail.com";
+            String email = "james@gmail.com";
             String password = "password";
-            String name = "Carmin";
+            String name = "James";
             String phoneNumber = "5141234567";
             Wishlist wishlist = new Wishlist();
             int gameId = 0;
@@ -385,6 +392,9 @@ public class ReviewServiceTests {
             Game createdGame = new Game(gameId, aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus);    
             Customer createdCustomer = new Customer(customerId, email, password, name, phoneNumber, wishlist, cart);
             
+            when(gameRepository.findGameById(gameId)).thenReturn(createdGame);
+            when(customerRepository.findCustomerById(customerId)).thenReturn(createdCustomer);
+
             // create a review
     
             Review review = reviewService.createReview(likeCount, rating, reviewText, createdGame.getId(), createdCustomer.getId());
@@ -408,7 +418,7 @@ public class ReviewServiceTests {
             // assert
 
             CustomException exception = assertThrows(CustomException.class, () -> reviewService.updateReview(reviewId, updatedLikeCount, updatedRating, updatedReviewText, createdGame.getId(), createdCustomer.getId()));
-            assertEquals("Review text is invalid, cannot be empty.", exception.getMessage());
+            assertEquals("Review text cannot be empty.", exception.getMessage());
 
 
         }
