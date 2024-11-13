@@ -33,7 +33,7 @@ public class Wishlist {
 
 	// Wishlist Associations
 	@ManyToMany
-	private List<Game> games;
+	private List<Game> games = new ArrayList<>(); //
 
 	// ------------------------
 	// CONSTRUCTOR

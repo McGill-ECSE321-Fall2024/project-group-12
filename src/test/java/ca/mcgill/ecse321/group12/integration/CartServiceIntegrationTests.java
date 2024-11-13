@@ -1,9 +1,10 @@
 package ca.mcgill.ecse321.group12.integration;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import java.util.List;
 
 import org.junit.jupiter.api.AfterAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
@@ -39,6 +40,12 @@ import ca.mcgill.ecse321.group12.dto.EmployeeRequestDto;
 import ca.mcgill.ecse321.group12.dto.EmployeeResponseDto;
 import ca.mcgill.ecse321.group12.dto.GameRequestDto;
 import ca.mcgill.ecse321.group12.dto.GameResponseDto;
+import ca.mcgill.ecse321.group12.model.Game.Category;
+import ca.mcgill.ecse321.group12.model.Game.Console;
+import ca.mcgill.ecse321.group12.model.Game.GameStatus;
+import ca.mcgill.ecse321.group12.repository.CartRepository;
+import ca.mcgill.ecse321.group12.repository.CustomerRepository;
+import ca.mcgill.ecse321.group12.repository.GameRepository;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -70,10 +77,10 @@ public class CartServiceIntegrationTests {
 	@BeforeAll
 	public void setup() {
 		// Create (POST) a customer to use their cart for tests
-		Customer customer = new Customer();
-		CustomerRequestDto customerRequest = new CustomerRequestDto(customer);
-		ResponseEntity<CustomerCreateResponseDto> customerResponse = client.postForEntity("/customers", customerRequest,
-				CustomerCreateResponseDto.class);
+		CustomerRequestDto customerRequest = new CustomerRequestDto("customer@gmail.com", "password", "Customer",
+				"889427879");
+		ResponseEntity<CustomerResponseDto> customerResponse = client.postForEntity("/customers", customerRequest,
+				CustomerResponseDto.class);
 		// Save the response
 		this.customer = customerResponse.getBody();
 		// set the auth string for use in request headers
@@ -113,6 +120,10 @@ public class CartServiceIntegrationTests {
 		gameRepo.deleteAll();
 	}
 
+	/**
+	 * Test finding a cart by a valid ID.
+	 * @author Sophia
+	 */
 	@Test
 	@Order(1)
 	public void testFindCartByValidId() {
@@ -137,9 +148,63 @@ public class CartServiceIntegrationTests {
 		assertEquals(this.validId, cart.getId());
 	}
 
+	/**
+	 * Test finding a cart by an invalid ID.
+	 * @author Sophia
+	 */
 	@Test
 	@Order(2)
-	public void testAddGameToCart() {
+	public void testFindCartByInvalidId() {
+		// Arrange
+		this.validId = this.customer.getCart().getId();
+		int invalidId = this.validId + 1; // + 1 to the valid ID to ensure it's not the
+											// valid id (and thus invalid)
+		String url = "/cart/" + invalidId;
+
+		// Act
+		ResponseEntity<CartResponseDto> response = client.getForEntity(url, CartResponseDto.class);
+
+		// Assert
+		assertNotNull(response);
+		assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+	}
+
+	/**
+	 * Test adding a game to cart by invalid id.
+	 * @author Sophia
+	 */
+	@Test
+	@Order(3)
+	public void testAddGameToCartByInvalidId() {
+		// Start with an empty cart, add a game to the cart
+		// Arrange
+		this.validId = this.customer.getCart().getId();
+		String url = "/cart/" + this.validId;
+
+		// Act
+		// Add the game ID (of the game to be added to cart) to the request body
+		CartRequestDto body = new CartRequestDto();
+		body.setGameId(this.game.getId() + 1); // + 1 to the game ID to ensure it's not
+												// the valid id (and thus invalid)
+		RequestEntity<CartRequestDto> CartRequestEntity = RequestEntity.put(url)
+			.accept(MediaType.APPLICATION_JSON)
+			.body(body);
+		// PUT request
+		ResponseEntity<CartResponseDto> response = client.exchange(url, HttpMethod.PUT, CartRequestEntity,
+				CartResponseDto.class);
+
+		// Assert
+		assertNotNull(response);
+		assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+	}
+
+	/**
+	 * Test adding a game to cart.
+	 * @author Sophia
+	 */
+	@Test
+	@Order(4)
+	public void testAddGameToCartByValidId() {
 		// Start with an empty cart, add a game to the cart
 		// Arrange
 		this.validId = this.customer.getCart().getId();
@@ -170,6 +235,94 @@ public class CartServiceIntegrationTests {
 		assertEquals(this.game.getDescription(), cart.getGames().get(0).getDescription());
 		assertEquals(this.game.getStatus(), cart.getGames().get(0).getStatus());
 		assertEquals(this.game.getId(), cart.getGames().get(0).getId());
+	}
+
+	/**
+	 * @author Julien Heng
+	 */
+	@Test
+	@Order(5)
+	public void testRemoveGameFromCartByInvalidId() {
+		// Start with non-empty cart
+		// Arrange
+		this.validId = this.customer.getCart().getId();
+		String url = "/cart/" + this.validId;
+		ResponseEntity<CartResponseDto> response = client.exchange(url, HttpMethod.GET, null, CartResponseDto.class);
+		assertNotNull(response);
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		CartResponseDto cart = response.getBody();
+		assertNotNull(cart);
+		List<GameResponseDto> games = cart.getGames();
+		int wrongGameId = games.get(0).getId() + 1;
+
+		// Act
+		// Remove a game with an invalid ID
+		ResponseEntity<CartResponseDto> response2 = client.exchange(url + "?remove=" + wrongGameId, HttpMethod.PUT,
+				null, CartResponseDto.class);
+
+		// Assert
+		assertNotNull(response2);
+		assertEquals(HttpStatus.NOT_FOUND, response2.getStatusCode());
+
+	}
+
+	/**
+	 * @author Julien Heng
+	 */
+	@Test
+	@Order(6)
+	public void testRemoveGameFromCartByInvalidString() {
+		// Start with non-empty cart
+		// Arrange
+		this.validId = this.customer.getCart().getId();
+		String url = "/cart/" + this.validId;
+		ResponseEntity<CartResponseDto> response = client.exchange(url, HttpMethod.GET, null, CartResponseDto.class);
+		assertNotNull(response);
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+
+		// Act
+		// Remove a game with an invalid ID
+		ResponseEntity<CartResponseDto> response2 = client.exchange(url + "?remove=" + "wrongstr", HttpMethod.PUT, null,
+				CartResponseDto.class);
+
+		// Assert
+		assertNotNull(response2);
+		assertEquals(HttpStatus.BAD_REQUEST, response2.getStatusCode());
+
+	}
+
+	/**
+	 * @author Julien Heng
+	 */
+	@Test
+	@Order(7)
+	public void testRemoveGameFromCartByValidId() {
+		// Start with non-empty cart
+		// Arrange
+		this.validId = this.customer.getCart().getId();
+		String url = "/cart/" + this.validId;
+		ResponseEntity<CartResponseDto> response = client.exchange(url, HttpMethod.GET, null, CartResponseDto.class);
+		assertNotNull(response);
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		CartResponseDto cart = response.getBody();
+		assertNotNull(cart);
+		List<GameResponseDto> games = cart.getGames();
+		int gameId = games.get(0).getId();
+
+		// Act
+		// Remove a game with an invalid ID
+		ResponseEntity<CartResponseDto> response2 = client.exchange(url + "?remove=" + gameId, HttpMethod.PUT, null,
+				CartResponseDto.class);
+
+		// Assert
+		assertNotNull(response2);
+		assertEquals(HttpStatus.OK, response2.getStatusCode());
+		assertNotNull(response2.getBody());
+		CartResponseDto cart2 = response2.getBody();
+		if (cart2 != null) {
+			assertNotNull(cart2.getGames());
+			assertEquals(0, cart2.getGames().size());
+		}
 	}
 
 }

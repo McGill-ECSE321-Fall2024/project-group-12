@@ -38,7 +38,7 @@ public class Review {
 
 	// Review Associations
 	@OneToMany
-	private List<Comment> comments;
+	private List<Comment> comments = new ArrayList<Comment>();
 
 	@ManyToOne
 	private Game game;

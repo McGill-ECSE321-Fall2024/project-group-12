@@ -37,6 +37,7 @@ public class EmployeeRepositoryTests {
 		employee.setPassword(password);
 		employee.setName(name);
 		employee.setPhoneNumber(phone);
+		employee.setActive(true);
 		// Save person
 		employee = employeeRepository.save(employee);
 		int id2 = employee.getId();
@@ -51,6 +52,7 @@ public class EmployeeRepositoryTests {
 		assertEquals(employeeFromDb.getPassword(), password);
 		assertEquals(employeeFromDb.getName(), name);
 		assertEquals(employeeFromDb.getPhoneNumber(), phone);
+		assertEquals(employeeFromDb.getActive(), true);
 	}
 
 }
