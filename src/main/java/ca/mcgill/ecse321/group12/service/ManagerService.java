@@ -15,11 +15,11 @@ import jakarta.transaction.Transactional;
 
 @Service
 public class ManagerService {
-    
-    @Autowired
-    private ManagerRepository managerRepo;
 
-    /**
+	@Autowired
+	private ManagerRepository managerRepo;
+
+	/**
 	 * Create a new manager.
 	 * @author Amy Ding
 	 * @param email The email of the new manager.
@@ -30,12 +30,11 @@ public class ManagerService {
 	 */
 	@Transactional
 	public Manager createManager(String email, String password, String name, String phoneNumber) {
-        if (managerRepo.count() > 0) {
-            throw new CustomException(HttpStatus.BAD_REQUEST,
-					"Create manager failed. Manager already exists");
-        }
-        Manager managerToCreate = new Manager();
-        managerToCreate.setEmail(email);
+		if (managerRepo.count() > 0) {
+			throw new CustomException(HttpStatus.BAD_REQUEST, "Create manager failed. Manager already exists");
+		}
+		Manager managerToCreate = new Manager();
+		managerToCreate.setEmail(email);
 		managerToCreate.setPassword(password);
 		managerToCreate.setName(name);
 		managerToCreate.setPhoneNumber(phoneNumber);
@@ -45,46 +44,42 @@ public class ManagerService {
 		return managerToSave;
 	}
 
-    /**
+	/**
 	 * Return the manager, if exists
 	 * @author Amy Ding
 	 * @return The manager account.
 	 */
 	public Manager findManager() {
-        if (managerRepo.count() < 1) {
-            throw new CustomException(HttpStatus.NOT_FOUND,
-            "Get manager failed. No manager account exists");
-        }
-            // Convert Iterable to List and get first element
-        List<Manager> managers = StreamSupport
-        .stream(managerRepo.findAll().spliterator(), false)
-        .collect(Collectors.toList());
-    
-        return managers.get(0);
+		if (managerRepo.count() < 1) {
+			throw new CustomException(HttpStatus.NOT_FOUND, "Get manager failed. No manager account exists");
+		}
+		// Convert Iterable to List and get first element
+		List<Manager> managers = StreamSupport.stream(managerRepo.findAll().spliterator(), false)
+			.collect(Collectors.toList());
+
+		return managers.get(0);
 		// Manager manager = managerRepo.findAll();
 		// return manager;
 	}
 
-    /**
+	/**
 	 * Update manager account
 	 * @author Amy Ding
 	 * @return The updated manager account
 	 */
 	@Transactional
 	public Manager updateManager(String email, String password, String name, String phoneNumber) {
-        List<Manager> managers = StreamSupport
-        .stream(managerRepo.findAll().spliterator(), false)
-        .collect(Collectors.toList());
-    
-        Manager manager = managers.get(0);
-        manager.setEmail(email);
-        manager.setName(name);
-        manager.setPassword(password);
-        manager.setPhoneNumber(phoneNumber);
-        
-        managerRepo.save(manager);
+		List<Manager> managers = StreamSupport.stream(managerRepo.findAll().spliterator(), false)
+			.collect(Collectors.toList());
+
+		Manager manager = managers.get(0);
+		manager.setEmail(email);
+		manager.setName(name);
+		manager.setPassword(password);
+		manager.setPhoneNumber(phoneNumber);
+
+		managerRepo.save(manager);
 		return manager;
 	}
-
 
 }

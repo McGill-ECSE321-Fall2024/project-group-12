@@ -4,7 +4,7 @@ import ca.mcgill.ecse321.group12.model.Manager;
 
 public class ManagerResponseDto {
 
-    private int id;
+	private int id;
 
 	private String email;
 
@@ -12,12 +12,12 @@ public class ManagerResponseDto {
 
 	private String phoneNumber;
 
-    @SuppressWarnings("unused")
+	@SuppressWarnings("unused")
 	private ManagerResponseDto() {
 
 	}
 
-    /**
+	/**
 	 * Constructor
 	 * @author Amy Ding
 	 * @param model A valid manager
@@ -29,7 +29,7 @@ public class ManagerResponseDto {
 		this.phoneNumber = model.getPhoneNumber();
 	}
 
-    public int getId() {
+	public int getId() {
 		return id;
 	}
 

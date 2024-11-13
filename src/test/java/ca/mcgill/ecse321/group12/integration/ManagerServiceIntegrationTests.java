@@ -33,13 +33,13 @@ import ca.mcgill.ecse321.group12.repository.ManagerRepository;
 @TestInstance(Lifecycle.PER_CLASS)
 public class ManagerServiceIntegrationTests {
 
-    @Autowired 
-    private ManagerRepository managerRepository;
+	@Autowired
+	private ManagerRepository managerRepository;
 
-    @Autowired
-    private TestRestTemplate client;
+	@Autowired
+	private TestRestTemplate client;
 
-    private final String VALID_NAME = "iamthemanager";
+	private final String VALID_NAME = "iamthemanager";
 
 	private final String VALID_EMAIL = "manager@gmail.ca";
 
@@ -49,7 +49,7 @@ public class ManagerServiceIntegrationTests {
 
 	private final String VALID_PHONENUMBER = "2047989416";
 
-    /**
+	/**
 	 * Clears database before and after tests
 	 * @author Amy Ding
 	 * @return void
@@ -60,7 +60,7 @@ public class ManagerServiceIntegrationTests {
 		managerRepository.deleteAll();
 	}
 
-    /**
+	/**
 	 * Test to create a manager successfully
 	 * @author Amy Ding
 	 * @return void
@@ -87,7 +87,7 @@ public class ManagerServiceIntegrationTests {
 		assertTrue(createdManager.getId() > 0, "Response should have a positive ID.");
 	}
 
-    /**
+	/**
 	 * Test to create a manager account when there is already a manager account active
 	 * @author Amy Ding
 	 * @return void
@@ -107,7 +107,7 @@ public class ManagerServiceIntegrationTests {
 		assertTrue(error.contains("Create manager failed. Manager already exists"));
 	}
 
-    /**
+	/**
 	 * Test to get an manager when there is no manager
 	 * @author Amy Ding
 	 * @return void
@@ -129,7 +129,7 @@ public class ManagerServiceIntegrationTests {
 		assertTrue(error.contains("Get manager failed. No manager account exists"));
 	}
 
-    /**
+	/**
 	 * Test to get an manager successfully
 	 * @author Amy Ding
 	 * @return void
@@ -153,7 +153,7 @@ public class ManagerServiceIntegrationTests {
 		assertEquals(VALID_PHONENUMBER, manager.getPhoneNumber());
 	}
 
-    /**
+	/**
 	 * Test to update a manager account successfully
 	 * @author Amy Ding
 	 * @return void
@@ -182,4 +182,5 @@ public class ManagerServiceIntegrationTests {
 		assertEquals(VALID_EMAIL2, manager.getEmail());
 		assertEquals(VALID_PHONENUMBER, manager.getPhoneNumber());
 	}
+
 }

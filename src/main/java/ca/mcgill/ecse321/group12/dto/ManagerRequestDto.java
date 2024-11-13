@@ -4,19 +4,19 @@ import ca.mcgill.ecse321.group12.model.Manager;
 
 public class ManagerRequestDto {
 
-    private String password;
+	private String password;
 
 	private String email;
 
 	private String name;
 
 	private String phoneNumber;
-    
-    @SuppressWarnings("unused")
+
+	@SuppressWarnings("unused")
 	private ManagerRequestDto() {
 	}
 
-    /**
+	/**
 	 * Constructor
 	 * @author Amy Ding
 	 * @param email The email for the manager being created
@@ -31,7 +31,7 @@ public class ManagerRequestDto {
 		this.phoneNumber = phoneNumber;
 	}
 
-    /**
+	/**
 	 * Constructor
 	 * @author Amy Ding
 	 * @param model A valid manager
@@ -43,7 +43,7 @@ public class ManagerRequestDto {
 		this.phoneNumber = model.getPhoneNumber();
 	}
 
-    public String getPassword() {
+	public String getPassword() {
 		return password;
 	}
 

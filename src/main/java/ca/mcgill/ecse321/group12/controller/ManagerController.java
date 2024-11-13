@@ -22,10 +22,10 @@ import ca.mcgill.ecse321.group12.service.ManagerService;
 @RestController
 public class ManagerController {
 
-   @Autowired
-   private ManagerService managerService;
+	@Autowired
+	private ManagerService managerService;
 
-   	/**
+	/**
 	 * Return the manager, if exists.
 	 * @author Amy Ding
 	 * @return The manager account, if it exists
@@ -36,7 +36,7 @@ public class ManagerController {
 		return new ManagerResponseDto(manager);
 	}
 
-    /**
+	/**
 	 * Create a new manager.
 	 * @author Amy Ding
 	 * @param manager The manager to create.
@@ -50,7 +50,7 @@ public class ManagerController {
 		return new ManagerResponseDto(createdManager);
 	}
 
-    /**
+	/**
 	 * Update a manager.
 	 * @author Amy Ding
 	 * @param manager The manager to update.
@@ -59,10 +59,11 @@ public class ManagerController {
 	@PutMapping("/manager")
 	public ManagerResponseDto updateManager(@RequestBody ManagerRequestDto manager) {
 		if (manager != null) {
-			Manager updatedManager = managerService.updateManager(manager.getEmail(),
-					manager.getPassword(), manager.getName(), manager.getPhoneNumber());
+			Manager updatedManager = managerService.updateManager(manager.getEmail(), manager.getPassword(),
+					manager.getName(), manager.getPhoneNumber());
 			return new ManagerResponseDto(updatedManager);
 		}
 		return new ManagerResponseDto(new Manager());
 	}
+
 }

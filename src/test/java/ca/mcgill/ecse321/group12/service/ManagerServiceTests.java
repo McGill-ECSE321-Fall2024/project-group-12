@@ -24,18 +24,18 @@ import ca.mcgill.ecse321.group12.repository.ManagerRepository;
 @SpringBootTest
 public class ManagerServiceTests {
 
-    @Mock
-    private ManagerRepository managerRepository;
+	@Mock
+	private ManagerRepository managerRepository;
 
-    @InjectMocks
-    private ManagerService managerService;
+	@InjectMocks
+	private ManagerService managerService;
 
-    /**
+	/**
 	 * Test to create an manager
 	 * @author Amy Ding
 	 * @return void
 	 */
-    @SuppressWarnings("null")
+	@SuppressWarnings("null")
 	@Test
 	public void testCreateManagerSuccessfully() {
 		// Arrange
@@ -64,7 +64,7 @@ public class ManagerServiceTests {
 		verify(managerRepository, times(1)).save(any(Manager.class));
 	}
 
-    /**
+	/**
 	 * Test to create manager when there is already a manager account
 	 * @author Amy Ding
 	 * @return void
@@ -77,7 +77,7 @@ public class ManagerServiceTests {
 		String password = "manager123";
 		String phoneNumber = "1234567890";
 
-        when(managerRepository.count()).thenReturn(1L); // simulate existence of manager
+		when(managerRepository.count()).thenReturn(1L); // simulate existence of manager
 		// Act & Assert
 
 		CustomException e = assertThrows(CustomException.class,
@@ -86,7 +86,7 @@ public class ManagerServiceTests {
 		verify(managerRepository, times(1)).count();
 	}
 
-    /**
+	/**
 	 * Test to get an manager account that doesn't exist
 	 * @author Amy Ding
 	 * @return void
@@ -95,14 +95,13 @@ public class ManagerServiceTests {
 	public void testReadManagerWhenNoManager() {
 		// Arrange
 		when(managerRepository.findAll()).thenReturn(null);
-		
-        // Act & Assert
-        CustomException e = assertThrows(CustomException.class,
-				() -> managerService.findManager());
+
+		// Act & Assert
+		CustomException e = assertThrows(CustomException.class, () -> managerService.findManager());
 		assertEquals("Get manager failed. No manager account exists", e.getMessage());
 	}
 
-    /**
+	/**
 	 * Test to get an manager account that exists
 	 * @author Amy Ding
 	 * @return void
@@ -111,7 +110,7 @@ public class ManagerServiceTests {
 	public void testReadManagerSuccessfully() {
 		// Arrange
 		Manager manager = new Manager();
-        String email = "manager@mcgill.ca";
+		String email = "manager@mcgill.ca";
 		String name = "Manager_again";
 		String password = "manager123";
 		String phoneNumber = "1234567890";
@@ -120,11 +119,11 @@ public class ManagerServiceTests {
 		manager.setName(name);
 		manager.setPassword(password);
 		manager.setPhoneNumber(phoneNumber);
-        List<Manager> managers = Arrays.asList(manager);
-        
+		List<Manager> managers = Arrays.asList(manager);
+
 		when(managerRepository.findAll()).thenReturn(managers);
-        when(managerRepository.save(any(Manager.class))).thenReturn(manager);
-        when(managerRepository.count()).thenReturn(1L); // simulate existing manager
+		when(managerRepository.save(any(Manager.class))).thenReturn(manager);
+		when(managerRepository.count()).thenReturn(1L); // simulate existing manager
 		// Act
 		Manager foundManager = managerService.findManager();
 
@@ -136,34 +135,34 @@ public class ManagerServiceTests {
 		assertEquals(manager.getPhoneNumber(), foundManager.getPhoneNumber());
 	}
 
-    /**
+	/**
 	 * Test to update an manager account
 	 * @author Amy Ding
 	 * @return void
 	 */
 	@Test
 	public void testUpdateManagerSuccessfully() {
-        // Arrange
+		// Arrange
 		Manager manager = new Manager();
-        String email = "manageramy@mcgill.ca";
+		String email = "manageramy@mcgill.ca";
 		String name = "Manager_again";
 		String password = "manager123";
 		String phoneNumber = "1234567890";
 
-        String email2 = "updatedmanageremail@mcgill.ca";
-        String name2 = "barry";
-        String password2 = "passwordNEW1";
-        String phoneNumber2 = "000000000";
+		String email2 = "updatedmanageremail@mcgill.ca";
+		String name2 = "barry";
+		String password2 = "passwordNEW1";
+		String phoneNumber2 = "000000000";
 
 		manager.setEmail(email);
 		manager.setName(name);
 		manager.setPassword(password);
 		manager.setPhoneNumber(phoneNumber);
-        List<Manager> managers = Arrays.asList(manager);
-        
+		List<Manager> managers = Arrays.asList(manager);
+
 		when(managerRepository.findAll()).thenReturn(managers);
-        when(managerRepository.save(any(Manager.class))).thenReturn(manager);
-        when(managerRepository.count()).thenReturn(1L); // simulate existing manager
+		when(managerRepository.save(any(Manager.class))).thenReturn(manager);
+		when(managerRepository.count()).thenReturn(1L); // simulate existing manager
 		// Act
 		Manager updatedManager = managerService.updateManager(email2, password2, name2, phoneNumber2);
 
@@ -174,4 +173,5 @@ public class ManagerServiceTests {
 		assertEquals(password2, updatedManager.getPassword());
 		assertEquals(phoneNumber2, updatedManager.getPhoneNumber());
 	}
+
 }
