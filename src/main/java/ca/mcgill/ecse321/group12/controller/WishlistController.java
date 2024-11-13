@@ -65,7 +65,7 @@ public class WishlistController {
 			String param = remove.get();
 			if (param.equals("all")) {
 				// clears the cart
-				Wishlist thisWishlist = wishlistService.clearwWishlist(wishlistId);
+				Wishlist thisWishlist = wishlistService.clearWishlist(wishlistId);
 				return new WishlistResponseDto(thisWishlist);
 			}
 			else {
