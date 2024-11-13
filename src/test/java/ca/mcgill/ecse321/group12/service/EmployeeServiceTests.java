@@ -33,7 +33,6 @@ public class EmployeeServiceTests {
 	 * @author Amy Ding
 	 * @return void
 	 */
-	@SuppressWarnings("null")
 	@Test
 	public void testCreateValidEmployee() {
 		// Arrange
@@ -72,12 +71,9 @@ public class EmployeeServiceTests {
 	public void testCreateEmployeeWithInvalidEmail() {
 		// Arrange
 		String name = "amy";
-		String email = "hahaha@mail.mcgill.ca";
+		String email = null;
 		String password = "12345678";
 		String phoneNumber = "2041123455";
-		String name2 = "jogn";
-		String password2 = "123";
-		String phoneNumber2 = "123456";
 
 		Employee employee = new Employee();
 
@@ -89,15 +85,12 @@ public class EmployeeServiceTests {
 		when(employeeRepository.save(any(Employee.class))).thenReturn(employee);
 
 		// Act
-		employeeService.createEmployee(email, password, name, phoneNumber);
 		// make sure the employee was created successfully
 		// set employee's email to null to simulate what happens when employee was already
 		// taken
-		employee.setEmail(null);
-
 		// Assert
 		CustomException e = assertThrows(CustomException.class,
-				() -> employeeService.createEmployee(email, password2, name2, phoneNumber2));
+				() -> employeeService.createEmployee(email, password, name, phoneNumber));
 		assertEquals("Create employee failed. Employee with this email already exists in the system.", e.getMessage());
 	}
 

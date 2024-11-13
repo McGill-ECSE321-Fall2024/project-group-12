@@ -25,7 +25,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 
-import ca.mcgill.ecse321.group12.model.Customer;
 import ca.mcgill.ecse321.group12.model.Game.Category;
 import ca.mcgill.ecse321.group12.model.Game.Console;
 import ca.mcgill.ecse321.group12.model.Game.GameStatus;
@@ -80,8 +79,8 @@ public class OrderServiceIntegrationTests {
 	public void setup() {
 
 		// create a new customer to use their cart for the tests
-		Customer customer = new Customer();
-		CustomerRequestDto customerRequest = new CustomerRequestDto(customer);
+		CustomerRequestDto customerRequest = new CustomerRequestDto("une@mail.mcgill.ca", "weizhiiii", "Cunegond",
+				"889427870");
 		ResponseEntity<CustomerResponseDto> customerResponse = client.postForEntity("/customers", customerRequest,
 				CustomerResponseDto.class);
 		// save the response

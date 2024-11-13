@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,6 +36,7 @@ public class CustomerController {
 	 * Return the customer with the given ID.
 	 * @param customerId The primary key of the customer to find.
 	 * @return The customer with the given ID.
+	 * @author Carmin Vidé
 	 */
 	@GetMapping("/customers/{customerId}")
 	public CustomerResponseDto findCustomerById(@PathVariable int customerId) {
@@ -45,6 +47,7 @@ public class CustomerController {
 	/**
 	 * Get all customers
 	 * @return All customers.
+	 * @author Carmin Vidé
 	 */
 	@GetMapping("/customers")
 	public Iterable<Customer> findAllCustomers() {
@@ -53,18 +56,20 @@ public class CustomerController {
 	}
 
 	/**
-	 * Delete an customer.
-	 * @param customer The customer to delete.
+	 * Delete a customer.
+	 * @param eid The primary key of the customer to delete.
+	 * @author Carmin Vidé
 	 */
 	@DeleteMapping("/customers/{customerId}")
-	public void deleteCustomerById(@PathVariable int eid) {
-		customerService.deleteCustomerById(eid);
+	public void deleteCustomerById(@PathVariable int customerId) {
+		customerService.deleteCustomerById(customerId);
 	}
 
 	/**
 	 * Create a new customer.
 	 * @param customer The customer to create.
 	 * @return The created customer, including their ID.
+	 * @author Carmin Vidé
 	 */
 	@PostMapping("/customers")
 	@ResponseStatus(HttpStatus.CREATED)
@@ -74,6 +79,22 @@ public class CustomerController {
 		Customer createdCustomer = customerService.createCustomer(customer.getEmail(), customer.getPassword(),
 				customer.getName(), customer.getPhoneNumber(), wishlist, cart);
 		return new CustomerResponseDto(createdCustomer);
+	}
+
+	/**
+	 * Update a customer.
+	 * @param customer The customer to update.
+	 * @param eid The primary key for the customer to be updated.
+	 * @return The updated customer, including their ID.
+	 * @author Carmin Vidé
+	 */
+	@PutMapping("/customers/{customerId}")
+	public CustomerResponseDto updateCustomer(@PathVariable int customerId, @RequestBody CustomerRequestDto customer) {
+		Customer updatedCustomer = customerService.updateCustomerById(customerId, customer.getEmail(),
+				customer.getPassword(), customer.getName(), customer.getPhoneNumber(), customer.getWishlist(),
+				customer.getCart());
+		return new CustomerResponseDto(updatedCustomer);
+
 	}
 
 }
