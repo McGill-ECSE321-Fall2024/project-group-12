@@ -34,6 +34,10 @@ public class ReviewResponseDto {
         return id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public void setReview(String review) {
         this.review = review;
     }
