@@ -145,7 +145,7 @@ public class GameServiceIntegrationTest {
 	 * @author Julien Heng
 	 */
 	@Test
-	@Order(3)
+	@Order(4)
 	public void testCreateGameWithInvalidDescription() {
 		// Arrange
 		GameRequestDto request = new GameRequestDto(VALID_CATEGORY, VALID_CONSOLE, VALID_INVENTORY, VALID_PRICE,
@@ -164,7 +164,7 @@ public class GameServiceIntegrationTest {
 	 * @author Julien Heng
 	 */
 	@Test
-	@Order(4)
+	@Order(5)
 	public void testCreateValidGame() {
 		// Arrange
 		GameRequestDto request = new GameRequestDto(VALID_CATEGORY, VALID_CONSOLE, VALID_INVENTORY, VALID_PRICE,
@@ -196,7 +196,7 @@ public class GameServiceIntegrationTest {
 	 * @author Julien Heng
 	 */
 	@Test
-	@Order(5)
+	@Order(6)
 	public void testReadGameByValidId() {
 		// Arrange
 		String url = "/games/" + this.validId;
@@ -225,7 +225,7 @@ public class GameServiceIntegrationTest {
 	 * @author Julien Heng
 	 */
 	@Test
-	@Order(6)
+	@Order(7)
 	public void testReadGameByInvalidId() {
 		// Arrange
 		int invalidId = this.validId + 1;
@@ -244,7 +244,7 @@ public class GameServiceIntegrationTest {
 	 * @author Julien Heng
 	 */
 	@Test
-	@Order(7)
+	@Order(8)
 	public void testUpdateGameWithInvalidPrice() {
 		// Arrange
 		String url = "/games/" + this.validId;
@@ -266,7 +266,7 @@ public class GameServiceIntegrationTest {
 	 * @author Julien Heng
 	 */
 	@Test
-	@Order(8)
+	@Order(9)
 	public void testUpdateGameWithInvalidInventory() {
 		// Arrange
 		String url = "/games/" + this.validId;
@@ -288,7 +288,7 @@ public class GameServiceIntegrationTest {
 	 * @author Julien Heng
 	 */
 	@Test
-	@Order(9)
+	@Order(10)
 	public void testUpdateGameWithInvalidName() {
 		// Arrange
 		String url = "/games/" + this.validId;
@@ -310,7 +310,7 @@ public class GameServiceIntegrationTest {
 	 * @author Julien Heng
 	 */
 	@Test
-	@Order(10)
+	@Order(11)
 	public void testUpdateGameWithInvalidDescription() {
 		// Arrange
 		String url = "/games/" + this.validId;
@@ -332,7 +332,7 @@ public class GameServiceIntegrationTest {
 	 * @author Julien Heng
 	 */
 	@Test
-	@Order(11)
+	@Order(12)
 	public void testUpdateGameWithValidArguments() {
 		// Arrange
 		String url = "/games/" + this.validId;
