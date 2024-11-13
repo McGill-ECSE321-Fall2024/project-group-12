@@ -115,7 +115,8 @@ public class CartServiceIntegrationTests {
 	public void testFindCartByInvalidId() {
 		// Arrange
 		this.validId = this.customer.getCart().getId();
-		int invalidId = this.validId + 1; // + 1 to the valid ID to ensure it's not the valid id (and thus invalid)
+		int invalidId = this.validId + 1; // + 1 to the valid ID to ensure it's not the
+											// valid id (and thus invalid)
 		String url = "/cart/" + invalidId;
 
 		// Act
@@ -141,7 +142,8 @@ public class CartServiceIntegrationTests {
 		// Act
 		// Add the game ID (of the game to be added to cart) to the request body
 		CartRequestDto body = new CartRequestDto();
-		body.setGameId(this.game.getId() + 1); // + 1 to the game ID to ensure it's not the valid id (and thus invalid)
+		body.setGameId(this.game.getId() + 1); // + 1 to the game ID to ensure it's not
+												// the valid id (and thus invalid)
 		RequestEntity<CartRequestDto> CartRequestEntity = RequestEntity.put(url)
 			.accept(MediaType.APPLICATION_JSON)
 			.body(body);
