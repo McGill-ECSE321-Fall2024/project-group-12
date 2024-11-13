@@ -80,11 +80,10 @@ public class ReviewServiceIntegrationTests {
     @BeforeAll
     public void setup() {
         // create a customer to associate with the review
-        Customer customer = new Customer();
-        CustomerRequestDto customerRequest = new CustomerRequestDto(customer);
+        CustomerRequestDto customerRequest = new CustomerRequestDto("carmin@gmail.com", "1", "a", "7806665667");
         ResponseEntity<CustomerResponseDto> customerResponse = client.postForEntity("/customer", customerRequest, CustomerResponseDto.class);
         // save the response
-        this.customer = customerResponse.getBody();
+        this.customer = customerResponse.getBody(); // delete? then chanage all uses of customer to be customerResponse (in the below tests)?
 
         // create a game to associate with the review
         GameRequestDto gameRequest = new GameRequestDto(Category.Action, Console.Switch, 10, 10f, "Action Game", "A game full of fun, fear, and excitement", GameStatus.InCatalog);
