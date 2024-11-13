@@ -1,13 +1,17 @@
 package ca.mcgill.ecse321.group12.controller;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -46,6 +50,45 @@ public class EmployeeController {
 	}
 
 	/**
+	 * Create a new employee.
+	 * @author Amy Ding
+	 * @param employee The employee to create.
+	 * @return The created employee, including their ID.
+	 */
+	@PostMapping("/employees")
+	@ResponseStatus(HttpStatus.CREATED)
+	public EmployeeResponseDto createEmployee(@RequestBody EmployeeRequestDto employee) {
+		Employee createdEmployee = employeeService.createEmployee(employee.getEmail(), employee.getPassword(),
+				employee.getName(), employee.getPhoneNumber());
+		return new EmployeeResponseDto(createdEmployee);
+	}
+
+	/**
+	 * Update an employee.
+	 * @author Amy Ding
+	 * @param employee The employee to update.
+	 * @return The updated employee, including their ID.
+	 */
+	@PutMapping("/employees/{eid}")
+	public EmployeeResponseDto updateEmployee( @PathVariable int eid, 
+			@RequestParam(value = "activated", required = false) Boolean activated,
+			@RequestBody EmployeeRequestDto employee) {
+		if (activated != null) {
+			if (activated) {
+				return new EmployeeResponseDto(employeeService.activateEmployeeById(eid));
+			} else {
+				return new EmployeeResponseDto(employeeService.deactivateEmployeeById(eid));
+			}
+		}
+		if (employee != null) {
+			Employee updatedEmployee = employeeService.updateEmployeeById(eid, employee.getEmail(), employee.getPassword(),
+			employee.getName(), employee.getPhoneNumber());
+			return new EmployeeResponseDto(updatedEmployee);
+		}
+		return new EmployeeResponseDto(new Employee());
+	}
+
+	/**
 	 * Deactivate an employee.
 	 * @author Amy Ding
 	 * @param employee The employee to deactivate.
@@ -67,31 +110,5 @@ public class EmployeeController {
 		return new EmployeeResponseDto(employee);
 	}
 
-	/**
-	 * Create a new employee.
-	 * @author Amy Ding
-	 * @param employee The employee to create.
-	 * @return The created employee, including their ID.
-	 */
-	@PostMapping("/employees")
-	@ResponseStatus(HttpStatus.CREATED)
-	public EmployeeResponseDto createEmployee(@RequestBody EmployeeRequestDto employee) {
-		Employee createdEmployee = employeeService.createEmployee(employee.getEmail(), employee.getPassword(),
-				employee.getName(), employee.getPhoneNumber());
-		return new EmployeeResponseDto(createdEmployee);
-	}
-
-	/**
-	 * Update an employee.
-	 * @author Amy Ding
-	 * @param employee The employee to update.
-	 * @return The updated employee, including their ID.
-	 */
-	@PutMapping("/employees/{eid}")
-	public EmployeeResponseDto updateEmployee(@PathVariable int eid, @RequestBody EmployeeRequestDto employee) {
-		Employee updatedEmployee = employeeService.updateEmployeeById(eid, employee.getEmail(), employee.getPassword(),
-				employee.getName(), employee.getPhoneNumber());
-		return new EmployeeResponseDto(updatedEmployee);
-	}
 
 }
