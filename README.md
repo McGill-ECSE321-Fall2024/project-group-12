@@ -42,7 +42,7 @@ Julien: "Hey. I am a U2 Software Engineering student at McGill! A fun fact about
 | Sophia Li        | Project Manager  |  15   | <ul><li> Implemented cart related use cases</li></ul> |
 | Amy Ding         | UI/UX Designer   |  10.5    | <ul><li> Implemented employee related use cases</li><li>Updated Wiki for Software Quality Assurance Plan</li><li>Took meeting minutes</li></ul>|
 | Julien Heng      | Developer        |  15   | <ul><li> Implemented game related use cases</li><li> Implemented discounts on orders</li><li> API endpoint description</li></ul> |
-| Kennedy Olsen    | Business Analyst |  12.5 | <ul><li> Implemented review related use cases<ul><li> |
+| Kennedy Olsen    | Business Analyst |  12.5 | <ul><li> Implemented review related use cases |
 | Carmin Vidé | Scrum Master     |   12  | <ul><li> Implemented customer and comment related use cases</li></ul>|
 
 
