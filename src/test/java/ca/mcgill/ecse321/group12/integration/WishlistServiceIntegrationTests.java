@@ -108,7 +108,7 @@ public class WishlistServiceIntegrationTests {
 
 	/**
 	 * Test adding a game to wishlist.
-	 * @author Julien
+	 * @author Julien Heng
 	 */
 	@Test
 	@Order(2)
