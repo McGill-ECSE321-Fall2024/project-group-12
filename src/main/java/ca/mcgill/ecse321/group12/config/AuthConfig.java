@@ -37,7 +37,9 @@ public class AuthConfig {
       .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
       .authorizeHttpRequests(authorize -> authorize
         .requestMatchers(HttpMethod.POST, "/auth/*").permitAll()
-        .requestMatchers(HttpMethod.GET, "/orders/*").hasRole("CUSTOMER")
+        // anyone can create a customer: it's just signing up
+        .requestMatchers(HttpMethod.POST, "/customers").permitAll()
+        .requestMatchers(HttpMethod.GET, "/orders/*").hasRole("USER")
         .requestMatchers(HttpMethod.POST, "/orders").hasRole("CUSTOMER")
         .anyRequest().permitAll())
       .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
