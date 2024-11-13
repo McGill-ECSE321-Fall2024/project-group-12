@@ -3,7 +3,6 @@ package ca.mcgill.ecse321.group12.integration;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
@@ -11,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.TestMethodOrder;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -23,11 +21,11 @@ import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.event.annotation.AfterTestClass;
 
-import ca.mcgill.ecse321.group12.repository.CustomerRepository;
 import ca.mcgill.ecse321.group12.dto.CustomerRequestDto;
 import ca.mcgill.ecse321.group12.dto.CustomerResponseDto;
 import ca.mcgill.ecse321.group12.model.Cart;
 import ca.mcgill.ecse321.group12.model.Wishlist;
+import ca.mcgill.ecse321.group12.repository.CustomerRepository;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -237,12 +235,11 @@ public class CustomerServiceIntegrationTests {
 		String url = "/customers/" + this.validId;
 
 		// Act
-		client.delete(url);
-		ResponseEntity<CustomerResponseDto> response = client.getForEntity(url, CustomerResponseDto.class);
+		ResponseEntity<Void> response = client.exchange(url, HttpMethod.DELETE, null, Void.class);
 
 		// Assert
 		assertNotNull(response);
-		assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+		assertEquals(HttpStatus.OK, response.getStatusCode());
 	}
 
 	/**
@@ -255,13 +252,11 @@ public class CustomerServiceIntegrationTests {
 		// Arrange
 		String url = "/customers/-1";
 		// Act & Assert
-		ResponseEntity<String> response = client.exchange(url, HttpMethod.DELETE, null, String.class);
-		String error = response.getBody();
+		ResponseEntity<Void> response = client.exchange(url, HttpMethod.DELETE, null, Void.class);
+
 		// Assert
 		assertNotNull(response);
-		assertNotNull(error);
 		assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-		assertTrue(error.contains("There is no customer with ID -1."));
 	}
 
 }

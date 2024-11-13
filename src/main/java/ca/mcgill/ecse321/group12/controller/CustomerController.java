@@ -61,8 +61,8 @@ public class CustomerController {
 	 * @author Carmin Vidé
 	 */
 	@DeleteMapping("/customers/{customerId}")
-	public void deleteCustomerById(@PathVariable int eid) {
-		customerService.deleteCustomerById(eid);
+	public void deleteCustomerById(@PathVariable int customerId) {
+		customerService.deleteCustomerById(customerId);
 	}
 
 	/**
@@ -88,10 +88,11 @@ public class CustomerController {
 	 * @return The updated customer, including their ID.
 	 * @author Carmin Vidé
 	 */
-	@PutMapping("/customers/{eid}")
-	public CustomerResponseDto updateCustomer(@PathVariable int eid, @RequestBody CustomerRequestDto customer) {
-		Customer updatedCustomer = customerService.updateCustomerById(eid, customer.getEmail(), customer.getPassword(),
-				customer.getName(), customer.getPhoneNumber(), customer.getWishlist(), customer.getCart());
+	@PutMapping("/customers/{customerId}")
+	public CustomerResponseDto updateCustomer(@PathVariable int customerId, @RequestBody CustomerRequestDto customer) {
+		Customer updatedCustomer = customerService.updateCustomerById(customerId, customer.getEmail(),
+				customer.getPassword(), customer.getName(), customer.getPhoneNumber(), customer.getWishlist(),
+				customer.getCart());
 		return new CustomerResponseDto(updatedCustomer);
 
 	}
