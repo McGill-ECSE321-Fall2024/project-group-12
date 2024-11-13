@@ -34,7 +34,7 @@ public class EmployeeServiceTests {
 	 * @author Amy Ding
 	 * @return void
 	 */
-  @BeforeEach
+	@BeforeEach
 	public void setUpMocks() {
 		// Reset all mocks before each test
 		reset(employeeRepository);
@@ -83,7 +83,7 @@ public class EmployeeServiceTests {
 	@Test
 	public void testCreateEmployeeWithInvalidEmail() {
 		// Arrange
-    String email = "existing@mail.mcgill.ca";
+		String email = "existing@mail.mcgill.ca";
 		String name = "Test User";
 		String password = "password123";
 		String phoneNumber = "1234567890";
@@ -92,7 +92,7 @@ public class EmployeeServiceTests {
 		existingEmployee.setEmail(null); // Simulate duplicate email
 		when(employeeRepository.save(any(Employee.class))).thenReturn(existingEmployee);
 
-    // Act & Assert
+		// Act & Assert
 		CustomException e = assertThrows(CustomException.class,
 				() -> employeeService.createEmployee(email, password, name, phoneNumber));
 		assertEquals("Create employee failed. Employee with this email already exists in the system.", e.getMessage());
