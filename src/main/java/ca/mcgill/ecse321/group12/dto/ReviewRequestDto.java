@@ -26,6 +26,14 @@ public class ReviewRequestDto {
         this.rating = model.getRating();
         this.likeCount = model.getLikeCount();
     }
+
+    public ReviewRequestDto(String review, int rating, int likeCount, int gameId, int customerId) {
+        this.review = review;
+        this.rating = rating;
+        this.likeCount = likeCount;
+        this.gameId = gameId;
+        this.customerId = customerId;
+    }
     
     public String getReview() {
         return this.review;
