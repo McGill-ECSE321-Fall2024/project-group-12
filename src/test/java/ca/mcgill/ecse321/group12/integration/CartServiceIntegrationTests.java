@@ -28,7 +28,6 @@ import ca.mcgill.ecse321.group12.dto.CustomerRequestDto;
 import ca.mcgill.ecse321.group12.dto.CustomerResponseDto;
 import ca.mcgill.ecse321.group12.dto.GameRequestDto;
 import ca.mcgill.ecse321.group12.dto.GameResponseDto;
-import ca.mcgill.ecse321.group12.model.Customer;
 import ca.mcgill.ecse321.group12.model.Game.Category;
 import ca.mcgill.ecse321.group12.model.Game.Console;
 import ca.mcgill.ecse321.group12.model.Game.GameStatus;
@@ -62,8 +61,8 @@ public class CartServiceIntegrationTests {
 	@BeforeAll
 	public void setup() {
 		// Create (POST) a customer to use their cart for tests
-		Customer customer = new Customer();
-		CustomerRequestDto customerRequest = new CustomerRequestDto(customer);
+		CustomerRequestDto customerRequest = new CustomerRequestDto("cune@mail.mcgill.ca", "weizhiiiii", "Cunegonde",
+				"889427879");
 		ResponseEntity<CustomerResponseDto> customerResponse = client.postForEntity("/customers", customerRequest,
 				CustomerResponseDto.class);
 		// Save the response
@@ -84,6 +83,10 @@ public class CartServiceIntegrationTests {
 		gameRepo.deleteAll();
 	}
 
+	/**
+	 * Test finding a cart by a valid ID.
+	 * @author Sophia
+	 */
 	@Test
 	@Order(1)
 	public void testFindCartByValidId() {
@@ -103,6 +106,10 @@ public class CartServiceIntegrationTests {
 		assertEquals(this.validId, cart.getId());
 	}
 
+	/**
+	 * Test adding a game to cart.
+	 * @author Sophia
+	 */
 	@Test
 	@Order(2)
 	public void testAddGameToCart() {
