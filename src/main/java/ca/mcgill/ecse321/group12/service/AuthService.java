@@ -33,7 +33,8 @@ public class AuthService {
   
   // get the secret key from the .env file
   @Value("${security.jwt.token.secret-key}")
-  private String JWT_SECRET;
+  // set a default secret ONLY FOR USE IN TEST CASES!
+  private String JWT_SECRET = "test_case_secret";
 
   /**
    * create an authorization token using JWT
