@@ -3,6 +3,12 @@
 
 package ca.mcgill.ecse321.group12.model;
 
+import java.util.Collection;
+import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToOne;
 
@@ -20,6 +26,20 @@ public class Customer extends UserRole {
 
 	@OneToOne
 	private Cart cart;
+
+	private UserType userType = UserType.CUSTOMER;
+
+	public UserType getUserType() {
+		return userType;
+	}
+
+	/**
+	 * set permissions for user auth
+	 */
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return List.of(new SimpleGrantedAuthority("ROLE_CUSTOMER"), new SimpleGrantedAuthority("ROLE_USER"));
+	}
 
 	// ------------------------
 	// CONSTRUCTOR

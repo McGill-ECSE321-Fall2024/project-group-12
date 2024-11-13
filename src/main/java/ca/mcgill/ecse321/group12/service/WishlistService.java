@@ -26,7 +26,7 @@ public class WishlistService {
 	public Wishlist findWishlistById(int id) {
 		Wishlist emp = wishlistRepo.findWishlistById(id);
 		if (emp == null) {
-			throw new IllegalArgumentException("There is no wishlist with ID " + id + ".");
+			throw new CustomException(HttpStatus.NOT_FOUND, "There is no wishlist with ID " + id + ".");
 		}
 		return emp;
 	}
