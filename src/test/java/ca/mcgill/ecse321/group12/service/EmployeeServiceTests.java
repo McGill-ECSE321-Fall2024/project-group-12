@@ -33,7 +33,6 @@ public class EmployeeServiceTests {
 	 * @author Amy Ding
 	 * @return void
 	 */
-	@SuppressWarnings("null")
 	@Test
 	public void testCreateValidEmployee() {
 		// Arrange

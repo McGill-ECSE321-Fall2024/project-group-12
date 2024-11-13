@@ -61,7 +61,7 @@ public class CartServiceIntegrationTests {
 	@BeforeAll
 	public void setup() {
 		// Create (POST) a customer to use their cart for tests
-		CustomerRequestDto customerRequest = new CustomerRequestDto("cune@mail.mcgill.ca", "weizhiiiii", "Cunegonde",
+		CustomerRequestDto customerRequest = new CustomerRequestDto("cun@mail.mcgill.ca", "weizhiiiii", "Cunegonde",
 				"889427879");
 		ResponseEntity<CustomerResponseDto> customerResponse = client.postForEntity("/customers", customerRequest,
 				CustomerResponseDto.class);

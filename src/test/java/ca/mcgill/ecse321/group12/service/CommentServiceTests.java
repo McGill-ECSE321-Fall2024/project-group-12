@@ -27,14 +27,11 @@ public class CommentServiceTests {
 	@InjectMocks
 	private CommentService commentService;
 
-	@SuppressWarnings("null")
-
 	/**
 	 * Test creating a comment with valid arguments.
 	 * @author Carmin Vidé
 	 */
 	@Test
-
 	public void testCreateValidComment() {
 		// Arrange
 		String text = "Awesome game!";
