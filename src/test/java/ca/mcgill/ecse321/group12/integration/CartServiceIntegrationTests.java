@@ -218,8 +218,12 @@ public class CartServiceIntegrationTests {
 		// Assert
 		assertNotNull(response2);
 		assertEquals(HttpStatus.OK, response2.getStatusCode());
-		assertEquals(0, response2.getBody().getGames().size());
-
+		assertNotNull(response2.getBody());
+		CartResponseDto cart2 = response2.getBody();
+		if (cart2 != null) {
+			assertNotNull(cart2.getGames());
+			assertEquals(0, cart2.getGames().size());
+		}
 	}
 
 }
