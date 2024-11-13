@@ -98,39 +98,6 @@ public class EmployeeServiceTests {
 				() -> employeeService.createEmployee(email, password, name, phoneNumber));
 		assertEquals("Create employee failed. Employee with this email already exists in the system.", e.getMessage());
 		verify(employeeRepository).save(any(Employee.class));
-
-		// // Arrange
-		// String name = "amy";
-		// String email = "hahaha@mail.mcgill.ca";
-		// String password = "12345678";
-		// String phoneNumber = "2041123455";
-		// String name2 = "jogn";
-		// String password2 = "123";
-		// String phoneNumber2 = "123456";
-
-		// Employee employee = new Employee();
-
-		// employee.setEmail(email);
-		// employee.setPassword(password);
-		// employee.setName(name);
-		// employee.setPhoneNumber(phoneNumber);
-
-		// when(employeeRepository.save(any(Employee.class))).thenReturn(employee);
-
-		// // Act
-		// employeeService.createEmployee(email, password, name, phoneNumber);
-		// // make sure the employee was created successfully
-		// // set employee's email to null to simulate what happens when employee was
-		// already
-		// // taken
-		// employee.setEmail(null);
-		// when(employeeRepository.createEmployee(any(String.class), any(String.class),
-		// any(String.class), any(String.class))).thenReturn(null);
-		// // Assert
-		// CustomException e = assertThrows(CustomException.class,
-		// () -> employeeService.createEmployee(email, password2, name2, phoneNumber2));
-		// assertEquals("Create employee failed. Employee with this email already exists
-		// in the system.", e.getMessage());
 	}
 
 	/**
