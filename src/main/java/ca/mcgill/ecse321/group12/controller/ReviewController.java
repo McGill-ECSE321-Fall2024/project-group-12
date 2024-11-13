@@ -27,7 +27,7 @@ public class ReviewController {
 	 * @return the review with the given id
 	 */
 
-	@GetMapping("/review/{id}")
+	@GetMapping("/reviews/{id}")
 	@ResponseStatus(HttpStatus.OK)
 	public ReviewResponseDto getReview(@PathVariable int id) {
 		Review review = reviewService.findReviewById(id);
@@ -39,7 +39,7 @@ public class ReviewController {
 	 * @param review the review to create
 	 * @return the created review
 	 */
-	@PostMapping("/review")
+	@PostMapping("/reviews")
 	@ResponseStatus(HttpStatus.CREATED)
 	public ReviewResponseDto createReview(@RequestBody ReviewRequestDto review) {
 		// #1: create new review
@@ -54,7 +54,7 @@ public class ReviewController {
 	 * @param id the primary key of the review
 	 * @return the updated review
 	 */
-	@PutMapping("/review/{id}")
+	@PutMapping("/reviews/{id}")
 	@ResponseStatus(HttpStatus.OK)
 	public ReviewResponseDto updateReview(@PathVariable int id, @RequestBody ReviewRequestDto review) {
 		// #1: update the review
