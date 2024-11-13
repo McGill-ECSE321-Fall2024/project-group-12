@@ -21,6 +21,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import ca.mcgill.ecse321.group12.exception.CustomException;
 import ca.mcgill.ecse321.group12.repository.CustomerRepository;
 import ca.mcgill.ecse321.group12.repository.GameRepository;
+import ca.mcgill.ecse321.group12.service.GameService;
+import ca.mcgill.ecse321.group12.service.CustomerService;
 //import ca.mcgill.ecse321.group12.model.Game.GameStatus;
 import ca.mcgill.ecse321.group12.model.Review;
 import ca.mcgill.ecse321.group12.repository.ReviewRepository;
@@ -155,7 +157,7 @@ public class ReviewServiceTests {
             review.setId(reviewId);
             review.setGame(gameRepository.findGameById(gameId));
             review.setCustomer(customerRepository.findCustomerById(customerId));
-            Review review = reviewService.findReviewById(reviewId);
+            // Review createdReview = reviewService.findReviewById(reviewId);
           //  Review createdReview = reviewService.createReview(likeCount, rating, reviewText, createdGame.getId(), createdCustomer.getId());
           //  when(reviewRepository.findReviewById(reviewId)).thenReturn(review);
 
@@ -165,12 +167,12 @@ public class ReviewServiceTests {
 
             // verify the result
             assertNotNull(returnedReview);
-            assertEquals(reviewId, createdReview.getId());
-            assertEquals(likeCount, createdReview.getLikeCount());
-            assertEquals(rating, createdReview.getRating());
-            assertEquals(reviewText, createdReview.getText());
-            assertEquals(createdGame.getId(), createdReview.getGame().getId());
-            assertEquals(createdCustomer.getId(), createdReview.getCustomer().getId());
+            assertEquals(reviewId, returnedReview.getId());
+            assertEquals(likeCount, returnedReview.getLikeCount());
+            assertEquals(rating, returnedReview.getRating());
+            assertEquals(reviewText, returnedReview.getText());
+            assertEquals(createdGame.getId(), returnedReview.getGame().getId());
+            assertEquals(createdCustomer.getId(), returnedReview.getCustomer().getId());
             verify(reviewRepository, times(1)).save(any(Review.class));
         }
 
