@@ -39,11 +39,11 @@ public class WishlistController {
 	}
 
     /**
-	 * Modifies the cart (add, remove or clear) If no request parameters are passed, the
-	 * gameId in the request body is added to the cart If a request parameter "remove" is
-	 * passed with the value "all", all games are removed from the cart If a request
+	 * Modifies the wishlist (add, remove or clear) If no request parameters are passed, the
+	 * gameId in the request body is added to the wishlist If a request parameter "remove" is
+	 * passed with the value "all", all games are removed from the wishlist If a request
 	 * parameter "remove" is passed with a gameId, the game with that gameId is removed
-	 * from the cart
+	 * from the wishlist
 	 * @param cartId The primary key of the cart to find.
 	 * @return The cart with the given ID.
 	 */
