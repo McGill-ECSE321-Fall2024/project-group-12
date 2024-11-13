@@ -112,6 +112,9 @@ public class EmployeeService {
 	 */
 	public Employee deactivateEmployeeById(int id) {
 		Employee employeeToDeactivate = employeeRepo.findEmployeeById(id);
+		if (employeeToDeactivate== null) {
+			throw new CustomException(HttpStatus.NOT_FOUND, "There is no employee with ID " + id + ".");
+		}
 		if (!employeeToDeactivate.getActive()) {
 			throw new CustomException(HttpStatus.BAD_REQUEST,
 					"Employee account is already deactivated");
@@ -128,6 +131,9 @@ public class EmployeeService {
 	 */
 	public Employee activateEmployeeById(int id) {
 		Employee employeeToActivate = employeeRepo.findEmployeeById(id);
+		if (employeeToActivate == null) {
+			throw new CustomException(HttpStatus.NOT_FOUND, "There is no employee with ID " + id + ".");
+		}
 		if (employeeToActivate.getActive()) {
 			throw new CustomException(HttpStatus.BAD_REQUEST,
 					"Employee account is already activated");

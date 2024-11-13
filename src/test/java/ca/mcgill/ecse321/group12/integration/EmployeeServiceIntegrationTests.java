@@ -72,7 +72,7 @@ public class EmployeeServiceIntegrationTests {
 	@Order(1)
 	public void testCreateValidEmployee() {
 		// Arrange
-		EmployeeRequestDto request = new EmployeeRequestDto(VALID_EMAIL, VALID_PASSWORD, VALID_NAME, VALID_PHONENUMBER);
+		EmployeeRequestDto request = new EmployeeRequestDto(VALID_EMAIL, VALID_PASSWORD, VALID_NAME, VALID_PHONENUMBER, true);
 
 		// Act
 		ResponseEntity<EmployeeResponseDto> response = client.postForEntity("/employees", request,
@@ -102,7 +102,7 @@ public class EmployeeServiceIntegrationTests {
 	@Order(2)
 	public void testCreateInvalidEmployee() {
 		// Arrange
-		EmployeeRequestDto request = new EmployeeRequestDto(VALID_EMAIL, VALID_PASSWORD, VALID_NAME, VALID_PHONENUMBER);
+		EmployeeRequestDto request = new EmployeeRequestDto(VALID_EMAIL, VALID_PASSWORD, VALID_NAME, VALID_PHONENUMBER, true);
 
 		// Act
 		ResponseEntity<EmployeeResponseDto> response = client.postForEntity("/employees", request,
@@ -167,7 +167,7 @@ public class EmployeeServiceIntegrationTests {
 	public void testUpdateEmployeeByValidInputs() {
 		// Arrange
 		String url = "/employees/" + this.validId;
-		EmployeeRequestDto body = new EmployeeRequestDto(VALID_EMAIL2, VALID_PASSWORD, VALID_NAME, VALID_PHONENUMBER);
+		EmployeeRequestDto body = new EmployeeRequestDto(VALID_EMAIL2, VALID_PASSWORD, VALID_NAME, VALID_PHONENUMBER, true);
 		RequestEntity<EmployeeRequestDto> request = RequestEntity.put(url)
 			.accept(MediaType.APPLICATION_PROBLEM_JSON)
 			.body(body);
@@ -196,7 +196,7 @@ public class EmployeeServiceIntegrationTests {
 	@Order(6)
 	public void testUpdateEmployeeByInvalidEmail() {
 		// Creating a new employee
-		EmployeeRequestDto request = new EmployeeRequestDto(VALID_EMAIL, VALID_PASSWORD, VALID_NAME, VALID_PHONENUMBER);
+		EmployeeRequestDto request = new EmployeeRequestDto(VALID_EMAIL, VALID_PASSWORD, VALID_NAME, VALID_PHONENUMBER, true);
 		ResponseEntity<EmployeeResponseDto> response = client.postForEntity("/employees", request,
 				EmployeeResponseDto.class);
 		assertNotNull(response);
@@ -204,7 +204,7 @@ public class EmployeeServiceIntegrationTests {
 
 		// Arrange
 		String url = "/employees/" + this.validId;
-		EmployeeRequestDto body = new EmployeeRequestDto(VALID_EMAIL, VALID_PASSWORD, VALID_NAME, VALID_PHONENUMBER);
+		EmployeeRequestDto body = new EmployeeRequestDto(VALID_EMAIL, VALID_PASSWORD, VALID_NAME, VALID_PHONENUMBER, true);
 		RequestEntity<EmployeeRequestDto> request2 = RequestEntity.put(url)
 			.accept(MediaType.APPLICATION_PROBLEM_JSON)
 			.body(body);
