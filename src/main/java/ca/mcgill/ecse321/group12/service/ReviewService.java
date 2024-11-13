@@ -1,11 +1,15 @@
 package ca.mcgill.ecse321.group12.service;
 
+import org.checkerframework.checker.lock.qual.MayReleaseLocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-
+import ca.mcgill.ecse321.group12.model.Game;
+import ca.mcgill.ecse321.group12.model.Customer;
 import ca.mcgill.ecse321.group12.model.Review;
+import ca.mcgill.ecse321.group12.repository.GameRepository;
+import ca.mcgill.ecse321.group12.repository.CustomerRepository;
 import ca.mcgill.ecse321.group12.repository.ReviewRepository;
 import jakarta.transaction.Transactional;
 import ca.mcgill.ecse321.group12.exception.CustomException;
@@ -15,6 +19,11 @@ public class ReviewService {
 
     @Autowired
     private ReviewRepository reviewRepository;
+    @Autowired
+    private GameRepository gameRepository;
+    @Autowired 
+    private CustomerRepository customerRepository;
+
 
     /* 
      * Find review by its ID
@@ -39,7 +48,16 @@ public class ReviewService {
      */
 
     @Transactional
-    public Review createReview(int likeCount, int rating, String text) {
+    public Review createReview(int likeCount, int rating, String text, int gameId, int customerId) {
+        Game game = gameRepository.findGameById(gameId);
+        if (game == null) {
+            throw new CustomException(HttpStatus.NOT_FOUND, "There is no game with ID " + gameId + ".");
+        }
+        Customer customer = customerRepository.findCustomerById(customerId);
+        if (customer == null) {
+            throw new CustomException(HttpStatus.NOT_FOUND, "There is no customer with ID " + customerId + ".");
+        }
+
         if (likeCount < 0) {
             throw new CustomException(HttpStatus.BAD_REQUEST, "Like count cannot be negative.");
         }
@@ -49,10 +67,13 @@ public class ReviewService {
         if (text == null || text.trim().length() == 0) {
             throw new CustomException(HttpStatus.BAD_REQUEST, "Review text cannot be empty.");
         }
+        
         Review review = new Review();
         review.setLikeCount(likeCount);
         review.setRating(rating);
         review.setText(text);
+        review.setGame(game);
+        review.setCustomer(customer);
         reviewRepository.save(review);
         return review;
     }
@@ -66,7 +87,15 @@ public class ReviewService {
      * @return the updated review
      */
     @Transactional
-    public Review updateReview(int id, int likeCount, int rating, String text) {
+    public Review updateReview(int id, int likeCount, int rating, String text, int gameId, int customerId) {
+        Game game = gameRepository.findGameById(gameId);
+        if (game == null) {
+            throw new CustomException(HttpStatus.NOT_FOUND, "There is no game with ID " + gameId + ".");
+        }
+        Customer customer = customerRepository.findCustomerById(customerId);
+        if (customer == null) {
+            throw new CustomException(HttpStatus.NOT_FOUND, "There is no customer with ID " + customerId + ".");
+        }
         Review review = reviewRepository.findReviewById(id);
         if (review == null) {
             throw new CustomException(HttpStatus.NOT_FOUND, "There is no review with ID " + id + ".");
@@ -83,6 +112,8 @@ public class ReviewService {
         review.setLikeCount(likeCount);
         review.setRating(rating);
         review.setText(text);
+        review.setGame(game);
+        review.setCustomer(customer);
         reviewRepository.save(review);
         return review;
     }

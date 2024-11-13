@@ -15,6 +15,7 @@ import ca.mcgill.ecse321.group12.dto.ReviewResponseDto;
 import ca.mcgill.ecse321.group12.model.Review;
 import ca.mcgill.ecse321.group12.service.ReviewService;
 
+
 @RestController
 public class ReviewController {
     @Autowired
@@ -43,7 +44,7 @@ public class ReviewController {
     @ResponseStatus(HttpStatus.CREATED)
     public ReviewResponseDto createReview(@RequestBody ReviewRequestDto review) {
         // #1: create new review
-        Review createdReview = reviewService.createReview(review.getLikeCount(), review.getRating(), review.getReview());
+        Review createdReview = reviewService.createReview(review.getLikeCount(), review.getRating(), review.getReview(), review.getGameId(), review.getCustomerId());
         // #2: return the created review
         return new ReviewResponseDto(createdReview);
     }
@@ -57,7 +58,7 @@ public class ReviewController {
     @ResponseStatus(HttpStatus.OK)
     public ReviewResponseDto updateReview(@PathVariable int id, @RequestBody ReviewRequestDto review){
         // #1: update the review
-        Review updatedReview = reviewService.updateReview(id, review.getLikeCount(), review.getRating(), review.getReview());
+        Review updatedReview = reviewService.updateReview(id, review.getLikeCount(), review.getRating(), review.getReview(), review.getGameId(), review.getCustomerId());
         // #2: return the updated review
         return new ReviewResponseDto(updatedReview);
     }

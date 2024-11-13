@@ -12,6 +12,10 @@ public class ReviewRequestDto {
 
     private int likeCount;
 
+    private int gameId;
+
+    private int customerId;
+
     @SuppressWarnings("unused")
     private ReviewRequestDto() {
     }
@@ -36,6 +40,13 @@ public class ReviewRequestDto {
     public int getLikeCount() {
         return this.likeCount;
     }
+
+    public int getGameId() {
+        return this.gameId;
+    }
+    public int getCustomerId() {
+        return this.customerId;
+    }
     
     public void setReview(String review) {
         this.review = review;
@@ -49,5 +60,13 @@ public class ReviewRequestDto {
 
     public void setLikeCount(int likeCount) {
         this.likeCount = likeCount;
+    }
+
+    public void setGameId(int gameId) {
+        this.gameId = gameId;
+    }
+
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
     }
 }
