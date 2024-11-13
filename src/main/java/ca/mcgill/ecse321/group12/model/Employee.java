@@ -14,6 +14,7 @@ public class Employee extends UserRole {
 	// ------------------------
 
 	private boolean active;
+
 	public Employee() {
 	}
 
@@ -32,13 +33,16 @@ public class Employee extends UserRole {
 	public void delete() {
 		super.delete();
 	}
+
 	public boolean getActive() {
 		return this.active;
 	}
+
 	public boolean setActive(boolean active1) {
 		boolean wasSet = false;
 		this.active = active1;
 		wasSet = true;
 		return wasSet;
 	}
+
 }

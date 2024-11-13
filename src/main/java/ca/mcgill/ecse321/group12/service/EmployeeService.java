@@ -93,7 +93,8 @@ public class EmployeeService {
 	public Employee updateEmployeeById(int id, String newEmail, String password, String name, String phoneNumber) {
 		Employee employeeToUpdate = employeeRepo.findEmployeeById(id);
 		if (!employeeToUpdate.getActive()) {
-			throw new CustomException(HttpStatus.BAD_REQUEST, "Update employee failed. Employee account is deactivated. Please reactivate employee account to update employee information.");
+			throw new CustomException(HttpStatus.BAD_REQUEST,
+					"Update employee failed. Employee account is deactivated. Please reactivate employee account to update employee information.");
 		}
 		String previousEmail = employeeToUpdate.getEmail();
 		employeeToUpdate.setEmail(newEmail);
@@ -115,17 +116,16 @@ public class EmployeeService {
 	 */
 	public Employee deactivateEmployeeById(int id) {
 		Employee employeeToDeactivate = employeeRepo.findEmployeeById(id);
-		if (employeeToDeactivate== null) {
+		if (employeeToDeactivate == null) {
 			throw new CustomException(HttpStatus.NOT_FOUND, "There is no employee with ID " + id + ".");
 		}
 		if (!employeeToDeactivate.getActive()) {
-			throw new CustomException(HttpStatus.BAD_REQUEST,
-					"Employee account is already deactivated");
+			throw new CustomException(HttpStatus.BAD_REQUEST, "Employee account is already deactivated");
 		}
 		employeeToDeactivate.setActive(false);
 		return employeeRepo.save(employeeToDeactivate);
 	}
-	
+
 	/**
 	 * Enable employee with the given ID
 	 * @author Amy Ding
@@ -138,10 +138,10 @@ public class EmployeeService {
 			throw new CustomException(HttpStatus.NOT_FOUND, "There is no employee with ID " + id + ".");
 		}
 		if (employeeToActivate.getActive()) {
-			throw new CustomException(HttpStatus.BAD_REQUEST,
-					"Employee account is already activated");
+			throw new CustomException(HttpStatus.BAD_REQUEST, "Employee account is already activated");
 		}
 		employeeToActivate.setActive(true);
 		return employeeRepo.save(employeeToActivate);
 	}
+
 }
