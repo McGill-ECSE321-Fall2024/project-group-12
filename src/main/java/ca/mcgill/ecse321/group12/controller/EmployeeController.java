@@ -70,13 +70,13 @@ public class EmployeeController {
 	 * @return The updated employee, including their ID.
 	 */
 	@PutMapping("/employees/{eid}")
-	public EmployeeResponseDto updateEmployee( @PathVariable int eid, 
-			@RequestParam(value = "activated", required = false) Boolean activated,
-			@RequestBody EmployeeRequestDto employee) {
-		if (activated != null) {
-			if (activated) {
+	public EmployeeResponseDto updateEmployee(@PathVariable int eid, 
+			@RequestParam(value = "action", required = false) String action,
+			@RequestBody(required = false) EmployeeRequestDto employee) {
+		if (action != null && !action.isEmpty()) {
+			if (action.equals("activate")) {
 				return new EmployeeResponseDto(employeeService.activateEmployeeById(eid));
-			} else {
+			} else if (action.equals("deactivate")) {
 				return new EmployeeResponseDto(employeeService.deactivateEmployeeById(eid));
 			}
 		}

@@ -16,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -176,6 +178,7 @@ public class EmployeeServiceIntegrationTests {
 		String url = "/employees/" + this.validId;
 		EmployeeRequestDto body = new EmployeeRequestDto(VALID_EMAIL2, VALID_PASSWORD, VALID_NAME, VALID_PHONENUMBER,
 				true);
+
 		RequestEntity<EmployeeRequestDto> request = RequestEntity.put(url)
 			.accept(MediaType.APPLICATION_PROBLEM_JSON)
 			.body(body);
@@ -187,6 +190,7 @@ public class EmployeeServiceIntegrationTests {
 		assertNotNull(response);
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		EmployeeResponseDto employee = response.getBody();
+		
 		assertNotNull(employee);
 		assertEquals(VALID_NAME, employee.getName());
 		assertEquals(VALID_EMAIL2, employee.getEmail());
@@ -238,7 +242,7 @@ public class EmployeeServiceIntegrationTests {
 	@Order(7)
 	public void testDeactivateEmployeeByInvalidId() {
 		// Arrange
-		String url = "/employees/" + this.invalidId + "/deactivate";
+		String url = "/employees/" + this.invalidId + "?action=deactivate";
 
 		// Act
 		ResponseEntity<String> response = client.exchange(url, HttpMethod.PUT, null,
@@ -247,6 +251,7 @@ public class EmployeeServiceIntegrationTests {
 
 		// Assert
 		assertNotNull(response);
+
 		assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
 		assertNotNull(error);
 		assertTrue(error.contains("There is no employee with ID " + this.invalidId + "."));
@@ -261,7 +266,7 @@ public class EmployeeServiceIntegrationTests {
 	@Order(8)
 	public void testDeactivateEmployeeByValidId() {
 		// Arrange
-		String url = "/employees/" + this.validId + "/deactivate";
+		String url = "/employees/" + this.validId + "?action=deactivate";
 
 		// Act
 		ResponseEntity<EmployeeResponseDto> response = client.exchange(url, HttpMethod.PUT, null,
@@ -288,7 +293,7 @@ public class EmployeeServiceIntegrationTests {
 	@Order(9)
 	public void testDeactivateAlreadyDeactivatedEmployee() {
 		// Arrange
-		String url = "/employees/" + this.validId + "/deactivate";
+		String url = "/employees/" + this.validId + "?action=deactivate";
 
 		// Act
 		ResponseEntity<String> response = client.exchange(url, HttpMethod.PUT, null,
@@ -337,7 +342,7 @@ public class EmployeeServiceIntegrationTests {
 	@Order(11)
 	public void testActivateEmployeeByInvalidId() {
 		// Arrange
-		String url = "/employees/" + this.invalidId + "/activate";
+		String url = "/employees/" + this.invalidId + "?action=activate";
 
 		// Act
 		ResponseEntity<String> response = client.exchange(url, HttpMethod.PUT, null,
@@ -361,7 +366,7 @@ public class EmployeeServiceIntegrationTests {
 	@Order(12)
 	public void testActivateEmployeeByValidId() {
 		// Arrange
-		String url = "/employees/" + this.validId + "/activate";
+		String url = "/employees/" + this.validId + "?action=activate";
 
 		// Act
 		ResponseEntity<EmployeeResponseDto> response = client.exchange(url, HttpMethod.PUT, null,
@@ -388,7 +393,7 @@ public class EmployeeServiceIntegrationTests {
 	@Order(13)
 	public void testActivateAlreadyActivatedEmployee() {
 		// Arrange
-		String url = "/employees/" + this.validId + "/activate";
+		String url = "/employees/" + this.validId + "?action=activate";
 
 		// Act
 		ResponseEntity<String> response = client.exchange(url, HttpMethod.PUT, null, String.class);
