@@ -41,9 +41,9 @@ public class WishlistServiceTests {
 	@InjectMocks
 	private GameService gameService;
 
-    /**
-     * @author Julien Heng
-     */
+	/**
+	 * @author Julien Heng
+	 */
 	@Test
 	public void testCreateValidWishlist() {
 		// Arrange
@@ -57,9 +57,9 @@ public class WishlistServiceTests {
 		verify(repo, times(1)).save(createdwishlist);
 	}
 
-    /**
-     * @author Julien Heng
-     */
+	/**
+	 * @author Julien Heng
+	 */
 	@Test
 	public void testFindWishlistByValidId() {
 		// Arrange
@@ -74,9 +74,9 @@ public class WishlistServiceTests {
 		assertNotNull(wishlist);
 	}
 
-    /**
-     * @author Julien Heng
-     */
+	/**
+	 * @author Julien Heng
+	 */
 	@Test
 	public void testFindWishlistByInvalidId() {
 		// Arrange
@@ -89,15 +89,15 @@ public class WishlistServiceTests {
 		assertEquals("There is no wishlist with ID " + id + ".", e.getMessage());
 	}
 
-    /**
-     * @author Julien Heng
-     */
+	/**
+	 * @author Julien Heng
+	 */
 	@Test
 	public void testAddGameToWishlist() {
 		// Arrange
 		int wishlistId = 1;
 
-		int gameId = 40;
+		int gameId = 400;
 		Category aCategory = Category.Action;
 		Console aConsole = Console.PC;
 		int aInventory = 1;
@@ -167,7 +167,7 @@ public class WishlistServiceTests {
 		// Arrange
 		int wishlistId = 99;
 
-		int gameId = 101;
+		int gameId = 102;
 		Category aCategory = Category.Action;
 		Console aConsole = Console.PC;
 		int aInventory = 1;

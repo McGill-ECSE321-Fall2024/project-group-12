@@ -4,13 +4,13 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 import ca.mcgill.ecse321.group12.dto.WishlistRequestDto;
 import ca.mcgill.ecse321.group12.dto.WishlistResponseDto;
@@ -19,7 +19,7 @@ import ca.mcgill.ecse321.group12.model.Wishlist;
 import ca.mcgill.ecse321.group12.service.GameService;
 import ca.mcgill.ecse321.group12.service.WishlistService;
 
-@Controller
+@RestController
 public class WishlistController {
 
 	@Autowired
@@ -34,7 +34,6 @@ public class WishlistController {
 	 * @author Julien Heng
 	 */
 	@GetMapping("/wishlist/{wishlistId}")
-	@ResponseStatus(HttpStatus.OK)
 	public WishlistResponseDto findWishlistById(@PathVariable int wishlistId) {
 		Wishlist wishlist = wishlistService.findWishlistById(wishlistId);
 		return new WishlistResponseDto(wishlist);
@@ -53,7 +52,7 @@ public class WishlistController {
 	@ResponseStatus(HttpStatus.OK)
 	public WishlistResponseDto addGameToCart(@PathVariable int wishlistId,
 			@RequestBody(required = false) WishlistRequestDto wishlist,
-            @RequestParam(value = "remove") Optional<String> remove) {
+			@RequestParam(value = "remove") Optional<String> remove) {
 
 		wishlistService.findWishlistById(wishlistId);
 
