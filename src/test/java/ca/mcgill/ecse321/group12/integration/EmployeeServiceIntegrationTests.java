@@ -109,8 +109,7 @@ public class EmployeeServiceIntegrationTests {
 				true);
 
 		// Act
-		ResponseEntity<String> response = client.postForEntity("/employees", request,
-				String.class);
+		ResponseEntity<String> response = client.postForEntity("/employees", request, String.class);
 		String error = response.getBody();
 		// Assert
 		assertNotNull(response);
@@ -190,7 +189,7 @@ public class EmployeeServiceIntegrationTests {
 		assertNotNull(response);
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		EmployeeResponseDto employee = response.getBody();
-		
+
 		assertNotNull(employee);
 		assertEquals(VALID_NAME, employee.getName());
 		assertEquals(VALID_EMAIL2, employee.getEmail());
@@ -223,8 +222,7 @@ public class EmployeeServiceIntegrationTests {
 			.accept(MediaType.APPLICATION_PROBLEM_JSON)
 			.body(body);
 		// Act
-		ResponseEntity<String> response2 = client.exchange(url, HttpMethod.PUT, request2,
-				String.class);
+		ResponseEntity<String> response2 = client.exchange(url, HttpMethod.PUT, request2, String.class);
 		String error = response2.getBody();
 		// Assert
 		assertNotNull(response2);
@@ -245,8 +243,7 @@ public class EmployeeServiceIntegrationTests {
 		String url = "/employees/" + this.invalidId + "?action=deactivate";
 
 		// Act
-		ResponseEntity<String> response = client.exchange(url, HttpMethod.PUT, null,
-				String.class);
+		ResponseEntity<String> response = client.exchange(url, HttpMethod.PUT, null, String.class);
 		String error = response.getBody();
 
 		// Assert
@@ -296,8 +293,7 @@ public class EmployeeServiceIntegrationTests {
 		String url = "/employees/" + this.validId + "?action=deactivate";
 
 		// Act
-		ResponseEntity<String> response = client.exchange(url, HttpMethod.PUT, null,
-				String.class);
+		ResponseEntity<String> response = client.exchange(url, HttpMethod.PUT, null, String.class);
 		String error = response.getBody();
 
 		// Assert
@@ -322,15 +318,15 @@ public class EmployeeServiceIntegrationTests {
 			.accept(MediaType.APPLICATION_PROBLEM_JSON)
 			.body(body);
 		// Act
-		ResponseEntity<String> response = client.exchange(url, HttpMethod.PUT, request,
-				String.class);
+		ResponseEntity<String> response = client.exchange(url, HttpMethod.PUT, request, String.class);
 		String error = response.getBody();
 
 		// Assert
 		assertNotNull(response);
 		assertNotNull(error);
 		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-		assertTrue(error.contains("Update employee failed. Employee account is deactivated. Please reactivate employee account to update employee information."));
+		assertTrue(error.contains(
+				"Update employee failed. Employee account is deactivated. Please reactivate employee account to update employee information."));
 	}
 
 	/**
@@ -345,8 +341,7 @@ public class EmployeeServiceIntegrationTests {
 		String url = "/employees/" + this.invalidId + "?action=activate";
 
 		// Act
-		ResponseEntity<String> response = client.exchange(url, HttpMethod.PUT, null,
-				String.class);
+		ResponseEntity<String> response = client.exchange(url, HttpMethod.PUT, null, String.class);
 		String error = response.getBody();
 
 		// Assert

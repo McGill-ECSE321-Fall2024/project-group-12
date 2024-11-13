@@ -67,25 +67,28 @@ public class EmployeeController {
 	 * Update an employee.
 	 * @author Amy Ding
 	 * @param employee The employee to update.
-	 * @param action Activate to activate an employee account, deactivate to deactivate an employee account
+	 * @param action Activate to activate an employee account, deactivate to deactivate an
+	 * employee account
 	 * @return The updated employee account.
 	 */
 	@PutMapping("/employees/{eid}")
-	public EmployeeResponseDto updateEmployee(@PathVariable int eid, 
+	public EmployeeResponseDto updateEmployee(@PathVariable int eid,
 			@RequestParam(value = "action", required = false) String action,
 			@RequestBody(required = false) EmployeeRequestDto employee) {
 		if (action != null && !action.isEmpty()) {
 			if (action.equals("activate")) {
 				return new EmployeeResponseDto(employeeService.activateEmployeeById(eid));
-			} else if (action.equals("deactivate")) {
+			}
+			else if (action.equals("deactivate")) {
 				return new EmployeeResponseDto(employeeService.deactivateEmployeeById(eid));
 			}
 		}
 		if (employee != null) {
-			Employee updatedEmployee = employeeService.updateEmployeeById(eid, employee.getEmail(), employee.getPassword(),
-			employee.getName(), employee.getPhoneNumber());
+			Employee updatedEmployee = employeeService.updateEmployeeById(eid, employee.getEmail(),
+					employee.getPassword(), employee.getName(), employee.getPhoneNumber());
 			return new EmployeeResponseDto(updatedEmployee);
 		}
 		return new EmployeeResponseDto(new Employee());
 	}
+
 }
