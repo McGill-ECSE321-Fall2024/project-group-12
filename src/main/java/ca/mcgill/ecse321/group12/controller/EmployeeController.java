@@ -67,7 +67,8 @@ public class EmployeeController {
 	 * Update an employee.
 	 * @author Amy Ding
 	 * @param employee The employee to update.
-	 * @return The updated employee, including their ID.
+	 * @param action Activate to activate an employee account, deactivate to deactivate an employee account
+	 * @return The updated employee account.
 	 */
 	@PutMapping("/employees/{eid}")
 	public EmployeeResponseDto updateEmployee(@PathVariable int eid, 
