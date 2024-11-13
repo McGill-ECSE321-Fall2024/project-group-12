@@ -136,4 +136,42 @@ public class ManagerServiceTests {
 		assertEquals(manager.getPhoneNumber(), foundManager.getPhoneNumber());
 	}
 
+    /**
+	 * Test to update an manager account
+	 * @author Amy Ding
+	 * @return void
+	 */
+	@Test
+	public void testUpdateManagerSuccessfully() {
+        // Arrange
+		Manager manager = new Manager();
+        String email = "manageramy@mcgill.ca";
+		String name = "Manager_again";
+		String password = "manager123";
+		String phoneNumber = "1234567890";
+
+        String email2 = "updatedmanageremail@mcgill.ca";
+        String name2 = "barry";
+        String password2 = "passwordNEW1";
+        String phoneNumber2 = "000000000";
+
+		manager.setEmail(email);
+		manager.setName(name);
+		manager.setPassword(password);
+		manager.setPhoneNumber(phoneNumber);
+        List<Manager> managers = Arrays.asList(manager);
+        
+		when(managerRepository.findAll()).thenReturn(managers);
+        when(managerRepository.save(any(Manager.class))).thenReturn(manager);
+        when(managerRepository.count()).thenReturn(1L); // simulate existing manager
+		// Act
+		Manager updatedManager = managerService.updateManager(email2, password2, name2, phoneNumber2);
+
+		// Assert
+		assertNotNull(updatedManager);
+		assertEquals(name2, updatedManager.getName());
+		assertEquals(email2, updatedManager.getEmail());
+		assertEquals(password2, updatedManager.getPassword());
+		assertEquals(phoneNumber2, updatedManager.getPhoneNumber());
+	}
 }
