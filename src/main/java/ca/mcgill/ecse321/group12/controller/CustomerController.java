@@ -57,7 +57,7 @@ public class CustomerController {
 
 	/**
 	 * Delete a customer.
-	 * @param eid The primary key of the customer to delete.
+	 * @param customerId The primary key of the customer to delete.
 	 * @author Carmin Vidé
 	 */
 	@DeleteMapping("/customers/{customerId}")
@@ -84,7 +84,7 @@ public class CustomerController {
 	/**
 	 * Update a customer.
 	 * @param customer The customer to update.
-	 * @param eid The primary key for the customer to be updated.
+	 * @param customerId The primary key for the customer to be updated.
 	 * @return The updated customer, including their ID.
 	 * @author Carmin Vidé
 	 */
