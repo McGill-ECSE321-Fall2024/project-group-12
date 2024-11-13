@@ -22,7 +22,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 
-import ca.mcgill.ecse321.group12.model.Customer;
 import ca.mcgill.ecse321.group12.model.Employee;
 import ca.mcgill.ecse321.group12.model.Game.Category;
 import ca.mcgill.ecse321.group12.model.Game.Console;
@@ -40,12 +39,6 @@ import ca.mcgill.ecse321.group12.dto.EmployeeRequestDto;
 import ca.mcgill.ecse321.group12.dto.EmployeeResponseDto;
 import ca.mcgill.ecse321.group12.dto.GameRequestDto;
 import ca.mcgill.ecse321.group12.dto.GameResponseDto;
-import ca.mcgill.ecse321.group12.model.Game.Category;
-import ca.mcgill.ecse321.group12.model.Game.Console;
-import ca.mcgill.ecse321.group12.model.Game.GameStatus;
-import ca.mcgill.ecse321.group12.repository.CartRepository;
-import ca.mcgill.ecse321.group12.repository.CustomerRepository;
-import ca.mcgill.ecse321.group12.repository.GameRepository;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -79,8 +72,8 @@ public class CartServiceIntegrationTests {
 		// Create (POST) a customer to use their cart for tests
 		CustomerRequestDto customerRequest = new CustomerRequestDto("customer@gmail.com", "password", "Customer",
 				"889427879");
-		ResponseEntity<CustomerResponseDto> customerResponse = client.postForEntity("/customers", customerRequest,
-				CustomerResponseDto.class);
+		ResponseEntity<CustomerCreateResponseDto> customerResponse = client.postForEntity("/customers", customerRequest,
+				CustomerCreateResponseDto.class);
 		// Save the response
 		this.customer = customerResponse.getBody();
 		// set the auth string for use in request headers
