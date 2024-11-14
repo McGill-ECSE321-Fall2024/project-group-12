@@ -41,7 +41,7 @@ Julien: "Hey. I am a U2 Software Engineering student at McGill! A fun fact about
 | James Madden     | Tech Lead        |  23   | <ul><li> Implemented order related use cases</li><li> Implemented authentication</li><li>Implemented Wishlist related use cases</li></ul>|
 | Sophia Li        | Project Manager  |  15   | <ul><li> Implemented cart related use cases</li><li>Implemented test coverage</li></ul> |
 | Amy Ding         | UI/UX Designer   |  19   | <ul><li> Implemented employee related use cases</li><li>Updated Wiki for Software Quality Assurance Plan and Report</li><li>Took meeting minutes</li><li>Implemented manager related use cases</li><li>Add various unit tests</li></ul>|
-| Julien Heng      | Developer        |  15   | <ul><li> Implemented game related use cases</li><li> Implemented discounts on orders</li><li> Implemented wishlist related business logic and tests</li><li> Updated API endpoints documentation</li></ul> |
+| Julien Heng      | Developer        |  20   | <ul><li> Implemented game related use cases and tests</li><li> Implemented discounts on orders and tests</li><li> Implemented wishlist related business logic and tests</li><li> Updated API endpoints documentation</li></ul> |
 | Kennedy Olsen    | Business Analyst |  12.5 | <ul><li> Implemented review related use cases</li><li> Updated Wiki for Quality Assurance Report</li></ul> |
 | Carmin Vidé | Scrum Master     |   12  | <ul><li> Implemented customer and comment related use cases</li><li> Updated Wiki for Quality Assurance Report</li></ul>|
 
