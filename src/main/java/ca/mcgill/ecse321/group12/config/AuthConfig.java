@@ -34,7 +34,7 @@ public class AuthConfig {
       .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
       .authorizeHttpRequests(authorize -> authorize
         // all auth endpoints should be public - no token required
-        /*.requestMatchers(HttpMethod.POST, "/auth/*").permitAll()
+        .requestMatchers(HttpMethod.POST, "/auth/*").permitAll()
         // cart endpoints should be protected to the customer involved
         .requestMatchers(HttpMethod.GET, "/cart/*").hasRole("CUSTOMER")
         .requestMatchers(HttpMethod.PUT, "/cart/*").hasRole("CUSTOMER")
@@ -66,7 +66,7 @@ public class AuthConfig {
         .requestMatchers(HttpMethod.GET, "/reviews").permitAll()
         .requestMatchers(HttpMethod.GET, "/reviews/*").permitAll()
         .requestMatchers(HttpMethod.POST, "/reviews").hasRole("CUSTOMER")
-        .requestMatchers(HttpMethod.PUT, "/reviews/*").hasRole("CUSTOMER")*/
+        .requestMatchers(HttpMethod.PUT, "/reviews/*").hasRole("CUSTOMER")
 
         .anyRequest().permitAll())
       .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
