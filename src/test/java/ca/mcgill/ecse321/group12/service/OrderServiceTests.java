@@ -109,7 +109,7 @@ public class OrderServiceTests {
 		assertEquals(customer, createdOrder.getCustomer());
 		assertEquals(deliveryAddress, createdOrder.getDeliveryAddress());
 		assertEquals(purchaseTotal, createdOrder.getPurchaseTotal());
-		assertEquals(purchaseDate, createdOrder.getPurchaseDate());
+		assertEquals(purchaseDate.getTime(), createdOrder.getPurchaseDate().getTime());
 		assertEquals(orderStatus, createdOrder.getStatus());
 		assertEquals(games, createdOrder.getGames());
 		assertEquals(cardPayment, createdOrder.getCardPayment());
