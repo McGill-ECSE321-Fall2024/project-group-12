@@ -49,7 +49,6 @@ public class CommentServiceIntegrationTests {
 	@AfterTestClass
 	public void clearDatabase() {
 		commentRepository.deleteAll();
-		// review = reviewRepository.save(new Review());
 	}
 
 	/**
@@ -107,20 +106,17 @@ public class CommentServiceIntegrationTests {
 	@Order(3)
 	public void testFindCommentById() {
 		// Arrange
-		CommentRequestDto request = new CommentRequestDto(text, review);
+		String url = "/comments/" + this.commentId;
 		// Act
-		ResponseEntity<CommentResponseDto> response = client.postForEntity("/comments", request,
-				CommentResponseDto.class);
+		ResponseEntity<CommentResponseDto> response = client.getForEntity(url, CommentResponseDto.class);
 
 		// Assert
 		assertNotNull(response);
-		assertEquals(HttpStatus.CREATED, response.getStatusCode());
+		assertEquals(HttpStatus.OK, response.getStatusCode());
 		CommentResponseDto createdComment = response.getBody();
 		assertNotNull(createdComment);
 		assertEquals(text, createdComment.getText());
-		// assertNotNull(createdComment.getReview());
 		assertNotNull(createdComment.getId());
-
 		assertTrue(createdComment.getId() > 0, "Response should have a positive ID.");
 		this.commentId = createdComment.getId();
 	}
@@ -133,7 +129,7 @@ public class CommentServiceIntegrationTests {
 	@Order(4)
 	public void testFindCommentByIdWithInvalidId() {
 		// Arrange
-		String url = "/comments/0";
+		String url = "/comments/-1";
 
 		// Act
 		ResponseEntity<CommentResponseDto> response = client.getForEntity(url, CommentResponseDto.class);
