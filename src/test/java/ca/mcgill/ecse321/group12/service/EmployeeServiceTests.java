@@ -19,10 +19,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import ca.mcgill.ecse321.group12.model.Cart;
-import ca.mcgill.ecse321.group12.model.Customer;
 import ca.mcgill.ecse321.group12.model.Employee;
-import ca.mcgill.ecse321.group12.model.Wishlist;
 import ca.mcgill.ecse321.group12.repository.EmployeeRepository;
 import ca.mcgill.ecse321.group12.exception.CustomException;
 

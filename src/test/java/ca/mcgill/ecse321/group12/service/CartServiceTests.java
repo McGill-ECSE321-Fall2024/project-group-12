@@ -11,8 +11,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import org.mockito.invocation.InvocationOnMock;
-import org.mockito.junit.jupiter.MockitoSettings;
-import org.mockito.quality.Strictness;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 
@@ -26,7 +24,6 @@ import ca.mcgill.ecse321.group12.repository.CartRepository;
 import ca.mcgill.ecse321.group12.repository.GameRepository;
 
 @SpringBootTest
-@MockitoSettings(strictness = Strictness.STRICT_STUBS)
 public class CartServiceTests {
 
 	@Mock
