@@ -302,7 +302,6 @@ public class CustomerServiceTests {
 	@Test
 	public void testFindAllCustomers() throws Exception {
 		// Arrange
-		int id = 42;
 		Customer customer = new Customer();
 		String address = "my house";
 		String email = "lmao@gmail.fr";
