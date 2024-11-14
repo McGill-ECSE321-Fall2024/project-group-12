@@ -98,7 +98,7 @@ public class CardPaymentServiceTests {
 		// Assert
 		CustomException e = assertThrows(CustomException.class,
 				() -> service.createCardPayment(nameOnCard, cvc, cardNumber, billingAddress, isSaved, expiryDate));
-		assertEquals("Name on card cannot be empty.", e.getMessage());
+		assertEquals("Expiry date must follow format MM/YY.", e.getMessage());
 	}
 
 	@Test
@@ -113,7 +113,7 @@ public class CardPaymentServiceTests {
 		// Assert
 		CustomException e = assertThrows(CustomException.class,
 				() -> service.createCardPayment(nameOnCard, cvc, cardNumber, billingAddress, isSaved, expiryDate));
-		assertEquals("Name on card cannot be empty.", e.getMessage());
+		assertEquals("Billing address cannot be empty.", e.getMessage());
 	}
 
 }
