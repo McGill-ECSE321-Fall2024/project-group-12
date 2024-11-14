@@ -21,6 +21,10 @@ import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.event.annotation.AfterTestClass;
 
+import ca.mcgill.ecse321.group12.dto.AuthRequestDto;
+import ca.mcgill.ecse321.group12.dto.AuthResponseDto;
+import ca.mcgill.ecse321.group12.dto.EmployeeRequestDto;
+import ca.mcgill.ecse321.group12.dto.EmployeeResponseDto;
 import ca.mcgill.ecse321.group12.dto.GameRequestDto;
 import ca.mcgill.ecse321.group12.dto.GameResponseDto;
 import ca.mcgill.ecse321.group12.model.Game.Category;
@@ -77,7 +81,35 @@ public class GameServiceIntegrationTest {
 
 	private int validId;
 
+	private String authToken;
+
 	@BeforeAll
+	public void setup() {
+
+		// create an employee so we have an auth token
+		EmployeeRequestDto employeeRequest = new EmployeeRequestDto();
+		employeeRequest.setName("Employee");
+		employeeRequest.setEmail("johndeer@company.com");
+		employeeRequest.setPassword("password123");
+		employeeRequest.setPhoneNumber("604 000 0000");
+		ResponseEntity<EmployeeResponseDto> employeeResponse = client.postForEntity("/employees", employeeRequest,
+				EmployeeResponseDto.class);
+		assertEquals(HttpStatus.CREATED, employeeResponse.getStatusCode());
+		// use the auth endpoint to get a token for the employee
+		AuthRequestDto authRequest = new AuthRequestDto();
+		authRequest.setEmail(employeeRequest.getEmail());
+		authRequest.setPassword(employeeRequest.getPassword());
+		ResponseEntity<AuthResponseDto> authResponse = client.postForEntity("/auth/signin", authRequest,
+				AuthResponseDto.class);
+		assertEquals(HttpStatus.OK, authResponse.getStatusCode());
+		// store the token
+		AuthResponseDto auth = authResponse.getBody();
+		assertNotNull(auth);
+		assertNotNull(auth.getToken());
+		authToken = "Bearer " + auth.getToken();
+
+	}
+
 	@AfterTestClass
 	public void clearDatabase() {
 		gameRepository.deleteAll();
@@ -95,7 +127,11 @@ public class GameServiceIntegrationTest {
 				VALID_NAME, VALID_DESCRIPTION, VALID_STATUS);
 
 		// Act
-		ResponseEntity<GameResponseDto> response = client.postForEntity("/games", request, GameResponseDto.class);
+		RequestEntity<GameRequestDto> req = RequestEntity.post("/games")
+			.header("Authorization", authToken)
+			.accept(MediaType.APPLICATION_JSON)
+			.body(request);
+		ResponseEntity<GameResponseDto> response = client.exchange(req, GameResponseDto.class);
 
 		// Assert
 		assertNotNull(response);
@@ -114,7 +150,11 @@ public class GameServiceIntegrationTest {
 				VALID_NAME, VALID_DESCRIPTION, VALID_STATUS);
 
 		// Act
-		ResponseEntity<GameResponseDto> response = client.postForEntity("/games", request, GameResponseDto.class);
+		RequestEntity<GameRequestDto> req = RequestEntity.post("/games")
+			.header("Authorization", authToken)
+			.accept(MediaType.APPLICATION_JSON)
+			.body(request);
+		ResponseEntity<GameResponseDto> response = client.exchange(req, GameResponseDto.class);
 
 		// Assert
 		assertNotNull(response);
@@ -133,7 +173,11 @@ public class GameServiceIntegrationTest {
 				INVALID_NAME, VALID_DESCRIPTION, VALID_STATUS);
 
 		// Act
-		ResponseEntity<GameResponseDto> response = client.postForEntity("/games", request, GameResponseDto.class);
+		RequestEntity<GameRequestDto> req = RequestEntity.post("/games")
+			.header("Authorization", authToken)
+			.accept(MediaType.APPLICATION_JSON)
+			.body(request);
+		ResponseEntity<GameResponseDto> response = client.exchange(req, GameResponseDto.class);
 
 		// Assert
 		assertNotNull(response);
@@ -152,7 +196,11 @@ public class GameServiceIntegrationTest {
 				INVALID_NAME, VALID_DESCRIPTION, VALID_STATUS);
 
 		// Act
-		ResponseEntity<GameResponseDto> response = client.postForEntity("/games", request, GameResponseDto.class);
+		RequestEntity<GameRequestDto> req = RequestEntity.post("/games")
+			.header("Authorization", authToken)
+			.accept(MediaType.APPLICATION_JSON)
+			.body(request);
+		ResponseEntity<GameResponseDto> response = client.exchange(req, GameResponseDto.class);
 
 		// Assert
 		assertNotNull(response);
@@ -171,7 +219,11 @@ public class GameServiceIntegrationTest {
 				VALID_NAME, VALID_DESCRIPTION, VALID_STATUS);
 
 		// Act
-		ResponseEntity<GameResponseDto> response = client.postForEntity("/games", request, GameResponseDto.class);
+		RequestEntity<GameRequestDto> req = RequestEntity.post("/games")
+			.header("Authorization", authToken)
+			.accept(MediaType.APPLICATION_JSON)
+			.body(request);
+		ResponseEntity<GameResponseDto> response = client.exchange(req, GameResponseDto.class);
 
 		// Assert
 		assertNotNull(response);
@@ -250,7 +302,10 @@ public class GameServiceIntegrationTest {
 		String url = "/games/" + this.validId;
 		GameRequestDto body = new GameRequestDto(VALID_CATEGORY, VALID_CONSOLE, VALID_INVENTORY, INVALID_PRICE,
 				VALID_NAME, VALID_DESCRIPTION, VALID_STATUS);
-		RequestEntity<GameRequestDto> request = RequestEntity.put(url).accept(MediaType.APPLICATION_JSON).body(body);
+		RequestEntity<GameRequestDto> request = RequestEntity.put(url)
+			.header("Authorization", authToken)
+			.accept(MediaType.APPLICATION_JSON)
+			.body(body);
 
 		// Act
 		ResponseEntity<GameResponseDto> response = client.exchange(url, HttpMethod.PUT, request, GameResponseDto.class);
@@ -272,7 +327,10 @@ public class GameServiceIntegrationTest {
 		String url = "/games/" + this.validId;
 		GameRequestDto body = new GameRequestDto(VALID_CATEGORY, VALID_CONSOLE, INVALID_INVENTORY, VALID_PRICE,
 				VALID_NAME, VALID_DESCRIPTION, VALID_STATUS);
-		RequestEntity<GameRequestDto> request = RequestEntity.put(url).accept(MediaType.APPLICATION_JSON).body(body);
+		RequestEntity<GameRequestDto> request = RequestEntity.put(url)
+			.header("Authorization", authToken)
+			.accept(MediaType.APPLICATION_JSON)
+			.body(body);
 
 		// Act
 		ResponseEntity<GameResponseDto> response = client.exchange(url, HttpMethod.PUT, request, GameResponseDto.class);
@@ -294,7 +352,10 @@ public class GameServiceIntegrationTest {
 		String url = "/games/" + this.validId;
 		GameRequestDto body = new GameRequestDto(VALID_CATEGORY, VALID_CONSOLE, VALID_INVENTORY, VALID_PRICE,
 				INVALID_NAME, VALID_DESCRIPTION, VALID_STATUS);
-		RequestEntity<GameRequestDto> request = RequestEntity.put(url).accept(MediaType.APPLICATION_JSON).body(body);
+		RequestEntity<GameRequestDto> request = RequestEntity.put(url)
+			.header("Authorization", authToken)
+			.accept(MediaType.APPLICATION_JSON)
+			.body(body);
 
 		// Act
 		ResponseEntity<GameResponseDto> response = client.exchange(url, HttpMethod.PUT, request, GameResponseDto.class);
@@ -316,7 +377,10 @@ public class GameServiceIntegrationTest {
 		String url = "/games/" + this.validId;
 		GameRequestDto body = new GameRequestDto(VALID_CATEGORY, VALID_CONSOLE, VALID_INVENTORY, VALID_PRICE,
 				VALID_NAME, INVALID_DESCRIPTION, VALID_STATUS);
-		RequestEntity<GameRequestDto> request = RequestEntity.put(url).accept(MediaType.APPLICATION_JSON).body(body);
+		RequestEntity<GameRequestDto> request = RequestEntity.put(url)
+			.header("Authorization", authToken)
+			.accept(MediaType.APPLICATION_JSON)
+			.body(body);
 
 		// Act
 		ResponseEntity<GameResponseDto> response = client.exchange(url, HttpMethod.PUT, request, GameResponseDto.class);
@@ -338,7 +402,10 @@ public class GameServiceIntegrationTest {
 		String url = "/games/" + this.validId;
 		GameRequestDto body = new GameRequestDto(VALID_CATEGORY_2, VALID_CONSOLE_2, VALID_INVENTORY_2, VALID_PRICE_2,
 				VALID_NAME_2, VALID_DESCRIPTION_2, VALID_STATUS_2);
-		RequestEntity<GameRequestDto> request = RequestEntity.put(url).accept(MediaType.APPLICATION_JSON).body(body);
+		RequestEntity<GameRequestDto> request = RequestEntity.put(url)
+			.header("Authorization", authToken)
+			.accept(MediaType.APPLICATION_JSON)
+			.body(body);
 
 		// Act
 		ResponseEntity<GameResponseDto> response = client.exchange(url, HttpMethod.PUT, request, GameResponseDto.class);

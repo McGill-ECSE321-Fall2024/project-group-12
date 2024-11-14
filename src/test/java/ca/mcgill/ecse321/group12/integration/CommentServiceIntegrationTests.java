@@ -5,8 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
@@ -31,6 +29,8 @@ import org.springframework.test.context.event.annotation.AfterTestClass;
 import ca.mcgill.ecse321.group12.repository.CommentRepository;
 import ca.mcgill.ecse321.group12.dto.CommentRequestDto;
 import ca.mcgill.ecse321.group12.dto.CommentResponseDto;
+import ca.mcgill.ecse321.group12.dto.CustomerCreateResponseDto;
+import ca.mcgill.ecse321.group12.dto.CustomerRequestDto;
 import ca.mcgill.ecse321.group12.model.Review;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
@@ -50,7 +50,23 @@ public class CommentServiceIntegrationTests {
 
 	private Review review;
 
+	private String customerAuth;
+
 	@BeforeAll
+	public void setup() {
+
+		// create a customer
+		CustomerRequestDto customerRequest = new CustomerRequestDto("customer@email.com", "password123", "Customer",
+				"778 000 0000");
+		ResponseEntity<CustomerCreateResponseDto> customerResponse = client.postForEntity("/customers", customerRequest,
+				CustomerCreateResponseDto.class);
+		// store the customer's authentication token
+		CustomerCreateResponseDto body = customerResponse.getBody();
+		assertNotNull(body);
+		customerAuth = "Bearer " + body.getToken();
+
+	}
+
 	@AfterTestClass
 	public void clearDatabase() {
 		commentRepository.deleteAll();
@@ -67,8 +83,11 @@ public class CommentServiceIntegrationTests {
 		CommentRequestDto request = new CommentRequestDto(text, review);
 
 		// Act
-		ResponseEntity<CommentResponseDto> response = client.postForEntity("/comments", request,
-				CommentResponseDto.class);
+		RequestEntity<CommentRequestDto> req = RequestEntity.post("/comments")
+			.header("Authorization", customerAuth)
+			.accept(MediaType.APPLICATION_JSON)
+			.body(request);
+		ResponseEntity<CommentResponseDto> response = client.exchange(req, CommentResponseDto.class);
 
 		// Assert
 
@@ -95,8 +114,11 @@ public class CommentServiceIntegrationTests {
 		CommentRequestDto request = new CommentRequestDto(null, review);
 
 		// Act
-		ResponseEntity<CommentResponseDto> response = client.postForEntity("/comments", request,
-				CommentResponseDto.class);
+		RequestEntity<CommentRequestDto> req = RequestEntity.post("/comments")
+			.header("Authorization", customerAuth)
+			.accept(MediaType.APPLICATION_JSON)
+			.body(request);
+		ResponseEntity<CommentResponseDto> response = client.exchange(req, CommentResponseDto.class);
 
 		// Assert
 		assertNotNull(response);
@@ -113,7 +135,11 @@ public class CommentServiceIntegrationTests {
 		// Arrange
 		String url = "/comments/" + this.commentId;
 		// Act
-		ResponseEntity<CommentResponseDto> response = client.getForEntity(url, CommentResponseDto.class);
+		RequestEntity<Void> req = RequestEntity.get(url)
+			.header("Authorization", customerAuth)
+			.accept(MediaType.APPLICATION_JSON)
+			.build();
+		ResponseEntity<CommentResponseDto> response = client.exchange(req, CommentResponseDto.class);
 
 		// Assert
 		assertNotNull(response);
@@ -137,7 +163,11 @@ public class CommentServiceIntegrationTests {
 		String url = "/comments/-1";
 
 		// Act
-		ResponseEntity<CommentResponseDto> response = client.getForEntity(url, CommentResponseDto.class);
+		RequestEntity<Void> req = RequestEntity.get(url)
+			.header("Authorization", customerAuth)
+			.accept(MediaType.APPLICATION_JSON)
+			.build();
+		ResponseEntity<CommentResponseDto> response = client.exchange(req, CommentResponseDto.class);
 
 		// Assert
 		assertNotNull(response);
@@ -154,7 +184,10 @@ public class CommentServiceIntegrationTests {
 		// Arrange
 		String url = "/comments/" + this.commentId;
 		CommentRequestDto body = new CommentRequestDto(text, review);
-		RequestEntity<CommentRequestDto> request = RequestEntity.put(url).accept(MediaType.APPLICATION_JSON).body(body);
+		RequestEntity<CommentRequestDto> request = RequestEntity.put(url)
+			.header("Authorization", customerAuth)
+			.accept(MediaType.APPLICATION_JSON)
+			.body(body);
 
 		// Act
 		ResponseEntity<CommentResponseDto> response = client.exchange(url, HttpMethod.PUT, request,
@@ -212,7 +245,11 @@ public class CommentServiceIntegrationTests {
 		String url = "/comments/" + commentId;
 
 		// Act
-		ResponseEntity<Void> response = client.exchange(url, HttpMethod.DELETE, null, Void.class);
+		RequestEntity<Void> req = RequestEntity.delete(url)
+			.header("Authorization", customerAuth)
+			.accept(MediaType.APPLICATION_JSON)
+			.build();
+		ResponseEntity<CommentResponseDto> response = client.exchange(req, CommentResponseDto.class);
 
 		// Assert
 		assertNotNull(response);
@@ -230,7 +267,11 @@ public class CommentServiceIntegrationTests {
 		String url = "/comments/0";
 
 		// Act
-		ResponseEntity<String> response = client.exchange(url, HttpMethod.DELETE, null, String.class);
+		RequestEntity<Void> req = RequestEntity.delete(url)
+			.header("Authorization", customerAuth)
+			.accept(MediaType.APPLICATION_JSON)
+			.build();
+		ResponseEntity<String> response = client.exchange(req, String.class);
 		String error = response.getBody();
 
 		// Assert

@@ -33,10 +33,14 @@ import ca.mcgill.ecse321.group12.repository.CartRepository;
 import ca.mcgill.ecse321.group12.repository.CustomerRepository;
 import ca.mcgill.ecse321.group12.repository.GameRepository;
 import ca.mcgill.ecse321.group12.repository.OrderRepository;
+import ca.mcgill.ecse321.group12.dto.AuthRequestDto;
+import ca.mcgill.ecse321.group12.dto.AuthResponseDto;
 import ca.mcgill.ecse321.group12.dto.CartRequestDto;
 import ca.mcgill.ecse321.group12.dto.CartResponseDto;
+import ca.mcgill.ecse321.group12.dto.CustomerCreateResponseDto;
 import ca.mcgill.ecse321.group12.dto.CustomerRequestDto;
-import ca.mcgill.ecse321.group12.dto.CustomerResponseDto;
+import ca.mcgill.ecse321.group12.dto.EmployeeRequestDto;
+import ca.mcgill.ecse321.group12.dto.EmployeeResponseDto;
 import ca.mcgill.ecse321.group12.dto.GameRequestDto;
 import ca.mcgill.ecse321.group12.dto.GameResponseDto;
 import ca.mcgill.ecse321.group12.dto.OrderRequestDto;
@@ -64,11 +68,15 @@ public class OrderServiceIntegrationTests {
 	private GameRepository gameRepo;
 
 	// variables from the setup
-	private CustomerResponseDto customer;
+	private CustomerCreateResponseDto customer;
 
 	private List<GameResponseDto> gameDtos;
 
 	int orderId;
+
+	private String customerAuth;
+
+	private String employeeAuth;
 
 	/**
 	 * In order to create an order, a customer, cart, and games must be present in the
@@ -78,13 +86,37 @@ public class OrderServiceIntegrationTests {
 	@BeforeAll
 	public void setup() {
 
-		// create a new customer to use their cart for the tests
-		CustomerRequestDto customerRequest = new CustomerRequestDto("une@mail.mcgill.ca", "weizhiiii", "Cunegond",
-				"889427870");
-		ResponseEntity<CustomerResponseDto> customerResponse = client.postForEntity("/customers", customerRequest,
-				CustomerResponseDto.class);
+		// create a new customer to use their cart and auth code for the tests
+		CustomerRequestDto customerRequest = new CustomerRequestDto("johnathan.deer@email.com", "password123",
+				"Customer", "778 000 0000");
+		ResponseEntity<CustomerCreateResponseDto> customerResponse = client.postForEntity("/customers", customerRequest,
+				CustomerCreateResponseDto.class);
 		// save the response
-		this.customer = customerResponse.getBody();
+		customer = customerResponse.getBody();
+		customerAuth = customer.getToken();
+
+		// create an employee for the auth token
+		EmployeeRequestDto employeeRequest = new EmployeeRequestDto();
+		employeeRequest.setName("Employee");
+		employeeRequest.setEmail("janedoe@company.com");
+		employeeRequest.setPassword("password123");
+		employeeRequest.setPhoneNumber("604 000 0000");
+		ResponseEntity<EmployeeResponseDto> employeeResponse = client.postForEntity("/employees", employeeRequest,
+				EmployeeResponseDto.class);
+		assertEquals(HttpStatus.CREATED, employeeResponse.getStatusCode());
+		assertNotNull(employeeResponse.getBody());
+		// use the auth endpoint to get a token for the employee
+		AuthRequestDto authRequest = new AuthRequestDto();
+		authRequest.setEmail(employeeRequest.getEmail());
+		authRequest.setPassword(employeeRequest.getPassword());
+		ResponseEntity<AuthResponseDto> authResponse = client.postForEntity("/auth/signin", authRequest,
+				AuthResponseDto.class);
+		assertEquals(HttpStatus.OK, authResponse.getStatusCode());
+		// store the token
+		AuthResponseDto auth = authResponse.getBody();
+		assertNotNull(auth);
+		assertNotNull(auth.getToken());
+		employeeAuth = "Bearer " + auth.getToken();
 
 		// create games for use in tests
 		GameRequestDto game1 = new GameRequestDto(Category.Action, Console.Switch, 10, 10f, "Action Game",
@@ -95,11 +127,28 @@ public class OrderServiceIntegrationTests {
 				"Explore the world!", GameStatus.InCatalog);
 		GameRequestDto game4 = new GameRequestDto(Category.Sports, Console.PlayStation, 0, 100f, "Not Available",
 				"This game shouldn't show up when browsing", GameStatus.PendingApproval);
+
 		// and post them to the database
-		GameResponseDto gameResp1 = client.postForEntity("/games", game1, GameResponseDto.class).getBody();
-		GameResponseDto gameResp2 = client.postForEntity("/games", game2, GameResponseDto.class).getBody();
-		GameResponseDto gameResp3 = client.postForEntity("/games", game3, GameResponseDto.class).getBody();
-		GameResponseDto gameResp4 = client.postForEntity("/games", game4, GameResponseDto.class).getBody();
+		RequestEntity<GameRequestDto> gameReq1 = RequestEntity.post("/games")
+			.header("Authorization", employeeAuth)
+			.accept(MediaType.APPLICATION_JSON)
+			.body(game1);
+		GameResponseDto gameResp1 = client.exchange(gameReq1, GameResponseDto.class).getBody();
+		RequestEntity<GameRequestDto> gameReq2 = RequestEntity.post("/games")
+			.header("Authorization", employeeAuth)
+			.accept(MediaType.APPLICATION_JSON)
+			.body(game2);
+		GameResponseDto gameResp2 = client.exchange(gameReq2, GameResponseDto.class).getBody();
+		RequestEntity<GameRequestDto> gameReq3 = RequestEntity.post("/games")
+			.header("Authorization", employeeAuth)
+			.accept(MediaType.APPLICATION_JSON)
+			.body(game3);
+		GameResponseDto gameResp3 = client.exchange(gameReq3, GameResponseDto.class).getBody();
+		RequestEntity<GameRequestDto> gameReq4 = RequestEntity.post("/games")
+			.header("Authorization", employeeAuth)
+			.accept(MediaType.APPLICATION_JSON)
+			.body(game4);
+		GameResponseDto gameResp4 = client.exchange(gameReq4, GameResponseDto.class).getBody();
 
 		// save the game request dtos for reference later
 		gameDtos = new ArrayList<>();
@@ -125,6 +174,7 @@ public class OrderServiceIntegrationTests {
 	/**
 	 * first step of the use cases: browse games. see that GET /games successfully returns
 	 * the games created in setup, and filters out the game marked as awaiting approval.
+	 * @author James Madden
 	 */
 	@Test
 	@Order(1)
@@ -193,9 +243,11 @@ public class OrderServiceIntegrationTests {
 
 		// PUT both games into the cart
 		RequestEntity<CartRequestDto> reqEntity1 = RequestEntity.put("/cart/" + cartId)
+			.header("Authorization", customerAuth)
 			.accept(MediaType.APPLICATION_JSON)
 			.body(req1);
 		RequestEntity<CartRequestDto> reqEntity2 = RequestEntity.put("/cart/" + cartId)
+			.header("Authorization", customerAuth)
 			.accept(MediaType.APPLICATION_JSON)
 			.body(req2);
 		ResponseEntity<CartResponseDto> resp1 = client.exchange("/cart/" + cartId, HttpMethod.PUT, reqEntity1,
@@ -258,7 +310,11 @@ public class OrderServiceIntegrationTests {
 		req.setCustomerId(customer.getId());
 
 		// send the post request
-		ResponseEntity<OrderResponseDto> response = client.postForEntity("/orders", req, OrderResponseDto.class);
+		RequestEntity<OrderRequestDto> reqEntity = RequestEntity.post("/orders")
+			.header("Authorization", customerAuth)
+			.accept(MediaType.APPLICATION_JSON)
+			.body(req);
+		ResponseEntity<OrderResponseDto> response = client.exchange(reqEntity, OrderResponseDto.class);
 
 		// make sure the response was successful
 		assertNotNull(response);
@@ -316,6 +372,7 @@ public class OrderServiceIntegrationTests {
 
 		// PUT both games into the cart
 		RequestEntity<CartRequestDto> reqEntity = RequestEntity.put("/cart/" + cartId)
+			.header("Authorization", customerAuth)
 			.accept(MediaType.APPLICATION_JSON)
 			.body(cartReq);
 		ResponseEntity<CartResponseDto> cartResp = client.exchange("/cart/" + cartId, HttpMethod.PUT, reqEntity,
@@ -345,7 +402,11 @@ public class OrderServiceIntegrationTests {
 		req.setCustomerId(customer.getId());
 
 		// send the post request
-		ResponseEntity<OrderResponseDto> response = client.postForEntity("/orders", req, OrderResponseDto.class);
+		RequestEntity<OrderRequestDto> orderReqEntity = RequestEntity.post("/orders")
+			.header("Authorization", customerAuth)
+			.accept(MediaType.APPLICATION_JSON)
+			.body(req);
+		ResponseEntity<OrderResponseDto> response = client.exchange(orderReqEntity, OrderResponseDto.class);
 
 		// make sure the request errored
 		assertNotNull(response);
@@ -368,12 +429,12 @@ public class OrderServiceIntegrationTests {
 
 		// send the PUT request
 		RequestEntity<OrderReturnRequestDto> reqEntity = RequestEntity.put("/orders/" + orderId)
+			.header("Authorization", customerAuth)
 			.accept(MediaType.APPLICATION_JSON)
 			.body(req);
-		ResponseEntity<OrderResponseDto> resp = client.exchange("/orders/" + orderId, HttpMethod.PUT, reqEntity,
-				OrderResponseDto.class);
+		ResponseEntity<OrderResponseDto> resp = client.exchange(reqEntity, OrderResponseDto.class);
 
-		// make sure both PUTs were successful
+		// make sure PUT was successful
 		assertNotNull(resp);
 		assertEquals(HttpStatus.OK, resp.getStatusCode());
 
@@ -395,8 +456,11 @@ public class OrderServiceIntegrationTests {
 
 		// get the ID of the customer's cart and clear it
 		int cartId = customer.getCart().getId();
-		ResponseEntity<CartResponseDto> cartRes = client.exchange("/cart/" + cartId + "?remove=all", HttpMethod.PUT,
-				null, CartResponseDto.class);
+		RequestEntity<Void> reqEntity = RequestEntity.put("/cart/" + cartId + "?remove=all")
+			.header("Authorization", customerAuth)
+			.accept(MediaType.APPLICATION_JSON)
+			.build();
+		ResponseEntity<CartResponseDto> cartRes = client.exchange(reqEntity, CartResponseDto.class);
 		assertNotNull(cartRes);
 		assertEquals(HttpStatus.OK, cartRes.getStatusCode());
 
@@ -408,9 +472,11 @@ public class OrderServiceIntegrationTests {
 
 		// PUT both games into the cart
 		RequestEntity<CartRequestDto> reqEntity1 = RequestEntity.put("/cart/" + cartId)
+			.header("Authorization", customerAuth)
 			.accept(MediaType.APPLICATION_JSON)
 			.body(req1);
 		RequestEntity<CartRequestDto> reqEntity2 = RequestEntity.put("/cart/" + cartId)
+			.header("Authorization", customerAuth)
 			.accept(MediaType.APPLICATION_JSON)
 			.body(req2);
 		ResponseEntity<CartResponseDto> resp1 = client.exchange("/cart/" + cartId, HttpMethod.PUT, reqEntity1,
@@ -436,8 +502,11 @@ public class OrderServiceIntegrationTests {
 		req.setCustomerId(customer.getId());
 
 		// send the post request
-		ResponseEntity<OrderResponseDto> response = client.postForEntity("/orders?discount=20", req,
-				OrderResponseDto.class);
+		RequestEntity<OrderRequestDto> orderReqEntity = RequestEntity.post("/orders?discount=20")
+			.header("Authorization", customerAuth)
+			.accept(MediaType.APPLICATION_JSON)
+			.body(req);
+		ResponseEntity<OrderResponseDto> response = client.exchange(orderReqEntity, OrderResponseDto.class);
 
 		// make sure the response was successful
 		assertNotNull(response);

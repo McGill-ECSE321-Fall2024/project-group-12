@@ -5,6 +5,11 @@ package ca.mcgill.ecse321.group12.model;
 
 import java.util.*;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
@@ -14,7 +19,7 @@ import jakarta.persistence.GeneratedValue;
 // line 11 "../../../../../../ReindeerGames.ump"
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class UserRole {
+abstract public class UserRole implements UserDetails {
 
 	// ------------------------
 	// STATIC VARIABLES
@@ -33,6 +38,7 @@ public class UserRole {
 	@GeneratedValue
 	private int id;
 
+	@Column(unique = true)
 	private String email;
 
 	private String password;
@@ -42,6 +48,39 @@ public class UserRole {
 	private String address;
 
 	private String phoneNumber;
+
+	/**
+	 * required methods for Spring Security
+	 *
+	 * @author James Madden
+	 */
+	public enum UserType {
+
+		MANAGER("manager"), EMPLOYEE("employee"), CUSTOMER("customer"), USER("user");
+
+		private String type;
+
+		UserType(String type) {
+			this.type = type;
+		}
+
+		public String getValue() {
+			return type;
+		}
+
+	}
+
+	abstract public UserType getUserType();
+
+	@Override
+	public String getUsername() {
+		return email;
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+	}
 
 	// ------------------------
 	// CONSTRUCTOR
