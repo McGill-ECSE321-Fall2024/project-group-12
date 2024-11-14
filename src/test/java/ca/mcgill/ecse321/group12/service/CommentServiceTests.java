@@ -8,6 +8,9 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -87,6 +90,38 @@ public class CommentServiceTests {
 		assertNotNull(comment);
 		assertEquals(comment.getText(), foundComment.getText());
 		assertEquals(comment.getReview(), foundComment.getReview());
+	}
+
+	/**
+	 * Test finding all comments
+	 * @author Amy Ding
+	 * @return void
+	 */
+	@Test
+	public void testFindAllComments() throws Exception {
+		// Arrange
+		Review review = new Review();
+		Comment comment1 = new Comment();
+		String text = "Test comment 1";
+		String text2 = "Test comment 2";
+		comment1.setId(1);
+		comment1.setText(text);
+		comment1.setReview(review);
+
+		Comment comment2 = new Comment();
+		comment2.setId(2);
+		comment2.setText(text2);
+		comment2.setReview(review);
+
+		List<Comment> comments = Arrays.asList(comment1, comment2);
+
+		when(commentRepository.findAll()).thenReturn(comments);
+
+		// Act & Assert
+		assertEquals(text, comments.get(0).getText());
+		assertEquals(text2, comments.get(1).getText());
+		assertEquals(review, comments.get(0).getReview());
+		assertEquals(review, comments.get(1).getReview());
 	}
 
 	/**
