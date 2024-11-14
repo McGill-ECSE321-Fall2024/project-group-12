@@ -5,6 +5,3 @@
 build
 bin
 .DS_Store
-
-# Ignore secrets
-.env
