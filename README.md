@@ -57,6 +57,8 @@ To ensure high quality, well tested code, do the following when contributing to 
 6. Once they've reviewed your code, they'll merge it into main!
 
 ## Run the Project
+For the user authentication, you must create a `.env` file in the root of the project, and enter in `JWT_SECRET="<...>"`. Replace with any secret you'd like.  
+
 Start the frontend:
 ```
 npm start
