@@ -74,6 +74,8 @@ Windows:
 ```
 
 ## Test the Project
+This will run both the unit and integration tests.
+
 Test the backend:\
 Unix:
 ```
