@@ -2,6 +2,7 @@ package ca.mcgill.ecse321.group12.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -41,7 +42,11 @@ public class ManagerController {
 	@PostMapping("/manager")
 	@ResponseStatus(HttpStatus.CREATED)
 	public ManagerResponseDto createManager(@RequestBody ManagerRequestDto manager) {
-		Manager createdManager = managerService.createManager(manager.getEmail(), manager.getPassword(),
+
+		// encrypt the password for security
+		String encryptedPassword = new BCryptPasswordEncoder().encode(manager.getPassword());
+
+		Manager createdManager = managerService.createManager(manager.getEmail(), encryptedPassword,
 				manager.getName(), manager.getPhoneNumber());
 		return new ManagerResponseDto(createdManager);
 	}
