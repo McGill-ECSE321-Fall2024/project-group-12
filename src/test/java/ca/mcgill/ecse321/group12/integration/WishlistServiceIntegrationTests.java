@@ -63,6 +63,7 @@ public class WishlistServiceIntegrationTests {
 	private GameResponseDto game;
 
 	private String customerAuth;
+
 	private String employeeAuth;
 
 	@BeforeAll
