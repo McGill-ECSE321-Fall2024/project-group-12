@@ -21,6 +21,7 @@ import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.event.annotation.AfterTestClass;
 
+import ca.mcgill.ecse321.group12.dto.CustomerCreateResponseDto;
 import ca.mcgill.ecse321.group12.dto.CustomerRequestDto;
 import ca.mcgill.ecse321.group12.dto.CustomerResponseDto;
 import ca.mcgill.ecse321.group12.model.Cart;
@@ -80,13 +81,13 @@ public class CustomerServiceIntegrationTests {
 		CustomerRequestDto request = new CustomerRequestDto(VALID_EMAIL, VALID_PASSWORD, VALID_NAME, VALID_PHONENUMBER);
 
 		// Act
-		ResponseEntity<CustomerResponseDto> response = client.postForEntity("/customers", request,
-				CustomerResponseDto.class);
+		ResponseEntity<CustomerCreateResponseDto> response = client.postForEntity("/customers", request,
+				CustomerCreateResponseDto.class);
 
 		// Assert
 		assertNotNull(response);
 		assertEquals(HttpStatus.CREATED, response.getStatusCode());
-		CustomerResponseDto createdCustomer = response.getBody();
+		CustomerCreateResponseDto createdCustomer = response.getBody();
 		assertNotNull(createdCustomer);
 		assertEquals(VALID_NAME, createdCustomer.getName());
 		assertEquals(VALID_EMAIL, createdCustomer.getEmail());
