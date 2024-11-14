@@ -322,8 +322,7 @@ public class CustomerServiceTests {
 
 		when(customerRepository.findAll()).thenReturn(customers);
 
-		
-		// Act 
+		// Act
 		List<Customer> foundCustomers = (List<Customer>) customerService.findAllCustomers();
 		// Assert
 		assertEquals(email, foundCustomers.get(0).getEmail());
@@ -334,4 +333,5 @@ public class CustomerServiceTests {
 		assertEquals(phoneNumber, foundCustomers.get(0).getPhoneNumber());
 		assertEquals(wishlist, foundCustomers.get(0).getWishlist());
 	}
+
 }

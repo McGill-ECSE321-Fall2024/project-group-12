@@ -437,7 +437,7 @@ public class EmployeeServiceTests {
 
 	}
 
-		/**
+	/**
 	 * Test finding all customers
 	 * @author Amy Ding
 	 * @return void
@@ -459,8 +459,7 @@ public class EmployeeServiceTests {
 
 		when(employeeRepository.findAll()).thenReturn(employees);
 
-		
-		// Act 
+		// Act
 		List<Employee> foundEmployees = (List<Employee>) employeeService.findAllEmployees();
 		// Assert
 		assertEquals(email, foundEmployees.get(0).getEmail());
@@ -468,6 +467,5 @@ public class EmployeeServiceTests {
 		assertEquals(password, foundEmployees.get(0).getPassword());
 		assertEquals(phoneNumber, foundEmployees.get(0).getPhoneNumber());
 	}
-
 
 }
