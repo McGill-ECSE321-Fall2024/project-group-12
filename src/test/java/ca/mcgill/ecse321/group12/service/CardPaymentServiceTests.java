@@ -2,6 +2,7 @@ package ca.mcgill.ecse321.group12.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Test;
 import static org.mockito.ArgumentMatchers.any;
 import org.mockito.InjectMocks;
@@ -11,6 +12,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import ca.mcgill.ecse321.group12.exception.CustomException;
 import ca.mcgill.ecse321.group12.model.CardPayment;
 import ca.mcgill.ecse321.group12.repository.CardPaymentRepository;
 
@@ -52,6 +54,21 @@ public class CardPaymentServiceTests {
 		assertEquals(expiryDate, created.getExpiryDate());
 		verify(repo, times(1)).save(any(CardPayment.class));
 
+	}
+
+	@Test
+	public void testCreateInvalidCardPayment() {
+		// Arrange
+		String nameOnCard = "John Doe";
+		String cvc = "123";
+		String cardNumber = "1234 5678 9012";
+		String billingAddress = "1234 Rue Sherbrooke";
+		boolean isSaved = true;
+		String expiryDate = "12/23";
+		// Assert
+		CustomException e = assertThrows(CustomException.class,
+				() -> service.createCardPayment(nameOnCard, cvc, cardNumber, billingAddress, isSaved, expiryDate));
+		assertEquals("Card number must follow format XXXX XXXX XXXX XXXX.", e.getMessage());
 	}
 
 }
