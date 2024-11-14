@@ -4,6 +4,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
@@ -16,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -164,8 +169,35 @@ public class CommentServiceIntegrationTests {
 		// assertNotNull(updatedComment.getReview());
 		assertNotNull(updatedComment.getId());
 		assertTrue(updatedComment.getId() > 0, "Response should have a positive ID.");
-
 		this.commentId = updatedComment.getId();
+	}
+
+	/**
+	 * Test getting all comments.
+	 * @author Carmin Vidé
+	 */
+	@Test
+	@Order(6)
+	public void testFindAllComments() {
+		// Arrange
+		String url = "/comments";
+		// Act
+		// ResponseEntity<List<CommentResponseDto>> response = client.getForEntity(url,
+		// CommentResponseDto.class);
+		ResponseEntity<List<CommentResponseDto>> response = client.exchange(url, HttpMethod.GET, null,
+				new ParameterizedTypeReference<List<CommentResponseDto>>() {
+				});
+		// Assert
+		assertNotNull(response);
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		Iterable<CommentResponseDto> comments = response.getBody();
+		assertNotNull(comments);
+		List<CommentResponseDto> commentList = (List<CommentResponseDto>) comments;
+		CommentResponseDto firstComment = commentList.get(0);
+		assertNotNull(firstComment);
+		assertEquals(text, firstComment.getText());
+		assertNotNull(firstComment.getId());
+		assertTrue(firstComment.getId() > 0, "Response should have a positive ID.");
 
 	}
 
@@ -174,7 +206,7 @@ public class CommentServiceIntegrationTests {
 	 * @author Carmin Vidé
 	 */
 	@Test
-	@Order(6)
+	@Order(7)
 	public void testDeleteComment() {
 		// Arrange
 		String url = "/comments/" + commentId;
@@ -192,7 +224,7 @@ public class CommentServiceIntegrationTests {
 	 * @author Carmin Vidé
 	 */
 	@Test
-	@Order(7)
+	@Order(8)
 	public void testDeleteCommentWithInvalidId() {
 		// Arrange
 		String url = "/comments/0";
