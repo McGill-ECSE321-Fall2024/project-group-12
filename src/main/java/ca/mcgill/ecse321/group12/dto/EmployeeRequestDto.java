@@ -16,7 +16,7 @@ public class EmployeeRequestDto {
 	private boolean active;
 
 	@SuppressWarnings("unused")
-	private EmployeeRequestDto() {
+  public EmployeeRequestDto() {
 	}
 
 	/**
