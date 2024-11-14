@@ -370,8 +370,7 @@ public class OrderServiceIntegrationTests {
 		RequestEntity<OrderReturnRequestDto> reqEntity = RequestEntity.put("/orders/" + orderId)
 			.accept(MediaType.APPLICATION_JSON)
 			.body(req);
-		ResponseEntity<OrderResponseDto> resp = client.exchange("/orders/" + orderId, HttpMethod.PUT, reqEntity,
-				OrderResponseDto.class);
+		ResponseEntity<OrderResponseDto> resp = client.exchange(reqEntity, OrderResponseDto.class);
 
 		// make sure both PUTs were successful
 		assertNotNull(resp);
