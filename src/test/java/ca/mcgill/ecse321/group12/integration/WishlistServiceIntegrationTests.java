@@ -236,4 +236,43 @@ public class WishlistServiceIntegrationTests {
 		}
 	}
 
+	/**
+	 * @author Julien Heng
+	 */
+	@Test
+	@Order(8)
+	public void testClearWishlist() {
+		// Arrange
+
+		// Start with empty wishlist
+		this.validId = this.customer.getCart().getId();
+		String url = "/wishlist/" + this.validId;
+
+		// Add the game ID (of the game to be added to wishlist) to the request body
+		WishlistRequestDto body = new WishlistRequestDto();
+		body.setGameId(this.game.getId());
+		RequestEntity<WishlistRequestDto> WishlistRequestEntity = RequestEntity.put(url)
+			.accept(MediaType.APPLICATION_JSON)
+			.body(body);
+		// PUT request
+		ResponseEntity<WishlistResponseDto> gameResponse = client.exchange(url, HttpMethod.PUT, WishlistRequestEntity,
+				WishlistResponseDto.class);
+		assertNotNull(gameResponse);
+
+		// Act
+		// Clear the cart
+		ResponseEntity<WishlistResponseDto> response = client.exchange(url + "?remove=all", HttpMethod.PUT, null,
+				WishlistResponseDto.class);
+
+		// Assert
+		assertNotNull(response);
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		assertNotNull(response.getBody());
+		WishlistResponseDto cart = response.getBody();
+		if (cart != null) {
+			assertNotNull(cart.getGames());
+			assertEquals(0, cart.getGames().size());
+		}
+	}
+
 }
