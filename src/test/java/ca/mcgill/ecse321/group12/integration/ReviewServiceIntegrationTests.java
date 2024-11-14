@@ -29,8 +29,12 @@ import ca.mcgill.ecse321.group12.dto.ReviewResponseDto;
 import ca.mcgill.ecse321.group12.repository.CustomerRepository;
 import ca.mcgill.ecse321.group12.repository.GameRepository;
 import ca.mcgill.ecse321.group12.repository.ReviewRepository;
+import ca.mcgill.ecse321.group12.dto.AuthRequestDto;
+import ca.mcgill.ecse321.group12.dto.AuthResponseDto;
+import ca.mcgill.ecse321.group12.dto.CustomerCreateResponseDto;
 import ca.mcgill.ecse321.group12.dto.CustomerRequestDto;
-import ca.mcgill.ecse321.group12.dto.CustomerResponseDto;
+import ca.mcgill.ecse321.group12.dto.EmployeeRequestDto;
+import ca.mcgill.ecse321.group12.dto.EmployeeResponseDto;
 import ca.mcgill.ecse321.group12.dto.GameRequestDto;
 import ca.mcgill.ecse321.group12.dto.GameResponseDto;
 
@@ -63,11 +67,14 @@ public class ReviewServiceIntegrationTests {
 
 	private final String VALID_TEXT_2 = "This is a test review for integration testing to update a review";
 
-	private CustomerResponseDto customer;
+	private CustomerCreateResponseDto customer;
 
 	private GameResponseDto gameDto;
 
 	private int validId;
+
+	private String customerAuth;
+	private String employeeAuth;
 
 	;
 
@@ -80,16 +87,44 @@ public class ReviewServiceIntegrationTests {
 	public void setup() {
 		// create a customer to associate with the review
 		CustomerRequestDto customerRequest = new CustomerRequestDto("carmin1@gmail.com", "1", "a", "7806665667");
-		ResponseEntity<CustomerResponseDto> customerResponse = client.postForEntity("/customers", customerRequest,
-				CustomerResponseDto.class);
+		ResponseEntity<CustomerCreateResponseDto> customerResponse = client.postForEntity("/customers", customerRequest,
+				CustomerCreateResponseDto.class);
 		// save the response
 		this.customer = customerResponse.getBody();
+		// save their auth token
+		customerAuth = "Bearer " + customer.getToken();
+
+		// create an employee for the auth token
+		EmployeeRequestDto employeeRequest = new EmployeeRequestDto();
+		employeeRequest.setName("Kennedy");
+		employeeRequest.setEmail("kennedy@gmail.com");
+		employeeRequest.setPassword("password123");
+		employeeRequest.setPhoneNumber("604 000 0000");
+		ResponseEntity<EmployeeResponseDto> employeeResponse = client.postForEntity("/employees", employeeRequest, EmployeeResponseDto.class);
+		assertEquals(HttpStatus.CREATED, employeeResponse.getStatusCode());
+		assertNotNull(employeeResponse.getBody());
+		// use the auth endpoint to get a token for the employee
+		AuthRequestDto authRequest = new AuthRequestDto();
+		authRequest.setEmail(employeeRequest.getEmail());
+		authRequest.setPassword(employeeRequest.getPassword());
+		ResponseEntity<AuthResponseDto> authResponse = client.postForEntity("/auth/signin", authRequest,AuthResponseDto.class);
+		assertEquals(HttpStatus.OK, authResponse.getStatusCode());
+		// store the token
+		AuthResponseDto auth = authResponse.getBody();
+		assertNotNull(auth);
+		assertNotNull(auth.getToken());
+		employeeAuth = "Bearer " + auth.getToken();
+
 
 		// create a game to associate with the review
 		GameRequestDto gameRequest = new GameRequestDto(Category.Action, Console.Switch, 10, 10f, "Action Game",
 				"A game full of fun, fear, and excitement", GameStatus.InCatalog);
 		// post to the database
-		GameResponseDto gameDto = client.postForEntity("/games", gameRequest, GameResponseDto.class).getBody();
+		RequestEntity<GameRequestDto> gameReq1 = RequestEntity.post("/games")
+			.header("Authorization", employeeAuth)
+			.accept(MediaType.APPLICATION_JSON)
+			.body(gameRequest);
+		GameResponseDto gameDto = client.exchange(gameReq1, GameResponseDto.class).getBody();
 		this.gameDto = gameDto;
 
 	}
@@ -116,8 +151,11 @@ public class ReviewServiceIntegrationTests {
 		ReviewRequestDto reviewRequest = new ReviewRequestDto(VALID_TEXT, VALID_RATING, VALID_LIKE_COUNT,
 				gameDto.getId(), customer.getId());
 		// act
-		ResponseEntity<ReviewResponseDto> reviewResponse = client.postForEntity("/reviews", reviewRequest,
-				ReviewResponseDto.class);
+		RequestEntity<ReviewRequestDto> gameReq1 = RequestEntity.post("/reviews")
+			.header("Authorization", customerAuth)
+			.accept(MediaType.APPLICATION_JSON)
+			.body(reviewRequest);
+		ResponseEntity<ReviewResponseDto> reviewResponse = client.exchange(gameReq1, ReviewResponseDto.class);
 		// assert
 		assertNotNull(reviewResponse);
 		assertEquals(HttpStatus.CREATED, reviewResponse.getStatusCode());
@@ -141,8 +179,11 @@ public class ReviewServiceIntegrationTests {
 		ReviewRequestDto reviewRequest = new ReviewRequestDto("", VALID_RATING, VALID_LIKE_COUNT, gameDto.getId(),
 				customer.getId());
 		// act
-		ResponseEntity<ReviewResponseDto> reviewResponse = client.postForEntity("/reviews", reviewRequest,
-				ReviewResponseDto.class);
+		RequestEntity<ReviewRequestDto> gameReq1 = RequestEntity.post("/reviews")
+			.header("Authorization", customerAuth)
+			.accept(MediaType.APPLICATION_JSON)
+			.body(reviewRequest);
+		ResponseEntity<ReviewResponseDto> reviewResponse = client.exchange(gameReq1, ReviewResponseDto.class);
 		// assert
 		assertNotNull(reviewResponse);
 		assertEquals(HttpStatus.BAD_REQUEST, reviewResponse.getStatusCode());
@@ -161,8 +202,11 @@ public class ReviewServiceIntegrationTests {
 		ReviewRequestDto reviewRequest = new ReviewRequestDto(VALID_TEXT, 6, VALID_LIKE_COUNT, gameDto.getId(),
 				customer.getId());
 		// act
-		ResponseEntity<ReviewResponseDto> reviewResponse = client.postForEntity("/reviews", reviewRequest,
-				ReviewResponseDto.class);
+		RequestEntity<ReviewRequestDto> gameReq1 = RequestEntity.post("/reviews")
+			.header("Authorization", customerAuth)
+			.accept(MediaType.APPLICATION_JSON)
+			.body(reviewRequest);
+		ResponseEntity<ReviewResponseDto> reviewResponse = client.exchange(gameReq1, ReviewResponseDto.class);
 		// assert
 		assertNotNull(reviewResponse);
 		assertEquals(HttpStatus.BAD_REQUEST, reviewResponse.getStatusCode());
@@ -181,8 +225,11 @@ public class ReviewServiceIntegrationTests {
 		ReviewRequestDto reviewRequest = new ReviewRequestDto(VALID_TEXT, VALID_RATING, -1, gameDto.getId(),
 				customer.getId());
 		// act
-		ResponseEntity<ReviewResponseDto> reviewResponse = client.postForEntity("/reviews", reviewRequest,
-				ReviewResponseDto.class);
+		RequestEntity<ReviewRequestDto> gameReq1 = RequestEntity.post("/reviews")
+			.header("Authorization", customerAuth)
+			.accept(MediaType.APPLICATION_JSON)
+			.body(reviewRequest);
+		ResponseEntity<ReviewResponseDto> reviewResponse = client.exchange(gameReq1, ReviewResponseDto.class);
 		// assert
 		assertNotNull(reviewResponse);
 		assertEquals(HttpStatus.BAD_REQUEST, reviewResponse.getStatusCode());
@@ -201,8 +248,11 @@ public class ReviewServiceIntegrationTests {
 		ReviewRequestDto reviewRequest = new ReviewRequestDto(VALID_TEXT, VALID_RATING, VALID_LIKE_COUNT, -1,
 				customer.getId());
 		// act
-		ResponseEntity<ReviewResponseDto> reviewResponse = client.postForEntity("/reviews", reviewRequest,
-				ReviewResponseDto.class);
+		RequestEntity<ReviewRequestDto> gameReq1 = RequestEntity.post("/reviews")
+			.header("Authorization", customerAuth)
+			.accept(MediaType.APPLICATION_JSON)
+			.body(reviewRequest);
+		ResponseEntity<ReviewResponseDto> reviewResponse = client.exchange(gameReq1, ReviewResponseDto.class);
 		// assert
 		assertNotNull(reviewResponse);
 		assertEquals(HttpStatus.NOT_FOUND, reviewResponse.getStatusCode());
@@ -220,8 +270,11 @@ public class ReviewServiceIntegrationTests {
 		ReviewRequestDto reviewRequest = new ReviewRequestDto(VALID_TEXT, VALID_RATING, VALID_LIKE_COUNT,
 				gameDto.getId(), -1);
 		// act
-		ResponseEntity<ReviewResponseDto> reviewResponse = client.postForEntity("/reviews", reviewRequest,
-				ReviewResponseDto.class);
+		RequestEntity<ReviewRequestDto> gameReq1 = RequestEntity.post("/reviews")
+			.header("Authorization", customerAuth)
+			.accept(MediaType.APPLICATION_JSON)
+			.body(reviewRequest);
+		ResponseEntity<ReviewResponseDto> reviewResponse = client.exchange(gameReq1, ReviewResponseDto.class);
 		// assert
 		assertNotNull(reviewResponse);
 		assertEquals(HttpStatus.NOT_FOUND, reviewResponse.getStatusCode());
@@ -283,7 +336,7 @@ public class ReviewServiceIntegrationTests {
 		String url = "/reviews/" + this.validId;
 		ReviewRequestDto body = new ReviewRequestDto(VALID_TEXT_2, VALID_RATING_2, VALID_LIKE_COUNT_2, gameDto.getId(),
 				customer.getId());
-		RequestEntity<ReviewRequestDto> request = RequestEntity.put(url).accept(MediaType.APPLICATION_JSON).body(body);
+		RequestEntity<ReviewRequestDto> request = RequestEntity.put(url).header("Authorization", customerAuth).accept(MediaType.APPLICATION_JSON).body(body);
 
 		// act
 		ResponseEntity<ReviewResponseDto> response = client.exchange(url, HttpMethod.PUT, request,
@@ -313,7 +366,7 @@ public class ReviewServiceIntegrationTests {
 		String url = "/reviews/" + this.validId;
 		ReviewRequestDto body = new ReviewRequestDto("", VALID_RATING_2, VALID_LIKE_COUNT_2, gameDto.getId(),
 				customer.getId());
-		RequestEntity<ReviewRequestDto> request = RequestEntity.put(url).accept(MediaType.APPLICATION_JSON).body(body);
+		RequestEntity<ReviewRequestDto> request = RequestEntity.put(url).header("Authorization", customerAuth).accept(MediaType.APPLICATION_JSON).body(body);
 
 		// act
 		ResponseEntity<ReviewResponseDto> response = client.exchange(url, HttpMethod.PUT, request,
@@ -335,7 +388,7 @@ public class ReviewServiceIntegrationTests {
 		String url = "/reviews/" + this.validId;
 		ReviewRequestDto body = new ReviewRequestDto(VALID_TEXT_2, 6, VALID_LIKE_COUNT_2, gameDto.getId(),
 				customer.getId());
-		RequestEntity<ReviewRequestDto> request = RequestEntity.put(url).accept(MediaType.APPLICATION_JSON).body(body);
+		RequestEntity<ReviewRequestDto> request = RequestEntity.put(url).header("Authorization", customerAuth).accept(MediaType.APPLICATION_JSON).body(body);
 
 		// act
 		ResponseEntity<ReviewResponseDto> response = client.exchange(url, HttpMethod.PUT, request,
@@ -357,7 +410,7 @@ public class ReviewServiceIntegrationTests {
 		String url = "/reviews/" + this.validId;
 		ReviewRequestDto body = new ReviewRequestDto(VALID_TEXT_2, VALID_RATING_2, -1, gameDto.getId(),
 				customer.getId());
-		RequestEntity<ReviewRequestDto> request = RequestEntity.put(url).accept(MediaType.APPLICATION_JSON).body(body);
+		RequestEntity<ReviewRequestDto> request = RequestEntity.put(url).header("Authorization", customerAuth).accept(MediaType.APPLICATION_JSON).body(body);
 
 		// act
 		ResponseEntity<ReviewResponseDto> response = client.exchange(url, HttpMethod.PUT, request,
