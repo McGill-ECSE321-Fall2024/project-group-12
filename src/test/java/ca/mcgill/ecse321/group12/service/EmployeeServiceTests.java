@@ -29,11 +29,6 @@ public class EmployeeServiceTests {
 	@InjectMocks
 	private EmployeeService employeeService;
 
-	/**
-	 * Test to create an employee with valid inputs
-	 * @author Amy Ding
-	 * @return void
-	 */
 	@BeforeEach
 	public void setUpMocks() {
 		// Reset all mocks before each test
@@ -43,6 +38,12 @@ public class EmployeeServiceTests {
 		when(employeeRepository.findEmployeeById(any(Integer.class))).thenReturn(null);
 		when(employeeRepository.save(any(Employee.class))).thenReturn(null);
 	}
+
+	/**
+	 * Test to create an employee with valid inputs
+	 * @author Amy Ding
+	 * @return void
+	 */
 
 	@SuppressWarnings("null")
 	@Test
