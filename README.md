@@ -26,23 +26,23 @@ Julien: "Hey. I am a U2 Software Engineering student at McGill! A fun fact about
 
 ## Team Members
 ### Deliverable 1
-| Name             | Team Roles       | Hours |
-| ---------------- | ---------------- | --------------------- |
-| James Madden     | Tech Lead        |  18                   |
-| Sophia Li        | Project Manager  |  18                   |
-| Amy Ding         | UI/UX Designer   |  18                   |
-| Julien Heng      | Developer        |  13                   |
-| Kennedy Olsen    | Business Analyst |  18                   |
-| Carmin Vidé | Scrum Master     |  18                   |
+| Name             | Team Roles       | Hours                 |Individual Effort |
+| ---------------- | ---------------- | --------------------- |----------------- |
+| James Madden     | Tech Lead        |  18                   |<ul><li>Work on detailed use case specification</li><li>Work on class diagram</li><li>Create persistence layer using Hibernate</li><li>Write tests for persistence layer</li><li>Set up build system</li></ul>   |
+| Sophia Li        | Project Manager  |  18                   |<ul><li>Update wiki</li><li>Work on detailed use case specification</li><li>Work and adjust class diagram</li><li>Write tests for persistence layer</li></ul> |
+| Amy Ding         | UI/UX Designer   |  18                   |<ul><li>Update wiki</li><li>Work on use case diagrams</li><li>Work on detailed use case specification</li><li>Write tests for persistence layer</li><li>Work on class diagram</li></ul> |
+| Julien Heng      | Developer        |  13                   | <ul><li>Update wiki</li><li>Work on detailed use case specification</li><li>Work and adjust class diagram</li><li>Write tests for persistence layer</li></ul>|
+| Kennedy Olsen    | Business Analyst |  18                   |<ul><li>Update wiki</li><li>Work on detailed use case specification</li><li>Work and adjust class diagram</li><li>Write tests for persistence layer</li></ul> |
+| Carmin Vidé      | Scrum Master     |  18                   |<ul><li>Work on detailed use case specification</li><li>Work on use case diagrams</li><li>Work on class diagram</li><li>Write tests for persistence layer</li></ul> |
 
 ### Deliverable 2
 | Name             | Team Roles       | Hours | Individual Effort |
-| ---------------- | ---------------- | ----- | ---- |
-| James Madden     | Tech Lead        |  23   | <ul><li> Implemented order related use cases</li><li> Implemented authentication</li><li>Implemented Wishlist related use cases</li></ul>|
-| Sophia Li        | Project Manager  |  15   | <ul><li> Implemented cart related use cases</li><li>Implemented test coverage</li></ul> |
+| ---------------- | ---------------- | ----- | ----------------- |
+| James Madden     | Tech Lead        |  23   | <ul><li> Implemented order related use cases</li><li> Implemented authentication</li></ul>|
+| Sophia Li        | Project Manager  |  15   | <ul><li> Implemented cart related use cases</li><li>Implemented test coverage</li></ul>   |
 | Amy Ding         | UI/UX Designer   |  19   | <ul><li> Implemented employee related use cases</li><li>Updated Wiki for Software Quality Assurance Plan and Report</li><li>Took meeting minutes</li><li>Implemented manager related use cases</li><li>Add various unit tests</li></ul>|
 | Julien Heng      | Developer        |  20   | <ul><li> Implemented game related use cases and tests</li><li> Implemented discounts on orders and tests</li><li> Implemented wishlist related business logic and tests</li><li> Updated API endpoints documentation</li></ul> |
-| Kennedy Olsen    | Business Analyst |  12.5 | <ul><li> Implemented review related use cases</li><li> Updated Wiki for Quality Assurance Report</li></ul> |
+| Kennedy Olsen    | Business Analyst |  12.5 | <ul><li> Implemented review related use cases</li><li> Updated Wiki for Quality Assurance Report</li><li>Implemented Wishlist related use cases</li></ul> |
 | Carmin Vidé | Scrum Master     |   12  | <ul><li> Implemented customer and comment related use cases</li><li> Updated Wiki for Quality Assurance Report</li></ul>|
 
 
