@@ -16,36 +16,36 @@ import ca.mcgill.ecse321.group12.service.AuthService;
 @RestController
 public class AuthController {
 
-  @Autowired
-  private AuthService authService;
+	@Autowired
+	private AuthService authService;
 
-  /**
-   * attempt to sign in
-   * @author James Madden
-   */
-  @PostMapping("/auth/signin")
-  public AuthResponseDto signIn(@RequestBody AuthRequestDto body) {
-    
-    // find the user from the email
-    UserRole user = authService.getUserFromEmail(body.getEmail());
+	/**
+	 * attempt to sign in
+	 * @author James Madden
+	 */
+	@PostMapping("/auth/signin")
+	public AuthResponseDto signIn(@RequestBody AuthRequestDto body) {
 
-    // encrypt the password sent, and see if they match
-    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		// find the user from the email
+		UserRole user = authService.getUserFromEmail(body.getEmail());
 
-    if (!encoder.matches(body.getPassword(), user.getPassword())) {
-      throw new CustomException(HttpStatus.BAD_REQUEST, "password is incorrect.");
-    }
+		// encrypt the password sent, and see if they match
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-    // if the password is correct, we can return a token!
-    String token = authService.generateAuthToken(user);
-    
-    // return the new token
-    AuthResponseDto resp = new AuthResponseDto();
-    resp.setToken(token);
-    resp.setUserType(user.getUserType());
-   
-    return resp;
+		if (!encoder.matches(body.getPassword(), user.getPassword())) {
+			throw new CustomException(HttpStatus.BAD_REQUEST, "password is incorrect.");
+		}
 
-  }
+		// if the password is correct, we can return a token!
+		String token = authService.generateAuthToken(user);
+
+		// return the new token
+		AuthResponseDto resp = new AuthResponseDto();
+		resp.setToken(token);
+		resp.setUserType(user.getUserType());
+
+		return resp;
+
+	}
 
 }

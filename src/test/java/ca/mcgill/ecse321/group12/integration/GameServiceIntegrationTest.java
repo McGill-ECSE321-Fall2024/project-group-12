@@ -92,13 +92,15 @@ public class GameServiceIntegrationTest {
 		employeeRequest.setEmail("johndeer@company.com");
 		employeeRequest.setPassword("password123");
 		employeeRequest.setPhoneNumber("604 000 0000");
-		ResponseEntity<EmployeeResponseDto> employeeResponse = client.postForEntity("/employees", employeeRequest, EmployeeResponseDto.class);
+		ResponseEntity<EmployeeResponseDto> employeeResponse = client.postForEntity("/employees", employeeRequest,
+				EmployeeResponseDto.class);
 		assertEquals(HttpStatus.CREATED, employeeResponse.getStatusCode());
 		// use the auth endpoint to get a token for the employee
 		AuthRequestDto authRequest = new AuthRequestDto();
 		authRequest.setEmail(employeeRequest.getEmail());
 		authRequest.setPassword(employeeRequest.getPassword());
-		ResponseEntity<AuthResponseDto> authResponse = client.postForEntity("/auth/signin", authRequest,AuthResponseDto.class);
+		ResponseEntity<AuthResponseDto> authResponse = client.postForEntity("/auth/signin", authRequest,
+				AuthResponseDto.class);
 		assertEquals(HttpStatus.OK, authResponse.getStatusCode());
 		// store the token
 		AuthResponseDto auth = authResponse.getBody();
@@ -300,7 +302,10 @@ public class GameServiceIntegrationTest {
 		String url = "/games/" + this.validId;
 		GameRequestDto body = new GameRequestDto(VALID_CATEGORY, VALID_CONSOLE, VALID_INVENTORY, INVALID_PRICE,
 				VALID_NAME, VALID_DESCRIPTION, VALID_STATUS);
-		RequestEntity<GameRequestDto> request = RequestEntity.put(url).header("Authorization", authToken).accept(MediaType.APPLICATION_JSON).body(body);
+		RequestEntity<GameRequestDto> request = RequestEntity.put(url)
+			.header("Authorization", authToken)
+			.accept(MediaType.APPLICATION_JSON)
+			.body(body);
 
 		// Act
 		ResponseEntity<GameResponseDto> response = client.exchange(url, HttpMethod.PUT, request, GameResponseDto.class);
@@ -322,7 +327,10 @@ public class GameServiceIntegrationTest {
 		String url = "/games/" + this.validId;
 		GameRequestDto body = new GameRequestDto(VALID_CATEGORY, VALID_CONSOLE, INVALID_INVENTORY, VALID_PRICE,
 				VALID_NAME, VALID_DESCRIPTION, VALID_STATUS);
-		RequestEntity<GameRequestDto> request = RequestEntity.put(url).header("Authorization", authToken).accept(MediaType.APPLICATION_JSON).body(body);
+		RequestEntity<GameRequestDto> request = RequestEntity.put(url)
+			.header("Authorization", authToken)
+			.accept(MediaType.APPLICATION_JSON)
+			.body(body);
 
 		// Act
 		ResponseEntity<GameResponseDto> response = client.exchange(url, HttpMethod.PUT, request, GameResponseDto.class);
@@ -344,7 +352,10 @@ public class GameServiceIntegrationTest {
 		String url = "/games/" + this.validId;
 		GameRequestDto body = new GameRequestDto(VALID_CATEGORY, VALID_CONSOLE, VALID_INVENTORY, VALID_PRICE,
 				INVALID_NAME, VALID_DESCRIPTION, VALID_STATUS);
-		RequestEntity<GameRequestDto> request = RequestEntity.put(url).header("Authorization", authToken).accept(MediaType.APPLICATION_JSON).body(body);
+		RequestEntity<GameRequestDto> request = RequestEntity.put(url)
+			.header("Authorization", authToken)
+			.accept(MediaType.APPLICATION_JSON)
+			.body(body);
 
 		// Act
 		ResponseEntity<GameResponseDto> response = client.exchange(url, HttpMethod.PUT, request, GameResponseDto.class);
@@ -366,7 +377,10 @@ public class GameServiceIntegrationTest {
 		String url = "/games/" + this.validId;
 		GameRequestDto body = new GameRequestDto(VALID_CATEGORY, VALID_CONSOLE, VALID_INVENTORY, VALID_PRICE,
 				VALID_NAME, INVALID_DESCRIPTION, VALID_STATUS);
-		RequestEntity<GameRequestDto> request = RequestEntity.put(url).header("Authorization", authToken).accept(MediaType.APPLICATION_JSON).body(body);
+		RequestEntity<GameRequestDto> request = RequestEntity.put(url)
+			.header("Authorization", authToken)
+			.accept(MediaType.APPLICATION_JSON)
+			.body(body);
 
 		// Act
 		ResponseEntity<GameResponseDto> response = client.exchange(url, HttpMethod.PUT, request, GameResponseDto.class);
@@ -388,7 +402,10 @@ public class GameServiceIntegrationTest {
 		String url = "/games/" + this.validId;
 		GameRequestDto body = new GameRequestDto(VALID_CATEGORY_2, VALID_CONSOLE_2, VALID_INVENTORY_2, VALID_PRICE_2,
 				VALID_NAME_2, VALID_DESCRIPTION_2, VALID_STATUS_2);
-		RequestEntity<GameRequestDto> request = RequestEntity.put(url).header("Authorization", authToken).accept(MediaType.APPLICATION_JSON).body(body);
+		RequestEntity<GameRequestDto> request = RequestEntity.put(url)
+			.header("Authorization", authToken)
+			.accept(MediaType.APPLICATION_JSON)
+			.body(body);
 
 		// Act
 		ResponseEntity<GameResponseDto> response = client.exchange(url, HttpMethod.PUT, request, GameResponseDto.class);

@@ -17,10 +17,10 @@ public class CustomerCreateResponseDto {
 	private String phoneNumber;
 
 	private CartResponseDto cart;
-	
+
 	private Wishlist wishlist;
 
-  private String token;
+	private String token;
 
 	@SuppressWarnings("unused")
 	private CustomerCreateResponseDto() {
@@ -50,10 +50,10 @@ public class CustomerCreateResponseDto {
 	public String getPhoneNumber() {
 		return phoneNumber;
 	}
-  
-  public String getToken() {
-    return token;
-  }
+
+	public String getToken() {
+		return token;
+	}
 
 	public void setId(int id) {
 		this.id = id;
@@ -75,9 +75,9 @@ public class CustomerCreateResponseDto {
 		this.wishlist = wishlist;
 	}
 
-  public void setToken(String token) {
-    this.token = token;
-  }
+	public void setToken(String token) {
+		this.token = token;
+	}
 
 	public CartResponseDto getCart() {
 		return cart;

@@ -64,6 +64,7 @@ public class CartServiceIntegrationTests {
 
 	// the auth token to allow requests for this user
 	private String customerAuth;
+
 	private String employeeAuth;
 
 	@BeforeAll
@@ -83,13 +84,15 @@ public class CartServiceIntegrationTests {
 		employeeRequest.setEmail("employee@company.com");
 		employeeRequest.setPassword("password");
 		employeeRequest.setPhoneNumber("604 000 0000");
-		ResponseEntity<EmployeeResponseDto> employeeResponse = client.postForEntity("/employees", employeeRequest, EmployeeResponseDto.class);
+		ResponseEntity<EmployeeResponseDto> employeeResponse = client.postForEntity("/employees", employeeRequest,
+				EmployeeResponseDto.class);
 		assertEquals(HttpStatus.CREATED, employeeResponse.getStatusCode());
 		// use the auth endpoint to get a token for the employee
 		AuthRequestDto authRequest = new AuthRequestDto();
 		authRequest.setEmail(employeeRequest.getEmail());
 		authRequest.setPassword(employeeRequest.getPassword());
-		ResponseEntity<AuthResponseDto> authResponse = client.postForEntity("/auth/signin", authRequest,AuthResponseDto.class);
+		ResponseEntity<AuthResponseDto> authResponse = client.postForEntity("/auth/signin", authRequest,
+				AuthResponseDto.class);
 		assertEquals(HttpStatus.OK, authResponse.getStatusCode());
 		// store the token
 		AuthResponseDto auth = authResponse.getBody();
@@ -104,8 +107,9 @@ public class CartServiceIntegrationTests {
 			.accept(MediaType.APPLICATION_JSON)
 			.body(gameRequest);
 		ResponseEntity<GameResponseDto> gameResponse = client.exchange(gameReq, GameResponseDto.class);
-		//ResponseEntity<GameResponseDto> gameResponse = client.postForEntity("/games", gameRequest,
-	  //			GameResponseDto.class);
+		// ResponseEntity<GameResponseDto> gameResponse = client.postForEntity("/games",
+		// gameRequest,
+		// GameResponseDto.class);
 		// Save the response
 		assertEquals(HttpStatus.CREATED, gameResponse.getStatusCode());
 		this.game = gameResponse.getBody();
@@ -288,9 +292,9 @@ public class CartServiceIntegrationTests {
 		this.validId = this.customer.getCart().getId();
 		String url = "/cart/" + this.validId;
 		RequestEntity<Void> CartRequestEntity1 = RequestEntity.get(url)
-		.header("Authorization", customerAuth)
-		.accept(MediaType.APPLICATION_JSON)
-		.build();
+			.header("Authorization", customerAuth)
+			.accept(MediaType.APPLICATION_JSON)
+			.build();
 		ResponseEntity<CartResponseDto> response = client.exchange(CartRequestEntity1, CartResponseDto.class);
 		assertNotNull(response);
 		assertEquals(HttpStatus.OK, response.getStatusCode());

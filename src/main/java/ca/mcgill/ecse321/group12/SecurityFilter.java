@@ -17,37 +17,39 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @Component
 public class SecurityFilter extends OncePerRequestFilter {
-  
-  @Autowired
-  AuthService authService;
 
-  /**
-   * check for a valid token and provide the auth'd user to Controller methods
-   * @author James Madden
-   */
-  @SuppressWarnings("null")
-  @Override
-  protected void doFilterInternal (HttpServletRequest req, HttpServletResponse resp, FilterChain filterChain) throws ServletException, IOException {
-    
-    // get the auth header from the request
-    String authHeader = req.getHeader("Authorization");
+	@Autowired
+	AuthService authService;
 
-    // check whether there is an auth header to look at
-    if (authHeader != null) {
-      String token = authHeader.replace("Bearer ", "");
-      // get the email of the user
-      String email = authService.validateToken(token);
-      // find that user
-      UserRole user = authService.getUserFromEmail(email);
+	/**
+	 * check for a valid token and provide the auth'd user to Controller methods
+	 * @author James Madden
+	 */
+	@SuppressWarnings("null")
+	@Override
+	protected void doFilterInternal(HttpServletRequest req, HttpServletResponse resp, FilterChain filterChain)
+			throws ServletException, IOException {
 
-      // set the authentication for controllers to look at
-      UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
-      SecurityContextHolder.getContext().setAuthentication(authentication);
+		// get the auth header from the request
+		String authHeader = req.getHeader("Authorization");
 
-    }
+		// check whether there is an auth header to look at
+		if (authHeader != null) {
+			String token = authHeader.replace("Bearer ", "");
+			// get the email of the user
+			String email = authService.validateToken(token);
+			// find that user
+			UserRole user = authService.getUserFromEmail(email);
 
-    filterChain.doFilter(req, resp);
+			// set the authentication for controllers to look at
+			UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user, null,
+					user.getAuthorities());
+			SecurityContextHolder.getContext().setAuthentication(authentication);
 
-  }
+		}
+
+		filterChain.doFilter(req, resp);
+
+	}
 
 }

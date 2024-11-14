@@ -24,99 +24,101 @@ import ca.mcgill.ecse321.group12.repository.ManagerRepository;
 @Service
 public class AuthService {
 
-  @Autowired
-  private ManagerRepository managerRepo;
-  @Autowired
-  private EmployeeRepository employeeRepo;
-  @Autowired
-  private CustomerRepository customerRepo;
-  
-  // get the secret key from the .env file
-  @Value("${security.jwt.token.secret-key}")
-  // set a default secret ONLY FOR USE IN TEST CASES!
-  private String JWT_SECRET = "test_case_secret";
+	@Autowired
+	private ManagerRepository managerRepo;
 
-  /**
-   * create an authorization token using JWT
-   * @author James Madden
-   */
-  public String generateAuthToken(UserRole user) {
-    
-    Algorithm algorithm = Algorithm.HMAC256(JWT_SECRET);
-    return JWT.create()
-      .withSubject(user.getEmail())
-      .withClaim("username", user.getEmail())
-      .withExpiresAt(generateExpiryDate())
-      .sign(algorithm);
+	@Autowired
+	private EmployeeRepository employeeRepo;
 
-  }
+	@Autowired
+	private CustomerRepository customerRepo;
 
-  /**
-   * check whether the provided token is valid
-   * @returns user's email
-   * @author James Madden
-   */
-  public String validateToken(String token) {
+	// get the secret key from the .env file
+	@Value("${security.jwt.token.secret-key}")
+	// set a default secret ONLY FOR USE IN TEST CASES!
+	private String JWT_SECRET = "test_case_secret";
 
-    Algorithm algorithm = Algorithm.HMAC256(JWT_SECRET);
-    return JWT.require(algorithm)
-      .build()
-      .verify(token)
-      .getSubject();
+	/**
+	 * create an authorization token using JWT
+	 * @author James Madden
+	 */
+	public String generateAuthToken(UserRole user) {
 
-  }
+		Algorithm algorithm = Algorithm.HMAC256(JWT_SECRET);
+		return JWT.create()
+			.withSubject(user.getEmail())
+			.withClaim("username", user.getEmail())
+			.withExpiresAt(generateExpiryDate())
+			.sign(algorithm);
 
-  /**
-   * figure out the time when the auth token should run out
-   * @author James Madden
-   */
-  public Instant generateExpiryDate() {
-    // TODO: make the time until expiry longer.
-    return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-05:00"));
-  }
+	}
 
-  /**
-   * find a user from the appropriate respository.
-   * @author James Madden
-   */
-  public UserRole getUserFromEmail(String email) {
-    
-    UserRole user;
-    Manager manager = managerRepo.findManagerByEmail(email);
-    Employee employee = employeeRepo.findEmployeeByEmail(email);
-    Customer customer = customerRepo.findCustomerByEmail(email);
-    if (manager != null) {
-      user = manager;
-    } else if (employee != null) {
-      user = employee;
-    } else {
-      user = customer;
-    }
+	/**
+	 * check whether the provided token is valid
+	 * @returns user's email
+	 * @author James Madden
+	 */
+	public String validateToken(String token) {
 
-    if (user == null) {
-      throw new CustomException(HttpStatus.BAD_REQUEST, "user " + email + " not found.");
-    }
+		Algorithm algorithm = Algorithm.HMAC256(JWT_SECRET);
+		return JWT.require(algorithm).build().verify(token).getSubject();
 
-    return user;
+	}
 
-  }
+	/**
+	 * figure out the time when the auth token should run out
+	 * @author James Madden
+	 */
+	public Instant generateExpiryDate() {
+		// TODO: make the time until expiry longer.
+		return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-05:00"));
+	}
 
-  /**
-   * check that the auth token sent relates to the user that the request is targetting.
-   * this is to ensure that for example, nobody can edit a user except themselves.
-   * @author James Madden
-   */
-  public void matchUserAndToken(UserRole user, String token) {
+	/**
+	 * find a user from the appropriate respository.
+	 * @author James Madden
+	 */
+	public UserRole getUserFromEmail(String email) {
 
-    // remove the Bearer prefix from the token
-    token = token.replace("Bearer ", "");
-    // get the email and validate the token
-    String email = validateToken(token);
-    // compare the emails. if they're not the same, error
-    if (!email.equals(user.getEmail())) {
-      throw new CustomException(HttpStatus.FORBIDDEN, "You are not authorized to take this action for this user.");
-    }
+		UserRole user;
+		Manager manager = managerRepo.findManagerByEmail(email);
+		Employee employee = employeeRepo.findEmployeeByEmail(email);
+		Customer customer = customerRepo.findCustomerByEmail(email);
+		if (manager != null) {
+			user = manager;
+		}
+		else if (employee != null) {
+			user = employee;
+		}
+		else {
+			user = customer;
+		}
 
-  }
+		if (user == null) {
+			throw new CustomException(HttpStatus.BAD_REQUEST, "user " + email + " not found.");
+		}
+
+		return user;
+
+	}
+
+	/**
+	 * check that the auth token sent relates to the user that the request is targetting.
+	 * this is to ensure that for example, nobody can edit a user except themselves.
+	 * @author James Madden
+	 */
+	public void matchUserAndToken(UserRole user, String token) {
+
+		// remove the Bearer prefix from the token
+		token = token.replace("Bearer ", "");
+		// get the email and validate the token
+		String email = validateToken(token);
+		// compare the emails. if they're not the same, error
+		if (!email.equals(user.getEmail())) {
+			throw new CustomException(HttpStatus.FORBIDDEN,
+					"You are not authorized to take this action for this user.");
+		}
+
+	}
 
 }

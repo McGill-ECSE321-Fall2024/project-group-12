@@ -75,6 +75,7 @@ public class OrderServiceIntegrationTests {
 	int orderId;
 
 	private String customerAuth;
+
 	private String employeeAuth;
 
 	/**
@@ -86,8 +87,8 @@ public class OrderServiceIntegrationTests {
 	public void setup() {
 
 		// create a new customer to use their cart and auth code for the tests
-		CustomerRequestDto customerRequest = new CustomerRequestDto("johnathan.deer@email.com", "password123", "Customer",
-				"778 000 0000");
+		CustomerRequestDto customerRequest = new CustomerRequestDto("johnathan.deer@email.com", "password123",
+				"Customer", "778 000 0000");
 		ResponseEntity<CustomerCreateResponseDto> customerResponse = client.postForEntity("/customers", customerRequest,
 				CustomerCreateResponseDto.class);
 		// save the response
@@ -100,14 +101,16 @@ public class OrderServiceIntegrationTests {
 		employeeRequest.setEmail("janedoe@company.com");
 		employeeRequest.setPassword("password123");
 		employeeRequest.setPhoneNumber("604 000 0000");
-		ResponseEntity<EmployeeResponseDto> employeeResponse = client.postForEntity("/employees", employeeRequest, EmployeeResponseDto.class);
+		ResponseEntity<EmployeeResponseDto> employeeResponse = client.postForEntity("/employees", employeeRequest,
+				EmployeeResponseDto.class);
 		assertEquals(HttpStatus.CREATED, employeeResponse.getStatusCode());
 		assertNotNull(employeeResponse.getBody());
 		// use the auth endpoint to get a token for the employee
 		AuthRequestDto authRequest = new AuthRequestDto();
 		authRequest.setEmail(employeeRequest.getEmail());
 		authRequest.setPassword(employeeRequest.getPassword());
-		ResponseEntity<AuthResponseDto> authResponse = client.postForEntity("/auth/signin", authRequest,AuthResponseDto.class);
+		ResponseEntity<AuthResponseDto> authResponse = client.postForEntity("/auth/signin", authRequest,
+				AuthResponseDto.class);
 		assertEquals(HttpStatus.OK, authResponse.getStatusCode());
 		// store the token
 		AuthResponseDto auth = authResponse.getBody();
@@ -244,7 +247,7 @@ public class OrderServiceIntegrationTests {
 			.accept(MediaType.APPLICATION_JSON)
 			.body(req1);
 		RequestEntity<CartRequestDto> reqEntity2 = RequestEntity.put("/cart/" + cartId)
-		.header("Authorization", customerAuth)
+			.header("Authorization", customerAuth)
 			.accept(MediaType.APPLICATION_JSON)
 			.body(req2);
 		ResponseEntity<CartResponseDto> resp1 = client.exchange("/cart/" + cartId, HttpMethod.PUT, reqEntity1,
@@ -457,7 +460,7 @@ public class OrderServiceIntegrationTests {
 			.header("Authorization", customerAuth)
 			.accept(MediaType.APPLICATION_JSON)
 			.build();
-			ResponseEntity<CartResponseDto> cartRes = client.exchange(reqEntity, CartResponseDto.class);
+		ResponseEntity<CartResponseDto> cartRes = client.exchange(reqEntity, CartResponseDto.class);
 		assertNotNull(cartRes);
 		assertEquals(HttpStatus.OK, cartRes.getStatusCode());
 

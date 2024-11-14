@@ -184,7 +184,10 @@ public class CommentServiceIntegrationTests {
 		// Arrange
 		String url = "/comments/" + this.commentId;
 		CommentRequestDto body = new CommentRequestDto(text, review);
-		RequestEntity<CommentRequestDto> request = RequestEntity.put(url).header("Authorization", customerAuth).accept(MediaType.APPLICATION_JSON).body(body);
+		RequestEntity<CommentRequestDto> request = RequestEntity.put(url)
+			.header("Authorization", customerAuth)
+			.accept(MediaType.APPLICATION_JSON)
+			.body(body);
 
 		// Act
 		ResponseEntity<CommentResponseDto> response = client.exchange(url, HttpMethod.PUT, request,

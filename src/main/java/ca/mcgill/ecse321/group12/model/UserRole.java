@@ -51,29 +51,32 @@ abstract public class UserRole implements UserDetails {
 
 	/**
 	 * required methods for Spring Security
+	 *
 	 * @author James Madden
 	 */
 	public enum UserType {
-		MANAGER("manager"),
-		EMPLOYEE("employee"),
-		CUSTOMER("customer"),
-		USER("user");
-	
+
+		MANAGER("manager"), EMPLOYEE("employee"), CUSTOMER("customer"), USER("user");
+
 		private String type;
-	
+
 		UserType(String type) {
 			this.type = type;
 		}
-	
+
 		public String getValue() {
 			return type;
 		}
+
 	}
+
 	abstract public UserType getUserType();
+
 	@Override
 	public String getUsername() {
 		return email;
 	}
+
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return List.of(new SimpleGrantedAuthority("ROLE_USER"));
