@@ -22,15 +22,6 @@ public class CustomerRequestDto {
 	private CustomerRequestDto() {
 	}
 
-	public CustomerRequestDto(Customer model) {
-		this.password = model.getPassword();
-		this.email = model.getEmail();
-		this.name = model.getName();
-		this.phoneNumber = model.getPhoneNumber();
-		this.cart = model.getCart();
-		this.wishlist = model.getWishlist();
-	}
-
 	/**
 	 * Constructor
 	 * @author Carmin Vidé
