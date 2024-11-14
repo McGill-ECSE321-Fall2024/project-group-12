@@ -84,6 +84,7 @@ public class CommentServiceIntegrationTests {
 		this.review = createdComment.getReview();
 	}
 
+	
 	/**
 	 * Test creating a comment with invalid text.
 	 * @author Carmin Vidé
@@ -182,29 +183,25 @@ public class CommentServiceIntegrationTests {
 		// Arrange
 		String url = "/comments";
 		// Act
-		// ResponseEntity<List<CommentResponseDto>> response = client.getForEntity(url,
-		// CommentResponseDto.class);
-		ResponseEntity<List<CommentResponseDto>> response = client.exchange(url, HttpMethod.GET, null,
-				new ParameterizedTypeReference<List<CommentResponseDto>>() {
-				});
+		//ResponseEntity<List<CommentResponseDto>> response = client.getForEntity(url, CommentResponseDto.class);
+		ResponseEntity<List<CommentResponseDto>> response = client.exchange(
+			url,
+			HttpMethod.GET,
+			null,
+			new ParameterizedTypeReference<List<CommentResponseDto>>() {}
+		);
 		// Assert
 		assertNotNull(response);
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		Iterable<CommentResponseDto> comments = response.getBody();
 		assertNotNull(comments);
-		// List<CommentResponseDto> comments = response.getBody();
 		List<CommentResponseDto> commentList = (List<CommentResponseDto>) comments;
 		CommentResponseDto firstComment = commentList.get(0);
 		assertNotNull(firstComment);
 		assertEquals(text, firstComment.getText());
 		assertNotNull(firstComment.getId());
 		assertTrue(firstComment.getId() > 0, "Response should have a positive ID.");
-
-		// assertEquals(text, createdComment.getText());
-		// assertNotNull(createdComment.getId());
-		// assertTrue(createdComment.getId() > 0, "Response should have a positive ID.");
-		// this.commentId = createdComment.getId();
-
+		
 	}
 
 	/**
@@ -244,5 +241,4 @@ public class CommentServiceIntegrationTests {
 		assertNotNull(error);
 		assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
 	}
-
 }
