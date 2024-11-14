@@ -60,7 +60,7 @@ public class WishlistService {
 	 * @param wishlistId
 	 */
 	@Transactional
-	public Wishlist clearwWishlist(int wishlistId) {
+	public Wishlist clearWishlist(int wishlistId) {
 
 		Wishlist wishlist = findWishlistById(wishlistId);
 

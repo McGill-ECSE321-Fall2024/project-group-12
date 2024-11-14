@@ -10,13 +10,19 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import ca.mcgill.ecse321.group12.model.Cart;
+import ca.mcgill.ecse321.group12.model.Customer;
 import ca.mcgill.ecse321.group12.model.Employee;
+import ca.mcgill.ecse321.group12.model.Wishlist;
 import ca.mcgill.ecse321.group12.repository.EmployeeRepository;
 import ca.mcgill.ecse321.group12.exception.CustomException;
 
@@ -29,11 +35,6 @@ public class EmployeeServiceTests {
 	@InjectMocks
 	private EmployeeService employeeService;
 
-	/**
-	 * Test to create an employee with valid inputs
-	 * @author Amy Ding
-	 * @return void
-	 */
 	@BeforeEach
 	public void setUpMocks() {
 		// Reset all mocks before each test
@@ -43,6 +44,12 @@ public class EmployeeServiceTests {
 		when(employeeRepository.findEmployeeById(any(Integer.class))).thenReturn(null);
 		when(employeeRepository.save(any(Employee.class))).thenReturn(null);
 	}
+
+	/**
+	 * Test to create an employee with valid inputs
+	 * @author Amy Ding
+	 * @return void
+	 */
 
 	@SuppressWarnings("null")
 	@Test
@@ -428,6 +435,37 @@ public class EmployeeServiceTests {
 				"Update employee failed. Employee account is deactivated. Please reactivate employee account to update employee information.",
 				e.getMessage());
 
+	}
+
+	/**
+	 * Test finding all customers
+	 * @author Amy Ding
+	 * @return void
+	 */
+	@Test
+	public void testFindAllEmployees() {
+		// Arrange
+		Employee employee = new Employee();
+		String email = "lmaogahaha@gmail.fr";
+		String name = "help";
+		String password = "OHHITHERE123";
+		String phoneNumber = "870426921123";
+		employee.setEmail(email);
+		employee.setName(name);
+		employee.setPassword(password);
+		employee.setPhoneNumber(phoneNumber);
+
+		List<Employee> employees = Arrays.asList(employee);
+
+		when(employeeRepository.findAll()).thenReturn(employees);
+
+		// Act
+		List<Employee> foundEmployees = (List<Employee>) employeeService.findAllEmployees();
+		// Assert
+		assertEquals(email, foundEmployees.get(0).getEmail());
+		assertEquals(name, foundEmployees.get(0).getName());
+		assertEquals(password, foundEmployees.get(0).getPassword());
+		assertEquals(phoneNumber, foundEmployees.get(0).getPhoneNumber());
 	}
 
 }

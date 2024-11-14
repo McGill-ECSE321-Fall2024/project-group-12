@@ -1,7 +1,8 @@
 package ca.mcgill.ecse321.group12.dto;
 
-// if api call needs a body then we need a corresponding request
-public class EmployeeRequestDto {
+import ca.mcgill.ecse321.group12.model.Manager;
+
+public class ManagerRequestDto {
 
 	private String password;
 
@@ -11,27 +12,35 @@ public class EmployeeRequestDto {
 
 	private String phoneNumber;
 
-	private boolean active;
-
 	@SuppressWarnings("unused")
-	public EmployeeRequestDto() {
+	private ManagerRequestDto() {
 	}
 
 	/**
 	 * Constructor
 	 * @author Amy Ding
-	 * @param email The email for the employee being created
-	 * @param password The password for the employee being created
-	 * @param name The name for the employee being created
-	 * @param phoneNumber The phone number for the employee being created
-	 * @param active Whether the employee account is activated or not
+	 * @param email The email for the manager being created
+	 * @param password The password for the manager being created
+	 * @param name The name for the manager being created
+	 * @param phoneNumber The phone number for the manager being created
 	 */
-	public EmployeeRequestDto(String email, String password, String name, String phoneNumber, boolean active) {
+	public ManagerRequestDto(String email, String password, String name, String phoneNumber) {
 		this.password = password;
 		this.email = email;
 		this.name = name;
 		this.phoneNumber = phoneNumber;
-		this.active = active;
+	}
+
+	/**
+	 * Constructor
+	 * @author Amy Ding
+	 * @param model A valid manager
+	 */
+	public ManagerRequestDto(Manager model) {
+		this.password = model.getPassword();
+		this.email = model.getEmail();
+		this.name = model.getName();
+		this.phoneNumber = model.getPhoneNumber();
 	}
 
 	public String getPassword() {
@@ -50,10 +59,6 @@ public class EmployeeRequestDto {
 		return phoneNumber;
 	}
 
-	public boolean getActive() {
-		return active;
-	}
-
 	public void setPassword(String password) {
 		this.password = password;
 	}
@@ -68,10 +73,6 @@ public class EmployeeRequestDto {
 
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
-	}
-
-	public void setActive(boolean active) {
-		this.active = active;
 	}
 
 }

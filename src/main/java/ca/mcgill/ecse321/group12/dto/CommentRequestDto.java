@@ -1,6 +1,5 @@
 package ca.mcgill.ecse321.group12.dto;
 
-import ca.mcgill.ecse321.group12.model.Comment;
 import ca.mcgill.ecse321.group12.model.Review;
 
 public class CommentRequestDto {
@@ -22,11 +21,6 @@ public class CommentRequestDto {
 	public CommentRequestDto(String text, Review review) {
 		this.text = text;
 		this.review = review;
-	}
-
-	public CommentRequestDto(Comment model) {
-		this.text = model.getText();
-		this.review = model.getReview();
 	}
 
 	public String getText() {

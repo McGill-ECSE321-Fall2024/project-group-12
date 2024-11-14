@@ -2,7 +2,6 @@ package ca.mcgill.ecse321.group12.dto;
 
 import ca.mcgill.ecse321.group12.model.Cart;
 import ca.mcgill.ecse321.group12.model.Wishlist;
-import ca.mcgill.ecse321.group12.model.Customer;
 
 public class CustomerRequestDto {
 
@@ -20,15 +19,6 @@ public class CustomerRequestDto {
 
 	@SuppressWarnings("unused")
 	private CustomerRequestDto() {
-	}
-
-	public CustomerRequestDto(Customer model) {
-		this.password = model.getPassword();
-		this.email = model.getEmail();
-		this.name = model.getName();
-		this.phoneNumber = model.getPhoneNumber();
-		this.cart = model.getCart();
-		this.wishlist = model.getWishlist();
 	}
 
 	/**
