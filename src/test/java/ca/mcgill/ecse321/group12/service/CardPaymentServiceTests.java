@@ -57,7 +57,7 @@ public class CardPaymentServiceTests {
 	}
 
 	@Test
-	public void testCreateInvalidCardPayment() {
+	public void testCreateCardPaymentByInvalidCardNumber() {
 		// Arrange
 		String nameOnCard = "John Doe";
 		String cvc = "123";
@@ -69,6 +69,51 @@ public class CardPaymentServiceTests {
 		CustomException e = assertThrows(CustomException.class,
 				() -> service.createCardPayment(nameOnCard, cvc, cardNumber, billingAddress, isSaved, expiryDate));
 		assertEquals("Card number must follow format XXXX XXXX XXXX XXXX.", e.getMessage());
+	}
+
+	@Test
+	public void testCreateCardPaymentByInvalidName() {
+		// Arrange
+		String nameOnCard = "";
+		String cvc = "123";
+		String cardNumber = "1234 5678 9012 3456";
+		String billingAddress = "1234 Rue Sherbrooke";
+		boolean isSaved = true;
+		String expiryDate = "12/23";
+		// Assert
+		CustomException e = assertThrows(CustomException.class,
+				() -> service.createCardPayment(nameOnCard, cvc, cardNumber, billingAddress, isSaved, expiryDate));
+		assertEquals("Name on card cannot be empty.", e.getMessage());
+	}
+
+	@Test
+	public void testCreateCardPaymentByInvalidExpiryDate() {
+		// Arrange
+		String nameOnCard = "John ";
+		String cvc = "123";
+		String cardNumber = "1234 5678 9012 3456";
+		String billingAddress = "1234 Rue Sherbrooke";
+		boolean isSaved = true;
+		String expiryDate = "12/23/0000";
+		// Assert
+		CustomException e = assertThrows(CustomException.class,
+				() -> service.createCardPayment(nameOnCard, cvc, cardNumber, billingAddress, isSaved, expiryDate));
+		assertEquals("Expiry date must follow format MM/YY.", e.getMessage());
+	}
+
+	@Test
+	public void testCreateCardPaymentByInvalidBillingAddress() {
+		// Arrange
+		String nameOnCard = "John ";
+		String cvc = "123";
+		String cardNumber = "1234 5678 9012 3456";
+		String billingAddress = "";
+		boolean isSaved = true;
+		String expiryDate = "12/23";
+		// Assert
+		CustomException e = assertThrows(CustomException.class,
+				() -> service.createCardPayment(nameOnCard, cvc, cardNumber, billingAddress, isSaved, expiryDate));
+		assertEquals("Billing address cannot be empty.", e.getMessage());
 	}
 
 }
