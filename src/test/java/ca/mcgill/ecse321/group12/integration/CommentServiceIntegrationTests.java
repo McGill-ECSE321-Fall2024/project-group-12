@@ -234,12 +234,33 @@ public class CommentServiceIntegrationTests {
 
 	}
 
+		/**
+	 * Test updating a comment with invalid text.
+	 * @Author Carmin Vidé
+	 */
+	@Test
+	@Order(7)
+	public void testUpdateCommentWithInvalidText() {
+		// Arrange
+		String url = "/comments/" + this.commentId;
+		CommentRequestDto body = new CommentRequestDto(null, review);
+		RequestEntity<CommentRequestDto> request = RequestEntity.put(url).accept(MediaType.APPLICATION_JSON).body(body);
+
+		// Act
+		ResponseEntity<CommentResponseDto> response = client.exchange(url, HttpMethod.PUT, request,
+				CommentResponseDto.class);
+
+		// Assert
+		assertNotNull(response);
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+	}
+
 	/**
 	 * Test deleting a comment with valid id.
 	 * @author Carmin Vidé
 	 */
 	@Test
-	@Order(7)
+	@Order(8)
 	public void testDeleteComment() {
 		// Arrange
 		String url = "/comments/" + commentId;
@@ -261,7 +282,7 @@ public class CommentServiceIntegrationTests {
 	 * @author Carmin Vidé
 	 */
 	@Test
-	@Order(8)
+	@Order(9)
 	public void testDeleteCommentWithInvalidId() {
 		// Arrange
 		String url = "/comments/0";
