@@ -111,10 +111,6 @@ public class OrderController {
 		// update the order status to returned
 		Order order = orderService.updateStatus(id, body.getStatus());
 
-		// check that the user who placed this order is the one trying to return it
-		Customer customer = order.getCustomer();
-		authService.matchUserAndToken(customer, auth);
-
 		// update the inventory for each game
 		gameService.returnGames(order.getGames());
 
