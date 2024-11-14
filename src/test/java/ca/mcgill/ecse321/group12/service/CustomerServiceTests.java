@@ -8,16 +8,21 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import ca.mcgill.ecse321.group12.model.Cart;
+import ca.mcgill.ecse321.group12.model.Comment;
 import ca.mcgill.ecse321.group12.model.Customer;
 import ca.mcgill.ecse321.group12.model.Game;
 import ca.mcgill.ecse321.group12.model.Wishlist;
 import ca.mcgill.ecse321.group12.model.Game.GameStatus;
+import ca.mcgill.ecse321.group12.model.Review;
 import ca.mcgill.ecse321.group12.repository.CustomerRepository;
 import ca.mcgill.ecse321.group12.exception.CustomException;
 
@@ -289,4 +294,42 @@ public class CustomerServiceTests {
 		assertEquals("Update customer failed. Customer with this email already exists in the system.", e.getMessage());
 	}
 
+	/**
+	 * Test finding all customers
+	 * @author Amy Ding
+	 * @return void
+	 */
+	@Test
+	public void testFindAllCustomers() throws Exception {
+		// Arrange
+		int id = 42;
+		Customer customer = new Customer();
+		String address = "my house";
+		String email = "lmao@gmail.fr";
+		String name = "help";
+		String password = "OHHITHERE123";
+		String phoneNumber = "870426921123";
+		Cart cart = new Cart();
+		Wishlist wishlist = new Wishlist();
+		customer.setCart(cart);
+		customer.setEmail(email);
+		customer.setAddress(address);
+		customer.setName(name);
+		customer.setPassword(password);
+		customer.setPhoneNumber(phoneNumber);
+		customer.setWishlist(wishlist);
+
+		List<Customer> customers = Arrays.asList(customer);
+
+		when(customerRepository.findAll()).thenReturn(customers);
+
+		// Act & Assert
+		assertEquals(email, customers.get(0).getEmail());
+		assertEquals(name, customers.get(0).getName());
+		assertEquals(cart, customers.get(0).getCart());
+		assertEquals(address, customers.get(0).getAddress());
+		assertEquals(password, customers.get(0).getPassword());
+		assertEquals(phoneNumber, customers.get(0).getPhoneNumber());
+		assertEquals(wishlist, customers.get(0).getWishlist());
+	}
 }
