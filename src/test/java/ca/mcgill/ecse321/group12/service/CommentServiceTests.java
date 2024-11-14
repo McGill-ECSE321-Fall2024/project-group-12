@@ -98,7 +98,7 @@ public class CommentServiceTests {
 	 * @return void
 	 */
 	@Test
-	public void testFindAllComments() throws Exception {
+	public void testFindAllComments() {
 		// Arrange
 		Review review = new Review();
 		Comment comment1 = new Comment();

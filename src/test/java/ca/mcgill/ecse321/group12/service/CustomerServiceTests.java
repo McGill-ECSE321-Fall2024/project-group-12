@@ -300,7 +300,7 @@ public class CustomerServiceTests {
 	 * @return void
 	 */
 	@Test
-	public void testFindAllCustomers() throws Exception {
+	public void testFindAllCustomers() {
 		// Arrange
 		Customer customer = new Customer();
 		String address = "my house";
@@ -322,13 +322,16 @@ public class CustomerServiceTests {
 
 		when(customerRepository.findAll()).thenReturn(customers);
 
-		// Act & Assert
-		assertEquals(email, customers.get(0).getEmail());
-		assertEquals(name, customers.get(0).getName());
-		assertEquals(cart, customers.get(0).getCart());
-		assertEquals(address, customers.get(0).getAddress());
-		assertEquals(password, customers.get(0).getPassword());
-		assertEquals(phoneNumber, customers.get(0).getPhoneNumber());
-		assertEquals(wishlist, customers.get(0).getWishlist());
+		
+		// Act 
+		List<Customer> foundCustomers = (List<Customer>) customerService.findAllCustomers();
+		// Assert
+		assertEquals(email, foundCustomers.get(0).getEmail());
+		assertEquals(name, foundCustomers.get(0).getName());
+		assertEquals(cart, foundCustomers.get(0).getCart());
+		assertEquals(address, foundCustomers.get(0).getAddress());
+		assertEquals(password, foundCustomers.get(0).getPassword());
+		assertEquals(phoneNumber, foundCustomers.get(0).getPhoneNumber());
+		assertEquals(wishlist, foundCustomers.get(0).getWishlist());
 	}
 }
