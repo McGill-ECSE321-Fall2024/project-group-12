@@ -301,7 +301,7 @@ public class WishlistServiceIntegrationTests {
 	 * @author Julien Heng
 	 */
 	@Test
-	@Order(8)
+	@Order(6)
 	public void testClearWishlist() {
 		// Arrange
 
