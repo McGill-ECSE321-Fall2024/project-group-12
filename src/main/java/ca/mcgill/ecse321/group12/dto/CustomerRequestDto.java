@@ -2,7 +2,6 @@ package ca.mcgill.ecse321.group12.dto;
 
 import ca.mcgill.ecse321.group12.model.Cart;
 import ca.mcgill.ecse321.group12.model.Wishlist;
-import ca.mcgill.ecse321.group12.model.Customer;
 
 public class CustomerRequestDto {
 

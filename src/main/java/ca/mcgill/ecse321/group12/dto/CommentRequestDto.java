@@ -1,6 +1,5 @@
 package ca.mcgill.ecse321.group12.dto;
 
-import ca.mcgill.ecse321.group12.model.Comment;
 import ca.mcgill.ecse321.group12.model.Review;
 
 public class CommentRequestDto {

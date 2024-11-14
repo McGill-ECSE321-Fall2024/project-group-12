@@ -1,7 +1,5 @@
 package ca.mcgill.ecse321.group12.dto;
 
-import ca.mcgill.ecse321.group12.model.Employee;
-
 // if api call needs a body then we need a corresponding request
 public class EmployeeRequestDto {
 
