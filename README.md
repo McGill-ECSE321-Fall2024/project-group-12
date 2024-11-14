@@ -83,3 +83,6 @@ Windows:
 ```
 ./gradlew.bat test
 ```
+
+## Deployment
+Please run the code locally. This project has not been deployed yet.
