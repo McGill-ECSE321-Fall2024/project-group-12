@@ -3,7 +3,8 @@ package ca.mcgill.ecse321.group12.integration;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import org.junit.jupiter.api.BeforeAll;
+
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -19,7 +20,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.event.annotation.AfterTestClass;
 
 import ca.mcgill.ecse321.group12.dto.CustomerCreateResponseDto;
 import ca.mcgill.ecse321.group12.dto.CustomerRequestDto;
@@ -39,15 +39,15 @@ public class CustomerServiceIntegrationTests {
 	@Autowired
 	private TestRestTemplate client;
 
-	private final String VALID_NAME = "Cunegonde";
+	private final String VALID_NAME = "John Deer";
 
-	private final String VALID_EMAIL = "cune@mail.mcgill.ca";
+	private final String VALID_EMAIL = "johndeer@gmail.com";
 
-	private final String VALID_EMAIL2 = "hlosthalthethird@mail.mcgill.ca";
+	private final String VALID_EMAIL2 = "janedoe@gmail.com";
 
-	private final String VALID_PASSWORD = "weizhiiiii";
+	private final String VALID_PASSWORD = "password123";
 
-	private final String VALID_PHONENUMBER = "889427879";
+	private final String VALID_PHONENUMBER = "250 000 0000";
 
 	private Cart cart;
 
@@ -57,13 +57,14 @@ public class CustomerServiceIntegrationTests {
 
 	private int invalidId = -1;
 
+	private String auth;
+
 	/**
 	 * Clears database before and after tests
 	 * @author Carmin Vidé
 	 * @return void
 	 */
-	@BeforeAll
-	@AfterTestClass
+	@AfterAll
 	public void clearDatabase() {
 		customerRepository.deleteAll();
 	}
@@ -89,6 +90,8 @@ public class CustomerServiceIntegrationTests {
 		assertEquals(HttpStatus.CREATED, response.getStatusCode());
 		CustomerCreateResponseDto createdCustomer = response.getBody();
 		assertNotNull(createdCustomer);
+		// save the auth token
+		auth = "Bearer " + createdCustomer.getToken();
 		assertEquals(VALID_NAME, createdCustomer.getName());
 		assertEquals(VALID_EMAIL, createdCustomer.getEmail());
 		assertEquals(VALID_PHONENUMBER, createdCustomer.getPhoneNumber());
@@ -130,7 +133,11 @@ public class CustomerServiceIntegrationTests {
 		String url = "/customers/" + this.validId;
 
 		// Act
-		ResponseEntity<CustomerResponseDto> response = client.getForEntity(url, CustomerResponseDto.class);
+		RequestEntity<Void> req = RequestEntity.get(url)
+			.header("Authorization", auth)
+			.accept(MediaType.APPLICATION_JSON)
+			.build();
+		ResponseEntity<CustomerResponseDto> response = client.exchange(req, CustomerResponseDto.class);
 
 		// Assert
 		assertNotNull(response);
@@ -156,7 +163,11 @@ public class CustomerServiceIntegrationTests {
 		String url = "/customers/" + this.invalidId;
 
 		// Act
-		ResponseEntity<CustomerResponseDto> response = client.getForEntity(url, CustomerResponseDto.class);
+		RequestEntity<Void> req = RequestEntity.get(url)
+			.header("Authorization", auth)
+			.accept(MediaType.APPLICATION_JSON)
+			.build();
+		ResponseEntity<CustomerResponseDto> response = client.exchange(req, CustomerResponseDto.class);
 
 		// Assert
 		assertNotNull(response);
@@ -175,6 +186,7 @@ public class CustomerServiceIntegrationTests {
 		String url = "/customers/" + this.validId;
 		CustomerRequestDto body = new CustomerRequestDto(VALID_EMAIL2, VALID_PASSWORD, VALID_NAME, VALID_PHONENUMBER);
 		RequestEntity<CustomerRequestDto> request = RequestEntity.put(url)
+			.header("Authorization", auth)
 			.accept(MediaType.APPLICATION_PROBLEM_JSON)
 			.body(body);
 		// Act
@@ -214,6 +226,7 @@ public class CustomerServiceIntegrationTests {
 		CustomerRequestDto body = new CustomerRequestDto(VALID_EMAIL, VALID_PASSWORD, VALID_NAME, VALID_PHONENUMBER,
 				this.cart, this.wishlist);
 		RequestEntity<CustomerRequestDto> request2 = RequestEntity.put(url)
+			.header("Authorization", auth)
 			.accept(MediaType.APPLICATION_PROBLEM_JSON)
 			.body(body);
 		// Act
@@ -236,7 +249,11 @@ public class CustomerServiceIntegrationTests {
 		String url = "/customers/" + this.validId;
 
 		// Act
-		ResponseEntity<Void> response = client.exchange(url, HttpMethod.DELETE, null, Void.class);
+		RequestEntity<Void> req = RequestEntity.delete(url)
+			.header("Authorization", auth)
+			.accept(MediaType.APPLICATION_JSON)
+			.build();
+		ResponseEntity<Void> response = client.exchange(req, Void.class);
 
 		// Assert
 		assertNotNull(response);
@@ -253,7 +270,11 @@ public class CustomerServiceIntegrationTests {
 		// Arrange
 		String url = "/customers/-1";
 		// Act & Assert
-		ResponseEntity<Void> response = client.exchange(url, HttpMethod.DELETE, null, Void.class);
+		RequestEntity<Void> req = RequestEntity.delete(url)
+			.header("Authorization", auth)
+			.accept(MediaType.APPLICATION_JSON)
+			.build();
+		ResponseEntity<Void> response = client.exchange(req, Void.class);
 
 		// Assert
 		assertNotNull(response);
