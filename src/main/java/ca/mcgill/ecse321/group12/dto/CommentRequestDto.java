@@ -24,11 +24,6 @@ public class CommentRequestDto {
 		this.review = review;
 	}
 
-	public CommentRequestDto(Comment model) {
-		this.text = model.getText();
-		this.review = model.getReview();
-	}
-
 	public String getText() {
 		return text;
 	}

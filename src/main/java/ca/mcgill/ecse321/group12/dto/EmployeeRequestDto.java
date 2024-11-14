@@ -36,19 +36,6 @@ public class EmployeeRequestDto {
 		this.active = active;
 	}
 
-	/**
-	 * Constructor
-	 * @author Amy Ding
-	 * @param model A valid employee
-	 */
-	public EmployeeRequestDto(Employee model) {
-		this.password = model.getPassword();
-		this.email = model.getEmail();
-		this.name = model.getName();
-		this.phoneNumber = model.getPhoneNumber();
-		this.active = model.getActive();
-	}
-
 	public String getPassword() {
 		return password;
 	}

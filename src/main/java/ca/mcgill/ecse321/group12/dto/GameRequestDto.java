@@ -25,16 +25,6 @@ public class GameRequestDto {
 	private GameRequestDto() {
 	}
 
-	public GameRequestDto(Game model) {
-		this.category = model.getCategory();
-		this.console = model.getConsole();
-		this.inventory = model.getInventory();
-		this.price = model.getPrice();
-		this.name = model.getName();
-		this.description = model.getDescription();
-		this.status = model.getStatus();
-	}
-
 	public GameRequestDto(Category category, Console console, int inventory, float price, String name,
 			String description, GameStatus status) {
 		this.category = category;
