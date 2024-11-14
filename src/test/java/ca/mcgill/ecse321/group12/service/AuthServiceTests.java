@@ -43,7 +43,7 @@ public class AuthServiceTests {
 
     // create a customer
     Customer customer = new Customer();
-    customer.setEmail("customer@email.com");
+    customer.setEmail("customer2004@email.com");
     customer.setPassword("secure_password@123");
     // create the auth token
     String authToken = authService.generateAuthToken(customer);
