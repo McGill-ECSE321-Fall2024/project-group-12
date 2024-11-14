@@ -45,7 +45,8 @@ public class CartController {
 	 * gameId in the request body is added to the cart If a request parameter "remove" is
 	 * passed with the value "all", all games are removed from the cart If a request
 	 * parameter "remove" is passed with a gameId, the game with that gameId is removed
-	 * from the cart
+	 * from the cart Note: cart is always created with customer so we will always know the
+	 * cardId and be able to PUT.
 	 * @param cartId The primary key of the cart to find.
 	 * @return The cart with the given ID.
 	 */

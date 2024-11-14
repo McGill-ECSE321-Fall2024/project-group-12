@@ -53,7 +53,7 @@ public class WishlistController {
 	@ResponseStatus(HttpStatus.OK)
 	public WishlistResponseDto addGameToCart(@PathVariable int wishlistId,
 			@RequestBody(required = false) WishlistRequestDto wishlist,
-            @RequestParam(value = "remove") Optional<String> remove) {
+			@RequestParam(value = "remove") Optional<String> remove) {
 
 		wishlistService.findWishlistById(wishlistId);
 

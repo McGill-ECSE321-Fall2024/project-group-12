@@ -128,7 +128,7 @@ public class CartServiceIntegrationTests {
 	}
 
 	/**
-	 * Test adding a game to cart by invalid id.
+	 * Test adding a game to cart by invalid game id.
 	 * @author Sophia
 	 */
 	@Test
@@ -157,7 +157,7 @@ public class CartServiceIntegrationTests {
 	}
 
 	/**
-	 * Test adding a game to cart.
+	 * Test adding a game to cart, with a valid game id.
 	 * @author Sophia
 	 */
 	@Test

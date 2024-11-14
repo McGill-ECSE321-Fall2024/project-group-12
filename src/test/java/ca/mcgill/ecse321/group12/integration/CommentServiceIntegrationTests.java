@@ -108,8 +108,7 @@ public class CommentServiceIntegrationTests {
 		// Arrange
 		String url = "/comments/" + this.commentId;
 		// Act
-		ResponseEntity<CommentResponseDto> response = client.getForEntity(url,
-				CommentResponseDto.class);
+		ResponseEntity<CommentResponseDto> response = client.getForEntity(url, CommentResponseDto.class);
 
 		// Assert
 		assertNotNull(response);
