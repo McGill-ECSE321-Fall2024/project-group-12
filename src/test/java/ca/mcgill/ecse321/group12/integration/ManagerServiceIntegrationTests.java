@@ -22,7 +22,6 @@ import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.event.annotation.AfterTestClass;
 
-
 import ca.mcgill.ecse321.group12.dto.ManagerRequestDto;
 import ca.mcgill.ecse321.group12.dto.ManagerResponseDto;
 import ca.mcgill.ecse321.group12.repository.ManagerRepository;

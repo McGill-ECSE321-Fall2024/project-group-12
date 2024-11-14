@@ -283,4 +283,43 @@ public class CartServiceIntegrationTests {
 		}
 	}
 
+	/**
+	 * @author Julien Heng
+	 */
+	@Test
+	@Order(8)
+	public void testClearCart() {
+		// Arrange
+
+		// Start with empty cart
+		this.validId = this.customer.getCart().getId();
+		String url = "/cart/" + this.validId;
+
+		// Add the game ID (of the game to be added to cart) to the request body
+		CartRequestDto body = new CartRequestDto();
+		body.setGameId(this.game.getId());
+		RequestEntity<CartRequestDto> CartRequestEntity = RequestEntity.put(url)
+			.accept(MediaType.APPLICATION_JSON)
+			.body(body);
+		// PUT request
+		ResponseEntity<CartResponseDto> gameResponse = client.exchange(url, HttpMethod.PUT, CartRequestEntity,
+				CartResponseDto.class);
+		assertNotNull(gameResponse);
+
+		// Act
+		// Clear the cart
+		ResponseEntity<CartResponseDto> response = client.exchange(url + "?remove=all", HttpMethod.PUT, null,
+				CartResponseDto.class);
+
+		// Assert
+		assertNotNull(response);
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		assertNotNull(response.getBody());
+		CartResponseDto cart = response.getBody();
+		if (cart != null) {
+			assertNotNull(cart.getGames());
+			assertEquals(0, cart.getGames().size());
+		}
+	}
+
 }
