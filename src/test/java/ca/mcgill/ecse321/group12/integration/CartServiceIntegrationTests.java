@@ -374,6 +374,7 @@ public class CartServiceIntegrationTests {
 		CartRequestDto body = new CartRequestDto();
 		body.setGameId(this.game.getId());
 		RequestEntity<CartRequestDto> CartRequestEntity = RequestEntity.put(url)
+			.header("Authorization", customerAuth)
 			.accept(MediaType.APPLICATION_JSON)
 			.body(body);
 		// PUT request
@@ -383,8 +384,11 @@ public class CartServiceIntegrationTests {
 
 		// Act
 		// Clear the cart
-		ResponseEntity<CartResponseDto> response = client.exchange(url + "?remove=all", HttpMethod.PUT, null,
-				CartResponseDto.class);
+		RequestEntity<Void> req = RequestEntity.put(url + "?remove=all")
+			.header("Authorization", customerAuth)
+			.accept(MediaType.APPLICATION_JSON)
+			.build();
+		ResponseEntity<CartResponseDto> response = client.exchange(req, CartResponseDto.class);
 
 		// Assert
 		assertNotNull(response);

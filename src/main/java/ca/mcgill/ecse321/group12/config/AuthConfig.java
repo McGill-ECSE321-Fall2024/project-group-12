@@ -97,6 +97,11 @@ public class AuthConfig {
 				.hasRole("CUSTOMER")
 				.requestMatchers(HttpMethod.PUT, "/reviews/*")
 				.hasRole("CUSTOMER")
+        // wishlist: only customer
+				.requestMatchers(HttpMethod.GET, "/reviews/*")
+				.hasRole("CUSTOMER")
+				.requestMatchers(HttpMethod.PUT, "/reviews/*")
+				.hasRole("CUSTOMER")
 
 				.anyRequest()
 				.permitAll())

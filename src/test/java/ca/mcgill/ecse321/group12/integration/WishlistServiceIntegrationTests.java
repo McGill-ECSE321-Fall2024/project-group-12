@@ -22,8 +22,12 @@ import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 
+import ca.mcgill.ecse321.group12.dto.AuthRequestDto;
+import ca.mcgill.ecse321.group12.dto.AuthResponseDto;
+import ca.mcgill.ecse321.group12.dto.CustomerCreateResponseDto;
 import ca.mcgill.ecse321.group12.dto.CustomerRequestDto;
-import ca.mcgill.ecse321.group12.dto.CustomerResponseDto;
+import ca.mcgill.ecse321.group12.dto.EmployeeRequestDto;
+import ca.mcgill.ecse321.group12.dto.EmployeeResponseDto;
 import ca.mcgill.ecse321.group12.dto.GameRequestDto;
 import ca.mcgill.ecse321.group12.dto.GameResponseDto;
 import ca.mcgill.ecse321.group12.dto.WishlistRequestDto;
@@ -54,26 +58,59 @@ public class WishlistServiceIntegrationTests {
 
 	private int validId;
 
-	private CustomerResponseDto customer;
+	private CustomerCreateResponseDto customer;
 
 	private GameResponseDto game;
+
+	private String customerAuth;
+	private String employeeAuth;
 
 	@BeforeAll
 	public void setup() {
 		// Create (POST) a customer to use their wishlist for tests
 		CustomerRequestDto customerRequest = new CustomerRequestDto("abdefghij@mail.mcgill.ca", "hello123456", "Test",
 				"987654321");
-		ResponseEntity<CustomerResponseDto> customerResponse = client.postForEntity("/customers", customerRequest,
-				CustomerResponseDto.class);
+		ResponseEntity<CustomerCreateResponseDto> customerResponse = client.postForEntity("/customers", customerRequest,
+				CustomerCreateResponseDto.class);
 		// Save the response
 		this.customer = customerResponse.getBody();
+		// get the auth token
+		customerAuth = "Bearer " + customer.getToken();
+
+		// create an employee for the auth token
+		EmployeeRequestDto employeeRequest = new EmployeeRequestDto();
+		employeeRequest.setName("Carmin 3");
+		employeeRequest.setEmail("carmin3@company.com");
+		employeeRequest.setPassword("password123");
+		employeeRequest.setPhoneNumber("604 000 0000");
+		ResponseEntity<EmployeeResponseDto> employeeResponse = client.postForEntity("/employees", employeeRequest,
+				EmployeeResponseDto.class);
+		assertEquals(HttpStatus.CREATED, employeeResponse.getStatusCode());
+		assertNotNull(employeeResponse.getBody());
+		// use the auth endpoint to get a token for the employee
+		AuthRequestDto authRequest = new AuthRequestDto();
+		authRequest.setEmail(employeeRequest.getEmail());
+		authRequest.setPassword(employeeRequest.getPassword());
+		ResponseEntity<AuthResponseDto> authResponse = client.postForEntity("/auth/signin", authRequest,
+				AuthResponseDto.class);
+		assertEquals(HttpStatus.OK, authResponse.getStatusCode());
+		// store the token
+		AuthResponseDto auth = authResponse.getBody();
+		assertNotNull(auth);
+		assertNotNull(auth.getToken());
+		employeeAuth = "Bearer " + auth.getToken();
+
 		// Create (POST) a game to use it for tests
 		GameRequestDto gameRequest = new GameRequestDto(Category.Action, Console.PC, 1, 1.0f, "Game Name...",
 				"Game Description...", GameStatus.Archived);
-		ResponseEntity<GameResponseDto> gameResponse = client.postForEntity("/games", gameRequest,
-				GameResponseDto.class);
+
+		RequestEntity<GameRequestDto> req = RequestEntity.post("/games")
+			.header("Authorization", employeeAuth)
+			.accept(MediaType.APPLICATION_JSON)
+			.body(gameRequest);
+		GameResponseDto gameDto = client.exchange(req, GameResponseDto.class).getBody();
 		// Save the response
-		this.game = gameResponse.getBody();
+		this.game = gameDto;
 	}
 
 	@AfterAll
@@ -95,7 +132,11 @@ public class WishlistServiceIntegrationTests {
 		String url = "/wishlist/" + this.validId;
 
 		// Act
-		ResponseEntity<WishlistResponseDto> response = client.getForEntity(url, WishlistResponseDto.class);
+		RequestEntity<Void> req = RequestEntity.get(url)
+			.header("Authorization", customerAuth)
+			.accept(MediaType.APPLICATION_JSON)
+			.build();
+		ResponseEntity<WishlistResponseDto> response = client.exchange(req, WishlistResponseDto.class);
 
 		// Assert
 		assertNotNull(response);
@@ -123,6 +164,7 @@ public class WishlistServiceIntegrationTests {
 		WishlistRequestDto body = new WishlistRequestDto();
 		body.setGameId(this.game.getId());
 		RequestEntity<WishlistRequestDto> wishlistRequestEntity = RequestEntity.put(url)
+			.header("Authorization", customerAuth)
 			.accept(MediaType.APPLICATION_JSON)
 			.body(body);
 		// PUT request
@@ -155,8 +197,11 @@ public class WishlistServiceIntegrationTests {
 		// Arrange
 		this.validId = this.customer.getWishlist().getId();
 		String url = "/wishlist/" + this.validId;
-		ResponseEntity<WishlistResponseDto> response = client.exchange(url, HttpMethod.GET, null,
-				WishlistResponseDto.class);
+		RequestEntity<Void> req = RequestEntity.get(url)
+			.header("Authorization", customerAuth)
+			.accept(MediaType.APPLICATION_JSON)
+			.build();
+		ResponseEntity<WishlistResponseDto> response = client.exchange(req, WishlistResponseDto.class);
 		assertNotNull(response);
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		WishlistResponseDto wishlist = response.getBody();
@@ -166,8 +211,11 @@ public class WishlistServiceIntegrationTests {
 
 		// Act
 		// Remove a game with an invalid ID
-		ResponseEntity<WishlistResponseDto> response2 = client.exchange(url + "?remove=" + wrongGameId, HttpMethod.PUT,
-				null, WishlistResponseDto.class);
+		RequestEntity<Void> reqEntity = RequestEntity.put(url + "?remove=" + wrongGameId)
+			.header("Authorization", customerAuth)
+			.accept(MediaType.APPLICATION_JSON)
+			.build();
+		ResponseEntity<WishlistResponseDto> response2 = client.exchange(reqEntity, WishlistResponseDto.class);
 
 		// Assert
 		assertNotNull(response2);
@@ -185,15 +233,21 @@ public class WishlistServiceIntegrationTests {
 		// Arrange
 		this.validId = this.customer.getWishlist().getId();
 		String url = "/wishlist/" + this.validId;
-		ResponseEntity<WishlistResponseDto> response = client.exchange(url, HttpMethod.GET, null,
-				WishlistResponseDto.class);
+		RequestEntity<Void> req = RequestEntity.get(url)
+			.header("Authorization", customerAuth)
+			.accept(MediaType.APPLICATION_JSON)
+			.build();
+		ResponseEntity<WishlistResponseDto> response = client.exchange(req, WishlistResponseDto.class);
 		assertNotNull(response);
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 
 		// Act
 		// Remove a game with an invalid ID
-		ResponseEntity<WishlistResponseDto> response2 = client.exchange(url + "?remove=" + "wrongstr", HttpMethod.PUT,
-				null, WishlistResponseDto.class);
+		RequestEntity<Void> reqEntity = RequestEntity.put(url + "?remove=" + "wrongstr")
+			.header("Authorization", customerAuth)
+			.accept(MediaType.APPLICATION_JSON)
+			.build();
+		ResponseEntity<WishlistResponseDto> response2 = client.exchange(reqEntity, WishlistResponseDto.class);
 
 		// Assert
 		assertNotNull(response2);
@@ -211,8 +265,11 @@ public class WishlistServiceIntegrationTests {
 		// Arrange
 		this.validId = this.customer.getWishlist().getId();
 		String url = "/wishlist/" + this.validId;
-		ResponseEntity<WishlistResponseDto> response = client.exchange(url, HttpMethod.GET, null,
-				WishlistResponseDto.class);
+		RequestEntity<Void> req = RequestEntity.get(url)
+			.header("Authorization", customerAuth)
+			.accept(MediaType.APPLICATION_JSON)
+			.build();
+		ResponseEntity<WishlistResponseDto> response = client.exchange(req, WishlistResponseDto.class);
 		assertNotNull(response);
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		WishlistResponseDto wishlist = response.getBody();
@@ -222,8 +279,11 @@ public class WishlistServiceIntegrationTests {
 
 		// Act
 		// Remove a game with an invalid ID
-		ResponseEntity<WishlistResponseDto> response2 = client.exchange(url + "?remove=" + gameId, HttpMethod.PUT, null,
-				WishlistResponseDto.class);
+		RequestEntity<Void> reqEntity = RequestEntity.put(url + "?remove=" + gameId)
+			.header("Authorization", customerAuth)
+			.accept(MediaType.APPLICATION_JSON)
+			.build();
+		ResponseEntity<WishlistResponseDto> response2 = client.exchange(reqEntity, WishlistResponseDto.class);
 
 		// Assert
 		assertNotNull(response2);
@@ -252,6 +312,7 @@ public class WishlistServiceIntegrationTests {
 		WishlistRequestDto body = new WishlistRequestDto();
 		body.setGameId(this.game.getId());
 		RequestEntity<WishlistRequestDto> WishlistRequestEntity = RequestEntity.put(url)
+			.header("Authorization", customerAuth)
 			.accept(MediaType.APPLICATION_JSON)
 			.body(body);
 		// PUT request
@@ -261,8 +322,11 @@ public class WishlistServiceIntegrationTests {
 
 		// Act
 		// Clear the cart
-		ResponseEntity<WishlistResponseDto> response = client.exchange(url + "?remove=all", HttpMethod.PUT, null,
-				WishlistResponseDto.class);
+		RequestEntity<Void> reqEntity = RequestEntity.put(url + "?remove=all")
+			.header("Authorization", customerAuth)
+			.accept(MediaType.APPLICATION_JSON)
+			.build();
+		ResponseEntity<WishlistResponseDto> response = client.exchange(reqEntity, WishlistResponseDto.class);
 
 		// Assert
 		assertNotNull(response);

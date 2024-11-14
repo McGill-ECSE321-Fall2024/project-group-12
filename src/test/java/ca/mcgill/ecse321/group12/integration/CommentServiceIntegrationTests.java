@@ -5,8 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
@@ -137,10 +135,10 @@ public class CommentServiceIntegrationTests {
 		// Arrange
 		String url = "/comments/" + this.commentId;
 		// Act
-		RequestEntity<CommentRequestDto> req = RequestEntity.post("/comment/" + this.commentId)
+		RequestEntity<Void> req = RequestEntity.get(url)
 			.header("Authorization", customerAuth)
 			.accept(MediaType.APPLICATION_JSON)
-			.body(request);
+			.build();
 		ResponseEntity<CommentResponseDto> response = client.exchange(req, CommentResponseDto.class);
 
 		// Assert
