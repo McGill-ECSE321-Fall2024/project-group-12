@@ -84,7 +84,6 @@ public class CommentServiceIntegrationTests {
 		this.review = createdComment.getReview();
 	}
 
-	
 	/**
 	 * Test creating a comment with invalid text.
 	 * @author Carmin Vidé
@@ -183,13 +182,11 @@ public class CommentServiceIntegrationTests {
 		// Arrange
 		String url = "/comments";
 		// Act
-		//ResponseEntity<List<CommentResponseDto>> response = client.getForEntity(url, CommentResponseDto.class);
-		ResponseEntity<List<CommentResponseDto>> response = client.exchange(
-			url,
-			HttpMethod.GET,
-			null,
-			new ParameterizedTypeReference<List<CommentResponseDto>>() {}
-		);
+		// ResponseEntity<List<CommentResponseDto>> response = client.getForEntity(url,
+		// CommentResponseDto.class);
+		ResponseEntity<List<CommentResponseDto>> response = client.exchange(url, HttpMethod.GET, null,
+				new ParameterizedTypeReference<List<CommentResponseDto>>() {
+				});
 		// Assert
 		assertNotNull(response);
 		assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -201,7 +198,7 @@ public class CommentServiceIntegrationTests {
 		assertEquals(text, firstComment.getText());
 		assertNotNull(firstComment.getId());
 		assertTrue(firstComment.getId() > 0, "Response should have a positive ID.");
-		
+
 	}
 
 	/**
@@ -241,4 +238,5 @@ public class CommentServiceIntegrationTests {
 		assertNotNull(error);
 		assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
 	}
+
 }
