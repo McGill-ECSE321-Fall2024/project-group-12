@@ -23,7 +23,7 @@ public class CommentRequestDto {
 		this.text = text;
 		this.review = review;
 	}
-	
+
 	public String getText() {
 		return text;
 	}
