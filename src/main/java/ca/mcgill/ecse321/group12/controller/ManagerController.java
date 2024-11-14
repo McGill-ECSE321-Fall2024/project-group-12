@@ -46,8 +46,8 @@ public class ManagerController {
 		// encrypt the password for security
 		String encryptedPassword = new BCryptPasswordEncoder().encode(manager.getPassword());
 
-		Manager createdManager = managerService.createManager(manager.getEmail(), encryptedPassword,
-				manager.getName(), manager.getPhoneNumber());
+		Manager createdManager = managerService.createManager(manager.getEmail(), encryptedPassword, manager.getName(),
+				manager.getPhoneNumber());
 		return new ManagerResponseDto(createdManager);
 	}
 
