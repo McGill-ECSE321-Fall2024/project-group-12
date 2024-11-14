@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,7 +23,6 @@ import ca.mcgill.ecse321.group12.model.Cart;
 import ca.mcgill.ecse321.group12.model.Customer;
 import ca.mcgill.ecse321.group12.model.Game;
 import ca.mcgill.ecse321.group12.model.Order;
-import ca.mcgill.ecse321.group12.service.AuthService;
 import ca.mcgill.ecse321.group12.service.CardPaymentService;
 import ca.mcgill.ecse321.group12.service.CartService;
 import ca.mcgill.ecse321.group12.service.CustomerService;
@@ -48,9 +46,6 @@ public class OrderController {
 
 	@Autowired
 	private CustomerService customerService;
-
-	@Autowired
-	private AuthService authService;
 
 	/**
 	 * Return an order by id
@@ -106,7 +101,7 @@ public class OrderController {
 	 * @author James Madden
 	 */
 	@PutMapping("/orders/{id}")
-	public OrderResponseDto returnOrder(@Validated @RequestBody OrderReturnRequestDto body, @PathVariable int id, @RequestHeader("Authentication") String auth) {
+	public OrderResponseDto returnOrder(@Validated @RequestBody OrderReturnRequestDto body, @PathVariable int id) {
 
 		// update the order status to returned
 		Order order = orderService.updateStatus(id, body.getStatus());
