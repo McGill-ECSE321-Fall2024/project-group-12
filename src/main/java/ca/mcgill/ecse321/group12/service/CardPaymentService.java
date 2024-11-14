@@ -30,6 +30,14 @@ public class CardPaymentService {
 		if (cardNumber == null || cardNumber.length() != 19) {
 			throw new CustomException(HttpStatus.BAD_REQUEST, "Card number must follow format XXXX XXXX XXXX XXXX.");
 		}
+
+		if (expiryDate == null || expiryDate.length() != 5) {
+			throw new CustomException(HttpStatus.BAD_REQUEST, "Expiry date must follow format MM/YY.");
+		}
+
+		if (billingAddress == null || billingAddress.trim().length() == 0) {
+			throw new CustomException(HttpStatus.BAD_REQUEST, "Billing address cannot be empty.");
+		}
 		// create a new Card Payment
 		// TODO: validate credit card number?
 		CardPayment cardPayment = new CardPayment();
