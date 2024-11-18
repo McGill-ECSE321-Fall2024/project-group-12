@@ -61,7 +61,8 @@ For the user authentication, you must create a `.env` file in the root of the pr
 
 Start the frontend:
 ```
-npm start
+cd frontend
+npm run dev
 ```
 Start the backend:\
 Unix:
