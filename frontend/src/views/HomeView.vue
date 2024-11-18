@@ -1,9 +1,14 @@
-<script setup>
-import TheWelcome from '../components/TheWelcome.vue'
-</script>
+<script setup></script>
 
 <template>
   <main>
-    <TheWelcome />
+    <h1>Home</h1>
+    <img src="@/assets/logo.svg" width="64" />
   </main>
 </template>
+
+<style scoped>
+img {
+  view-transition-name: logo;
+}
+</style>
