@@ -11,6 +11,6 @@ Closes #[issue number]
 **Checklist**
 - [ ] I've tested my code
 - [ ] No new warnings or errors are generated
-- [ ] I ran `./gradlew format`
+- [ ] I ran `./gradlew format` or `npm run format`
 - [ ] I've updated the documentation, if necessary
 - [ ] I've assigned a reviewer for this PR
