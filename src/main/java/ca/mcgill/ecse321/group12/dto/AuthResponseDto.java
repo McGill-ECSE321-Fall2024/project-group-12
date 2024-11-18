@@ -6,10 +6,16 @@ public class AuthResponseDto {
 
 	private String token;
 
+	private int id;
+
 	private UserType userType;
 
 	public String getToken() {
 		return token;
+	}
+
+	public int getId() {
+		return id;
 	}
 
 	public UserType getUserType() {
@@ -18,6 +24,10 @@ public class AuthResponseDto {
 
 	public void setToken(String newToken) {
 		token = newToken;
+	}
+
+	public void setId(int newId) {
+		id = newId;
 	}
 
 	public void setUserType(UserType newUserType) {

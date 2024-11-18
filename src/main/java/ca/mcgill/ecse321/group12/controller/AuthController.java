@@ -43,6 +43,7 @@ public class AuthController {
 		AuthResponseDto resp = new AuthResponseDto();
 		resp.setToken(token);
 		resp.setUserType(user.getUserType());
+		resp.setId(user.getId());
 
 		return resp;
 
