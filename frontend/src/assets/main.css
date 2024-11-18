@@ -1,5 +1,6 @@
 @import './base.css';
 @import './variables.css';
+@import './transitions.css';
 
 * {
   box-sizing: border-box;

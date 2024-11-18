@@ -44,8 +44,20 @@ nav {
   width: 128px;
   text-align: left;
   color: white;
+  align-content: center;
 }
-.nav-list--item.selected {
-  text-decoration: underline;
+/**
+ * provides the little line under the selected page in the navbar.
+ * @author James Madden
+*/
+.nav-list--item.selected::after {
+  content: "";
+  view-transition-name: navbar-selected;
+  display: block;
+  position: relative;
+  width: 32px;
+  height: 2px;
+  background: white;
+  border-radius: 1px;
 }
 </style>

@@ -1,0 +1,6 @@
+/**
+ * add easing to the transitions
+ */
+::view-transition-group(navbar-selected) {
+  animation-timing-function: ease-in-out;
+}
