@@ -23,7 +23,7 @@ const navigate = (event) => {
 </script>
 
 <template>
-  <a href="$path" @click="navigate"><slot /></a>
+  <a :href="to" @click="navigate"><slot /></a>
 </template>
 
 <style scoped>
