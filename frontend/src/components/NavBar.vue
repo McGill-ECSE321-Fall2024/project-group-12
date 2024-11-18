@@ -6,8 +6,12 @@ import AnimatedLink from './AnimatedLink.vue'
   <nav>
     <span class="nav-logo">🦌</span>
     <ul class="nav-list">
-      <li class="nav-list--item" :class="{ selected: $route.path == '/'}"><AnimatedLink to="/">Home</AnimatedLink></li>
-      <li class="nav-list--item" :class="{ selected: $route.path == '/about'}"><AnimatedLink to="/about">About</AnimatedLink></li>
+      <li class="nav-list--item" :class="{ selected: $route.path == '/' }">
+        <AnimatedLink to="/">Home</AnimatedLink>
+      </li>
+      <li class="nav-list--item" :class="{ selected: $route.path == '/about' }">
+        <AnimatedLink to="/about">About</AnimatedLink>
+      </li>
     </ul>
   </nav>
 </template>

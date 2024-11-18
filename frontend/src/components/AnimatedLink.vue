@@ -7,9 +7,9 @@ const props = defineProps({
   },
 })
 
-const router = useRouter();
+const router = useRouter()
 
-const navigate = event => {
+const navigate = (event) => {
   event.preventDefault()
   if (document.startViewTransition) {
     document.startViewTransition(() => {

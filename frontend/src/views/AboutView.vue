@@ -6,7 +6,6 @@
 </template>
 
 <style>
-
 img {
   height: 100%;
   view-transition-name: logo;
