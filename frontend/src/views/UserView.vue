@@ -1,7 +1,28 @@
+<script setup>
+import { ref, watch, inject } from 'vue'
+import SigninView from '@/views/SigninView.vue'
+// load the current user
+const { token, loadUser, signOut } = inject('auth')
+// get the current user
+const user = ref(await loadUser())
+console.log(user.value)
+// update the user when it changes
+watch(token, async () => {
+  console.log('running watcher')
+  user.value = await loadUser()
+  console.log(user.value)
+})
+</script>
+
 <template>
-  <div class="user">
+  <!-- login page can go here on mobile, on desktop it'll be a popup -->
+  <!-- IF current user is null -->
+  <SigninView v-if="user == null" />
+  <!-- otherwise, the normal page can be shown -->
+  <div v-else class="user">
     <img src="@/assets/logo.svg" />
-    <h1>User</h1>
+    <h1>User {{ user.name }} signed in</h1>
+    <button @click="signOut">Sign out</button>
   </div>
 </template>
 
