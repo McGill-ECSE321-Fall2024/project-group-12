@@ -1,17 +1,11 @@
 <script setup>
-import { ref, watch, inject } from 'vue'
+import { inject } from 'vue'
 import SigninView from '@/views/SigninView.vue'
 // load the current user
-const { token, loadUser, signOut } = inject('auth')
-// get the current user
-const user = ref(await loadUser())
-console.log(user.value)
-// update the user when it changes
-watch(token, async () => {
-  console.log('running watcher')
-  user.value = await loadUser()
-  console.log(user.value)
-})
+const { user, signOut, userReady } = inject('auth')
+
+await userReady()
+console.log('user view loaded')
 </script>
 
 <template>

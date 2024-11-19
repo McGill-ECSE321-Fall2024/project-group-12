@@ -6,11 +6,11 @@ import { inject, ref } from 'vue'
 const showingSignIn = ref(true) // if false, shows sign up
 
 // get the ref for token so it can be updated
-const tokenRef = inject('auth').token
+const { signIn, signUp } = inject('auth')
 
 const toggleShowingSignIn = () => (showingSignIn.value = !showingSignIn.value)
 
-const signIn = async (event) => {
+const submitSignIn = async (event) => {
   event.preventDefault()
 
   const form = event.target
@@ -18,30 +18,11 @@ const signIn = async (event) => {
   const email = form.querySelector('#email').value
   const password = form.querySelector('#password').value
 
-  // POST with the form data to
-  const resp = await fetch('http://localhost:8080/auth/signin', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ email, password }),
-  })
-  // read the response
-  const { token, id } = await resp.json()
-  // store the data
-  localStorage.setItem(
-    'auth',
-    JSON.stringify({
-      token,
-      id,
-      userType: 'CUSTOMER',
-    }),
-  )
-  // update the token
-  tokenRef.value = token
+  signIn(email, password)
+
 }
 
-const signUp = async (event) => {
+const submitSignUp = async (event) => {
   event.preventDefault()
 
   const form = event.target
@@ -51,32 +32,8 @@ const signUp = async (event) => {
   const phoneNumber = form.querySelector('#phone-number').value
   const password = form.querySelector('#password').value
 
-  // POST with the form data to
-  const resp = await fetch('http://localhost:8080/customers', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      name,
-      email,
-      phoneNumber,
-      password,
-    }),
-  })
-  // read the response
-  const { token, id } = await resp.json()
-  // store the data
-  localStorage.setItem(
-    'auth',
-    JSON.stringify({
-      token,
-      id,
-      userType: 'CUSTOMER',
-    }),
-  )
-  // update the token
-  tokenRef.value = token
+  signUp(name, email, phoneNumber, password)
+
 }
 </script>
 
@@ -85,7 +42,7 @@ const signUp = async (event) => {
     <h1>Sign In</h1>
     <p>Don't have an account? <a @click="toggleShowingSignIn">Sign up</a></p>
 
-    <form @submit="signIn">
+    <form @submit="submitSignIn">
       <label for="email">Email</label>
       <input type="email" id="email" />
       <br />
@@ -101,7 +58,7 @@ const signUp = async (event) => {
     <h1>Sign Up</h1>
     <p>Already have an account? <a @click="toggleShowingSignIn">Sign in</a></p>
 
-    <form @submit="signUp">
+    <form @submit="submitSignUp">
       <label for="name">Name</label>
       <input type="text" id="name" />
       <br />
