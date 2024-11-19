@@ -55,6 +55,7 @@ nav {
   list-style: none;
   height: 100%;
   align-content: center;
+  width: 100%;
 }
 .nav-list--item {
   display: inline-block;
@@ -87,7 +88,7 @@ nav {
  * @author James Madden
 */
 .nav-list--item.selected::after {
-  content: "";
+  content: '';
   view-transition-name: navbar-selected;
   display: block;
   position: relative;
@@ -111,7 +112,8 @@ nav {
   /**
    * hide desktop-only parts
    */
-  .nav-logo, .nav-list--label {
+  .nav-logo,
+  .nav-list--label {
     display: none;
   }
 
@@ -119,7 +121,6 @@ nav {
    * spread visible links evenly throughout the bar
    */
   .nav-list {
-    width: 100%;
     padding-left: 0;
   }
   .nav-list--item {
@@ -128,6 +129,5 @@ nav {
   a {
     width: 100%;
   }
-
 }
 </style>

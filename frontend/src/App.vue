@@ -1,16 +1,28 @@
 <script setup>
+import { Suspense } from 'vue'
 import { RouterView } from 'vue-router'
 import NavBar from './components/NavBar.vue'
+import AuthProvider from './components/providers/AuthProvider.vue'
 </script>
 
 <template>
-  <div class="app-root">
-    <NavBar />
+  <!-- provide a way of handling the current user to every component -->
+  <AuthProvider>
+    <div class="app-root">
+      <NavBar />
 
-    <main class="page-container">
-      <RouterView />
-    </main>
-  </div>
+      <main class="page-container">
+        <Suspense>
+          <RouterView />
+
+          <!-- if any pages are awaiting, show a loading spinner -->
+          <template #fallback>
+            <p>loading...</p>
+          </template>
+        </Suspense>
+      </main>
+    </div>
+  </AuthProvider>
 </template>
 
 <style scoped>
