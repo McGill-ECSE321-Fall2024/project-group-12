@@ -1,5 +1,10 @@
 <script setup>
+import { inject } from 'vue'
 import StoreCounter from '@/components/StoreCounter.vue'
+
+const { createThemeFromColour } = inject('theme')
+// change to a red theme to match the holiday effect
+createThemeFromColour('#00ff00')
 </script>
 
 <template>
