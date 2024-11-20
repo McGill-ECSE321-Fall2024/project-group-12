@@ -19,7 +19,6 @@ const submitSignIn = async (event) => {
   const password = form.querySelector('#password').value
 
   signIn(email, password)
-
 }
 
 const submitSignUp = async (event) => {
@@ -33,7 +32,6 @@ const submitSignUp = async (event) => {
   const password = form.querySelector('#password').value
 
   signUp(name, email, phoneNumber, password)
-
 }
 </script>
 

@@ -47,7 +47,6 @@ loadUser()
 
 // give sign in, sign up, and sign out methods
 const signIn = async (email, password) => {
-
   // POST to the auth endpoint
   const resp = await fetch('http://localhost:8080/auth/signin', {
     method: 'POST',
@@ -67,18 +66,16 @@ const signIn = async (email, password) => {
     JSON.stringify({
       token: newToken,
       id,
-      userType
+      userType,
     }),
   )
   // update the token
   token.value = newToken
   // load the user again
   loadUser()
-
 }
 
 const signUp = async (name, email, phoneNumber, password) => {
-
   // POST with the form data to
   const resp = await fetch('http://localhost:8080/customers', {
     method: 'POST',
@@ -109,7 +106,6 @@ const signUp = async (name, email, phoneNumber, password) => {
   token.value = newToken
   // load the user again
   loadUser()
-
 }
 
 const signOut = () => {
@@ -121,10 +117,8 @@ const signOut = () => {
 
 // resolves if the user is ready, otherwise returns the promise
 const userReady = async () => {
-
-  if (userLoaded) return userLoaded;
-  else return;
-
+  if (userLoaded) return userLoaded
+  else return
 }
 
 // give components access to the values and methods
@@ -135,7 +129,7 @@ provide('auth', {
   signIn,
   signUp,
   signOut,
-  userReady
+  userReady,
 })
 </script>
 
