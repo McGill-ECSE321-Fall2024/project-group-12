@@ -2,25 +2,28 @@
 import { RouterView } from 'vue-router'
 import NavBar from './components/NavBar.vue'
 import AuthProvider from './components/providers/AuthProvider.vue'
+import ThemeProvider from '@/components/providers/ThemeProvider.vue'
 </script>
 
 <template>
   <!-- provide a way of handling the current user to every component -->
   <AuthProvider>
-    <div class="app-root">
-      <NavBar />
+    <ThemeProvider>
+      <div class="app-root">
+        <NavBar />
 
-      <main class="page-container">
-        <Suspense>
-          <RouterView />
+        <main class="page-container">
+          <Suspense>
+            <RouterView />
 
-          <!-- if any pages are awaiting, show a loading spinner -->
-          <template #fallback>
-            <p>loading...</p>
-          </template>
-        </Suspense>
-      </main>
-    </div>
+            <!-- if any pages are awaiting, show a loading spinner -->
+            <template #fallback>
+              <p>loading...</p>
+            </template>
+          </Suspense>
+        </main>
+      </div>
+    </ThemeProvider>
   </AuthProvider>
 </template>
 

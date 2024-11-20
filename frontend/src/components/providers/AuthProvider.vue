@@ -120,7 +120,7 @@ provide('auth', {
   loadUser,
   signIn,
   signUp,
-  signOut
+  signOut,
 })
 </script>
 
