@@ -4,7 +4,12 @@
 -->
 <script setup>
 import { provide, ref } from 'vue'
-import { themeFromImage, themeFromSourceColor, hexFromArgb, argbFromHex } from '@material/material-color-utilities'
+import {
+  themeFromImage,
+  themeFromSourceColor,
+  hexFromArgb,
+  argbFromHex,
+} from '@material/material-color-utilities'
 
 // create a default theme off of a turqoise
 const theme = ref(themeFromSourceColor(argbFromHex('#01687D')))
@@ -26,17 +31,17 @@ async function createThemeFromColour(colour) {
   theme.value = themeFromSourceColor(argbFromHex(colour))
 }
 
-
 provide('theme', {
   theme,
   createThemeFromImg,
-  createThemeFromColour
+  createThemeFromColour,
 })
 </script>
 
 <template>
   <div class="theme-provide-variables">
-    <slot></slot> <!-- children -->
+    <slot></slot>
+    <!-- children -->
   </div>
 </template>
 
