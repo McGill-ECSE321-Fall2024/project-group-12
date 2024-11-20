@@ -14,7 +14,6 @@ import SearchBar from './SearchBar.vue'
     </AnimatedLink>
     <!-- the main, labelled section of the navbar -->
     <ul class="nav-list">
-
       <!-- the search bar -->
       <div class="nav-search--container">
         <SearchBar />
@@ -24,7 +23,10 @@ import SearchBar from './SearchBar.vue'
       <div class="nav-spacing"></div>
 
       <!-- the icons at the end of the navbar -->
-      <li class="nav-list--item nav-list--end nav-list--mobile" :class="{ selected: $route.path == '/' }">
+      <li
+        class="nav-list--item nav-list--end nav-list--mobile"
+        :class="{ selected: $route.path == '/' }"
+      >
         <AnimatedLink to="/">
           <img class="nav-list--icon" src="@/assets/icons/navbar/game.png" />
         </AnimatedLink>
@@ -44,7 +46,6 @@ import SearchBar from './SearchBar.vue'
           <img class="nav-list--icon" src="@/assets/icons/navbar/user.png" />
         </AnimatedLink>
       </li>
-
     </ul>
   </nav>
 </template>
