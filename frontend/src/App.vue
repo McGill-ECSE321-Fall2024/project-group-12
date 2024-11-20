@@ -1,5 +1,4 @@
 <script setup>
-import { Suspense } from 'vue'
 import { RouterView } from 'vue-router'
 import NavBar from './components/NavBar.vue'
 import AuthProvider from './components/providers/AuthProvider.vue'
