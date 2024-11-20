@@ -15,7 +15,7 @@ import AnimatedLink from './AnimatedLink.vue'
       </li>
 
       <!-- fill space so that the end icons appear at the right side of the navbar -->
-      <div class="nav-spacing" />
+      <div class="nav-spacing"></div>
 
       <!-- the icons at the end of the navbar -->
       <li class="nav-list--item nav-list--end" :class="{ selected: $route.path == '/cart' }">
