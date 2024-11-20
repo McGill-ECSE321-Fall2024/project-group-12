@@ -2,9 +2,8 @@
 import { inject } from 'vue'
 import SigninView from '@/views/SigninView.vue'
 // load the current user
-const { user, signOut, userReady } = inject('auth')
+const { user, signOut } = inject('auth')
 
-await userReady()
 console.log('user view loaded')
 </script>
 

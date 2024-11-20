@@ -4,7 +4,6 @@ import { ref, provide } from 'vue'
 // check if a token is stored in localStorage
 let authResponse = JSON.parse(localStorage.getItem('auth'))
 let token = ref(authResponse?.token)
-let userLoaded = false
 
 // store the user, once loaded
 const user = ref(null)
@@ -38,7 +37,6 @@ const loadUser = async () => {
   user.value = await resp.json()
   loadedToken = token.value
   console.log('updated user')
-  userLoaded = true
   return
 }
 
@@ -115,12 +113,6 @@ const signOut = () => {
   loadUser()
 }
 
-// resolves if the user is ready, otherwise returns the promise
-const userReady = async () => {
-  if (userLoaded) return userLoaded
-  else return
-}
-
 // give components access to the values and methods
 provide('auth', {
   token,
@@ -128,8 +120,7 @@ provide('auth', {
   loadUser,
   signIn,
   signUp,
-  signOut,
-  userReady,
+  signOut
 })
 </script>
 
