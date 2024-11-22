@@ -161,4 +161,28 @@ public class GameService {
 
 	}
 
+	/**
+	 * Set the cover of a game
+	 * @param id The ID of the game
+	 * @param cover The cover of the game
+	 */
+	@Transactional
+	public void setCover(int id, Byte[] cover) {
+		Game game = gameRepository.findGameById(id);
+		game.setCover(cover);
+		gameRepository.save(game);
+	}
+
+	/**
+	 * Set the background image of a game
+	 * @param id The ID of the game
+	 * @param cover The background image of the game
+	 */
+	@Transactional
+	public void setBackground(int id, Byte[] background) {
+		Game game = gameRepository.findGameById(id);
+		game.setBackground(background);
+		gameRepository.save(game);
+	}
+
 }
