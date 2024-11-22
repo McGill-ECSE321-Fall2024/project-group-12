@@ -90,4 +90,9 @@ public class GameController {
 		return new GameResponseDto(createdGame);
 	}
 
+	@PostMapping("/games/{id}/cover")
+	public void setCover(@PathVariable int id, @RequestBody Byte[] cover) {
+		gameService.setCover(id, cover);
+	}
+
 }

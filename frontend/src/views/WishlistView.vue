@@ -10,7 +10,7 @@ const { createThemeFromColour } = inject('theme')
 createThemeFromColour('#FF9797')
 </script>
 
-<template>
+<template> 
   <main>
     <div class="title">
       <img class="icon" src="@/assets/icons/navbar/wishlist.png" />

@@ -5,6 +5,9 @@ package ca.mcgill.ecse321.group12.model;
 
 import java.util.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -65,6 +68,8 @@ public class Game {
 	private GameStatus status;
 
 	private int year;
+	private Byte[] cover;
+	private Byte[] background;
 
 	// ------------------------
 	// CONSTRUCTOR
@@ -230,6 +235,24 @@ public class Game {
 				+ (getStatus() != null
 						? !getStatus().equals(this) ? getStatus().toString().replaceAll("  ", "    ") : "this"
 						: "null");
+	}
+
+	public boolean setCover(Byte[] cover) {
+		this.cover = cover;
+		return true;
+	}
+
+	public Byte[] getCover() {
+		return cover;
+	}
+
+	public boolean setBackground(Byte[] background) {
+		this.background = background;
+		return true;
+	}
+
+	public Byte[] getBackground() {
+		return background;
 	}
 
 }
