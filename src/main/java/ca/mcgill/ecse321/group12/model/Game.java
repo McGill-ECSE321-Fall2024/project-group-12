@@ -69,8 +69,12 @@ public class Game {
 
 	@JsonIgnore
 	private Byte[] cover;
+	@JsonIgnore 
+	private String coverType;
 	@JsonIgnore
 	private Byte[] background;
+	@JsonIgnore
+	private String backgroundType;
 
 	// ------------------------
 	// CONSTRUCTOR
@@ -244,6 +248,24 @@ public class Game {
 
 	public Byte[] getBackground() {
 		return background;
+	}
+
+	public boolean setCoverType(String coverType) {
+		this.coverType = coverType;
+		return true;
+	}
+
+	public String getCoverType() {
+		return coverType;
+	}
+
+	public boolean setBackgroundType(String backgroundType) {
+		this.backgroundType = backgroundType;
+		return true;
+	}
+
+	public String getBackgroundType() {
+		return backgroundType;
 	}
 
 }
