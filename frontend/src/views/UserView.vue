@@ -1,7 +1,7 @@
 <script setup>
 import { inject } from 'vue'
 import SigninView from '@/views/SigninView.vue'
-// import Order from '@/components/Order.vue'
+import Order from '@/components/Order.vue'
 // load the current user
 const { user, signOut, updateUser } = inject('auth')
 
@@ -30,7 +30,7 @@ const updateInfo = async (event) => {
   <!-- otherwise, the normal page can be shown -->
   <div v-else class="user">
     <img src="@/assets/logo.svg" class="logo"/>
-    <h1>Hey, {{ user.name }}!</h1>
+    <h2>Profile</h2>
 
     <div class="grid-container">
       <form class="user-info" @submit.prevent="updateInfo">
@@ -70,7 +70,12 @@ const updateInfo = async (event) => {
 
     </div>
     <button @click="signOut">Sign out</button>
-    <!-- <Order /> -->
+    <section>
+      <h2>Orders</h2>
+      
+      <Order />
+    </section>
+    
   </div>
 </template>
 
