@@ -1,21 +1,52 @@
-<script setup></script>
+<script setup>
+defineProps({
+  image: {
+    type: String,
+    required: true,
+  },
+  name: {
+    type: String,
+    required: true,
+  },
+  console: {
+    type: String,
+    required: true,
+  },
+  year: {
+    type: Number,
+    required: true,
+  },
+  price: {
+    type: Number,
+    required: true,
+  },
+})
+
+function add() {
+  alert('Added to cart')
+}
+
+function remove() {
+  alert('Removed from wishlist')
+}
+</script>
 
 <template>
   <div class="wishlist-item">
     <hr />
     <div class="item">
-      <img class="game-cover" src="@/assets/games/minecraft.png" />
+      <img class="game-cover" :src="image" />
       <div class="game-info">
-        <h2>Minecraft</h2>
+        <h2>{{name}}</h2>
         <div class="game-details">
-          <p class="game-console">PC</p>
+          <p class="game-console">{{console}}</p>
           <img class="icon" src="@/assets/icons/navbar/wishlist.png" />
-          <p class="game-year">2011</p>
+          <p class="game-year">{{year}}</p>
           <img class="icon" src="@/assets/icons/navbar/wishlist.png" />
-          <p class="game-price">$29.99</p>
+          <p class="game-price">${{price}}</p>
         </div>
-        <button class="add">+ Add to Cart</button>
-        <button class="remove">- Remove from Wishlist</button>
+        <button class="add" @click="add">+ Add to Cart</button>
+        <button class="remove" @click="remove">- Remove from Wishlist</button>
       </div>
     </div>
     <hr />
@@ -56,7 +87,6 @@ button {
 .game-info {
   display: inline-block;
   vertical-align: top;
-  height: 155px;
 }
 .game-details {
   font-size: 20px;
