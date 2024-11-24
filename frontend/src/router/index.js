@@ -3,6 +3,9 @@ import HomeView from '../views/HomeView.vue'
 import CartView from '../views/CartView.vue'
 import UserView from '../views/UserView.vue'
 import WishlistView from '../views/WishlistView.vue'
+import ManagerAccountView from '@/views/ManagerAccountView.vue'
+import ManagerCustomerView from '@/views/ManagerCustomerView.vue'
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -31,6 +34,11 @@ const router = createRouter({
       name: 'user',
       // component: () => import('../views/UserView.vue'),
       component: UserView,
+    },
+    {
+      path: '/manager',
+      name: 'manager',
+      component: ManagerCustomerView,
     },
   ],
 })
