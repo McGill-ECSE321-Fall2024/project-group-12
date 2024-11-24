@@ -1,19 +1,24 @@
 <script setup>
 import { inject } from 'vue'
 import SigninView from '@/views/SigninView.vue'
-import Order from '@/components/Order.vue'
+// import Order from '@/components/Order.vue'
 // load the current user
-const { user, signOut } = inject('auth')
+const { user, signOut, updateUser } = inject('auth')
 
 console.log('user view loaded')
 
-const submitSignIn = async (event) => {
+const updateInfo = async (event) => {
   event.preventDefault()
-
+  console.log("hai");
   const form = event.target
+  // load the data from each input
+  console.log(form.querySelector('#name'));
+  const name = form.querySelector('#name').value
+  const email = form.querySelector('#email').value
+  const phoneNumber = form.querySelector('#phoneNumber').value
 
-  const address = form.querySelector('#address').value
-  const payment = form.querySelector('#payment').value
+  console.log("hai");
+  updateUser(name, email, phoneNumber);
 }
 
 </script>
@@ -28,26 +33,26 @@ const submitSignIn = async (event) => {
     <h1>Hey, {{ user.name }}!</h1>
 
     <div class="grid-container">
-      <form class="user-info">
-        <label>Name</label>
-        <input :value="user.name" @input="event => user.name = event.target.value"/>
-        <label>Email</label>
-        <input :value="user.email" @input="event => user.email = event.target.value"/>
-        <label>Password</label>
+      <form class="user-info" @submit.prevent="updateInfo">
+        <label for="name">Name</label>
+        <input type="name" id="name" :value="user.name" @input="event => user.name = event.target.value"/>
+        <label for="email">Email</label>
+        <input type="email" id="email" :value="user.email" @input="event => user.email = event.target.value"/>
+        <label for="password">Password</label>
         <div class="password-container">
           <input type="password" value="password" readonly/>
-          <button>Edit</button>
+          <button type="password" class="edit-button">Edit</button>
         </div>
-        <label>Phone Number</label>
-        <input :value="user.phoneNumber" @input="event => user.phoneNumber = event.target.value"/>
+        <label for="phoneNumber">Phone Number</label>
+        <input type="phoneNumber" id="phoneNumber" :value="user.phoneNumber" @input="event => user.phoneNumber = event.target.value"/>
         <button class="update-button">Update</button>
       </form>
 
       <div class="shipping-address card">
         <div>
           <h2>Shipping Address</h2>
-          <button v-if="user.address == null" @click="editAddress">Add shipping address</button>
-          <button v-else @click="editAddress">Edit shipping address</button>
+          <button v-if="user.address == null" class="edit-button" @click="editAddress">Add</button>
+          <button v-else class="edit-button">Edit</button>
         </div>
         <h3 v-if="user.address == null">No shipping address associated with this account</h3>
         <input v-else type="text" id="address" />
@@ -56,8 +61,8 @@ const submitSignIn = async (event) => {
       <div class="payment-info card">
         <div>
           <h2>Payment Method</h2>
-          <button v-if="user.payment == null" @click="editPayment">Add payment method</button>
-          <button v-else @click="editPayment">Edit payment method</button>
+          <button v-if="user.payment == null" class="edit-button">Add</button>
+          <button v-else class="edit-button">Edit</button>
         </div>
         <h3 v-if="user.paymentinfo == null">No payment information associated with this account</h3>
         <input v-else type="text" id="payment" />
@@ -65,7 +70,7 @@ const submitSignIn = async (event) => {
 
     </div>
     <button @click="signOut">Sign out</button>
-    <Order />
+    <!-- <Order /> -->
   </div>
 </template>
 
@@ -125,25 +130,35 @@ h2 {
 }
 .password-container > button {
   width: 10%;
+  border: 0;
 }
 button {
-  background: linear-gradient(90deg, rgba(65,93,67,1) 30%, rgba(162,62,72,1) 70%);
-  /* background: radial-gradient(rgba(65,93,67,1), rgba(162,62,72,1)); */
+  background: inherit;
   color: #ffffff;
   border: none;
   border-radius: 100px;
   padding: 0.75rem;
   margin: 1px 0px;
 }
+.update-button {
+  background: linear-gradient(90deg, rgba(65,93,67,1) 30%, rgba(162,62,72,1) 70%);
+  margin-top: 1rem;
+}
+.edit-button {
+  font-size: 1rem;
+  border-bottom: 1px solid white;
+  border-radius: 0px;
+  padding: 0;
+}
 .shipping-address{
   grid-area: 1 / 2 / 2 / 3;
 }
 .payment-method {
   grid-area: 2 / 2 / 3 / 3;
-
 }
 .card {
   background: linear-gradient(90deg, rgba(65,93,67,1) 30%, rgba(162,62,72,1) 70%);
+  background: #111111;
   border-radius: 40px;
   padding: 2rem;
   display: flex;
