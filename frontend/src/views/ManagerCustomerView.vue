@@ -3,12 +3,27 @@
  @author Carmin Vidé
 -->
 <script setup>
+import { ref } from 'vue';
 import { inject } from 'vue'
+import listItem from '@/components/UserListItem.vue'
 const { createThemeFromColour } = inject('theme')
 // change to a red theme to match the holiday effect
 createThemeFromColour('#FF9797')
 
+const userId = ref("89023794");
+const userName = ref("Cunégonde Theodraalia");
+const userEmail = ref("cune@hotmail.dk");
 
+const customers = ref([
+  { id: "89023794", name: "Cunégonde Theodraalia", email: "laplusbellecune@hotmail.dk" },
+  { id: "12345678", name: "John Doe", email: "john.doe@example.com" },
+  { id: "87654321", name: "Jane Smith", email: "jane.smith@example.com" },
+  { id: "13579246", name: "Antoine Dupont", email: "antoine.dupont@example.fr" },
+  { id: "24681357", name: "María García", email: "maria.garcia@example.es" },
+  { id: "87390", name: "María García", email: "maria.garcia@example.es" },
+  { id: "24681357", name: "María García", email: "maria.garcia@example.es" },
+  { id: "24681357", name: "María García", email: "maria.garcia@example.es" }
+])
 
 </script>
 
@@ -16,23 +31,17 @@ createThemeFromColour('#FF9797')
   <main>
     <div class="title">
       <h2>Customers</h2>
-      <hr width="90%" size="2">
     </div>
     <div>
-        <h3>Name: </h3>
-        <h4>Cunégonde</h4>
-        
-        <hr width="15%" size="2">
-        <h3>Email: </h3>
-        <h4>bjirebgiuzlbre@hotmail.dk</h4>
-        <hr width="15%" size="2">
-        <h3>Password: </h3>
-        <h4>********</h4>
-        <hr width="15%" size="2">
-        <h3>Phone Number: </h3>
-        <h4>12345678</h4>
-        <hr width="15%" size="2">
+        <listItem 
+        v-for="customer in customers" 
+        :key="customer.id"
+        :id="customer.id"
+        :name="customer.name"
+        :email="customer.email"
+        />
     </div>
+    
   </main>
 </template>
 
