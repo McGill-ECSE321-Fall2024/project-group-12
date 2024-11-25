@@ -1,9 +1,8 @@
 package ca.mcgill.ecse321.group12.integration;
 
+import org.junit.jupiter.api.AfterAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
@@ -20,15 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
-import ca.mcgill.ecse321.group12.model.Game.Category;
-import ca.mcgill.ecse321.group12.model.Game.Console;
-import ca.mcgill.ecse321.group12.model.Game.GameStatus;
 
-import ca.mcgill.ecse321.group12.dto.ReviewRequestDto;
-import ca.mcgill.ecse321.group12.dto.ReviewResponseDto;
-import ca.mcgill.ecse321.group12.repository.CustomerRepository;
-import ca.mcgill.ecse321.group12.repository.GameRepository;
-import ca.mcgill.ecse321.group12.repository.ReviewRepository;
 import ca.mcgill.ecse321.group12.dto.AuthRequestDto;
 import ca.mcgill.ecse321.group12.dto.AuthResponseDto;
 import ca.mcgill.ecse321.group12.dto.CustomerCreateResponseDto;
@@ -37,6 +28,14 @@ import ca.mcgill.ecse321.group12.dto.EmployeeRequestDto;
 import ca.mcgill.ecse321.group12.dto.EmployeeResponseDto;
 import ca.mcgill.ecse321.group12.dto.GameRequestDto;
 import ca.mcgill.ecse321.group12.dto.GameResponseDto;
+import ca.mcgill.ecse321.group12.dto.ReviewRequestDto;
+import ca.mcgill.ecse321.group12.dto.ReviewResponseDto;
+import ca.mcgill.ecse321.group12.model.Game.Category;
+import ca.mcgill.ecse321.group12.model.Game.Console;
+import ca.mcgill.ecse321.group12.model.Game.GameStatus;
+import ca.mcgill.ecse321.group12.repository.CustomerRepository;
+import ca.mcgill.ecse321.group12.repository.GameRepository;
+import ca.mcgill.ecse321.group12.repository.ReviewRepository;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -120,7 +119,7 @@ public class ReviewServiceIntegrationTests {
 
 		// create a game to associate with the review
 		GameRequestDto gameRequest = new GameRequestDto(Category.Action, Console.Switch, 10, 10f, "Action Game",
-				"A game full of fun, fear, and excitement", GameStatus.InCatalog);
+				"A game full of fun, fear, and excitement", GameStatus.InCatalog, 2021);
 		// post to the database
 		RequestEntity<GameRequestDto> gameReq1 = RequestEntity.post("/games")
 			.header("Authorization", employeeAuth)

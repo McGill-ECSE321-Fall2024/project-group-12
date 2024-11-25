@@ -71,6 +71,10 @@ public class GameServiceIntegrationTest {
 
 	private final GameStatus VALID_STATUS_2 = GameStatus.Archived;
 
+	private final int VALID_YEAR = 2021;
+
+	private final int VALID_YEAR_2 = 2020;
+
 	private final String INVALID_NAME = "";
 
 	private final int INVALID_INVENTORY = -10;
@@ -124,7 +128,7 @@ public class GameServiceIntegrationTest {
 	public void testCreateGameWithInvalidInventory() {
 		// Arrange
 		GameRequestDto request = new GameRequestDto(VALID_CATEGORY, VALID_CONSOLE, INVALID_INVENTORY, VALID_PRICE,
-				VALID_NAME, VALID_DESCRIPTION, VALID_STATUS);
+				VALID_NAME, VALID_DESCRIPTION, VALID_STATUS, VALID_YEAR);
 
 		// Act
 		RequestEntity<GameRequestDto> req = RequestEntity.post("/games")
@@ -147,7 +151,7 @@ public class GameServiceIntegrationTest {
 	public void testCreateGameWithInvalidPrice() {
 		// Arrange
 		GameRequestDto request = new GameRequestDto(VALID_CATEGORY, VALID_CONSOLE, VALID_INVENTORY, INVALID_PRICE,
-				VALID_NAME, VALID_DESCRIPTION, VALID_STATUS);
+				VALID_NAME, VALID_DESCRIPTION, VALID_STATUS, VALID_YEAR);
 
 		// Act
 		RequestEntity<GameRequestDto> req = RequestEntity.post("/games")
@@ -170,7 +174,7 @@ public class GameServiceIntegrationTest {
 	public void testCreateGameWithInvalidName() {
 		// Arrange
 		GameRequestDto request = new GameRequestDto(VALID_CATEGORY, VALID_CONSOLE, VALID_INVENTORY, VALID_PRICE,
-				INVALID_NAME, VALID_DESCRIPTION, VALID_STATUS);
+				INVALID_NAME, VALID_DESCRIPTION, VALID_STATUS, VALID_YEAR);
 
 		// Act
 		RequestEntity<GameRequestDto> req = RequestEntity.post("/games")
@@ -193,7 +197,7 @@ public class GameServiceIntegrationTest {
 	public void testCreateGameWithInvalidDescription() {
 		// Arrange
 		GameRequestDto request = new GameRequestDto(VALID_CATEGORY, VALID_CONSOLE, VALID_INVENTORY, VALID_PRICE,
-				INVALID_NAME, VALID_DESCRIPTION, VALID_STATUS);
+				INVALID_NAME, VALID_DESCRIPTION, VALID_STATUS, VALID_YEAR);
 
 		// Act
 		RequestEntity<GameRequestDto> req = RequestEntity.post("/games")
@@ -216,7 +220,7 @@ public class GameServiceIntegrationTest {
 	public void testCreateValidGame() {
 		// Arrange
 		GameRequestDto request = new GameRequestDto(VALID_CATEGORY, VALID_CONSOLE, VALID_INVENTORY, VALID_PRICE,
-				VALID_NAME, VALID_DESCRIPTION, VALID_STATUS);
+				VALID_NAME, VALID_DESCRIPTION, VALID_STATUS, VALID_YEAR);
 
 		// Act
 		RequestEntity<GameRequestDto> req = RequestEntity.post("/games")
@@ -301,7 +305,7 @@ public class GameServiceIntegrationTest {
 		// Arrange
 		String url = "/games/" + this.validId;
 		GameRequestDto body = new GameRequestDto(VALID_CATEGORY, VALID_CONSOLE, VALID_INVENTORY, INVALID_PRICE,
-				VALID_NAME, VALID_DESCRIPTION, VALID_STATUS);
+				VALID_NAME, VALID_DESCRIPTION, VALID_STATUS, VALID_YEAR);
 		RequestEntity<GameRequestDto> request = RequestEntity.put(url)
 			.header("Authorization", authToken)
 			.accept(MediaType.APPLICATION_JSON)
@@ -326,7 +330,7 @@ public class GameServiceIntegrationTest {
 		// Arrange
 		String url = "/games/" + this.validId;
 		GameRequestDto body = new GameRequestDto(VALID_CATEGORY, VALID_CONSOLE, INVALID_INVENTORY, VALID_PRICE,
-				VALID_NAME, VALID_DESCRIPTION, VALID_STATUS);
+				VALID_NAME, VALID_DESCRIPTION, VALID_STATUS, VALID_YEAR);
 		RequestEntity<GameRequestDto> request = RequestEntity.put(url)
 			.header("Authorization", authToken)
 			.accept(MediaType.APPLICATION_JSON)
@@ -351,7 +355,7 @@ public class GameServiceIntegrationTest {
 		// Arrange
 		String url = "/games/" + this.validId;
 		GameRequestDto body = new GameRequestDto(VALID_CATEGORY, VALID_CONSOLE, VALID_INVENTORY, VALID_PRICE,
-				INVALID_NAME, VALID_DESCRIPTION, VALID_STATUS);
+				INVALID_NAME, VALID_DESCRIPTION, VALID_STATUS, VALID_YEAR);
 		RequestEntity<GameRequestDto> request = RequestEntity.put(url)
 			.header("Authorization", authToken)
 			.accept(MediaType.APPLICATION_JSON)
@@ -376,7 +380,7 @@ public class GameServiceIntegrationTest {
 		// Arrange
 		String url = "/games/" + this.validId;
 		GameRequestDto body = new GameRequestDto(VALID_CATEGORY, VALID_CONSOLE, VALID_INVENTORY, VALID_PRICE,
-				VALID_NAME, INVALID_DESCRIPTION, VALID_STATUS);
+				VALID_NAME, INVALID_DESCRIPTION, VALID_STATUS, VALID_YEAR);
 		RequestEntity<GameRequestDto> request = RequestEntity.put(url)
 			.header("Authorization", authToken)
 			.accept(MediaType.APPLICATION_JSON)
@@ -401,7 +405,7 @@ public class GameServiceIntegrationTest {
 		// Arrange
 		String url = "/games/" + this.validId;
 		GameRequestDto body = new GameRequestDto(VALID_CATEGORY_2, VALID_CONSOLE_2, VALID_INVENTORY_2, VALID_PRICE_2,
-				VALID_NAME_2, VALID_DESCRIPTION_2, VALID_STATUS_2);
+				VALID_NAME_2, VALID_DESCRIPTION_2, VALID_STATUS_2, VALID_YEAR_2);
 		RequestEntity<GameRequestDto> request = RequestEntity.put(url)
 			.header("Authorization", authToken)
 			.accept(MediaType.APPLICATION_JSON)

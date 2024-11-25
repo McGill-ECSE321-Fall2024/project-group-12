@@ -61,7 +61,7 @@ public class GameService {
 	 */
 	@Transactional
 	public Game createGame(Category aCategory, Console aConsole, int aInventory, float aPrice, String aName,
-			String aDescription, GameStatus aStatus) {
+			String aDescription, GameStatus aStatus, int aYear) {
 
 		// input validation
 		if (aInventory < 0) {
@@ -75,6 +75,9 @@ public class GameService {
 		}
 		if (aDescription == null || aDescription.isBlank()) {
 			throw new CustomException(HttpStatus.BAD_REQUEST, "Description cannot be empty.");
+		}
+		if (aYear < 0) {
+			throw new CustomException(HttpStatus.BAD_REQUEST, "Year has to be a positive integer.");
 		}
 
 		Game gameToCreate = new Game();
@@ -85,6 +88,7 @@ public class GameService {
 		gameToCreate.setName(aName);
 		gameToCreate.setDescription(aDescription);
 		gameToCreate.setStatus(aStatus);
+		gameToCreate.setYear(aYear);
 
 		return gameRepository.save(gameToCreate);
 	}
@@ -94,7 +98,7 @@ public class GameService {
 	 */
 	@Transactional
 	public Game updateGame(int aId, Category aCategory, Console aConsole, int aInventory, float aPrice, String aName,
-			String aDescription, GameStatus aStatus) {
+			String aDescription, GameStatus aStatus, int aYear) {
 
 		// input validation
 		if (aInventory < 0) {
@@ -109,6 +113,9 @@ public class GameService {
 		if (aDescription == null || aDescription.isBlank()) {
 			throw new CustomException(HttpStatus.BAD_REQUEST, "Description cannot be empty.");
 		}
+		if (aYear < 0) {
+			throw new CustomException(HttpStatus.BAD_REQUEST, "Year has to be a positive integer.");
+		}
 
 		Game gameToUpdate = gameRepository.findGameById(aId);
 		gameToUpdate.setCategory(aCategory);
@@ -118,6 +125,7 @@ public class GameService {
 		gameToUpdate.setName(aName);
 		gameToUpdate.setDescription(aDescription);
 		gameToUpdate.setStatus(aStatus);
+		gameToUpdate.setYear(aYear);
 
 		return gameRepository.save(gameToUpdate);
 	}

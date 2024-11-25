@@ -65,6 +65,8 @@ public class Game {
 
 	private GameStatus status;
 
+	private int year;
+
 	private byte[] cover;
 
 	private String coverType;
@@ -81,7 +83,7 @@ public class Game {
 	}
 
 	public Game(int aId, Category aCategory, Console aConsole, int aInventory, float aPrice, String aName,
-			String aDescription, GameStatus aStatus) {
+			String aDescription, GameStatus aStatus, int aYear) {
 		category = aCategory;
 		console = aConsole;
 		inventory = aInventory;
@@ -89,6 +91,7 @@ public class Game {
 		name = aName;
 		description = aDescription;
 		status = aStatus;
+		year = aYear;
 		if (!setId(aId)) {
 			throw new RuntimeException(
 					"Cannot create due to duplicate id. See https://manual.umple.org?RE003ViolationofUniqueness.html");
@@ -210,6 +213,15 @@ public class Game {
 
 	public void delete() {
 		gamesById.remove(getId());
+	}
+
+	public int getYear() {
+		return year;
+	}
+
+	public boolean setYear(int year) {
+		this.year = year;
+		return true;
 	}
 
 	public String toString() {

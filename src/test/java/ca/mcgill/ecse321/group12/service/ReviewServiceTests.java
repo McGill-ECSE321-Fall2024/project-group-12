@@ -3,31 +3,27 @@ package ca.mcgill.ecse321.group12.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-
 import org.junit.jupiter.api.Test;
 import static org.mockito.ArgumentMatchers.any;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
-import ca.mcgill.ecse321.group12.model.Game;
-
-import ca.mcgill.ecse321.group12.model.Game.GameStatus;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import ca.mcgill.ecse321.group12.exception.CustomException;
-import ca.mcgill.ecse321.group12.repository.CustomerRepository;
-import ca.mcgill.ecse321.group12.repository.GameRepository;
-import ca.mcgill.ecse321.group12.model.Review;
-import ca.mcgill.ecse321.group12.repository.ReviewRepository;
+import ca.mcgill.ecse321.group12.model.Cart;
+import ca.mcgill.ecse321.group12.model.Customer;
+import ca.mcgill.ecse321.group12.model.Game;
 import ca.mcgill.ecse321.group12.model.Game.Category;
 import ca.mcgill.ecse321.group12.model.Game.Console;
-import ca.mcgill.ecse321.group12.model.Customer;
+import ca.mcgill.ecse321.group12.model.Game.GameStatus;
+import ca.mcgill.ecse321.group12.model.Review;
 import ca.mcgill.ecse321.group12.model.Wishlist;
-import ca.mcgill.ecse321.group12.model.Cart;
+import ca.mcgill.ecse321.group12.repository.CustomerRepository;
+import ca.mcgill.ecse321.group12.repository.GameRepository;
+import ca.mcgill.ecse321.group12.repository.ReviewRepository;
 
 @SpringBootTest
 public class ReviewServiceTests {
@@ -65,6 +61,7 @@ public class ReviewServiceTests {
 		String aName = "Game Name...";
 		String aDescription = "Game Description...";
 		GameStatus aStatus = GameStatus.Archived;
+		int aYear = 2021;
 
 		String email = "carmin@gmail.com";
 		String password = "password";
@@ -77,7 +74,8 @@ public class ReviewServiceTests {
 		Cart cart = new Cart();
 		// create a review
 
-		Game createdGame = new Game(gameId, aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus);
+		Game createdGame = new Game(gameId, aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus,
+				aYear);
 		Customer createdCustomer = new Customer(customerId, email, password, name, phoneNumber, wishlist, cart);
 
 		when(gameRepository.findGameById(gameId)).thenReturn(createdGame);
@@ -124,7 +122,9 @@ public class ReviewServiceTests {
 		String aName = "Game Name...";
 		String aDescription = "Game Description...";
 		GameStatus aStatus = GameStatus.Archived;
-		Game createdGame = new Game(gameId, aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus);
+		int aYear = 2021;
+		Game createdGame = new Game(gameId, aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus,
+				aYear);
 		Cart cart = new Cart();
 		when(gameRepository.findGameById(gameId)).thenReturn(createdGame);
 
@@ -192,6 +192,7 @@ public class ReviewServiceTests {
 		String aName = "Game Name...";
 		String aDescription = "Game Description...";
 		GameStatus aStatus = GameStatus.Archived;
+		int aYear = 2021;
 
 		String email = "julien@gmail.com";
 		String password = "password";
@@ -203,7 +204,8 @@ public class ReviewServiceTests {
 
 		Cart cart = new Cart();
 		// create a review
-		Game createdGame = new Game(gameId, aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus);
+		Game createdGame = new Game(gameId, aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus,
+				aYear);
 		when(gameRepository.findGameById(gameId)).thenReturn(createdGame);
 
 		Customer createdCustomer = new Customer(customerId, email, password, name, phoneNumber, wishlist, cart);
@@ -258,6 +260,7 @@ public class ReviewServiceTests {
 		String aName = "Game Name...";
 		String aDescription = "Game Description...";
 		GameStatus aStatus = GameStatus.Archived;
+		int aYear = 2021;
 
 		String email = "carmi@gmail.com";
 		String password = "passwordi";
@@ -270,7 +273,8 @@ public class ReviewServiceTests {
 		Cart cart = new Cart();
 		// create a review
 
-		Game createdGame = new Game(gameId, aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus);
+		Game createdGame = new Game(gameId, aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus,
+				aYear);
 		Customer createdCustomer = new Customer(customerId, email, password, name, phoneNumber, wishlist, cart);
 		when(gameRepository.findGameById(gameId)).thenReturn(createdGame);
 		when(customerRepository.findCustomerById(customerId)).thenReturn(createdCustomer);
@@ -314,6 +318,7 @@ public class ReviewServiceTests {
 		String aName = "Game Name...";
 		String aDescription = "Game Description...";
 		GameStatus aStatus = GameStatus.Archived;
+		int aYear = 2021;
 
 		String email = "sophia@gmail.com";
 		String password = "password";
@@ -326,7 +331,8 @@ public class ReviewServiceTests {
 		Cart cart = new Cart();
 		// create a review
 
-		Game createdGame = new Game(gameId, aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus);
+		Game createdGame = new Game(gameId, aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus,
+				aYear);
 		Customer createdCustomer = new Customer(customerId, email, password, name, phoneNumber, wishlist, cart);
 		when(gameRepository.findGameById(gameId)).thenReturn(createdGame);
 		when(customerRepository.findCustomerById(customerId)).thenReturn(createdCustomer);
@@ -370,6 +376,7 @@ public class ReviewServiceTests {
 		String aName = "Game Name...";
 		String aDescription = "Game Description...";
 		GameStatus aStatus = GameStatus.Archived;
+		int aYear = 2021;
 
 		String email = "james@gmail.com";
 		String password = "password";
@@ -382,7 +389,8 @@ public class ReviewServiceTests {
 		Cart cart = new Cart();
 		// create a review
 
-		Game createdGame = new Game(gameId, aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus);
+		Game createdGame = new Game(gameId, aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus,
+				aYear);
 		Customer createdCustomer = new Customer(customerId, email, password, name, phoneNumber, wishlist, cart);
 
 		when(gameRepository.findGameById(gameId)).thenReturn(createdGame);
