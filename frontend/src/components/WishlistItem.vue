@@ -1,5 +1,9 @@
 <script setup>
-defineProps({
+const props = defineProps({
+  gameId: {
+    type: Number,
+    required: true,
+  },
   image: {
     type: String,
     required: true,
@@ -22,12 +26,37 @@ defineProps({
   },
 })
 
-function add() {
+/**
+ * Add the game to the user's cart
+ *
+ * TODO: test the request/response
+ */
+async function add() {
   alert('Added to cart')
+  const cartId = 4952; // change this to the user's cart ID, which should just be the customer ID
+  const requestOptions = {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ gameId: props.gameId }),
+  };
+  const response = await fetch(`http://localhost:8080/cart/${cartId}`, requestOptions);
+  return response.json();
 }
 
-function remove() {
+/**
+ * Remove the game from the user's wishlist
+ * 
+ * TODO: refresh state after removing
+ */
+async function remove() {
   alert('Removed from wishlist')
+  const wishlistId = 4952; // change this to the user's wishlist ID
+  const requestOptions = {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" }
+  };
+  const response = await fetch(`http://localhost:8080/wishlist/${wishlistId}?remove=${props.gameId}`, requestOptions);
+  return response.json();
 }
 </script>
 

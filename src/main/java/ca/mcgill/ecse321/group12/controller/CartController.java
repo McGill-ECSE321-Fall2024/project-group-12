@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -50,6 +51,7 @@ public class CartController {
 	 * @param cartId The primary key of the cart to find.
 	 * @return The cart with the given ID.
 	 */
+	@CrossOrigin(origins = "http://localhost:5173") // Allow CORS for the frontend
 	@PutMapping("/cart/{cartId}")
 	@ResponseStatus(HttpStatus.OK)
 	public CartResponseDto addGameToCart(@PathVariable int cartId, @RequestBody(required = false) CartRequestDto cart,
