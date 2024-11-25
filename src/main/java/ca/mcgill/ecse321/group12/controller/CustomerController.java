@@ -10,14 +10,18 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import ca.mcgill.ecse321.group12.dto.CustomerRequestDto;
 import ca.mcgill.ecse321.group12.dto.CustomerResponseDto;
+import ca.mcgill.ecse321.group12.dto.EmployeeRequestDto;
+import ca.mcgill.ecse321.group12.dto.EmployeeResponseDto;
 import ca.mcgill.ecse321.group12.dto.CustomerCreateResponseDto;
 import ca.mcgill.ecse321.group12.model.Cart;
 import ca.mcgill.ecse321.group12.model.Customer;
+import ca.mcgill.ecse321.group12.model.Employee;
 import ca.mcgill.ecse321.group12.model.Wishlist;
 import ca.mcgill.ecse321.group12.service.CartService;
 import ca.mcgill.ecse321.group12.service.CustomerService;
@@ -107,19 +111,42 @@ public class CustomerController {
 	 */
 	@PutMapping("/customers/{customerId}")
 	@CrossOrigin(origins = "http://localhost:5173")
-	public CustomerResponseDto updateCustomer(@PathVariable int customerId, @RequestBody CustomerRequestDto customer) {
+	public CustomerResponseDto updateCustomer(@PathVariable int customerId, 
+	@RequestParam(value = "newPassword", required = false) String newPassword,
+	@RequestBody(required = false) CustomerRequestDto customer) {
+		// update password only
+		if (newPassword != null && !newPassword.isEmpty()) {
+			// load customer
+			Customer existingCustomer = customerService.findCustomerById(customerId);
 
-		// load customer
-		// get their current password
-		Customer existingCustomer = customerService.findCustomerById(customerId);
-        String password = existingCustomer.getPassword();
+			// get their current attributes except for password
+			String email = existingCustomer.getEmail();
+			String name = existingCustomer.getName();
+			String phoneNumber = existingCustomer.getPhoneNumber();
+			Wishlist wishlist = existingCustomer.getWishlist();
+			Cart cart = existingCustomer.getCart();
 
-		// provide current password to the updated one below
-		Customer updatedCustomer = customerService.updateCustomerById(customerId, customer.getEmail(),
-				password, customer.getName(), customer.getPhoneNumber(), customer.getWishlist(),
-				customer.getCart());
-		return new CustomerResponseDto(updatedCustomer);
+			// provide current password to the updated one below
+			Customer updatedCustomer = customerService.updateCustomerById(customerId, email,
+					newPassword, name, phoneNumber, wishlist,
+					cart);
+			return new CustomerResponseDto(updatedCustomer);
+		}
+		
+		// update email, name, phone number
+		if (customer != null) {
+			// load customer
+			Customer existingCustomer = customerService.findCustomerById(customerId);
 
+			// get their current password
+			String password = existingCustomer.getPassword();
+
+			// provide current password to the updated one below
+			Customer updatedCustomer = customerService.updateCustomerById(customerId, customer.getEmail(),
+					password, customer.getName(), customer.getPhoneNumber(), customer.getWishlist(),
+					customer.getCart());
+			return new CustomerResponseDto(updatedCustomer);
+		}
+		return new CustomerResponseDto(new Customer());
 	}
-
 }
