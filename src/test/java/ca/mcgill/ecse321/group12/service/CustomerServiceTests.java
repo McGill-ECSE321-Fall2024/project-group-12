@@ -244,7 +244,6 @@ public class CustomerServiceTests {
 
 		String newEmail = "newCeun@mail.mcgill.ca";
 		String newName = "Qeunïa";
-		String newPassword = "hduçéh!'çh";
 		String newPhoneNumber = "2892465320";
 		Cart newCart = new Cart();
 		Wishlist newWishlist = new Wishlist();
@@ -255,14 +254,12 @@ public class CustomerServiceTests {
 
 		// Act
 		customerService.createCustomer(email, password, name, phoneNumber, wishlist, cart, address);
-		customerService.updateCustomerById(id, newEmail, newPassword, newName, newPhoneNumber, newWishlist, newCart,
-				newAddress);
+		customerService.updateCustomerById(id, newEmail, newName, newPhoneNumber, newWishlist, newCart, newAddress);
 
 		// Assert
 		assertNotNull(customer);
 		assertEquals(newEmail, customer.getEmail());
 		assertEquals(newName, customer.getName());
-		assertEquals(newPassword, customer.getPassword());
 		assertEquals(newPhoneNumber, customer.getPhoneNumber());
 		assertEquals(newCart, customer.getCart());
 		assertEquals(newAddress, customer.getAddress());
@@ -301,8 +298,8 @@ public class CustomerServiceTests {
 		customerService.createCustomer(email, password, name, phoneNumber, wishlist, cart, address);
 
 		// Assert
-		CustomException e = assertThrows(CustomException.class, () -> customerService.updateCustomerById(id, null,
-				password, name, phoneNumber, wishlist, cart, address));
+		CustomException e = assertThrows(CustomException.class,
+				() -> customerService.updateCustomerById(id, null, name, phoneNumber, wishlist, cart, address));
 		assertEquals("Update customer failed. Customer with this email already exists in the system.", e.getMessage());
 	}
 

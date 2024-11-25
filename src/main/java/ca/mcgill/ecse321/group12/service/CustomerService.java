@@ -2,6 +2,7 @@ package ca.mcgill.ecse321.group12.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import ca.mcgill.ecse321.group12.exception.CustomException;
@@ -99,13 +100,12 @@ public class CustomerService {
 	 * @author Carmin Vidé
 	 */
 	@Transactional
-	public Customer updateCustomerById(int id, String newEmail, String password, String name, String phoneNumber,
-			Wishlist wishlist, Cart cart, String address) {
+	public Customer updateCustomerById(int id, String newEmail, String name, String phoneNumber, Wishlist wishlist,
+			Cart cart, String address) {
 		Customer customerToUpdate = customerRepo.findCustomerById(id);
 		String previousEmail = customerToUpdate.getEmail();
 		customerToUpdate.setEmail(newEmail);
 		customerToUpdate.setName(name);
-		customerToUpdate.setPassword(password);
 		customerToUpdate.setPhoneNumber(phoneNumber);
 		customerToUpdate.setCart(cart);
 		customerToUpdate.setWishlist(wishlist);
@@ -115,6 +115,25 @@ public class CustomerService {
 					"Update customer failed. Customer with this email already exists in the system.");
 		}
 		return customerToUpdate;
+	}
+
+	@Transactional
+	public Customer updateCustomerAuth(int id, String email, String password, String newPassword) {
+
+		Customer customerToUpdate = customerRepo.findCustomerById(id);
+		if (customerToUpdate == null) {
+			throw new CustomException(HttpStatus.NOT_FOUND, "There is no customer with ID " + id + ".");
+		}
+		if (!customerToUpdate.getEmail().equals(email)) {
+			throw new CustomException(HttpStatus.BAD_REQUEST,
+					"The email provided does not match the email of the customer.");
+		}
+		if (BCrypt.checkpw(password, customerToUpdate.getPassword())) {
+			throw new CustomException(HttpStatus.BAD_REQUEST,
+					"The password provided does not match the password of the customer.");
+		}
+		customerToUpdate.setPassword(newPassword);
+		return customerRepo.save(customerToUpdate);
 	}
 
 }
