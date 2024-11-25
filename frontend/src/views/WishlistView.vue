@@ -3,24 +3,24 @@
  @author Sophia Li
 -->
 <script setup>
-import { inject, ref } from 'vue'
+import { inject, ref, watch } from 'vue'
 import WishlistItem from '@/components/WishlistItem.vue'
 
 import minecraftCover from '@/assets/games/minecraft.png'
 import zeldaCover from '@/assets/games/zelda.png'
 import marioPartyJamboreeCover from '@/assets/games/mario_party_jamboree.png'
 
-const { user } = inject('auth')
+const { user, token } = inject('auth')
 const { createThemeFromColour } = inject('theme')
 // change to a red theme to match the holiday effect
 createThemeFromColour('#FF9797')
 
 async function fetchData() {
-  if (user == null) {
+  if (user.value == null) {
     // not signed in
-    return
+    return { error: "User not signed in" }
   }
-  const wishlistId = user.wishlist?.id
+  const wishlistId = user.value.wishlist.id
   const response = await fetch(`http://localhost:8080/wishlist/${wishlistId}`)
   return response.json()
 }
@@ -29,17 +29,46 @@ const data = ref(null)
 data.value = await fetchData()
 
 async function fetchCart() {
-  if (user == null) {
+  if (user.value == null) {
     // not signed in
-    return
+    return { error: "User not signed in" }
   }
-  const cartId = user.cart?.id
-  const response = await fetch(`http://localhost:8080/cart/${cartId}`)
+  const cartId = user.value.cart.id
+  const response = await fetch(`http://localhost:8080/cart/${cartId}`, {
+    headers: {
+      'Authorization': `Bearer ${token.value}`
+    }
+  })
   return response.json()
 }
 
 const cartdata = ref(null)
 cartdata.value = await fetchCart()
+
+// update wishlist and cart when the user updates
+watch(user, async () => {
+  data.value = await fetchData()
+  cartdata.value = await fetchCart()
+})
+
+/**
+ * Remove the game from the user's wishlist
+ */
+ async function remove(gameId) { // TODO: fix remove to show the other games instead of a blank screen
+  alert('Removed from wishlist')
+  const wishlistId = user.value.wishlist.id
+  const requestOptions = {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+  }
+  const response = await fetch(
+    `http://localhost:8080/wishlist/${wishlistId}?remove=${gameId}`,
+    requestOptions,
+  )
+  const wishlist = response.json()
+  data.value = wishlist
+  return
+}
 
 // FOR TESTING ONLY
 const testlist = {
@@ -96,6 +125,7 @@ const testlist = {
         :console="item.console"
         :year="item.year"
         :price="item.price"
+        :remove="remove"
       />
     </div>
   </main>

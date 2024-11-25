@@ -1,4 +1,7 @@
 <script setup>
+import { inject } from 'vue'
+const { user, token } = inject('auth')
+
 const props = defineProps({
   gameId: {
     type: Number,
@@ -24,41 +27,24 @@ const props = defineProps({
     type: Number,
     required: true,
   },
+  remove: {
+    type: Function,
+    required: true,
+  },
 })
 
 /**
  * Add the game to the user's cart
- *
- * TODO: test the request/response
  */
 async function add() {
   alert('Added to cart')
-  const cartId = 4952 // change this to the user's cart ID, which should just be the customer ID
+  const cartId = user.value.cart.id
   const requestOptions = {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token.value}` },
     body: JSON.stringify({ gameId: props.gameId }),
   }
   const response = await fetch(`http://localhost:8080/cart/${cartId}`, requestOptions)
-  return response.json()
-}
-
-/**
- * Remove the game from the user's wishlist
- *
- * TODO: refresh state after removing
- */
-async function remove() {
-  alert('Removed from wishlist')
-  const wishlistId = 4952 // change this to the user's wishlist ID
-  const requestOptions = {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-  }
-  const response = await fetch(
-    `http://localhost:8080/wishlist/${wishlistId}?remove=${props.gameId}`,
-    requestOptions,
-  )
   return response.json()
 }
 </script>
@@ -78,7 +64,7 @@ async function remove() {
           <p class="game-price">${{ price }}</p>
         </div>
         <button class="add" @click="add">+ Add to Cart</button>
-        <button class="remove" @click="remove">- Remove from Wishlist</button>
+        <button class="remove" @click="() => remove(gameId)">- Remove from Wishlist</button>
       </div>
     </div>
     <hr />
