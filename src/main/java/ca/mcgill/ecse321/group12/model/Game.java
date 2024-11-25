@@ -69,11 +69,8 @@ public class Game {
 
 	private int year;
 	private Byte[] cover;
-	@JsonIgnore 
 	private String coverType;
-	@JsonIgnore
 	private Byte[] background;
-	@JsonIgnore
 	private String backgroundType;
 
 	// ------------------------
