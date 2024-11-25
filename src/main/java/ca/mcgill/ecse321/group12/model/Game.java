@@ -67,13 +67,9 @@ public class Game {
 
 	private GameStatus status;
 
-	@JsonIgnore
 	private Byte[] cover;
-	@JsonIgnore 
 	private String coverType;
-	@JsonIgnore
 	private Byte[] background;
-	@JsonIgnore
 	private String backgroundType;
 
 	// ------------------------
