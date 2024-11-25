@@ -16,11 +16,11 @@ const { createThemeFromColour } = inject('theme')
 createThemeFromColour('#FF9797')
 
 async function fetchData() {
-  if (user.name == null) {
+  if (user == null) {
     // not signed in
     return
   }
-  const wishlistId = user.id
+  const wishlistId = user.wishlist?.id
   const response = await fetch(`http://localhost:8080/wishlist/${wishlistId}`)
   return response.json()
 }
@@ -29,11 +29,11 @@ const data = ref(null)
 data.value = await fetchData()
 
 async function fetchCart() {
-  if (user.name == null) {
+  if (user == null) {
     // not signed in
     return
   }
-  const cartId = user.id // testing only
+  const cartId = user.cart?.id
   const response = await fetch(`http://localhost:8080/cart/${cartId}`)
   return response.json()
 }
@@ -79,7 +79,7 @@ const testlist = {
       <h1>My Wishlist</h1>
     </div>
     <div class="placeholder" v-if="user == null">Sign in to add games to your wishlist!</div>
-    <div class="placeholder" v-else-if="data.errors">
+    <div class="placeholder" v-else-if="data.error">
       An error occurred when retreiving your wishlist. Please try again later.
     </div>
     <div v-else class="wishlist-items">
