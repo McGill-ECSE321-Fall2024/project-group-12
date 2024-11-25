@@ -110,12 +110,13 @@ const updateUser = async (name, email, phoneNumber) => {
   authResponse = JSON.parse(localStorage.getItem('auth'))
   const {token: storedToken, id: userId, userType} = authResponse
   console.log(authResponse);
+  console.log(token.value);
   const resp = await fetch(`http://localhost:8080/${userType.toLowerCase()}s/${userId}`, {
     method: 'PUT',
-    credentials: 'include',
+    // credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${storedToken}`,
+      'Authorization': `Bearer ${token.value}`,
       'Accept': 'application/json'
     },
     body: JSON.stringify({
@@ -129,19 +130,16 @@ const updateUser = async (name, email, phoneNumber) => {
   }
   // read the response
   const data = await resp.json()
-  const newToken = data.token
   const id = data.id
   // store the data
   localStorage.setItem(
     'auth',
     JSON.stringify({
-      token: newToken,
+      token: token.value,
       id,
       userType: 'CUSTOMER',
     }),
   )
-  // update the token
-  token.value = newToken
   // load the user again
   loadUser()
 

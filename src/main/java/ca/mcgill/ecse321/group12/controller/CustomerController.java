@@ -3,6 +3,7 @@ package ca.mcgill.ecse321.group12.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -105,9 +106,17 @@ public class CustomerController {
 	 * @author Carmin Vidé
 	 */
 	@PutMapping("/customers/{customerId}")
+	@CrossOrigin(origins = "http://localhost:5173")
 	public CustomerResponseDto updateCustomer(@PathVariable int customerId, @RequestBody CustomerRequestDto customer) {
+
+		// load customer
+		// get their current password
+		Customer existingCustomer = customerService.findCustomerById(customerId);
+        String password = existingCustomer.getPassword();
+
+		// provide current password to the updated one below
 		Customer updatedCustomer = customerService.updateCustomerById(customerId, customer.getEmail(),
-				customer.getPassword(), customer.getName(), customer.getPhoneNumber(), customer.getWishlist(),
+				password, customer.getName(), customer.getPhoneNumber(), customer.getWishlist(),
 				customer.getCart());
 		return new CustomerResponseDto(updatedCustomer);
 
