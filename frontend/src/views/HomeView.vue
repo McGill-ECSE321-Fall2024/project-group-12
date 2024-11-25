@@ -52,6 +52,9 @@ console.log(games);
 </template>
 
 <style scoped>
+h2 {
+  color: white;
+}
 .logo {
   view-transition-name: logo;
 }
