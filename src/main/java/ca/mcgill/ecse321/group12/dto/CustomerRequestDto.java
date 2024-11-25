@@ -17,6 +17,8 @@ public class CustomerRequestDto {
 
 	private Wishlist wishlist;
 
+	private String address;
+
 	@SuppressWarnings("unused")
 	private CustomerRequestDto() {
 	}
@@ -30,7 +32,7 @@ public class CustomerRequestDto {
 	 * @param phoneNumber The phone number for the customer being created no cart or
 	 * wishlist is passed in as they are created empty when a customer is created
 	 */
-	public CustomerRequestDto(String email, String password, String name, String phoneNumber) {
+	public CustomerRequestDto(String email, String password, String name, String phoneNumber, String address) {
 		this.password = password;
 		this.email = email;
 		this.name = name;
@@ -49,13 +51,14 @@ public class CustomerRequestDto {
 	 * added for updating a customer
 	 */
 	public CustomerRequestDto(String email, String password, String name, String phoneNumber, Cart cart,
-			Wishlist wishlist) {
+			Wishlist wishlist, String address) {
 		this.password = password;
 		this.email = email;
 		this.name = name;
 		this.phoneNumber = phoneNumber;
 		this.cart = cart;
 		this.wishlist = wishlist;
+		this.address = address;
 	}
 
 	public String getPassword() {
@@ -104,6 +107,14 @@ public class CustomerRequestDto {
 
 	public void setWishlist(Wishlist wishlist) {
 		this.wishlist = wishlist;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 }

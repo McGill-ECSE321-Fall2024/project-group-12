@@ -88,7 +88,7 @@ public class OrderServiceIntegrationTests {
 
 		// create a new customer to use their cart and auth code for the tests
 		CustomerRequestDto customerRequest = new CustomerRequestDto("johnathan.deer@email.com", "password123",
-				"Customer", "778 000 0000");
+				"Customer", "778 000 0000", "1234 Street");
 		ResponseEntity<CustomerCreateResponseDto> customerResponse = client.postForEntity("/customers", customerRequest,
 				CustomerCreateResponseDto.class);
 		// save the response

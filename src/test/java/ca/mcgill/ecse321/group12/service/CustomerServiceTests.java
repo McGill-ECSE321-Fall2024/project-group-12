@@ -1,28 +1,27 @@
 package ca.mcgill.ecse321.group12.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 import java.util.Arrays;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Test;
+import static org.mockito.ArgumentMatchers.any;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import ca.mcgill.ecse321.group12.exception.CustomException;
 import ca.mcgill.ecse321.group12.model.Cart;
 import ca.mcgill.ecse321.group12.model.Customer;
 import ca.mcgill.ecse321.group12.model.Game;
-import ca.mcgill.ecse321.group12.model.Wishlist;
 import ca.mcgill.ecse321.group12.model.Game.GameStatus;
+import ca.mcgill.ecse321.group12.model.Wishlist;
 import ca.mcgill.ecse321.group12.repository.CustomerRepository;
-import ca.mcgill.ecse321.group12.exception.CustomException;
 
 @SpringBootTest
 public class CustomerServiceTests {
@@ -76,6 +75,7 @@ public class CustomerServiceTests {
 		String email = "cunelaplusbelle@mail.mcgill.ca";
 		String password = "yolo";
 		String phoneNumber = "293092804";
+		String address = "1234 rue de la rue";
 
 		Customer customer = new Customer();
 
@@ -85,11 +85,13 @@ public class CustomerServiceTests {
 		customer.setPhoneNumber(phoneNumber);
 		customer.setCart(cart);
 		customer.setWishlist(wishlist);
+		customer.setAddress(address);
 
 		when(customerRepository.save(any(Customer.class))).thenReturn(customer);
 
 		// Act
-		Customer createdCustomer = customerService.createCustomer(email, password, name, phoneNumber, wishlist, cart);
+		Customer createdCustomer = customerService.createCustomer(email, password, name, phoneNumber, wishlist, cart,
+				address);
 
 		// Assert
 		assertNotNull(createdCustomer);
@@ -99,6 +101,7 @@ public class CustomerServiceTests {
 		assertEquals(phoneNumber, createdCustomer.getPhoneNumber());
 		assertEquals(cart, createdCustomer.getCart());
 		assertEquals(wishlist, createdCustomer.getWishlist());
+		assertEquals(address, createdCustomer.getAddress());
 		verify(customerRepository, times(1)).save(any(Customer.class));
 	}
 
@@ -116,6 +119,7 @@ public class CustomerServiceTests {
 		String phoneNumber = "902332908";
 		Cart cart = new Cart();
 		Wishlist wishlist = new Wishlist();
+		String address = "1234 rue de la rue";
 
 		Customer customer = new Customer();
 
@@ -125,11 +129,12 @@ public class CustomerServiceTests {
 		customer.setPhoneNumber(phoneNumber);
 		customer.setCart(cart);
 		customer.setWishlist(wishlist);
+		customer.setAddress(address);
 
 		when(customerRepository.save(any(Customer.class))).thenReturn(customer);
 		// Assert
 		CustomException e = assertThrows(CustomException.class,
-				() -> customerService.createCustomer(email, password, name, phoneNumber, wishlist, cart));
+				() -> customerService.createCustomer(email, password, name, phoneNumber, wishlist, cart, address));
 
 		assertEquals("Create customer failed. Customer with this email already exists in the system.", e.getMessage());
 	}
@@ -178,6 +183,7 @@ public class CustomerServiceTests {
 		customer.setPhoneNumber("4898498498");
 		customer.setCart(cart);
 		customer.setWishlist(wishlist);
+		customer.setAddress("1234 rue de la rue");
 		when(customerRepository.findCustomerById(id)).thenReturn(customer);
 
 		// Act
@@ -191,6 +197,7 @@ public class CustomerServiceTests {
 		assertEquals(customer.getPhoneNumber(), foundCustomer.getPhoneNumber());
 		assertEquals(customer.getCart(), foundCustomer.getCart());
 		assertEquals(customer.getWishlist(), foundCustomer.getWishlist());
+		assertEquals(customer.getAddress(), foundCustomer.getAddress());
 	}
 
 	/**
@@ -224,6 +231,7 @@ public class CustomerServiceTests {
 		String phoneNumber = "173890443";
 		Cart cart = new Cart();
 		Wishlist wishlist = new Wishlist();
+		String address = "1234 rue de la rue";
 
 		customer.setId(id);
 		customer.setEmail(email);
@@ -232,6 +240,7 @@ public class CustomerServiceTests {
 		customer.setPhoneNumber(phoneNumber);
 		customer.setCart(cart);
 		customer.setWishlist(wishlist);
+		customer.setAddress(address);
 
 		String newEmail = "newCeun@mail.mcgill.ca";
 		String newName = "Qeunïa";
@@ -239,13 +248,15 @@ public class CustomerServiceTests {
 		String newPhoneNumber = "2892465320";
 		Cart newCart = new Cart();
 		Wishlist newWishlist = new Wishlist();
+		String newAddress = "5678 rue de la rue";
 
 		when(customerRepository.findCustomerById(id)).thenReturn(customer);
 		when(customerRepository.save(any(Customer.class))).thenReturn(customer);
 
 		// Act
-		customerService.createCustomer(email, password, name, phoneNumber, wishlist, cart);
-		customerService.updateCustomerById(id, newEmail, newPassword, newName, newPhoneNumber, newWishlist, newCart);
+		customerService.createCustomer(email, password, name, phoneNumber, wishlist, cart, address);
+		customerService.updateCustomerById(id, newEmail, newPassword, newName, newPhoneNumber, newWishlist, newCart,
+				newAddress);
 
 		// Assert
 		assertNotNull(customer);
@@ -254,6 +265,7 @@ public class CustomerServiceTests {
 		assertEquals(newPassword, customer.getPassword());
 		assertEquals(newPhoneNumber, customer.getPhoneNumber());
 		assertEquals(newCart, customer.getCart());
+		assertEquals(newAddress, customer.getAddress());
 	}
 
 	/**
@@ -273,6 +285,7 @@ public class CustomerServiceTests {
 		String phoneNumber = "870426921";
 		Cart cart = new Cart();
 		Wishlist wishlist = new Wishlist();
+		String address = "1234 rue de la rue";
 
 		customer.setEmail(email);
 		customer.setName(name);
@@ -280,15 +293,16 @@ public class CustomerServiceTests {
 		customer.setPhoneNumber(phoneNumber);
 		customer.setCart(cart);
 		customer.setWishlist(wishlist);
+		customer.setAddress(address);
 		when(customerRepository.findCustomerById(id)).thenReturn(customer);
 		when(customerRepository.save(any(Customer.class))).thenReturn(customer);
 
 		// Act
-		customerService.createCustomer(email, password, name, phoneNumber, wishlist, cart);
+		customerService.createCustomer(email, password, name, phoneNumber, wishlist, cart, address);
 
 		// Assert
-		CustomException e = assertThrows(CustomException.class,
-				() -> customerService.updateCustomerById(id, null, password, name, phoneNumber, wishlist, cart));
+		CustomException e = assertThrows(CustomException.class, () -> customerService.updateCustomerById(id, null,
+				password, name, phoneNumber, wishlist, cart, address));
 		assertEquals("Update customer failed. Customer with this email already exists in the system.", e.getMessage());
 	}
 

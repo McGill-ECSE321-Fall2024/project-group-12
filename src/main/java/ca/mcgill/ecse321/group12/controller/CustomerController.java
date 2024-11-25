@@ -12,16 +12,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import ca.mcgill.ecse321.group12.dto.CustomerCreateResponseDto;
 import ca.mcgill.ecse321.group12.dto.CustomerRequestDto;
 import ca.mcgill.ecse321.group12.dto.CustomerResponseDto;
-import ca.mcgill.ecse321.group12.dto.CustomerCreateResponseDto;
 import ca.mcgill.ecse321.group12.model.Cart;
 import ca.mcgill.ecse321.group12.model.Customer;
 import ca.mcgill.ecse321.group12.model.Wishlist;
+import ca.mcgill.ecse321.group12.service.AuthService;
 import ca.mcgill.ecse321.group12.service.CartService;
 import ca.mcgill.ecse321.group12.service.CustomerService;
 import ca.mcgill.ecse321.group12.service.WishlistService;
-import ca.mcgill.ecse321.group12.service.AuthService;
 
 @RestController
 public class CustomerController {
@@ -87,7 +87,7 @@ public class CustomerController {
 		String encryptedPassword = new BCryptPasswordEncoder().encode(customer.getPassword());
 
 		Customer createdCustomer = customerService.createCustomer(customer.getEmail(), encryptedPassword,
-				customer.getName(), customer.getPhoneNumber(), wishlist, cart);
+				customer.getName(), customer.getPhoneNumber(), wishlist, cart, customer.getAddress());
 		CustomerCreateResponseDto response = new CustomerCreateResponseDto(createdCustomer);
 
 		// get an auth token for this customer
@@ -108,7 +108,7 @@ public class CustomerController {
 	public CustomerResponseDto updateCustomer(@PathVariable int customerId, @RequestBody CustomerRequestDto customer) {
 		Customer updatedCustomer = customerService.updateCustomerById(customerId, customer.getEmail(),
 				customer.getPassword(), customer.getName(), customer.getPhoneNumber(), customer.getWishlist(),
-				customer.getCart());
+				customer.getCart(), customer.getAddress());
 		return new CustomerResponseDto(updatedCustomer);
 
 	}

@@ -70,7 +70,7 @@ public class WishlistServiceIntegrationTests {
 	public void setup() {
 		// Create (POST) a customer to use their wishlist for tests
 		CustomerRequestDto customerRequest = new CustomerRequestDto("abdefghij@mail.mcgill.ca", "hello123456", "Test",
-				"987654321");
+				"987654321", "1234 Street");
 		ResponseEntity<CustomerCreateResponseDto> customerResponse = client.postForEntity("/customers", customerRequest,
 				CustomerCreateResponseDto.class);
 		// Save the response

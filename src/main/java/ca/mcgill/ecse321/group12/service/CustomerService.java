@@ -4,12 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import ca.mcgill.ecse321.group12.model.Customer;
-import ca.mcgill.ecse321.group12.repository.CustomerRepository;
-import jakarta.transaction.Transactional;
-import ca.mcgill.ecse321.group12.model.Wishlist;
 import ca.mcgill.ecse321.group12.exception.CustomException;
 import ca.mcgill.ecse321.group12.model.Cart;
+import ca.mcgill.ecse321.group12.model.Customer;
+import ca.mcgill.ecse321.group12.model.Wishlist;
+import ca.mcgill.ecse321.group12.repository.CustomerRepository;
+import jakarta.transaction.Transactional;
 
 @Service
 public class CustomerService {
@@ -44,7 +44,7 @@ public class CustomerService {
 	 */
 	@Transactional
 	public Customer createCustomer(String email, String password, String name, String phoneNumber, Wishlist wishlist,
-			Cart cart) {
+			Cart cart, String address) {
 		Customer customerToCreate = new Customer();
 		customerToCreate.setEmail(email);
 		customerToCreate.setPassword(password);
@@ -52,6 +52,7 @@ public class CustomerService {
 		customerToCreate.setPhoneNumber(phoneNumber);
 		customerToCreate.setCart(cart);
 		customerToCreate.setWishlist(wishlist);
+		customerToCreate.setAddress(address);
 		Customer savedCustomer = customerRepo.save(customerToCreate);
 		if (savedCustomer.getEmail() == null) {
 			throw new CustomException(HttpStatus.BAD_REQUEST,
@@ -99,7 +100,7 @@ public class CustomerService {
 	 */
 	@Transactional
 	public Customer updateCustomerById(int id, String newEmail, String password, String name, String phoneNumber,
-			Wishlist wishlist, Cart cart) {
+			Wishlist wishlist, Cart cart, String address) {
 		Customer customerToUpdate = customerRepo.findCustomerById(id);
 		String previousEmail = customerToUpdate.getEmail();
 		customerToUpdate.setEmail(newEmail);
@@ -108,6 +109,7 @@ public class CustomerService {
 		customerToUpdate.setPhoneNumber(phoneNumber);
 		customerToUpdate.setCart(cart);
 		customerToUpdate.setWishlist(wishlist);
+		customerToUpdate.setAddress(address);
 		if (!previousEmail.equals(newEmail) && customerToUpdate.getEmail().equals(previousEmail)) {
 			throw new CustomException(HttpStatus.BAD_REQUEST,
 					"Update customer failed. Customer with this email already exists in the system.");
