@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import ca.mcgill.ecse321.group12.dto.ImageDto;
 import ca.mcgill.ecse321.group12.exception.CustomException;
 import ca.mcgill.ecse321.group12.model.Game;
 import ca.mcgill.ecse321.group12.model.Game.Category;
@@ -167,6 +168,52 @@ public class GameService {
 			gameRepository.save(game);
 		}
 
+	}
+
+	/**
+	 * Set the cover of a game
+	 * @param id The ID of the game
+	 * @param cover The cover of the game
+	 */
+	@Transactional
+	public void setCover(int id, byte[] cover, String coverType) {
+		Game game = gameRepository.findGameById(id);
+		game.setCover(cover);
+		game.setCoverType(coverType);
+		gameRepository.save(game);
+	}
+
+	/**
+	 * Set the background image of a game
+	 * @param id The ID of the game
+	 * @param cover The background image of the game
+	 */
+	@Transactional
+	public void setBackground(int id, byte[] background, String backgroundType) {
+		Game game = gameRepository.findGameById(id);
+		game.setBackground(background);
+		game.setBackgroundType(backgroundType);
+		gameRepository.save(game);
+	}
+
+	/**
+	 * Get the cover image of a game
+	 * @param id The ID of the game
+	 * @return The cover image of the game
+	 */
+	public ImageDto getCover(int id) {
+		Game game = gameRepository.findGameById(id);
+		return new ImageDto(game.getCoverType(), game.getCover());
+	}
+
+	/**
+	 * Get the cover image of a game
+	 * @param id The ID of the game
+	 * @return The cover image of the game
+	 */
+	public ImageDto getBackground(int id) {
+		Game game = gameRepository.findGameById(id);
+		return new ImageDto(game.getBackgroundType(), game.getBackground());
 	}
 
 }

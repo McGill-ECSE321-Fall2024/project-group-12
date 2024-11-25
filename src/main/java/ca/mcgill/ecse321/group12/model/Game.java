@@ -5,6 +5,7 @@ package ca.mcgill.ecse321.group12.model;
 
 import java.util.*;
 
+import io.micrometer.common.lang.Nullable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -65,6 +66,14 @@ public class Game {
 	private GameStatus status;
 
 	private int year;
+
+	private byte[] cover;
+
+	private String coverType;
+
+	private byte[] background;
+
+	private String backgroundType;
 
 	// ------------------------
 	// CONSTRUCTOR
@@ -230,6 +239,42 @@ public class Game {
 				+ (getStatus() != null
 						? !getStatus().equals(this) ? getStatus().toString().replaceAll("  ", "    ") : "this"
 						: "null");
+	}
+
+	public boolean setCover(byte[] cover) {
+		this.cover = cover;
+		return true;
+	}
+
+	public byte[] getCover() {
+		return this.cover;
+	}
+
+	public boolean setBackground(byte[] background) {
+		this.background = background;
+		return true;
+	}
+
+	public byte[] getBackground() {
+		return this.background;
+	}
+
+	public boolean setCoverType(String coverType) {
+		this.coverType = coverType;
+		return true;
+	}
+
+	public String getCoverType() {
+		return this.coverType;
+	}
+
+	public boolean setBackgroundType(String backgroundType) {
+		this.backgroundType = backgroundType;
+		return true;
+	}
+
+	public String getBackgroundType() {
+		return this.backgroundType;
 	}
 
 }
