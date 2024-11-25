@@ -37,6 +37,7 @@ public class CustomerRequestDto {
 		this.email = email;
 		this.name = name;
 		this.phoneNumber = phoneNumber;
+		this.address = address;
 	}
 
 	/**
