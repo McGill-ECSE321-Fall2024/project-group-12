@@ -71,7 +71,7 @@ public class CartServiceIntegrationTests {
 	public void setup() {
 		// Create (POST) a customer to use their cart for tests
 		CustomerRequestDto customerRequest = new CustomerRequestDto("customer@gmail.com", "password", "Customer",
-				"889427879");
+				"889427879", "1234 Street");
 		ResponseEntity<CustomerCreateResponseDto> customerResponse = client.postForEntity("/customers", customerRequest,
 				CustomerCreateResponseDto.class);
 		// Save the response

@@ -49,8 +49,9 @@ public class Customer extends UserRole {
 	}
 
 	public Customer(int aId, String aEmail, String aPassword, String aName, String aPhoneNumber, Wishlist aWishlist,
-			Cart aCart) {
+			Cart aCart, String aAddress) {
 		super(aId, aEmail, aPassword, aName, aPhoneNumber);
+		super.setAddress(aAddress);
 		if (!setWishlist(aWishlist)) {
 			throw new RuntimeException(
 					"Unable to create Customer due to aWishlist. See https://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
