@@ -30,7 +30,7 @@ const updateInfo = async (event) => {
   <!-- otherwise, the normal page can be shown -->
   <div v-else class="user">
     <img src="@/assets/logo.svg" class="logo"/>
-    <h2>Profile</h2>
+    <h2 class="title">Profile</h2>
 
     <div class="grid-container">
       <form class="user-info" @submit.prevent="updateInfo">
@@ -80,7 +80,7 @@ const updateInfo = async (event) => {
 </template>
 
 <style scoped>
-h2 {
+.title {
   display: inline;
 }
 .logo {
