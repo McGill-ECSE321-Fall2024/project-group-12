@@ -23,6 +23,8 @@ public class GameResponseDto {
 
 	private int id;
 
+	private int year;
+
 	@SuppressWarnings("unused")
 	private GameResponseDto() {
 	}
@@ -36,6 +38,7 @@ public class GameResponseDto {
 		this.description = model.getDescription();
 		this.status = model.getStatus();
 		this.id = model.getId();
+		this.year = model.getYear();
 	}
 
 	public Category getCategory() {
@@ -70,4 +73,7 @@ public class GameResponseDto {
 		return this.id;
 	}
 
+	public int getYear() {
+		return this.year;
+	}
 }

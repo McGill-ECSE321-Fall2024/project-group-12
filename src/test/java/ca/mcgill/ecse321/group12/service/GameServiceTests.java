@@ -48,6 +48,7 @@ public class GameServiceTests {
 		String aName = "Game Name...";
 		String aDescription = "Game Description...";
 		GameStatus aStatus = GameStatus.Archived;
+		int aYear = 2021;
 
 		Game game = new Game();
 		game.setCategory(aCategory);
@@ -57,11 +58,12 @@ public class GameServiceTests {
 		game.setName(aName);
 		game.setStatus(aStatus);
 		game.setDescription(aDescription);
+		game.setYear(aYear);
 		when(gameRepository.save(any(Game.class))).thenReturn(game);
 
 		// Act
 		Game createdGame = gameService.createGame(aCategory, aConsole, aInventory, aPrice, aName, aDescription,
-				aStatus);
+				aStatus, aYear);
 
 		// Assert
 		assertNotNull(createdGame);
@@ -72,6 +74,7 @@ public class GameServiceTests {
 		assertEquals(aPrice, createdGame.getPrice());
 		assertEquals(aDescription, createdGame.getDescription());
 		assertEquals(aStatus, createdGame.getStatus());
+		assertEquals(aYear, createdGame.getYear());
 		verify(gameRepository, times(1)).save(any(Game.class));
 	}
 
@@ -89,12 +92,13 @@ public class GameServiceTests {
 		String aName = "Game Name...";
 		String aDescription = "Game Description...";
 		GameStatus aStatus = GameStatus.Archived;
+		int aYear = 2021;
 
 		// Act
 
 		// Assert
 		CustomException e = assertThrows(CustomException.class,
-				() -> gameService.createGame(aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus));
+				() -> gameService.createGame(aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus, aYear));
 		assertEquals("Price has to be a positive number.", e.getMessage());
 	}
 
@@ -112,12 +116,13 @@ public class GameServiceTests {
 		String aName = "Game Name...";
 		String aDescription = "Game Description...";
 		GameStatus aStatus = GameStatus.Archived;
+		int aYear = 2021;
 
 		// Act
 
 		// Assert
 		CustomException e = assertThrows(CustomException.class,
-				() -> gameService.createGame(aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus));
+				() -> gameService.createGame(aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus, aYear));
 		assertEquals("Inventory has to be a positive integer.", e.getMessage());
 	}
 
@@ -135,12 +140,13 @@ public class GameServiceTests {
 		String aName = "";
 		String aDescription = "Game Description...";
 		GameStatus aStatus = GameStatus.Archived;
+		int aYear = 2021;
 
 		// Act
 
 		// Assert
 		CustomException e = assertThrows(CustomException.class,
-				() -> gameService.createGame(aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus));
+				() -> gameService.createGame(aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus, aYear));
 		assertEquals("Name cannot be empty.", e.getMessage());
 	}
 
@@ -158,12 +164,13 @@ public class GameServiceTests {
 		String aName = "Game name";
 		String aDescription = "";
 		GameStatus aStatus = GameStatus.Archived;
+		int aYear = 2021;
 
 		// Act
 
 		// Assert
 		CustomException e = assertThrows(CustomException.class,
-				() -> gameService.createGame(aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus));
+				() -> gameService.createGame(aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus, aYear));
 		assertEquals("Description cannot be empty.", e.getMessage());
 	}
 
@@ -182,8 +189,9 @@ public class GameServiceTests {
 		String aName = "Game Name...";
 		String aDescription = "Game Description...";
 		GameStatus aStatus = GameStatus.Archived;
+		int aYear = 2021;
 
-		Game game = new Game(id, aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus);
+		Game game = new Game(id, aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus, aYear);
 
 		when(gameRepository.findGameById(id)).thenReturn(game);
 
@@ -199,6 +207,7 @@ public class GameServiceTests {
 		assertEquals(aPrice, createdGame.getPrice());
 		assertEquals(aDescription, createdGame.getDescription());
 		assertEquals(aStatus, createdGame.getStatus());
+		assertEquals(aYear, createdGame.getYear());
 	}
 
 	/**
@@ -231,8 +240,9 @@ public class GameServiceTests {
 		String aName = "Game Name...";
 		String aDescription = "Game Description...";
 		GameStatus aStatus = GameStatus.Archived;
+		int aYear = 2021;
 
-		Game game = new Game(id, aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus);
+		Game game = new Game(id, aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus, aYear);
 		when(gameRepository.findGameById(id)).thenReturn(game);
 
 		Category updatedCategory = Category.Adventure;
@@ -242,6 +252,7 @@ public class GameServiceTests {
 		String updatedName = "Game Name 2...";
 		String updatedDescription = "Game Description 2...";
 		GameStatus updatedStatus = GameStatus.InCatalog;
+		int updatedYear = 2021;
 
 		Game updatedGame = new Game();
 		updatedGame.setCategory(updatedCategory);
@@ -251,13 +262,14 @@ public class GameServiceTests {
 		updatedGame.setName(updatedName);
 		updatedGame.setStatus(updatedStatus);
 		updatedGame.setDescription(updatedDescription);
+		updatedGame.setYear(updatedYear);
 
 		when(gameRepository.save(any(Game.class))).thenReturn(updatedGame);
 
 		// Act
 
 		gameService.updateGame(id, updatedCategory, updatedConsole, updatedInventory, updatedPrice, updatedName,
-				updatedDescription, updatedStatus);
+				updatedDescription, updatedStatus, updatedYear);
 
 		// Assert
 		assertNotNull(updatedGame);
@@ -268,6 +280,7 @@ public class GameServiceTests {
 		assertEquals(updatedPrice, updatedGame.getPrice());
 		assertEquals(updatedDescription, updatedGame.getDescription());
 		assertEquals(updatedStatus, updatedGame.getStatus());
+		assertEquals(updatedYear, updatedGame.getYear());
 	}
 
 	/**
@@ -286,8 +299,9 @@ public class GameServiceTests {
 		String aName = "Game Name...";
 		String aDescription = "Game Description...";
 		GameStatus aStatus = GameStatus.Archived;
+		int aYear = 2021;
 
-		Game game = new Game(id, aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus);
+		Game game = new Game(id, aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus, aYear);
 		when(gameRepository.findGameById(id)).thenReturn(game);
 
 		Category updatedCategory = Category.Adventure;
@@ -297,13 +311,14 @@ public class GameServiceTests {
 		String updatedName = "Game Name 2...";
 		String updatedDescription = "Game Description 2...";
 		GameStatus updatedStatus = GameStatus.InCatalog;
+		int updatedYear = 2022;
 
 		// Act
 
 		// Assert
 
 		CustomException e = assertThrows(CustomException.class, () -> gameService.updateGame(id, updatedCategory,
-				updatedConsole, updatedInventory, updatedPrice, updatedName, updatedDescription, updatedStatus));
+				updatedConsole, updatedInventory, updatedPrice, updatedName, updatedDescription, updatedStatus, updatedYear));
 		assertEquals("Inventory has to be a positive integer.", e.getMessage());
 	}
 
@@ -323,8 +338,9 @@ public class GameServiceTests {
 		String aName = "Game Name...";
 		String aDescription = "Game Description...";
 		GameStatus aStatus = GameStatus.Archived;
+		int aYear = 2021;
 
-		Game game = new Game(id, aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus);
+		Game game = new Game(id, aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus, aYear);
 		when(gameRepository.findGameById(id)).thenReturn(game);
 
 		Category updatedCategory = Category.Adventure;
@@ -334,13 +350,14 @@ public class GameServiceTests {
 		String updatedName = "";
 		String updatedDescription = "Game Description 2...";
 		GameStatus updatedStatus = GameStatus.InCatalog;
+		int updatedYear = 2022;
 
 		// Act
 
 		// Assert
 
 		CustomException e = assertThrows(CustomException.class, () -> gameService.updateGame(id, updatedCategory,
-				updatedConsole, updatedInventory, updatedPrice, updatedName, updatedDescription, updatedStatus));
+				updatedConsole, updatedInventory, updatedPrice, updatedName, updatedDescription, updatedStatus, updatedYear));
 		assertEquals("Name cannot be empty.", e.getMessage());
 	}
 
@@ -360,8 +377,9 @@ public class GameServiceTests {
 		String aName = "Game Name...";
 		String aDescription = "Game Description...";
 		GameStatus aStatus = GameStatus.Archived;
+		int aYear = 2021;
 
-		Game game = new Game(id, aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus);
+		Game game = new Game(id, aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus, aYear);
 		when(gameRepository.findGameById(id)).thenReturn(game);
 
 		Category updatedCategory = Category.Adventure;
@@ -371,13 +389,14 @@ public class GameServiceTests {
 		String updatedName = "Game Name 2...";
 		String updatedDescription = "";
 		GameStatus updatedStatus = GameStatus.InCatalog;
+		int updatedYear = 2022;
 
 		// Act
 
 		// Assert
 
 		CustomException e = assertThrows(CustomException.class, () -> gameService.updateGame(id, updatedCategory,
-				updatedConsole, updatedInventory, updatedPrice, updatedName, updatedDescription, updatedStatus));
+				updatedConsole, updatedInventory, updatedPrice, updatedName, updatedDescription, updatedStatus, updatedYear));
 		assertEquals("Description cannot be empty.", e.getMessage());
 	}
 
@@ -396,8 +415,9 @@ public class GameServiceTests {
 		String aName = "Game Name...";
 		String aDescription = "Game Description...";
 		GameStatus aStatus = GameStatus.Archived;
+		int aYear = 2021;
 
-		Game game = new Game(id, aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus);
+		Game game = new Game(id, aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus, aYear);
 		when(gameRepository.findGameById(id)).thenReturn(game);
 
 		Category updatedCategory = Category.Adventure;
@@ -407,13 +427,14 @@ public class GameServiceTests {
 		String updatedName = "Game Name 2...";
 		String updatedDescription = "Game Description 2...";
 		GameStatus updatedStatus = GameStatus.InCatalog;
+		int updatedYear = 2022;
 
 		// Act
 
 		// Assert
 
 		CustomException e = assertThrows(CustomException.class, () -> gameService.updateGame(id, updatedCategory,
-				updatedConsole, updatedInventory, updatedPrice, updatedName, updatedDescription, updatedStatus));
+				updatedConsole, updatedInventory, updatedPrice, updatedName, updatedDescription, updatedStatus, updatedYear));
 		assertEquals("Price has to be a positive number.", e.getMessage());
 	}
 

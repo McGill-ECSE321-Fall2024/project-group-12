@@ -72,7 +72,7 @@ public class GameController {
 	@ResponseStatus(HttpStatus.OK)
 	public GameResponseDto updateGame(@PathVariable int id, @RequestBody GameRequestDto game) {
 		Game updatedGame = gameService.updateGame(id, game.getCategory(), game.getConsole(), game.getInventory(),
-				game.getPrice(), game.getName(), game.getDescription(), game.getStatus());
+				game.getPrice(), game.getName(), game.getDescription(), game.getStatus(), game.getYear());
 		return new GameResponseDto(updatedGame);
 	}
 
@@ -86,7 +86,7 @@ public class GameController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public GameResponseDto createGame(@RequestBody GameRequestDto game) {
 		Game createdGame = gameService.createGame(game.getCategory(), game.getConsole(), game.getInventory(),
-				game.getPrice(), game.getName(), game.getDescription(), game.getStatus());
+				game.getPrice(), game.getName(), game.getDescription(), game.getStatus(), game.getYear());
 		return new GameResponseDto(createdGame);
 	}
 
