@@ -39,7 +39,6 @@ function prepareAnimation() {
 <style scoped>
 .game-card {
   width: 144px;
-  margin: 0 16px;
   display: inline-block;
   vertical-align: top;
 }
