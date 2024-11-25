@@ -33,30 +33,33 @@ const props = defineProps({
  */
 async function add() {
   alert('Added to cart')
-  const cartId = 4952; // change this to the user's cart ID, which should just be the customer ID
+  const cartId = 4952 // change this to the user's cart ID, which should just be the customer ID
   const requestOptions = {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ gameId: props.gameId }),
-  };
-  const response = await fetch(`http://localhost:8080/cart/${cartId}`, requestOptions);
-  return response.json();
+  }
+  const response = await fetch(`http://localhost:8080/cart/${cartId}`, requestOptions)
+  return response.json()
 }
 
 /**
  * Remove the game from the user's wishlist
- * 
+ *
  * TODO: refresh state after removing
  */
 async function remove() {
   alert('Removed from wishlist')
-  const wishlistId = 4952; // change this to the user's wishlist ID
+  const wishlistId = 4952 // change this to the user's wishlist ID
   const requestOptions = {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" }
-  };
-  const response = await fetch(`http://localhost:8080/wishlist/${wishlistId}?remove=${props.gameId}`, requestOptions);
-  return response.json();
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+  }
+  const response = await fetch(
+    `http://localhost:8080/wishlist/${wishlistId}?remove=${props.gameId}`,
+    requestOptions,
+  )
+  return response.json()
 }
 </script>
 
@@ -66,13 +69,13 @@ async function remove() {
     <div class="item">
       <img class="game-cover" :src="image" />
       <div class="game-info">
-        <h2>{{name}}</h2>
+        <h2>{{ name }}</h2>
         <div class="game-details">
-          <p class="game-console">{{console}}</p>
+          <p class="game-console">{{ console }}</p>
           <img class="icon" src="@/assets/icons/navbar/wishlist.png" />
-          <p class="game-year">{{year}}</p>
+          <p class="game-year">{{ year }}</p>
           <img class="icon" src="@/assets/icons/navbar/wishlist.png" />
-          <p class="game-price">${{price}}</p>
+          <p class="game-price">${{ price }}</p>
         </div>
         <button class="add" @click="add">+ Add to Cart</button>
         <button class="remove" @click="remove">- Remove from Wishlist</button>
