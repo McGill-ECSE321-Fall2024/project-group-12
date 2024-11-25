@@ -5,9 +5,7 @@ package ca.mcgill.ecse321.group12.model;
 
 import java.util.*;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
+import io.micrometer.common.lang.Nullable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -70,7 +68,9 @@ public class Game {
 	private int year;
 	private Byte[] cover;
 	private String coverType;
-	private Byte[] background;
+
+	private byte[] background;
+
 	private String backgroundType;
 
 	// ------------------------
@@ -239,22 +239,22 @@ public class Game {
 						: "null");
 	}
 
-	public boolean setCover(Byte[] cover) {
+	public boolean setCover(byte[] cover) {
 		this.cover = cover;
 		return true;
 	}
 
-	public Byte[] getCover() {
-		return cover;
+	public byte[] getCover() {
+		return this.cover;
 	}
 
-	public boolean setBackground(Byte[] background) {
+	public boolean setBackground(byte[] background) {
 		this.background = background;
 		return true;
 	}
 
-	public Byte[] getBackground() {
-		return background;
+	public byte[] getBackground() {
+		return this.background;
 	}
 
 	public boolean setCoverType(String coverType) {
@@ -263,7 +263,7 @@ public class Game {
 	}
 
 	public String getCoverType() {
-		return coverType;
+		return this.coverType;
 	}
 
 	public boolean setBackgroundType(String backgroundType) {
@@ -272,7 +272,7 @@ public class Game {
 	}
 
 	public String getBackgroundType() {
-		return backgroundType;
+		return this.backgroundType;
 	}
 
 }
