@@ -74,7 +74,8 @@ public class ReviewServiceTests {
 		Cart cart = new Cart();
 		// create a review
 
-		Game createdGame = new Game(gameId, aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus, aYear);
+		Game createdGame = new Game(gameId, aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus,
+				aYear);
 		Customer createdCustomer = new Customer(customerId, email, password, name, phoneNumber, wishlist, cart);
 
 		when(gameRepository.findGameById(gameId)).thenReturn(createdGame);
@@ -122,7 +123,8 @@ public class ReviewServiceTests {
 		String aDescription = "Game Description...";
 		GameStatus aStatus = GameStatus.Archived;
 		int aYear = 2021;
-		Game createdGame = new Game(gameId, aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus, aYear);
+		Game createdGame = new Game(gameId, aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus,
+				aYear);
 		Cart cart = new Cart();
 		when(gameRepository.findGameById(gameId)).thenReturn(createdGame);
 
@@ -202,7 +204,8 @@ public class ReviewServiceTests {
 
 		Cart cart = new Cart();
 		// create a review
-		Game createdGame = new Game(gameId, aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus, aYear);
+		Game createdGame = new Game(gameId, aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus,
+				aYear);
 		when(gameRepository.findGameById(gameId)).thenReturn(createdGame);
 
 		Customer createdCustomer = new Customer(customerId, email, password, name, phoneNumber, wishlist, cart);
@@ -270,7 +273,8 @@ public class ReviewServiceTests {
 		Cart cart = new Cart();
 		// create a review
 
-		Game createdGame = new Game(gameId, aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus, aYear);
+		Game createdGame = new Game(gameId, aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus,
+				aYear);
 		Customer createdCustomer = new Customer(customerId, email, password, name, phoneNumber, wishlist, cart);
 		when(gameRepository.findGameById(gameId)).thenReturn(createdGame);
 		when(customerRepository.findCustomerById(customerId)).thenReturn(createdCustomer);
@@ -327,7 +331,8 @@ public class ReviewServiceTests {
 		Cart cart = new Cart();
 		// create a review
 
-		Game createdGame = new Game(gameId, aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus, aYear);
+		Game createdGame = new Game(gameId, aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus,
+				aYear);
 		Customer createdCustomer = new Customer(customerId, email, password, name, phoneNumber, wishlist, cart);
 		when(gameRepository.findGameById(gameId)).thenReturn(createdGame);
 		when(customerRepository.findCustomerById(customerId)).thenReturn(createdCustomer);
@@ -384,7 +389,8 @@ public class ReviewServiceTests {
 		Cart cart = new Cart();
 		// create a review
 
-		Game createdGame = new Game(gameId, aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus, aYear);
+		Game createdGame = new Game(gameId, aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus,
+				aYear);
 		Customer createdCustomer = new Customer(customerId, email, password, name, phoneNumber, wishlist, cart);
 
 		when(gameRepository.findGameById(gameId)).thenReturn(createdGame);

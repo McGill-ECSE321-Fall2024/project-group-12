@@ -62,8 +62,8 @@ public class GameServiceTests {
 		when(gameRepository.save(any(Game.class))).thenReturn(game);
 
 		// Act
-		Game createdGame = gameService.createGame(aCategory, aConsole, aInventory, aPrice, aName, aDescription,
-				aStatus, aYear);
+		Game createdGame = gameService.createGame(aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus,
+				aYear);
 
 		// Assert
 		assertNotNull(createdGame);
@@ -97,8 +97,8 @@ public class GameServiceTests {
 		// Act
 
 		// Assert
-		CustomException e = assertThrows(CustomException.class,
-				() -> gameService.createGame(aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus, aYear));
+		CustomException e = assertThrows(CustomException.class, () -> gameService.createGame(aCategory, aConsole,
+				aInventory, aPrice, aName, aDescription, aStatus, aYear));
 		assertEquals("Price has to be a positive number.", e.getMessage());
 	}
 
@@ -121,8 +121,8 @@ public class GameServiceTests {
 		// Act
 
 		// Assert
-		CustomException e = assertThrows(CustomException.class,
-				() -> gameService.createGame(aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus, aYear));
+		CustomException e = assertThrows(CustomException.class, () -> gameService.createGame(aCategory, aConsole,
+				aInventory, aPrice, aName, aDescription, aStatus, aYear));
 		assertEquals("Inventory has to be a positive integer.", e.getMessage());
 	}
 
@@ -145,8 +145,8 @@ public class GameServiceTests {
 		// Act
 
 		// Assert
-		CustomException e = assertThrows(CustomException.class,
-				() -> gameService.createGame(aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus, aYear));
+		CustomException e = assertThrows(CustomException.class, () -> gameService.createGame(aCategory, aConsole,
+				aInventory, aPrice, aName, aDescription, aStatus, aYear));
 		assertEquals("Name cannot be empty.", e.getMessage());
 	}
 
@@ -169,8 +169,8 @@ public class GameServiceTests {
 		// Act
 
 		// Assert
-		CustomException e = assertThrows(CustomException.class,
-				() -> gameService.createGame(aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus, aYear));
+		CustomException e = assertThrows(CustomException.class, () -> gameService.createGame(aCategory, aConsole,
+				aInventory, aPrice, aName, aDescription, aStatus, aYear));
 		assertEquals("Description cannot be empty.", e.getMessage());
 	}
 
@@ -317,8 +317,9 @@ public class GameServiceTests {
 
 		// Assert
 
-		CustomException e = assertThrows(CustomException.class, () -> gameService.updateGame(id, updatedCategory,
-				updatedConsole, updatedInventory, updatedPrice, updatedName, updatedDescription, updatedStatus, updatedYear));
+		CustomException e = assertThrows(CustomException.class,
+				() -> gameService.updateGame(id, updatedCategory, updatedConsole, updatedInventory, updatedPrice,
+						updatedName, updatedDescription, updatedStatus, updatedYear));
 		assertEquals("Inventory has to be a positive integer.", e.getMessage());
 	}
 
@@ -356,8 +357,9 @@ public class GameServiceTests {
 
 		// Assert
 
-		CustomException e = assertThrows(CustomException.class, () -> gameService.updateGame(id, updatedCategory,
-				updatedConsole, updatedInventory, updatedPrice, updatedName, updatedDescription, updatedStatus, updatedYear));
+		CustomException e = assertThrows(CustomException.class,
+				() -> gameService.updateGame(id, updatedCategory, updatedConsole, updatedInventory, updatedPrice,
+						updatedName, updatedDescription, updatedStatus, updatedYear));
 		assertEquals("Name cannot be empty.", e.getMessage());
 	}
 
@@ -395,8 +397,9 @@ public class GameServiceTests {
 
 		// Assert
 
-		CustomException e = assertThrows(CustomException.class, () -> gameService.updateGame(id, updatedCategory,
-				updatedConsole, updatedInventory, updatedPrice, updatedName, updatedDescription, updatedStatus, updatedYear));
+		CustomException e = assertThrows(CustomException.class,
+				() -> gameService.updateGame(id, updatedCategory, updatedConsole, updatedInventory, updatedPrice,
+						updatedName, updatedDescription, updatedStatus, updatedYear));
 		assertEquals("Description cannot be empty.", e.getMessage());
 	}
 
@@ -433,8 +436,9 @@ public class GameServiceTests {
 
 		// Assert
 
-		CustomException e = assertThrows(CustomException.class, () -> gameService.updateGame(id, updatedCategory,
-				updatedConsole, updatedInventory, updatedPrice, updatedName, updatedDescription, updatedStatus, updatedYear));
+		CustomException e = assertThrows(CustomException.class,
+				() -> gameService.updateGame(id, updatedCategory, updatedConsole, updatedInventory, updatedPrice,
+						updatedName, updatedDescription, updatedStatus, updatedYear));
 		assertEquals("Price has to be a positive number.", e.getMessage());
 	}
 

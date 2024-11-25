@@ -76,4 +76,5 @@ public class GameResponseDto {
 	public int getYear() {
 		return this.year;
 	}
+
 }
