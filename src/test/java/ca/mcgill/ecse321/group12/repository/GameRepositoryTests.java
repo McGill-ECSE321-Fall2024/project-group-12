@@ -33,8 +33,9 @@ public class GameRepositoryTests {
 		String name = "FIFA";
 		String description = "FIFA is a football game.";
 		GameStatus status = GameStatus.InCatalog;
+		int year = 2021;
 
-		Game game = new Game(0, category, console, inventory, price, name, description, status);
+		Game game = new Game(0, category, console, inventory, price, name, description, status, year);
 
 		// Save person
 		game = gameRepository.save(game);
@@ -52,6 +53,7 @@ public class GameRepositoryTests {
 		assertEquals(gameFromDb.getPrice(), price);
 		assertEquals(gameFromDb.getDescription(), description);
 		assertEquals(gameFromDb.getStatus(), status);
+		assertEquals(gameFromDb.getYear(), year);
 	}
 
 }

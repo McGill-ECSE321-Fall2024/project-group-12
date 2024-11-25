@@ -50,7 +50,8 @@ public class CommentRepositoryTests {
 		String gameName = "FIFA";
 		String description = "FIFA is a football game.";
 		GameStatus status = GameStatus.InCatalog;
-		Game game = new Game(0, category, console, inventory, price, gameName, description, status);
+		int year = 2021;
+		Game game = new Game(0, category, console, inventory, price, gameName, description, status, year);
 		game = gameRepository.save(game);
 
 		// Create customer
