@@ -103,7 +103,7 @@ public class WishlistServiceIntegrationTests {
 
 		// Create (POST) a game to use it for tests
 		GameRequestDto gameRequest = new GameRequestDto(Category.Action, Console.PC, 1, 1.0f, "Game Name...",
-				"Game Description...", GameStatus.Archived);
+				"Game Description...", GameStatus.Archived, 2021);
 
 		RequestEntity<GameRequestDto> req = RequestEntity.post("/games")
 			.header("Authorization", employeeAuth)

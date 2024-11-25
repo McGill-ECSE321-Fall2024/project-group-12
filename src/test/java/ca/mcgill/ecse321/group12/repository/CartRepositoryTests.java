@@ -1,22 +1,21 @@
 package ca.mcgill.ecse321.group12.repository;
 
+import java.util.List;
+
+import org.hibernate.Hibernate;
+import org.junit.jupiter.api.AfterEach;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
+
 import ca.mcgill.ecse321.group12.model.Cart;
 import ca.mcgill.ecse321.group12.model.Game;
 import ca.mcgill.ecse321.group12.model.Game.Category;
 import ca.mcgill.ecse321.group12.model.Game.Console;
 import ca.mcgill.ecse321.group12.model.Game.GameStatus;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
-import java.util.List;
-
-import org.hibernate.Hibernate;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
 public class CartRepositoryTests {
@@ -48,7 +47,8 @@ public class CartRepositoryTests {
 		String name = "FIFA";
 		String description = "FIFA is a football game.";
 		GameStatus status = GameStatus.InCatalog;
-		Game game = new Game(0, category, console, inventory, price, name, description, status);
+		int year = 2021;
+		Game game = new Game(0, category, console, inventory, price, name, description, status, year);
 		game = gameRepository.save(game);
 
 		assertNotNull(game);

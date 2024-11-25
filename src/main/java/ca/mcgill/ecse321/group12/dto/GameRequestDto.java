@@ -20,12 +20,14 @@ public class GameRequestDto {
 
 	private GameStatus status;
 
+	private int year;
+
 	@SuppressWarnings("unused")
 	private GameRequestDto() {
 	}
 
 	public GameRequestDto(Category category, Console console, int inventory, float price, String name,
-			String description, GameStatus status) {
+			String description, GameStatus status, int year) {
 		this.category = category;
 		this.console = console;
 		this.inventory = inventory;
@@ -33,6 +35,7 @@ public class GameRequestDto {
 		this.name = name;
 		this.description = description;
 		this.status = status;
+		this.year = year;
 	}
 
 	public Category getCategory() {
@@ -63,32 +66,40 @@ public class GameRequestDto {
 		return this.status;
 	}
 
+	public int getYear() {
+		return this.year;
+	}
+
 	public void setCategory(Category category) {
 		this.category = category;
 	}
 
-	public void getConsole(Console console) {
+	public void setConsole(Console console) {
 		this.console = console;
 	}
 
-	public void getInventory(int inventory) {
+	public void setInventory(int inventory) {
 		this.inventory = inventory;
 	}
 
-	public void getPrice(float price) {
+	public void setPrice(float price) {
 		this.price = price;
 	}
 
-	public void getName(String name) {
+	public void setName(String name) {
 		this.name = name;
 	}
 
-	public void getDescription(String description) {
+	public void setDescription(String description) {
 		this.description = description;
 	}
 
-	public void getStatus(GameStatus status) {
+	public void setStatus(GameStatus status) {
 		this.status = status;
+	}
+
+	public void setYear(int year) {
+		this.year = year;
 	}
 
 }
