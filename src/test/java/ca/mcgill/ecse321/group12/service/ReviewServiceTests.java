@@ -70,13 +70,15 @@ public class ReviewServiceTests {
 		Wishlist wishlist = new Wishlist();
 		int gameId = 0;
 		int customerId = 0;
+		String address = "1234 rue de la rue";
 
 		Cart cart = new Cart();
 		// create a review
 
 		Game createdGame = new Game(gameId, aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus,
 				aYear);
-		Customer createdCustomer = new Customer(customerId, email, password, name, phoneNumber, wishlist, cart);
+		Customer createdCustomer = new Customer(customerId, email, password, name, phoneNumber, wishlist, cart,
+				address);
 
 		when(gameRepository.findGameById(gameId)).thenReturn(createdGame);
 		when(customerRepository.findCustomerById(customerId)).thenReturn(createdCustomer);
@@ -135,7 +137,9 @@ public class ReviewServiceTests {
 		String phoneNumber = "5141234567";
 		Wishlist wishlist = new Wishlist();
 		int customerId = 0;
-		Customer createdCustomer = new Customer(customerId, email, password, name, phoneNumber, wishlist, cart);
+		String address = "1234 rue de la rue";
+		Customer createdCustomer = new Customer(customerId, email, password, name, phoneNumber, wishlist, cart,
+				address);
 		when(customerRepository.findCustomerById(customerId)).thenReturn(createdCustomer);
 
 		// create a review
@@ -201,6 +205,7 @@ public class ReviewServiceTests {
 		Wishlist wishlist = new Wishlist();
 		int gameId = 1;
 		int customerId = 2;
+		String address = "1234 rue de la rue";
 
 		Cart cart = new Cart();
 		// create a review
@@ -208,7 +213,8 @@ public class ReviewServiceTests {
 				aYear);
 		when(gameRepository.findGameById(gameId)).thenReturn(createdGame);
 
-		Customer createdCustomer = new Customer(customerId, email, password, name, phoneNumber, wishlist, cart);
+		Customer createdCustomer = new Customer(customerId, email, password, name, phoneNumber, wishlist, cart,
+				address);
 		when(customerRepository.findCustomerById(customerId)).thenReturn(createdCustomer);
 
 		Review review = reviewService.createReview(likeCount, rating, reviewText, createdGame.getId(),
@@ -269,13 +275,15 @@ public class ReviewServiceTests {
 		Wishlist wishlist = new Wishlist();
 		int gameId = 0;
 		int customerId = 0;
+		String address = "1234 rue de la rue";
 
 		Cart cart = new Cart();
 		// create a review
 
 		Game createdGame = new Game(gameId, aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus,
 				aYear);
-		Customer createdCustomer = new Customer(customerId, email, password, name, phoneNumber, wishlist, cart);
+		Customer createdCustomer = new Customer(customerId, email, password, name, phoneNumber, wishlist, cart,
+				address);
 		when(gameRepository.findGameById(gameId)).thenReturn(createdGame);
 		when(customerRepository.findCustomerById(customerId)).thenReturn(createdCustomer);
 		Review review = reviewService.createReview(likeCount, rating, reviewText, createdGame.getId(),
@@ -327,13 +335,15 @@ public class ReviewServiceTests {
 		Wishlist wishlist = new Wishlist();
 		int gameId = 0;
 		int customerId = 0;
+		String address = "1234 rue de la rue";
 
 		Cart cart = new Cart();
 		// create a review
 
 		Game createdGame = new Game(gameId, aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus,
 				aYear);
-		Customer createdCustomer = new Customer(customerId, email, password, name, phoneNumber, wishlist, cart);
+		Customer createdCustomer = new Customer(customerId, email, password, name, phoneNumber, wishlist, cart,
+				address);
 		when(gameRepository.findGameById(gameId)).thenReturn(createdGame);
 		when(customerRepository.findCustomerById(customerId)).thenReturn(createdCustomer);
 
@@ -385,13 +395,17 @@ public class ReviewServiceTests {
 		Wishlist wishlist = new Wishlist();
 		int gameId = 0;
 		int customerId = 0;
+		String address = "1234 rue de la rue";
 
 		Cart cart = new Cart();
 		// create a review
 
 		Game createdGame = new Game(gameId, aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus,
 				aYear);
-		Customer createdCustomer = new Customer(customerId, email, password, name, phoneNumber, wishlist, cart);
+		Customer createdCustomer = new Customer(customerId, email, password, name, phoneNumber, wishlist, cart,
+				address);
+		when(gameRepository.findGameById(gameId)).thenReturn(createdGame);
+		when(customerRepository.findCustomerById(customerId)).thenReturn(createdCustomer);
 
 		when(gameRepository.findGameById(gameId)).thenReturn(createdGame);
 		when(customerRepository.findCustomerById(customerId)).thenReturn(createdCustomer);

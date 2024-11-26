@@ -81,6 +81,8 @@ public class AuthConfig {
 				.hasRole("EMPLOYEE")
 				.requestMatchers(HttpMethod.PUT, "/games/*")
 				.hasRole("EMPLOYEE")
+				.requestMatchers(HttpMethod.POST, "/games/*")
+				.hasRole("EMPLOYEE")
 				// orders: users can get orders, customers can create or return orders.
 				.requestMatchers(HttpMethod.GET, "/orders/*")
 				.hasRole("USER")

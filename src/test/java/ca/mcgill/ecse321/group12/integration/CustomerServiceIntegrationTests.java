@@ -1,10 +1,9 @@
 package ca.mcgill.ecse321.group12.integration;
 
+import org.junit.jupiter.api.AfterAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -49,6 +48,8 @@ public class CustomerServiceIntegrationTests {
 
 	private final String VALID_PHONENUMBER = "250 000 0000";
 
+	private final String VALID_ADDRESS = "1234 Street";
+
 	private Cart cart;
 
 	private Wishlist wishlist;
@@ -79,7 +80,8 @@ public class CustomerServiceIntegrationTests {
 	@Order(1)
 	public void testCreateValidCustomer() {
 		// Arrange
-		CustomerRequestDto request = new CustomerRequestDto(VALID_EMAIL, VALID_PASSWORD, VALID_NAME, VALID_PHONENUMBER);
+		CustomerRequestDto request = new CustomerRequestDto(VALID_EMAIL, VALID_PASSWORD, VALID_NAME, VALID_PHONENUMBER,
+				VALID_ADDRESS);
 
 		// Act
 		ResponseEntity<CustomerCreateResponseDto> response = client.postForEntity("/customers", request,
@@ -111,7 +113,8 @@ public class CustomerServiceIntegrationTests {
 	@Order(2)
 	public void testCreateInvalidCustomer() {
 		// Arrange
-		CustomerRequestDto request = new CustomerRequestDto(VALID_EMAIL, VALID_PASSWORD, VALID_NAME, VALID_PHONENUMBER);
+		CustomerRequestDto request = new CustomerRequestDto(VALID_EMAIL, VALID_PASSWORD, VALID_NAME, VALID_PHONENUMBER,
+				VALID_ADDRESS);
 
 		// Act
 		ResponseEntity<CustomerResponseDto> response = client.postForEntity("/customers", request,
@@ -184,7 +187,8 @@ public class CustomerServiceIntegrationTests {
 	public void testUpdateCustomerByValidInputs() {
 		// Arrange
 		String url = "/customers/" + this.validId;
-		CustomerRequestDto body = new CustomerRequestDto(VALID_EMAIL2, VALID_PASSWORD, VALID_NAME, VALID_PHONENUMBER);
+		CustomerRequestDto body = new CustomerRequestDto(VALID_EMAIL2, VALID_PASSWORD, VALID_NAME, VALID_PHONENUMBER,
+				VALID_ADDRESS);
 		RequestEntity<CustomerRequestDto> request = RequestEntity.put(url)
 			.header("Authorization", auth)
 			.accept(MediaType.APPLICATION_PROBLEM_JSON)
@@ -215,7 +219,8 @@ public class CustomerServiceIntegrationTests {
 	@Order(6)
 	public void testUpdateCustomerByInvalidEmail() {
 		// Creating a new customer
-		CustomerRequestDto request = new CustomerRequestDto(VALID_EMAIL, VALID_PASSWORD, VALID_NAME, VALID_PHONENUMBER);
+		CustomerRequestDto request = new CustomerRequestDto(VALID_EMAIL, VALID_PASSWORD, VALID_NAME, VALID_PHONENUMBER,
+				VALID_ADDRESS);
 		ResponseEntity<CustomerResponseDto> response = client.postForEntity("/customers", request,
 				CustomerResponseDto.class);
 		assertNotNull(response);
@@ -224,7 +229,7 @@ public class CustomerServiceIntegrationTests {
 		// Arrange
 		String url = "/customers/" + this.validId;
 		CustomerRequestDto body = new CustomerRequestDto(VALID_EMAIL, VALID_PASSWORD, VALID_NAME, VALID_PHONENUMBER,
-				this.cart, this.wishlist);
+				this.cart, this.wishlist, VALID_ADDRESS);
 		RequestEntity<CustomerRequestDto> request2 = RequestEntity.put(url)
 			.header("Authorization", auth)
 			.accept(MediaType.APPLICATION_PROBLEM_JSON)

@@ -86,7 +86,8 @@ public class ReviewServiceIntegrationTests {
 	@BeforeAll
 	public void setup() {
 		// create a customer to associate with the review
-		CustomerRequestDto customerRequest = new CustomerRequestDto("carmin1@gmail.com", "1", "a", "7806665667");
+		CustomerRequestDto customerRequest = new CustomerRequestDto("carmin1@gmail.com", "1", "a", "7806665667",
+				"1234 Street");
 		ResponseEntity<CustomerCreateResponseDto> customerResponse = client.postForEntity("/customers", customerRequest,
 				CustomerCreateResponseDto.class);
 		// save the response
