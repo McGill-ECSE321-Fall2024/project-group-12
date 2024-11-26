@@ -36,6 +36,12 @@ const router = createRouter({
       component: UserView,
     },
     {
+      path: '/manager/account',
+      name: 'manager/account',
+      component: ManagerAccountView,
+    },
+
+    {
       path: '/manager',
       name: 'manager',
       component: ManagerCustomerView,

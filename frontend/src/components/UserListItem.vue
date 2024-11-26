@@ -1,12 +1,31 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 
 const showPopup = ref(false);
 
 
+
 const togglePopup = () => {
+    event.stopPropagation(); // Prevent the click from propagating to the document
     showPopup.value = !showPopup.value;
 };
+
+// Hide popup when clicking outside the popup element
+const handleClickOutside = (event) => {
+    const popupElement = document.querySelector('.popup');
+    if (showPopup.value && popupElement && !popupElement.contains(event.target)) {
+        showPopup.value = false;
+    }
+};
+
+onMounted(() => {
+    document.addEventListener('click', handleClickOutside);
+});
+
+onUnmounted(() => {
+    document.removeEventListener('click', handleClickOutside);
+});
+
 
 const props = defineProps({
     id: {

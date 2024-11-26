@@ -10,11 +10,36 @@ const { createThemeFromColour } = inject('theme')
 // change to a red theme to match the holiday effect
 createThemeFromColour('#FF9797')
 
+
+//
+const { user, token } = inject('auth')
+// load all games from the db
+const customers = ref([])
+const response = await fetch('http://localhost:8080/customers', {
+  method: 'GET',
+  headers: {
+    "Authorization": `Bearer ${token}`
+  },
+  //only for POST body: {
+    // whatever body is...
+  //}
+});
+if (response.ok) { 
+  console.log("Request successful");
+} else {
+  // error on request (for example, not correct authorization)
+}
+customers.value = await response.json();
+
+
+
+//
+
 const userId = ref("89023794");
 const userName = ref("Cunégonde Theodraalia");
 const userEmail = ref("cune@hotmail.dk");
 
-const customers = ref([
+const customers_ex = ref([
   { id: "89023794", name: "Cunégonde Theodraalia", email: "laplusbellecune@hotmail.dk" },
   { id: "12345678", name: "John Doe", email: "john.doe@example.com" },
   { id: "87654321", name: "Jane Smith", email: "jane.smith@example.com" },
@@ -29,12 +54,22 @@ const customers = ref([
 
 <template>
   <main>
-    <div class="title">
-      <h2>Customers</h2>
+    <div class="title left-aligned">
+      <h1>Customers</h1>
     </div>
+    <div class="topbar">
+      <div class="rectangle parent">
+      <h2 class="children shorter">ID</h2>
+      <h2 class="children left-aligned">Name</h2>
+      <h2 class="children left-aligned">Email</h2>
+      <h2 class="children center-aligned">Actions</h2>
+    </div>
+    <hr class="line_top" width="100%" size="3">
+    </div>
+
     <div>
         <listItem 
-        v-for="customer in customers" 
+        v-for="customer in customers_ex" 
         :key="customer.id"
         :id="customer.id"
         :name="customer.name"
@@ -53,13 +88,64 @@ h1 {
 }
 .title {
   display: flex;
-  flex-direction: column
+  flex-direction: column;
+  text-align: left;
   /* margin-top: 20px;
     margin-bottom: 20px; */
 }
 .icon {
   width: 48px;
   height: 48px;
+}
+
+.rectangle{
+    width:100%;
+    height:50px;
+    border-radius: 3px;
+    background:Gray;
+}
+
+.line_top{
+    
+    position: relative;
+    
+    margin-bottom: 0px;
+}
+
+.children {
+    margin: 10px;
+}
+
+.left-aligned {
+    width: 30px; 
+    flex-shrink: 0;
+    text-align: left; 
+}
+
+.shorter {
+    width: 30px; 
+    flex-shrink: 0;
+    text-align: left; 
+}
+
+.center-aligned {
+    width: 25px; 
+}
+
+.parent {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px;
+}
+
+.topbar {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+
 }
 
 </style>
