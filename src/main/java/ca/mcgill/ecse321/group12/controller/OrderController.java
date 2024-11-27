@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.group12.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -121,8 +122,13 @@ public class OrderController {
 	 */
 	@GetMapping("/orders/customer/{id}")
 	@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
-	public List<Order> findOrdersByCustomerId(@PathVariable int customerId) {
+	public List<OrderResponseDto> findOrdersByCustomerId(@PathVariable int customerId) {
 		List<Order> orders = orderService.findByCustomerId(customerId);
-		return orders;
+		List<OrderResponseDto> orderDtos = new ArrayList<OrderResponseDto>();
+		for (Order order : orders) {
+			orderDtos.add(new OrderResponseDto(order));
+		}
+
+		return orderDtos;
 	}
 }
