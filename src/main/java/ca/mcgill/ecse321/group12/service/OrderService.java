@@ -3,8 +3,6 @@ package ca.mcgill.ecse321.group12.service;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -47,11 +45,12 @@ public class OrderService {
 	 * @return list of orders associated with the requested customer
 	 * @author Amy Ding
 	 */
+	
 	public List<Order> findByCustomerId(int customerId) {
 
 		// List<Order> customerOrders = StreamSupport.stream(repo.findAll().spliterator(), false).filter(order -> order.getCustomer().getId() == customerId).collect(Collectors.toList());
 
-		List<Order> customerOrders = repo.findByCustomer(customerId);
+		List<Order> customerOrders = repo.findByCustomerId(customerId);
 		// Throw exception if no orders found
 		if (customerOrders.isEmpty()) {
 			throw new CustomException(HttpStatus.NOT_FOUND, 
@@ -60,6 +59,7 @@ public class OrderService {
 
 		return customerOrders;
 	}
+	
 
 
 	/**
