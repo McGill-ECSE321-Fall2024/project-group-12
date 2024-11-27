@@ -6,11 +6,8 @@
 import { inject, ref, watch } from 'vue'
 import CartItem from '@/components/CartItem.vue'
 
-import zeldaCover from '@/assets/games/zelda.png'
-import marioCover from '@/assets/games/mario.png'
-import minecraftCover from '@/assets/games/minecraft.png'
-
 const { createThemeFromColour } = inject('theme')
+createThemeFromColour('#FF9797')
 const { user, token } = inject('auth')
 
 async function fetchData() {
@@ -51,38 +48,6 @@ async function removeItem(gameId) { // TO FINISH ****
   const cart = await response.json()
   data.value = cart
   return
-}
-
-
-
-// to test
-const testItemList = {
-  games: [
-    {
-      id: 0,
-      image: zeldaCover,
-      name: 'The Legend of Zelda: Tears of the Kingdom',
-      console: 'Nintendo',
-      year: 2023,
-      price: 79.99,
-    },
-    {
-      id: 1,
-      image: minecraftCover,
-      name: 'Minecraft',
-      console: 'PC',
-      year: 2011,
-      price: 29.99,
-    },
-    {
-      id: 2,
-      image: marioPartyJamboreeCover,
-      name: 'Mario Party Jamboree',
-      console: 'Nintendo',
-      year: 2022,
-      price: 59.99,
-    },
-  ],
 }
 </script>
 
