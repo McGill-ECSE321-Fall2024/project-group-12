@@ -80,10 +80,6 @@ async function remove(gameId) {
     </div>
     <div class="placeholder" v-else-if="data.games?.length == 0">Your wishlist is empty.</div>
     <div v-else class="wishlist-items">
-      <p>{{ data }}</p>
-      <!-- for testing purposes -->
-      <p>{{ cartdata }}</p>
-      <!-- for testing purposes -->
       <WishlistItem
         v-for="item in data.games"
         :key="item.id"
