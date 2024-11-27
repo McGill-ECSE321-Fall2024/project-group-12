@@ -113,7 +113,6 @@ const updateUser = async (name, email, phoneNumber) => {
   console.log(token.value);
   const resp = await fetch(`http://localhost:8080/${userType.toLowerCase()}s/${userId}`, {
     method: 'PUT',
-    // credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token.value}`,
@@ -142,7 +141,6 @@ const updateUser = async (name, email, phoneNumber) => {
   )
   // load the user again
   loadUser()
-
 }
 const signOut = () => {
   localStorage.removeItem('auth')

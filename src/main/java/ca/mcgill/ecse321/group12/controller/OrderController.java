@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -114,4 +115,14 @@ public class OrderController {
 
 	}
 
+	/**
+	 * Get all orders associated with a customer
+	 * @author Amy Ding
+	 */
+	@GetMapping("/orders/customer/{id}")
+	@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
+	public List<Order> findOrdersByCustomerId(@PathVariable int customerId) {
+		List<Order> orders = orderService.findByCustomerId(customerId);
+		return orders;
+	}
 }
