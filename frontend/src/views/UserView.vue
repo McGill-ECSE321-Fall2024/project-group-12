@@ -1,5 +1,5 @@
 <script setup>
-import { inject, ref } from 'vue'
+import { inject, ref, watch } from 'vue'
 import SigninView from '@/views/SigninView.vue'
 import Order from '@/components/Order.vue'
 // load the current user
@@ -23,6 +23,10 @@ const updateInfo = async (event) => {
 
 async function getOrders() {
   const authResponse = JSON.parse(localStorage.getItem('auth'))
+
+  // check whether auth response exists
+  if (!authResponse) return [];
+
   const { token, id, userType } = authResponse
   console.log(authResponse.id)
 
