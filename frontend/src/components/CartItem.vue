@@ -2,28 +2,61 @@
  For cart page
  @author Kennedy Olsen
 -->
+<script setup>
+import { inject } from 'vue'
+const { user, token } = inject('auth')
 
-<script setup></script>
+const props = defineProps({
+  gameId: {
+    type: Number,
+    required: true,
+  },
+  image: {
+    type: String,
+    required: true,
+  },
+  name: {
+    type: String,
+    required: true,
+  },
+  console: {
+    type: String,
+    required: true,
+  },
+  year: {
+    type: Number,
+    required: true,
+  },
+  price: {
+    type: Number,
+    required: true,
+  },
+  remove: {
+    type: Function,
+    required: true,
+  },
+})
+</script>
 
 <template>
-    <div class="cart-item">
-      <hr /> <!--creates horizontal line-->
-      <div class="item">
-        <img class="game-cover" src="@/assets/games/minecraft.png" />
-        <div class="game-info">
-          <h2>Minecraft</h2> <!--game title-->
-          <div class="game-details">
-            <p class="game-console">PC</p> <!--PC/XBOX/nintendo etc-->
-            
-            <p class="game-year">2011</p> <!--year of release-->
-            <p class="game-price">$29.99</p> <!--price-->
-          </div>
-          <button class="remove">- Remove from Cart</button>
+  <div class="cart-item">
+    <hr /> <!--creates horizontal line-->
+    <div class="item">
+      <img class="game-cover" src="image" />
+      <div class="game-info">
+        <h2>{{ name }}</h2> <!--game title-->
+        <div class="game-details">
+          <p class="game-console">{{ console }}</p> <!--PC/XBOX/nintendo etc-->
+          
+          <p class="game-year">{{ year }}</p> <!--year of release-->
+          <p class="game-price">${{ price }}</p> <!--price-->
         </div>
+        <button class="remove" @click="() => remove(gameId)"> Remove from Cart</button>
       </div>
-      <hr />
     </div>
-  </template>
+    <hr />
+  </div>
+</template>
 
 <style scoped>
 h2 {
@@ -31,15 +64,15 @@ h2 {
   font-size: 32px;
 }
 button {
-  background-color: #888888;
-  color: #ffffff;
+  background-color: #fda3ce;
+  color: #b22279;
   border: none;
   border-radius: 100px;
   padding: 12px;
   margin: 16px 0px;
 }
 .remove {
-  background-color: #ffd4eb;
+  background-color: #eac0d6;
   color: #ac3976;
 }
 .item {
@@ -54,28 +87,17 @@ button {
 .game-info {
   display: inline-block;
   vertical-align: top;
-  height: 155px;
-
 }
 .game-details {
   font-size: 20px;
 }
 .game-console {
   display: inline-block;
-  margin-right: 10px;
 }
 .game-year {
   display: inline-block;
-  margin: 10px;
 }
-.game-price 
+.game-price {
   display: inline-block;
-  margin: 10px;
 }
-.icon {
-  width: 16px;
-  height: 16px;
-  margin: 0px 10px;
-}
-
 </style>

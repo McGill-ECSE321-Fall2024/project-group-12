@@ -2,6 +2,12 @@
  Cart page
  @author Kennedy Olsen
 -->
+<script setup>
+import { inject, ref, watch } from 'vue'
+import CartItem from '@/components/CartItem.vue'
+
+import zeldaCover from '@/assets/games/zelda.png'
+import marioCover from '@/assets/games/mario.png'
 
 <script setup>
 import { inject } from 'vue'
@@ -20,7 +26,7 @@ createThemeFromColour('#00ff00')
     <div class="cart-item">
       <CartItem />
     </div>
-    <button class="checkout">- Checkout</button>
+    <button class="checkout"> Checkout</button>
   </main>
   
 </template>
