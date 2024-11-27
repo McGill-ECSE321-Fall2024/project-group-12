@@ -14,7 +14,7 @@ const { user } = inject('auth')
 createThemeFromColour('#FF9797')
 
 // load all games from the db
-const response = await fetch('http://localhost:8080/games')
+const response = await fetch('http://localhost:8080/games?status=InCatalog')
 const games = await response.json()
 </script>
 
