@@ -9,13 +9,13 @@ import GameCard from '@/components/GameCard.vue'
 
 const { createThemeFromColour } = inject('theme')
 const { user } = inject('auth')
+
 // change to a red theme to match the holiday effect
 createThemeFromColour('#FF9797')
 
 // load all games from the db
-const response = await fetch('http://localhost:8080/games');
-const games = await response.json();
-console.log(games);
+const response = await fetch('http://localhost:8080/games')
+const games = await response.json()
 </script>
 
 <template>

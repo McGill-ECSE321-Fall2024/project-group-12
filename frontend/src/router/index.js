@@ -29,6 +29,7 @@ const router = createRouter({
     },
     {
       path: '/game/:id',
+      props: true,
       name: 'game',
       component: GameView,
     },
