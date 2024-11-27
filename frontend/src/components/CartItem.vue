@@ -36,18 +36,37 @@ const props = defineProps({
     required: true,
   },
 })
+
+/**
+ * Get the cover image for the game
+ */
+ async function getCover() {
+  const response = await fetch(`http://localhost:8080/games/${props.gameId}/cover`)
+  return response.json()
+}
+const cover = ref(null)
+cover.value = await getCover()
+let coverStr = ''
+
+// Build the cover image url string if the cover exists
+if (cover.value && cover.value.type && cover.value.image) {
+  coverStr = `data:image/${cover.value.type};base64,${cover.value.image}`
+}
+
 </script>
+
+
 
 <template>
   <div class="cart-item">
     <hr /> <!--creates horizontal line-->
     <div class="item">
-      <img class="game-cover" :src="image" />
+      <img v-if="cover.type != null" class="game-cover" :src="coverStr" />
       <div class="game-info">
         <h2>{{ name }}</h2> <!--game title-->
         <div class="game-details">
           <p class="game-console">{{ console }}</p> <!--PC/XBOX/nintendo etc-->
-
+          
           <p class="game-year">{{ year }}</p> <!--year of release-->
           <p class="game-price">${{ price }}</p> <!--price-->
         </div>
