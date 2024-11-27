@@ -120,7 +120,7 @@ public class OrderController {
 	 * Get all orders associated with a customer
 	 * @author Amy Ding
 	 */
-	@GetMapping("/orders/customer/{id}")
+	@GetMapping("/orders/customer/{customerId}")
 	@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 	public List<OrderResponseDto> findOrdersByCustomerId(@PathVariable int customerId) {
 		List<Order> orders = orderService.findByCustomerId(customerId);
