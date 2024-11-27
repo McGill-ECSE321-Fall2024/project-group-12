@@ -66,7 +66,7 @@ public class Game {
 	private GameStatus status;
 
 	private int year;
-	private Byte[] cover;
+	private byte[] cover;
 	private String coverType;
 
 	private byte[] background;

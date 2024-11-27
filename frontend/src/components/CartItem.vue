@@ -51,7 +51,7 @@ const props = defineProps({
           <p class="game-year">{{ year }}</p> <!--year of release-->
           <p class="game-price">${{ price }}</p> <!--price-->
         </div>
-        <button class="remove" @click="() => remove(gameId)"> Remove from Cart</button>
+        <button class="remove" @click="() => removeItem(gameId)"> Remove from Cart</button>
       </div>
     </div>
     <hr />
