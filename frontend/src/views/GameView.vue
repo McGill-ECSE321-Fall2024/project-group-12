@@ -37,11 +37,11 @@ const addToCart = async () => {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token.value}`
+      Authorization: `Bearer ${token.value}`,
     },
     body: JSON.stringify({
-      gameId: props.id
-    })
+      gameId: props.id,
+    }),
   })
   if (response.ok) {
     alert('added to cart')
@@ -54,11 +54,11 @@ const addToWishlist = async () => {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token.value}`
+      Authorization: `Bearer ${token.value}`,
     },
     body: JSON.stringify({
-      gameId: props.id
-    })
+      gameId: props.id,
+    }),
   })
   if (response.ok) {
     alert('added to wishlist')
