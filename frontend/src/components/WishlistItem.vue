@@ -1,5 +1,8 @@
 <script setup>
 import { inject, ref } from 'vue'
+import PlusIcon from 'vue-material-design-icons/Plus.vue'
+import HeartOutlineIcon from 'vue-material-design-icons/HeartOutline.vue'
+
 const { user, token } = inject('auth')
 
 const props = defineProps({
@@ -80,8 +83,8 @@ if (cover.value && cover.value.type && cover.value.image) {
           <img class="icon" src="@/assets/icons/navbar/wishlist.png" />
           <p class="game-price">${{ price }}</p>
         </div>
-        <button class="add" @click="add">+ Add to Cart</button>
-        <button class="remove" @click="() => remove(gameId)">- Remove from Wishlist</button>
+        <button class="add" @click="add"><PlusIcon /> Add to Cart</button>
+        <button class="remove" @click="() => remove(gameId)"><HeartOutlineIcon/> Remove from Wishlist</button>
       </div>
     </div>
     <hr />
@@ -105,10 +108,14 @@ button {
   background-color: #ff57b0;
   color: #ffffff;
   margin-right: 10px;
+  display: inline-flex;
+  align-items: center;
 }
 .remove {
   background-color: #ffd4eb;
   color: #ac3976;
+  display: inline-flex;
+  align-items: center;
 }
 .item {
   margin: 12px 20px;
