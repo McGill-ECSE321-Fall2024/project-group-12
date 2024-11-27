@@ -15,14 +15,13 @@ defineProps({
   },
   id: {
     type: Number,
-    required: true
-  }
+    required: true,
+  },
 })
 
 function prepareAnimation() {
-  gameCover.value.style.viewTransitionName = 'game-cover';
+  gameCover.value.style.viewTransitionName = 'game-cover'
 }
-
 </script>
 
 <template>
