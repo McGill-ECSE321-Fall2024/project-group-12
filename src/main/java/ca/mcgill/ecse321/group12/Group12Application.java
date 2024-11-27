@@ -29,6 +29,7 @@ public class Group12Application {
 				registry.addMapping("/*/*/*")
 					.allowedOrigins("http://localhost:5173")
 					.allowedMethods("GET", "POST", "PUT", "DELETE");
+
 			}
 		};
 	}
