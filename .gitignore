@@ -5,3 +5,4 @@
 build
 bin
 .DS_Store
+src/main/java/ca/mcgill/ecse321/group12/config/AuthConfig.java
