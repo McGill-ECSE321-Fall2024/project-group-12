@@ -31,8 +31,8 @@ import SearchBar from './SearchBar.vue'
           <img class="nav-list--icon" src="@/assets/icons/navbar/game.png" />
         </AnimatedLink>
       </li>
-      <li class="nav-list--item nav-list--end" :class="{ selected: $route.path == '/wishlist' }">
-        <AnimatedLink to="/wishlist">
+      <li class="nav-list--item nav-list--end" :class="{ selected: $route.path == '/signin' }">
+        <AnimatedLink to="/signin">
           <img class="nav-list--icon" src="@/assets/icons/navbar/wishlist.png" />
         </AnimatedLink>
       </li>

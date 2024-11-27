@@ -5,6 +5,7 @@ import UserView from '../views/UserView.vue'
 import WishlistView from '../views/WishlistView.vue'
 import ManagerAccountView from '@/views/ManagerAccountView.vue'
 import ManagerCustomerView from '@/views/ManagerCustomerView.vue'
+import SigninView from '@/views/SigninView.vue'
 
 
 const router = createRouter({
@@ -35,6 +36,13 @@ const router = createRouter({
       // component: () => import('../views/UserView.vue'),
       component: UserView,
     },
+
+    {
+      path: '/signin',
+      name: 'signin',
+      // component: () => import('../views/UserView.vue'),
+      component: SigninView,
+    },
     {
       path: '/manager/account',
       name: 'manager/account',
@@ -42,9 +50,16 @@ const router = createRouter({
     },
 
     {
-      path: '/manager',
-      name: 'manager',
+      path: '/manager/customer',
+      name: 'manager/customer',
       component: ManagerCustomerView,
+    },
+
+    {
+      path: '/manager/customer/:id',
+      name: 'manager/specificcustomer',
+      component: ManagerCustomerView,
+      props: true
     },
   ],
 })

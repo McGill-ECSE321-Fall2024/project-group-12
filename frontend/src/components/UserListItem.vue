@@ -1,8 +1,29 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
+import { useRouter } from 'vue-router'
 
 const showPopup = ref(false);
 
+const router = useRouter()
+
+const props = defineProps({
+    id: {
+        type: String,
+        required: true
+    },
+    name: {
+        type: String,
+        required: true
+    },
+    email: {
+        type: String,
+        required: true
+    },
+    phoneNumber: {
+        type: String,
+        required: true
+    }
+});
 
 
 const togglePopup = () => {
@@ -18,6 +39,11 @@ const handleClickOutside = (event) => {
     }
 };
 
+const viewPage = () => {
+    console.log('View Page');
+    router.push('manager/customer/' + props.id);
+};
+
 onMounted(() => {
     document.addEventListener('click', handleClickOutside);
 });
@@ -27,20 +53,7 @@ onUnmounted(() => {
 });
 
 
-const props = defineProps({
-    id: {
-        type: String,
-        required: true
-    },
-    name: {
-        type: String,
-        required: true
-    },
-    email: {
-        type: String,
-        required: true
-    }
-});
+
 
 </script>
 
@@ -48,16 +61,17 @@ const props = defineProps({
     
 
     <div class="parent">
-        <h3 class="children left-aligned">{{ id }}</h3>
-        <h3 class="children left-aligned">{{ name }}</h3>
-        <h3 class="children left-aligned">{{ email }}</h3>
+        <h3 class="children id-aligned">{{ id }}</h3>
+        <h3 class="children name-aligned">{{ name }}</h3>
+        <h3 class="children email-aligned">{{ email }}</h3>
+        <h3 class="children phone-aligned">{{ phoneNumber }}</h3>
         <button class="children transparent-button" @click="togglePopup">
             <img class="icon" src="@/assets/icons/userbar/threedots.webp" alt="Options">
         </button>
 
         <div v-if="showPopup" class="popup">
             <ul class="popup-list">
-                <li @click="action1">View Page</li>
+                <li @click=viewPage>View Page</li>
                 <li @click="action2">Edit</li>
                 <li @click="action3">Delete</li>
             </ul>
@@ -73,18 +87,39 @@ const props = defineProps({
     position: relative;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    /*justify-content: space-between;   */
     align-items: center;
-    margin: 10px;
-    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding: 20px;
 }
 
 .children {
     margin: 10px;
 }
 
-.left-aligned {
-    width: 200px; 
+.id-aligned{
+    width: 12%;
+
+    flex-shrink: 0;
+    text-align: left; 
+}
+.name-aligned{
+    width: 25%;
+
+    flex-shrink: 0;
+    text-align: left; 
+}
+.email-aligned{
+    width: 30%;
+
+    flex-shrink: 0;
+    text-align: left; 
+}
+
+.phone-aligned{
+    width: 20%;
+
     flex-shrink: 0;
     text-align: left; 
 }
@@ -99,6 +134,7 @@ const props = defineProps({
     border: none;
     cursor: pointer;
     padding: 0;
+    width: 13%;
 }
 
 .popup {

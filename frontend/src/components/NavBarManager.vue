@@ -21,26 +21,18 @@ import SearchBar from './SearchBar.vue'
       <div class="nav-spacing"></div>
 
       <!-- the icons at the end of the navbar -->
-      <li
-        class="nav-list--item nav-list--end nav-list--mobile"
-        :class="{ selected: $route.path == '/' }"
-      >
-        <AnimatedLink to="/">
-          <img class="nav-list--icon" src="@/assets/icons/navbar/game.png" />
-        </AnimatedLink>
-      </li>
-      <li class="nav-list--item nav-list--end" :class="{ selected: $route.path == '/wishlist' }">
-        <AnimatedLink to="/wishlist">
-            <h3>hello</h3>
+      <li class="nav-list--item" :class="{ selected: $route.path == '/signin' }">
+        <AnimatedLink to="/signin">
+          <h3>hello</h3>
         </AnimatedLink>
       </li>
       
-      <li class="nav-list--item nav-list--end" :class="{ selected: $route.path == '/manager' }">
-        <AnimatedLink to="/manager">
+      <li class="nav-list--item" :class="{ selected: $route.path == '/manager/customer' }">
+        <AnimatedLink to="/manager/customer">
             <h3>Customer</h3>
         </AnimatedLink>
       </li>
-      <li class="nav-list--item nav-list--end" :class="{ selected: $route.path == '/manager/account' }">
+      <li class="nav-list--item" :class="{ selected: $route.path == '/manager/account' }">
         <AnimatedLink to="/manager/account">
             <h3>Account</h3>
         </AnimatedLink>
@@ -79,19 +71,7 @@ nav {
   text-wrap: nowrap;
 }
 
-.topbutton {
-  background-color: #979797; 
-  border: none;
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  transition-duration: 0.4s;
-  cursor: pointer;
-}
+
 
 .nav-list {
   display: flex;
@@ -101,40 +81,27 @@ nav {
   align-content: center;
   width: 100%;
 }
+
 .nav-list--item {
-  display: inline-block;
   font-size: 1.25rem;
-
-  text-align: left;
   color: white;
-  align-content: center;
   text-align: center;
-  margin: 3%;
-
-  background-color: #a0a0a0; 
+  background-color: hsl(0, 0%, 63%); 
   border-radius: 3px;
+  padding: 10px;
+  margin: 40px;
+  height: 30px;
+  width: 150px;
+
 
 }
 .nav-list--mobile {
   display: none;
 }
 /* version of nav list item that appears at the end of the bar */
-.nav-list--end {
-  width: 200px;
-}
-.nav-list--item a {
-  height: 100%;
-  display: block;
-  align-content: center;
-}
-.nav-list--icon {
-  height: 32px;
-  padding: 0 8px;
-}
-.nav-list--label {
-  position: relative;
-  top: -8px;
-}
+
+
+
 /**
  * provides the little line under the selected page in the navbar.
  * @author James Madden
@@ -147,7 +114,7 @@ nav {
   top: -28px;
   width: 32px;
   height: 2px;
-  background: white;
+  background: blue;
   border-radius: 1px;
   margin: auto;
 }
