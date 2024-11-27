@@ -70,7 +70,7 @@ public class WishlistServiceIntegrationTests {
 	public void setup() {
 		// Create (POST) a customer to use their wishlist for tests
 		CustomerRequestDto customerRequest = new CustomerRequestDto("abdefghij@mail.mcgill.ca", "hello123456", "Test",
-				"987654321");
+				"987654321", "1234 Street");
 		ResponseEntity<CustomerCreateResponseDto> customerResponse = client.postForEntity("/customers", customerRequest,
 				CustomerCreateResponseDto.class);
 		// Save the response
@@ -103,7 +103,7 @@ public class WishlistServiceIntegrationTests {
 
 		// Create (POST) a game to use it for tests
 		GameRequestDto gameRequest = new GameRequestDto(Category.Action, Console.PC, 1, 1.0f, "Game Name...",
-				"Game Description...", GameStatus.Archived);
+				"Game Description...", GameStatus.Archived, 2021);
 
 		RequestEntity<GameRequestDto> req = RequestEntity.post("/games")
 			.header("Authorization", employeeAuth)

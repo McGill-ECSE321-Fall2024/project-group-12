@@ -88,7 +88,7 @@ public class OrderServiceIntegrationTests {
 
 		// create a new customer to use their cart and auth code for the tests
 		CustomerRequestDto customerRequest = new CustomerRequestDto("johnathan.deer@email.com", "password123",
-				"Customer", "778 000 0000");
+				"Customer", "778 000 0000", "1234 Street");
 		ResponseEntity<CustomerCreateResponseDto> customerResponse = client.postForEntity("/customers", customerRequest,
 				CustomerCreateResponseDto.class);
 		// save the response
@@ -120,13 +120,13 @@ public class OrderServiceIntegrationTests {
 
 		// create games for use in tests
 		GameRequestDto game1 = new GameRequestDto(Category.Action, Console.Switch, 10, 10f, "Action Game",
-				"Action-packed game filled with action", GameStatus.InCatalog);
+				"Action-packed game filled with action", GameStatus.InCatalog, 2021);
 		GameRequestDto game2 = new GameRequestDto(Category.Puzzle, Console.XBox, 0, 60f, "XBox Puzzle",
-				"Can you solve it?", GameStatus.InCatalog);
+				"Can you solve it?", GameStatus.InCatalog, 2020);
 		GameRequestDto game3 = new GameRequestDto(Category.Adventure, Console.PC, 100, 80f, "Adventure VI",
-				"Explore the world!", GameStatus.InCatalog);
+				"Explore the world!", GameStatus.InCatalog, 2019);
 		GameRequestDto game4 = new GameRequestDto(Category.Sports, Console.PlayStation, 0, 100f, "Not Available",
-				"This game shouldn't show up when browsing", GameStatus.PendingApproval);
+				"This game shouldn't show up when browsing", GameStatus.PendingApproval, 2018);
 
 		// and post them to the database
 		RequestEntity<GameRequestDto> gameReq1 = RequestEntity.post("/games")
