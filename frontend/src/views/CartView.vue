@@ -11,9 +11,13 @@ createThemeFromColour('#FF9797')
 const { user, token } = inject('auth')
 
 async function fetchData() {
-  const cardId = user.value.cart.Id
-  const response = await fetch(`http://localhost:8080/cart/${cardId}`)
-  return response.json()
+  const cartId = user.value.cart.id
+  const response = await fetch(`http://localhost:8080/cart/${cartId}`, {
+    headers: {
+      'Authorization': `Bearer ${token.value}`,
+    }
+  })
+  return await response.json()
 }
 
 const data = ref(null)
@@ -51,14 +55,13 @@ async function removeItem(gameId) { // TO FINISH ****
 }
 </script>
 
-<template> 
+<template>
   <main>
     <div class="title">
       <img class="icon" src="@/assets/icons/navbar/cart.png" />
       <h1>My Cart</h1>
     </div>
-    <div class="cart-item"> 
-      <p>{{ data }}</p>
+    <div class="cart-item">
       <!--to test-->
       <CartItem
         v-for="item in data.games"
