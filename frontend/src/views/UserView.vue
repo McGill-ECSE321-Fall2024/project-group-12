@@ -1,5 +1,5 @@
 <script setup>
-import { inject } from 'vue'
+import { inject, ref } from 'vue'
 import SigninView from '@/views/SigninView.vue'
 import Order from '@/components/Order.vue'
 // load the current user
@@ -21,40 +21,55 @@ const updateInfo = async (event) => {
   updateUser(name, email, phoneNumber);
 }
 
-const getOrders = async (event) => {
-  event.preventDefault()
-
+async function getOrders() {
   const authResponse = JSON.parse(localStorage.getItem('auth'))
   const {token, id, userType} = authResponse
   console.log(authResponse.id);
 
-  const orders = [];
-  const error = null;
-  try {
-    const resp = await fetch(`http://localhost:8080/orders/customer/${id}`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      "Authorization": `Bearer ${token}`,
-      'Accept': 'application/json'
-    },
-    });
-  } catch (err) {
-    // error.value = err.message
-    console.error('Error fetching orders:', err)
-  }
 
-  // if (!resp.ok) {
-  //     throw new Error(`HTTP error! status: ${resp.status}`)
-  // }
+  const resp = await fetch(`http://localhost:8080/orders/customer/${id}`, {
+  method: 'GET',
+  headers: {
+    'Content-Type': 'application/json',
+    "Authorization": `Bearer ${token}`,
+    'Accept': 'application/json'
+  },
+  });
 
   const data = await resp.json()
-  console.log(data);
-
-  // authResponse = JSON.parse(localStorage.getItem('auth'))
-  // const {token: storedToken, id: userId, userType} = authResponse
-  // orders.value = await response.json();
+  return data;
 }
+const orders = ref(null);
+orders.value = await getOrders();
+
+orders.value = [
+  {
+    id: 1,
+    games: [
+      {
+        id: 101,
+        name: "Animal Crossing",
+        console: "Nintendo Switch",
+        year: 2014,
+        price: 1212.22,
+      },
+      {
+        id: 102,
+        name: "Minecraft",
+        console: "PC",
+        year: 1980,
+        price: 999.99,
+      },
+      {
+        id: 103,
+        name: "League of Legends",
+        console: "XBox",
+        year: 1823,
+        price: 1,
+      },
+    ],
+  },
+];
 
 </script>
 
@@ -64,8 +79,7 @@ const getOrders = async (event) => {
   <SigninView v-if="user == null" />
   <!-- otherwise, the normal page can be shown -->
   <div v-else class="user">
-    <img src="@/assets/logo.svg" class="logo"/>
-    <h2 class="title">Profile {{user.id}}</h2>
+    <h2 class="title">Profile</h2>
 
     <div class="grid-container">
       <form class="user-info" @submit.prevent="updateInfo">
@@ -106,13 +120,12 @@ const getOrders = async (event) => {
     </div>
     <button @click="signOut">Sign out</button>
     <section>
-      <h2>Orders</h2>
+      <h2 class="title">Orders</h2>
       <div>
         <Order 
-          v-for="order in orders" 
+          v-for="order in orders"
           :key="order.id"
           :order="order"
-          :games="order.games"
         />
       </div>
     </section>
@@ -123,13 +136,7 @@ const getOrders = async (event) => {
 <style scoped>
 .title {
   display: inline;
-}
-.logo {
-  position: absolute;
-  bottom: 16px;
-  right: 16px;
-  width: 64px;
-  view-transition-name: logo;
+  font-size: 2.25rem;
 }
 
 .grid-container {

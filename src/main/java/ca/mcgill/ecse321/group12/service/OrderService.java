@@ -47,16 +47,7 @@ public class OrderService {
 	 */
 	
 	public List<Order> findByCustomerId(int customerId) {
-
-		// List<Order> customerOrders = StreamSupport.stream(repo.findAll().spliterator(), false).filter(order -> order.getCustomer().getId() == customerId).collect(Collectors.toList());
-
 		List<Order> customerOrders = repo.findByCustomerId(customerId);
-		// Throw exception if no orders found
-		if (customerOrders.isEmpty()) {
-			throw new CustomException(HttpStatus.NOT_FOUND, 
-				"No orders found for customer with ID " + customerId);
-		}
-
 		return customerOrders;
 	}
 	
