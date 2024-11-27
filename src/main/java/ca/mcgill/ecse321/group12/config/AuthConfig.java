@@ -85,7 +85,7 @@ public class AuthConfig {
 				// .hasRole("EMPLOYEE")
 				.permitAll()
 				.requestMatchers(HttpMethod.POST, "/games/*")
-				//.hasRole("EMPLOYEE")
+				// .hasRole("EMPLOYEE")
 				.permitAll()
 				// orders: users can get orders, customers can create or return orders.
 				.requestMatchers(HttpMethod.GET, "/orders/*")
