@@ -12,6 +12,7 @@ const props = defineProps({
 })
 
 const { createThemeFromImg } = inject('theme')
+const { user, token } = inject('auth')
 
 const game = ref(null)
 
@@ -27,6 +28,42 @@ const loadGame = async () => {
   game.value = await response.json()
 }
 loadGame()
+
+// provide methods for button presses
+const addToCart = async () => {
+  // send the post request to add to cart
+  console.log(user.value)
+  const response = await fetch(`http://localhost:8080/cart/${user.value?.cart?.id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token.value}`
+    },
+    body: JSON.stringify({
+      gameId: props.id
+    })
+  })
+  if (response.ok) {
+    alert('added to cart')
+  }
+}
+const addToWishlist = async () => {
+  // send the post request to add to cart
+  console.log(user.value)
+  const response = await fetch(`http://localhost:8080/wishlist/${user.value?.wishlist?.id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token.value}`
+    },
+    body: JSON.stringify({
+      gameId: props.id
+    })
+  })
+  if (response.ok) {
+    alert('added to wishlist')
+  }
+}
 </script>
 
 <template>
@@ -46,10 +83,10 @@ loadGame()
 
     <main class="game-content">
       <div class="button-row">
-        <FancyButton filled label="Add to Cart">
+        <FancyButton filled label="Add to Cart" @click="addToCart">
           <PlusIcon />
         </FancyButton>
-        <FancyButton label="Add to Wishlist">
+        <FancyButton label="Add to Wishlist" @click="addToWishlist">
           <HeartOutlineIcon />
         </FancyButton>
       </div>
