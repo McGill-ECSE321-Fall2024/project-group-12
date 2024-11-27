@@ -21,6 +21,14 @@ import SearchBar from './SearchBar.vue'
       <div class="nav-spacing"></div>
 
       <!-- the icons at the end of the navbar -->
+      <li class="nav-list--item" :class="{ selected: $route.path == '/manager/games' }">
+        <AnimatedLink to="/manager/games">
+            <h3>Games</h3>
+        </AnimatedLink>
+        
+      </li>
+      
+      
       <li class="nav-list--item" :class="{ selected: $route.path == '/signin' }">
         <AnimatedLink to="/signin">
           <h3>hello</h3>
@@ -32,6 +40,13 @@ import SearchBar from './SearchBar.vue'
             <h3>Customer</h3>
         </AnimatedLink>
       </li>
+      <li class="nav-list--item" :class="{ selected: $route.path == '/manager/account' }">
+        <AnimatedLink to="/manager/account">
+            <h3>Account</h3>
+        </AnimatedLink>
+        
+      </li>
+
       <li class="nav-list--item" :class="{ selected: $route.path == '/manager/account' }">
         <AnimatedLink to="/manager/account">
             <h3>Account</h3>
@@ -88,9 +103,8 @@ nav {
   text-align: center;
   background-color: hsl(0, 0%, 63%); 
   border-radius: 3px;
-  padding: 10px;
-  margin: 40px;
-  height: 30px;
+  margin: 28px;
+  height: 40px;
   width: 150px;
 
 
@@ -101,23 +115,10 @@ nav {
 /* version of nav list item that appears at the end of the bar */
 
 
-
-/**
- * provides the little line under the selected page in the navbar.
- * @author James Madden
-*/
-.nav-list--item.selected::after {
-  content: '';
-  view-transition-name: navbar-selected;
-  display: block;
-  position: relative;
-  top: -28px;
-  width: 32px;
-  height: 2px;
-  background: blue;
-  border-radius: 1px;
-  margin: auto;
+.selected {
+  background-color: hsl(0, 0%, 28%);
 }
+
 .nav-spacing {
   display: block;
   width: 0px;

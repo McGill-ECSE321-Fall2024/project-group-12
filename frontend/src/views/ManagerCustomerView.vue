@@ -53,8 +53,8 @@ const customers_ex = ref([
 
 <template>
   <main>
-    <div class="title left-aligned">
-      <h1>Customers</h1>
+    <div>
+      <h1 class="title left-aligned">Customers</h1>
     </div>
     <div class="topbar">
       <div class="rectangle parent">
@@ -87,12 +87,14 @@ h1 {
   text-align: center;
   font-size: 36px;
 }
+
+.left-aligned {
+  text-align: left;
+}
 .title {
   display: flex;
   flex-direction: column;
-  text-align: left;
-  /* margin-top: 20px;
-    margin-bottom: 20px; */
+  margin-left: 10px;
 }
 .icon {
   width: 48px;
