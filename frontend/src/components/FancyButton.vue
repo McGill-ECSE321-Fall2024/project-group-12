@@ -2,7 +2,7 @@
 defineProps({
   filled: Boolean,
   label: String,
-  icon: String
+  icon: String,
 })
 </script>
 

@@ -7,8 +7,8 @@ import { ref, useTemplateRef, onMounted, inject } from 'vue'
 const props = defineProps({
   id: {
     type: String,
-    required: true
-  }
+    required: true,
+  },
 })
 
 const { createThemeFromImg } = inject('theme')
@@ -33,11 +33,15 @@ loadGame()
   <div class="game-page">
     <img class="game-background" src="@/assets/loz-poster.jpg" ref="background-img" />
     <header class="game-info">
-      <img class="game-poster"
-        src="https://upload.wikimedia.org/wikipedia/en/f/fb/The_Legend_of_Zelda_Tears_of_the_Kingdom_cover.jpg" />
+      <img
+        class="game-poster"
+        src="https://upload.wikimedia.org/wikipedia/en/f/fb/The_Legend_of_Zelda_Tears_of_the_Kingdom_cover.jpg"
+      />
       <div class="game-titles">
-        <h1 class="header">{{ game ? game.name : "..." }}</h1>
-        <h2 class="subheader">{{ game?.console }} • {{ game?.year }} • ${{ game?.price }} • rating</h2>
+        <h1 class="header">{{ game ? game.name : '...' }}</h1>
+        <h2 class="subheader">
+          {{ game?.console }} • {{ game?.year }} • ${{ game?.price }} • rating
+        </h2>
       </div>
     </header>
 

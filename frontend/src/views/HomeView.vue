@@ -21,31 +21,70 @@ const games = await response.json()
 <template>
   <header>
     <BackgroundGradient colour="255, 151, 151" />
-    <h1 class="header sale--text">Happy Holidays, <span class="sale--name">{{ user?.name }}</span>!</h1>
+    <h1 class="header sale--text">
+      Happy Holidays, <span class="sale--name">{{ user?.name }}</span
+      >!
+    </h1>
     <h2 class="subheader sale--text">Enjoy up to 50% off some of the best games of the year!</h2>
 
     <div class="game-list">
-      <GameCard id="0" name="Legend of Zelda: Tears of the Kingd..." img="https://upload.wikimedia.org/wikipedia/en/f/fb/The_Legend_of_Zelda_Tears_of_the_Kingdom_cover.jpg" />
-      <GameCard id="0" name="Mario Kart 8" img="https://upload.wikimedia.org/wikipedia/en/b/b5/MarioKart8Boxart.jpg" />
-      <GameCard id="0" name="Animal Crossing: New Horizons" img="https://upload.wikimedia.org/wikipedia/en/1/1f/Animal_Crossing_New_Horizons.jpg" />
-      <GameCard id="0" name="Legend of Zelda: Tears of the Kingd..." img="https://upload.wikimedia.org/wikipedia/en/f/fb/The_Legend_of_Zelda_Tears_of_the_Kingdom_cover.jpg" />
-      <GameCard id="0" name="Mario Kart 8" img="https://upload.wikimedia.org/wikipedia/en/b/b5/MarioKart8Boxart.jpg" />
-      <GameCard id="0" name="Animal Crossing: New Horizons" img="https://upload.wikimedia.org/wikipedia/en/1/1f/Animal_Crossing_New_Horizons.jpg" />
-      <GameCard id="0" name="Legend of Zelda: Tears of the Kingd..." img="https://upload.wikimedia.org/wikipedia/en/f/fb/The_Legend_of_Zelda_Tears_of_the_Kingdom_cover.jpg" />
-      <GameCard id="0" name="Mario Kart 8" img="https://upload.wikimedia.org/wikipedia/en/b/b5/MarioKart8Boxart.jpg" />
-      <GameCard id="0" name="Animal Crossing: New Horizons" img="https://upload.wikimedia.org/wikipedia/en/1/1f/Animal_Crossing_New_Horizons.jpg" />
+      <GameCard
+        id="0"
+        name="Legend of Zelda: Tears of the Kingd..."
+        img="https://upload.wikimedia.org/wikipedia/en/f/fb/The_Legend_of_Zelda_Tears_of_the_Kingdom_cover.jpg"
+      />
+      <GameCard
+        id="0"
+        name="Mario Kart 8"
+        img="https://upload.wikimedia.org/wikipedia/en/b/b5/MarioKart8Boxart.jpg"
+      />
+      <GameCard
+        id="0"
+        name="Animal Crossing: New Horizons"
+        img="https://upload.wikimedia.org/wikipedia/en/1/1f/Animal_Crossing_New_Horizons.jpg"
+      />
+      <GameCard
+        id="0"
+        name="Legend of Zelda: Tears of the Kingd..."
+        img="https://upload.wikimedia.org/wikipedia/en/f/fb/The_Legend_of_Zelda_Tears_of_the_Kingdom_cover.jpg"
+      />
+      <GameCard
+        id="0"
+        name="Mario Kart 8"
+        img="https://upload.wikimedia.org/wikipedia/en/b/b5/MarioKart8Boxart.jpg"
+      />
+      <GameCard
+        id="0"
+        name="Animal Crossing: New Horizons"
+        img="https://upload.wikimedia.org/wikipedia/en/1/1f/Animal_Crossing_New_Horizons.jpg"
+      />
+      <GameCard
+        id="0"
+        name="Legend of Zelda: Tears of the Kingd..."
+        img="https://upload.wikimedia.org/wikipedia/en/f/fb/The_Legend_of_Zelda_Tears_of_the_Kingdom_cover.jpg"
+      />
+      <GameCard
+        id="0"
+        name="Mario Kart 8"
+        img="https://upload.wikimedia.org/wikipedia/en/b/b5/MarioKart8Boxart.jpg"
+      />
+      <GameCard
+        id="0"
+        name="Animal Crossing: New Horizons"
+        img="https://upload.wikimedia.org/wikipedia/en/1/1f/Animal_Crossing_New_Horizons.jpg"
+      />
     </div>
   </header>
   <main>
     <h2 class="subheader">Browse Our Games</h2>
     <div class="game-grid">
-      <GameCard v-for="game in games"
+      <GameCard
+        v-for="game in games"
         :key="game.id"
         :id="game.id"
         :name="game.name"
         img="https://upload.wikimedia.org/wikipedia/en/f/fb/The_Legend_of_Zelda_Tears_of_the_Kingdom_cover.jpg"
       >
-
       </GameCard>
     </div>
   </main>
@@ -59,7 +98,7 @@ h2 {
   view-transition-name: logo;
 }
 .sale--text {
-  color: #FF9797;
+  color: #ff9797;
   padding-bottom: 16px;
 }
 .sale--name {

@@ -84,7 +84,9 @@ if (cover.value && cover.value.type && cover.value.image) {
           <p class="game-price">${{ price }}</p>
         </div>
         <button class="add" @click="add"><PlusIcon /> Add to Cart</button>
-        <button class="remove" @click="() => remove(gameId)"><HeartOutlineIcon/> Remove from Wishlist</button>
+        <button class="remove" @click="() => remove(gameId)">
+          <HeartOutlineIcon /> Remove from Wishlist
+        </button>
       </div>
     </div>
     <hr />
