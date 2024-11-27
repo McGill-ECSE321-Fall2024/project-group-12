@@ -27,6 +27,11 @@ defineProps({
   color: var(--theme-primary);
   border-radius: 100px;
   border: none;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+.fancy-button:hover {
+  transform: translateY(-2px);
 }
 .fancy-button--label {
   font-size: 20px;
