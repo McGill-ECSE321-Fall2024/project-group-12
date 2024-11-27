@@ -31,13 +31,13 @@ import SearchBar from './SearchBar.vue'
       
       <li class="nav-list--item" :class="{ selected: $route.path == '/signin' }">
         <AnimatedLink to="/signin">
-          <h3>hello</h3>
+          <h3>Employees</h3>
         </AnimatedLink>
       </li>
       
       <li class="nav-list--item" :class="{ selected: $route.path == '/manager/customer' }">
         <AnimatedLink to="/manager/customer">
-            <h3>Customer</h3>
+            <h3>Customers</h3>
         </AnimatedLink>
       </li>
       <li class="nav-list--item" :class="{ selected: $route.path == '/manager/account' }">
@@ -47,12 +47,6 @@ import SearchBar from './SearchBar.vue'
         
       </li>
 
-      <li class="nav-list--item" :class="{ selected: $route.path == '/manager/account' }">
-        <AnimatedLink to="/manager/account">
-            <h3>Account</h3>
-        </AnimatedLink>
-        
-      </li>
       
       
     </ul>
