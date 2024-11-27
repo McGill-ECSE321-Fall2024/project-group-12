@@ -1,4 +1,5 @@
 <script setup>
+import { nextTick } from 'vue'
 import { useRouter } from 'vue-router'
 const props = defineProps({
   to: {
@@ -12,9 +13,10 @@ const router = useRouter()
 const navigate = (event) => {
   event.preventDefault()
   if (document.startViewTransition) {
-    document.startViewTransition(() => {
+    document.startViewTransition(async () => {
       // do the transition inside the view transition pass
       router.push(props.to)
+      await nextTick()
     })
   } else {
     router.push(props.to)
