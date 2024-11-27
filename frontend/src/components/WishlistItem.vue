@@ -1,5 +1,5 @@
 <script setup>
-import { inject } from 'vue'
+import { inject, ref } from 'vue'
 const { user, token } = inject('auth')
 
 const props = defineProps({
@@ -41,11 +41,28 @@ async function add() {
   const cartId = user.value.cart.id
   const requestOptions = {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token.value}` },
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token.value}` },
     body: JSON.stringify({ gameId: props.gameId }),
   }
   const response = await fetch(`http://localhost:8080/cart/${cartId}`, requestOptions)
   return response.json()
+}
+
+/**
+ * Get the cover image for the game
+ */
+async function getCover() {
+  const response = await fetch(`http://localhost:8080/games/${props.gameId}/cover`)
+  return response.json()
+}
+
+const cover = ref(null)
+cover.value = await getCover()
+let coverStr = ''
+
+// Build the cover image url string if the cover exists
+if (cover.value && cover.value.type && cover.value.image) {
+  coverStr = `data:image/${cover.value.type};base64,${cover.value.image}`
 }
 </script>
 
@@ -53,7 +70,7 @@ async function add() {
   <div class="wishlist-item">
     <hr />
     <div class="item">
-      <img class="game-cover" :src="image" />
+      <img v-if="cover.type != null" class="game-cover" :src="coverStr" />
       <div class="game-info">
         <h2>{{ name }}</h2>
         <div class="game-details">

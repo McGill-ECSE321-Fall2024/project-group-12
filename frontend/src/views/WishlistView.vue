@@ -6,10 +6,6 @@
 import { inject, ref, watch } from 'vue'
 import WishlistItem from '@/components/WishlistItem.vue'
 
-import minecraftCover from '@/assets/games/minecraft.png'
-import zeldaCover from '@/assets/games/zelda.png'
-import marioPartyJamboreeCover from '@/assets/games/mario_party_jamboree.png'
-
 const { user, token } = inject('auth')
 const { createThemeFromColour } = inject('theme')
 // change to a red theme to match the holiday effect
@@ -18,7 +14,7 @@ createThemeFromColour('#FF9797')
 async function fetchData() {
   if (user.value == null) {
     // not signed in
-    return { error: "User not signed in" }
+    return { error: 'User not signed in' }
   }
   const wishlistId = user.value.wishlist.id
   const response = await fetch(`http://localhost:8080/wishlist/${wishlistId}`)
@@ -31,13 +27,13 @@ data.value = await fetchData()
 async function fetchCart() {
   if (user.value == null) {
     // not signed in
-    return { error: "User not signed in" }
+    return { error: 'User not signed in' }
   }
   const cartId = user.value.cart.id
   const response = await fetch(`http://localhost:8080/cart/${cartId}`, {
     headers: {
-      'Authorization': `Bearer ${token.value}`
-    }
+      Authorization: `Bearer ${token.value}`,
+    },
   })
   return response.json()
 }
@@ -54,7 +50,8 @@ watch(user, async () => {
 /**
  * Remove the game from the user's wishlist
  */
- async function remove(gameId) { // TODO: fix remove to show the other games instead of a blank screen
+async function remove(gameId) {
+  // TODO: fix remove to show the other games instead of a blank screen
   alert('Removed from wishlist')
   const wishlistId = user.value.wishlist.id
   const requestOptions = {
@@ -69,36 +66,6 @@ watch(user, async () => {
   data.value = wishlist
   return
 }
-
-// FOR TESTING ONLY
-const testlist = {
-  games: [
-    {
-      id: 0,
-      image: zeldaCover,
-      name: 'The Legend of Zelda: Tears of the Kingdom',
-      console: 'Nintendo',
-      year: 2023,
-      price: 79.99,
-    },
-    {
-      id: 1,
-      image: minecraftCover,
-      name: 'Minecraft',
-      console: 'PC',
-      year: 2011,
-      price: 29.99,
-    },
-    {
-      id: 2,
-      image: marioPartyJamboreeCover,
-      name: 'Mario Party Jamboree',
-      console: 'Nintendo',
-      year: 2022,
-      price: 59.99,
-    },
-  ],
-}
 </script>
 
 <template>
@@ -111,6 +78,7 @@ const testlist = {
     <div class="placeholder" v-else-if="data.error">
       An error occurred when retreiving your wishlist. Please try again later.
     </div>
+    <div class="placeholder" v-else-if="data.games?.length == 0">Your wishlist is empty.</div>
     <div v-else class="wishlist-items">
       <p>{{ data }}</p>
       <!-- for testing purposes -->
