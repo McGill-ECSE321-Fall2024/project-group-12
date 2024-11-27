@@ -1,7 +1,22 @@
-<script setup></script>
+<script setup>
+import { defineProps } from 'vue'
+
+// Define props interface
+const props = defineProps({
+  order: {
+    type: Object,
+    required: true,
+    default: () => ({})
+  },
+  games: {
+    type: Array,
+    required: true,
+    default: () => []
+  }
+})
+</script>
 <template>
     <div class="order-card">
-
         <div class="heading">
             <div>
                 <h2>Order delivered November 20, 2022</h2>
@@ -10,9 +25,9 @@
             <h3>Order Number: #1000</h3>
         </div>
 
-        <img src="../assets/games/minecraft.png"/>
-
-        <div class="game">
+        <div v-for="game in games" :key="game.id" class="game">
+            <img src="../assets/games/minecraft.png"/>
+            <div class="game">
             <h3 class="game-title" :style="{'font=size': '1rem;'}">Minecraft</h3>
             <div class="game-details">
                 <h4>PC</h4>
@@ -21,8 +36,9 @@
                 <h4>STAR</h4>
             </div>
             <h3>Price: $10.90</h3>
-         </div>
-         
+            </div>
+        </div>
+        
         <div class="buttons">
         <!-- <button v-if="review.user==user">Edit your review</button> -->
             <button class="review-button">Leave a review</button>

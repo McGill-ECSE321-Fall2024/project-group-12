@@ -3,9 +3,9 @@ import { inject } from 'vue'
 import SigninView from '@/views/SigninView.vue'
 import Order from '@/components/Order.vue'
 // load the current user
-const { user, signOut, updateUser } = inject('auth')
-
+const { user, signOut, updateUser, token } = inject('auth')
 console.log('user view loaded')
+// createThemeFromColour('#FF9797')
 
 const updateInfo = async (event) => {
   event.preventDefault()
@@ -21,6 +21,41 @@ const updateInfo = async (event) => {
   updateUser(name, email, phoneNumber);
 }
 
+const getOrders = async (event) => {
+  event.preventDefault()
+
+  const authResponse = JSON.parse(localStorage.getItem('auth'))
+  const {token, id, userType} = authResponse
+  console.log(authResponse.id);
+
+  const orders = [];
+  const error = null;
+  try {
+    const resp = await fetch(`http://localhost:8080/orders/customer/${id}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      "Authorization": `Bearer ${token}`,
+      'Accept': 'application/json'
+    },
+    });
+  } catch (err) {
+    // error.value = err.message
+    console.error('Error fetching orders:', err)
+  }
+
+  // if (!resp.ok) {
+  //     throw new Error(`HTTP error! status: ${resp.status}`)
+  // }
+
+  const data = await resp.json()
+  console.log(data);
+
+  // authResponse = JSON.parse(localStorage.getItem('auth'))
+  // const {token: storedToken, id: userId, userType} = authResponse
+  // orders.value = await response.json();
+}
+
 </script>
 
 <template>
@@ -30,7 +65,7 @@ const updateInfo = async (event) => {
   <!-- otherwise, the normal page can be shown -->
   <div v-else class="user">
     <img src="@/assets/logo.svg" class="logo"/>
-    <h2 class="title">Profile</h2>
+    <h2 class="title">Profile {{user.id}}</h2>
 
     <div class="grid-container">
       <form class="user-info" @submit.prevent="updateInfo">
@@ -61,7 +96,7 @@ const updateInfo = async (event) => {
       <div class="payment-info card">
         <div>
           <h2>Payment Method</h2>
-          <button v-if="user.payment == null" class="edit-button">Add</button>
+          <button v-if="user.payment == null" class="edit-button" @click="getOrders">Add</button>
           <button v-else class="edit-button">Edit</button>
         </div>
         <h3 v-if="user.paymentinfo == null">No payment information associated with this account</h3>
@@ -72,8 +107,14 @@ const updateInfo = async (event) => {
     <button @click="signOut">Sign out</button>
     <section>
       <h2>Orders</h2>
-      
-      <Order />
+      <div>
+        <Order 
+          v-for="order in orders" 
+          :key="order.id"
+          :order="order"
+          :games="order.games"
+        />
+      </div>
     </section>
     
   </div>

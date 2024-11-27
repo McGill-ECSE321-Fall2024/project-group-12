@@ -60,7 +60,8 @@ public class AuthConfig {
 				.requestMatchers(HttpMethod.POST, "/customers")
 				.permitAll()
 				.requestMatchers(HttpMethod.GET, "/customers")
-				.hasRole("EMPLOYEE")
+				// .hasRole("EMPLOYEE")
+				.permitAll()
 				.requestMatchers(HttpMethod.GET, "/customers/*")
 				.hasRole("USER")
 				.requestMatchers(HttpMethod.DELETE, "/customers/*")
@@ -84,6 +85,8 @@ public class AuthConfig {
 				// orders: users can get orders, customers can create or return orders.
 				.requestMatchers(HttpMethod.GET, "/orders/*")
 				.hasRole("USER")
+				.requestMatchers(HttpMethod.GET, "/orders/*")
+				.hasRole("CUSTOMER")
 				.requestMatchers(HttpMethod.POST, "/orders")
 				.hasRole("CUSTOMER")
 				.requestMatchers(HttpMethod.PUT, "/orders/*")
@@ -102,6 +105,8 @@ public class AuthConfig {
 				.hasRole("CUSTOMER")
 				.requestMatchers(HttpMethod.PUT, "/reviews/*")
 				.hasRole("CUSTOMER")
+				.requestMatchers(HttpMethod.GET, "/customers")
+				.permitAll()
 
 				.anyRequest()
 				.permitAll())
