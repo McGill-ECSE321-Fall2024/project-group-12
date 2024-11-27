@@ -106,6 +106,42 @@ const signUp = async (name, email, phoneNumber, password) => {
   loadUser()
 }
 
+const updateUser = async (name, email, phoneNumber) => {
+  authResponse = JSON.parse(localStorage.getItem('auth'))
+  const { token: storedToken, id: userId, userType } = authResponse
+  console.log(authResponse)
+  console.log(token.value)
+  const resp = await fetch(`http://localhost:8080/${userType.toLowerCase()}s/${userId}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token.value}`,
+      Accept: 'application/json',
+    },
+    body: JSON.stringify({
+      name,
+      email,
+      phoneNumber,
+    }),
+  })
+  if (!resp.ok) {
+    throw new Error(`HTTP error! status: ${resp.status}`)
+  }
+  // read the response
+  const data = await resp.json()
+  const id = data.id
+  // store the data
+  localStorage.setItem(
+    'auth',
+    JSON.stringify({
+      token: token.value,
+      id,
+      userType: 'CUSTOMER',
+    }),
+  )
+  // load the user again
+  loadUser()
+}
 const signOut = () => {
   localStorage.removeItem('auth')
   token.value = null
@@ -121,6 +157,7 @@ provide('auth', {
   signIn,
   signUp,
   signOut,
+  updateUser,
 })
 </script>
 

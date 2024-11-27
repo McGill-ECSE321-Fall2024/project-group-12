@@ -40,6 +40,17 @@ public class OrderService {
 	}
 
 	/**
+	 * @param customerId customer id
+	 * @return list of orders associated with the requested customer
+	 * @author Amy Ding
+	 */
+
+	public List<Order> findByCustomerId(int customerId) {
+		List<Order> customerOrders = repo.findByCustomerId(customerId);
+		return customerOrders;
+	}
+
+	/**
 	 * Creates a new order and adds it to the database
 	 * @author James Madden
 	 */

@@ -1,11 +1,13 @@
 package ca.mcgill.ecse321.group12.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -112,6 +114,22 @@ public class OrderController {
 		// return the modified order
 		return new OrderResponseDto(order);
 
+	}
+
+	/**
+	 * Get all orders associated with a customer
+	 * @author Amy Ding
+	 */
+	@GetMapping("/orders/customer/{customerId}")
+	@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
+	public List<OrderResponseDto> findOrdersByCustomerId(@PathVariable int customerId) {
+		List<Order> orders = orderService.findByCustomerId(customerId);
+		List<OrderResponseDto> orderDtos = new ArrayList<OrderResponseDto>();
+		for (Order order : orders) {
+			orderDtos.add(new OrderResponseDto(order));
+		}
+
+		return orderDtos;
 	}
 
 }
