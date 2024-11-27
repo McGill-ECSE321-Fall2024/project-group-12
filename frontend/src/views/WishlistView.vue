@@ -62,7 +62,7 @@ async function remove(gameId) {
     `http://localhost:8080/wishlist/${wishlistId}?remove=${gameId}`,
     requestOptions,
   )
-  const wishlist = response.json()
+  const wishlist = await response.json()
   data.value = wishlist
   return
 }
