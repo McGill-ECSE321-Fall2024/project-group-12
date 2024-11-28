@@ -7,24 +7,31 @@ import ThemeProvider from '@/components/providers/ThemeProvider.vue'
 
 <template>
   <!-- provide a way of handling the current user to every component -->
-  <AuthProvider>
-    <ThemeProvider>
-      <div class="app-root">
-        <NavBar />
+  <Suspense>
+    <AuthProvider>
+      <ThemeProvider>
+        <div class="app-root">
+          <NavBar />
 
-        <main class="page-container">
-          <Suspense>
-            <RouterView />
+          <main class="page-container">
+            <Suspense>
+              <RouterView />
 
-            <!-- if any pages are awaiting, show a loading spinner -->
-            <template #fallback>
-              <p>loading...</p>
-            </template>
-          </Suspense>
-        </main>
-      </div>
-    </ThemeProvider>
-  </AuthProvider>
+              <!-- if any pages are awaiting, show a loading spinner -->
+              <template #fallback>
+                <p>loading...</p>
+              </template>
+            </Suspense>
+          </main>
+        </div>
+      </ThemeProvider>
+    </AuthProvider>
+
+    <template #fallback>
+      <!-- implement a fancier loading page in the future -->
+      <p>loading...</p>
+    </template>
+  </Suspense>
 </template>
 
 <style scoped>

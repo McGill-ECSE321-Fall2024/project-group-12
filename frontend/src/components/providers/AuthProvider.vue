@@ -41,7 +41,7 @@ const loadUser = async () => {
 }
 
 // load the user initially
-loadUser()
+await loadUser()
 
 // give sign in, sign up, and sign out methods
 const signIn = async (email, password) => {
@@ -108,9 +108,7 @@ const signUp = async (name, email, phoneNumber, password) => {
 
 const updateUser = async (name, email, phoneNumber) => {
   authResponse = JSON.parse(localStorage.getItem('auth'))
-  const { token: storedToken, id: userId, userType } = authResponse
-  console.log(authResponse)
-  console.log(token.value)
+  const { id: userId, userType } = authResponse
   const resp = await fetch(`http://localhost:8080/${userType.toLowerCase()}s/${userId}`, {
     method: 'PUT',
     headers: {
