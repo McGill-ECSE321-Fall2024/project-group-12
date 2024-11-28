@@ -32,7 +32,8 @@ const loadUser = async () => {
   // otherwise, make the call to load the user data
   authResponse = JSON.parse(localStorage.getItem('auth'))
   const { userType, id } = authResponse
-  const resp = await fetch(`http://localhost:8080/${userType.toLowerCase()}s/${id}`, {
+  const url = userType === 'MANAGER' ? 'http://localhost:8080/manager' : `http://localhost:8080/${userType.toLowerCase()}s/${id}`
+  const resp = await fetch(url, {
     headers: {
       Authorization: `Bearer ${token.value}`,
     },

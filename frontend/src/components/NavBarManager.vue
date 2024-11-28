@@ -15,37 +15,40 @@ import SearchBar from './SearchBar.vue'
     <!-- the main, labelled section of the navbar -->
     <ul class="nav-list">
       <!-- the search bar -->
-      <div class="nav-search--container">
-        <SearchBar />
-      </div>
+      
 
       <!-- fill space so that the end icons appear at the right side of the navbar -->
       <div class="nav-spacing"></div>
 
       <!-- the icons at the end of the navbar -->
-      <li
-        class="nav-list--item nav-list--end nav-list--mobile"
-        :class="{ selected: $route.path == '/' }"
-      >
-        <AnimatedLink to="/">
-          <img class="nav-list--icon" src="@/assets/icons/navbar/game.png" />
+      <li class="nav-list--item" :class="{ selected: $route.path == '/manager/games' }">
+        <AnimatedLink to="/manager/games">
+            <h3>Games</h3>
         </AnimatedLink>
+        
       </li>
-      <li class="nav-list--item nav-list--end" :class="{ selected: $route.path == '/signin' }">
+      
+      
+      <li class="nav-list--item" :class="{ selected: $route.path == '/signin' }">
         <AnimatedLink to="/signin">
-          <img class="nav-list--icon" src="@/assets/icons/navbar/wishlist.png" />
+          <h3>Employees</h3>
         </AnimatedLink>
       </li>
-      <li class="nav-list--item nav-list--end" :class="{ selected: $route.path == '/cart' }">
-        <AnimatedLink to="/cart">
-          <img class="nav-list--icon" src="@/assets/icons/navbar/cart.png" />
+      
+      <li class="nav-list--item" :class="{ selected: $route.path == '/manager/customer' }">
+        <AnimatedLink to="/manager/customer">
+            <h3>Customers</h3>
         </AnimatedLink>
       </li>
-      <li class="nav-list--item nav-list--end" :class="{ selected: $route.path == '/manager' }">
-        <AnimatedLink to="/manager">
-          <img class="nav-list--icon" src="@/assets/icons/navbar/user.png" />
+      <li class="nav-list--item" :class="{ selected: $route.path == '/manager/account' }">
+        <AnimatedLink to="/manager/account">
+            <h3>Account</h3>
         </AnimatedLink>
+        
       </li>
+
+      
+      
     </ul>
   </nav>
 </template>
@@ -76,17 +79,9 @@ nav {
   color: white;
   text-wrap: nowrap;
 }
-.nav-search--container {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translate(-50%);
-  z-index: 1;
-  width: 100%;
-  max-width: 512px;
-  height: 100%;
-  align-content: center;
-}
+
+
+
 .nav-list {
   display: flex;
   padding-left: 0;
@@ -95,51 +90,29 @@ nav {
   align-content: center;
   width: 100%;
 }
+
 .nav-list--item {
-  display: inline-block;
   font-size: 1.25rem;
-  width: 128px;
-  text-align: left;
   color: white;
-  align-content: center;
   text-align: center;
+  background-color: hsl(0, 0%, 63%); 
+  border-radius: 3px;
+  margin: 28px;
+  height: 40px;
+  width: 150px;
+
+
 }
 .nav-list--mobile {
   display: none;
 }
 /* version of nav list item that appears at the end of the bar */
-.nav-list--end {
-  width: 64px;
+
+
+.selected {
+  background-color: hsl(0, 0%, 28%);
 }
-.nav-list--item a {
-  height: 100%;
-  display: block;
-  align-content: center;
-}
-.nav-list--icon {
-  height: 32px;
-  padding: 0 8px;
-}
-.nav-list--label {
-  position: relative;
-  top: -8px;
-}
-/**
- * provides the little line under the selected page in the navbar.
- * @author James Madden
-*/
-.nav-list--item.selected::after {
-  content: '';
-  view-transition-name: navbar-selected;
-  display: block;
-  position: relative;
-  top: -28px;
-  width: 32px;
-  height: 2px;
-  background: white;
-  border-radius: 1px;
-  margin: auto;
-}
+
 .nav-spacing {
   display: block;
   width: 0px;

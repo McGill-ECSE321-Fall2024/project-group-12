@@ -1,6 +1,6 @@
 <script setup>
 import { RouterView } from 'vue-router'
-import NavBar from './components/NavBar.vue'
+import NavBar from './components/NavBarManager.vue'
 import AuthProvider from './components/providers/AuthProvider.vue'
 import AuthRouter from './components/AuthRouter.vue'
 import ThemeProvider from '@/components/providers/ThemeProvider.vue'

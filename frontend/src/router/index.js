@@ -4,6 +4,9 @@ import CartView from '../views/CartView.vue'
 import UserView from '../views/UserView.vue'
 import WishlistView from '../views/WishlistView.vue'
 import GameView from '../views/GameView.vue'
+import ManagerAccountView from '@/views/ManagerAccountView.vue'
+import ManagerCustomerView from '@/views/ManagerCustomerView.vue'
+import SigninView from '@/views/SigninView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -38,6 +41,30 @@ const router = createRouter({
       props: true,
       name: 'game',
       component: GameView,
+
+    {
+      path: '/signin',
+      name: 'signin',
+      // component: () => import('../views/UserView.vue'),
+      component: SigninView,
+    },
+    {
+      path: '/manager/account',
+      name: 'manager/account',
+      component: ManagerAccountView,
+    },
+
+    {
+      path: '/manager/customer',
+      name: 'manager/customer',
+      component: ManagerCustomerView,
+    },
+
+    {
+      path: '/manager/customer/:id',
+      name: 'manager/specificcustomer',
+      component: ManagerCustomerView,
+      props: true
     },
   ],
 })
