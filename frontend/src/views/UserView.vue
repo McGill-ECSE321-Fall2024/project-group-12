@@ -25,7 +25,7 @@ async function getOrders() {
   const authResponse = JSON.parse(localStorage.getItem('auth'))
 
   // check whether auth response exists
-  if (!authResponse) return [];
+  if (!authResponse) return []
 
   const { token, id, userType } = authResponse
   console.log(authResponse.id)
