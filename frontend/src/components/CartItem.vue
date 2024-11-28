@@ -3,7 +3,7 @@
  @author Kennedy Olsen
 -->
 <script setup>
-import { inject } from 'vue'
+import { inject, ref } from 'vue'
 const { user, token } = inject('auth')
 
 const props = defineProps({
@@ -11,10 +11,7 @@ const props = defineProps({
     type: Number,
     required: true,
   },
-  image: {
-    type: String,
-    required: true,
-  },
+
   name: {
     type: String,
     required: true,
@@ -37,21 +34,19 @@ const props = defineProps({
   },
 })
 
-/**
- * Get the cover image for the game
- */
- async function getCover() {
+const coverImg = ref('')
+// load cover image 
+async function loadCover() {
   const response = await fetch(`http://localhost:8080/games/${props.gameId}/cover`)
-  return response.json()
-}
-const cover = ref(null)
-cover.value = await getCover()
-let coverStr = ''
+  if (response.ok) {
+    console.log("loaded image")
+    const { image, type } = await response.json()
 
-// Build the cover image url string if the cover exists
-if (cover.value && cover.value.type && cover.value.image) {
-  coverStr = `data:image/${cover.value.type};base64,${cover.value.image}`
+    coverImg.value = `data:image/${type};base64,${image}`
+  }
 }
+
+loadCover()
 
 </script>
 
@@ -62,7 +57,7 @@ if (cover.value && cover.value.type && cover.value.image) {
     <hr />
     <!--creates horizontal line-->
     <div class="item">
-      <img v-if="cover.type != null" class="game-cover" :src="coverStr" />
+      <img v-if="coverImg != ``" class="game-cover" :src="coverImg" />
       <div class="game-info">
         <h2>{{ name }}</h2>
         <!--game title-->
@@ -75,7 +70,7 @@ if (cover.value && cover.value.type && cover.value.image) {
           <p class="game-price">${{ price }}</p>
           <!--price-->
         </div>
-        <button class="remove" @click="() => removeItem(gameId)">Remove from Cart</button>
+        <button class="remove" @click="() => remove(gameId)">Remove from Cart</button>
       </div>
     </div>
     <hr />
@@ -117,9 +112,11 @@ button {
 }
 .game-console {
   display: inline-block;
+  margin-right: 9px;
 }
 .game-year {
   display: inline-block;
+  margin-right: 9px;
 }
 .game-price {
   display: inline-block;
