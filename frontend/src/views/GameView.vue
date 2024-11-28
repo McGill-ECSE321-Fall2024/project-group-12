@@ -35,9 +35,6 @@ async function loadImages() {
   posterImgUrl.value = `data:image/${images[0].type};base64,${images[0].image}`
   backgroundImgUrl.value = `data:image/${images[1].type};base64,${images[1].image}`
 
-  // update the colour theme
-  createThemeFromImg(backgroundImg.value)
-
 }
 
 loadImages()
@@ -45,7 +42,9 @@ loadImages()
 // set the colour scheme
 const backgroundImg = useTemplateRef('background-img')
 onMounted(() => {
-  createThemeFromImg(backgroundImg.value)
+  backgroundImg.value.addEventListener('load', () => {
+    createThemeFromImg(backgroundImg.value)
+  })
 })
 
 // load the game

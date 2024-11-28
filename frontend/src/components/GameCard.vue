@@ -72,7 +72,6 @@ loadCoverImage()
   height: 32px;
   align-content: center;
 }
-/* hover style for the game card. set the view transition name so it animates */
 .game-card:hover img {
   transform: translateY(-2px);
 }
