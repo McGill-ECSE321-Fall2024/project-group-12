@@ -9,6 +9,9 @@ let token = ref(authResponse?.token)
 const user = ref(null)
 let loadedToken = token.value
 
+// store the user type, once loaded
+const userType = ref(authResponse?.userType)
+
 const loadUser = async () => {
   console.log('attempting to load user')
   console.log(token.value, loadedToken)
@@ -57,14 +60,14 @@ const signIn = async (email, password) => {
   const data = await resp.json()
   const newToken = data.token
   const id = data.id
-  const userType = data.userType
+  userType.value = data.userType
   // store the data
   localStorage.setItem(
     'auth',
     JSON.stringify({
       token: newToken,
       id,
-      userType,
+      userType: userType.value,
     }),
   )
   // update the token
@@ -91,6 +94,7 @@ const signUp = async (name, email, phoneNumber, password) => {
   const data = await resp.json()
   const newToken = data.token
   const id = data.id
+  userType.value = 'CUSTOMER'
   // store the data
   localStorage.setItem(
     'auth',
@@ -143,6 +147,7 @@ const updateUser = async (name, email, phoneNumber) => {
 const signOut = () => {
   localStorage.removeItem('auth')
   token.value = null
+  userType.value = null
   // load the user again
   loadUser()
 }
@@ -156,6 +161,7 @@ provide('auth', {
   signUp,
   signOut,
   updateUser,
+  userType,
 })
 </script>
 

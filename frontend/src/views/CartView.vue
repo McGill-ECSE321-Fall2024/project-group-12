@@ -14,8 +14,8 @@ async function fetchData() {
   const cartId = user.value.cart.id
   const response = await fetch(`http://localhost:8080/cart/${cartId}`, {
     headers: {
-      'Authorization': `Bearer ${token.value}`,
-    }
+      Authorization: `Bearer ${token.value}`,
+    },
   })
   return await response.json()
 }
@@ -39,16 +39,18 @@ watch(user, async () => {
   data.value = await fetchData()
 })
 
-
-async function removeItem(gameId) { // TO FINISH ****
+async function removeItem(gameId) {
+  // TO FINISH ****
   alert('Removed from cart')
   const cardId = user.value.cart.Id
   const requestOpt = {
     method: 'DELETE',
     headers: { 'Content-Type': 'application/json' },
   }
-  const response = await fetch(`http://localhost:8080/cart/${cardId}?removeItem=${gameId}`,
-  requestOpt,)
+  const response = await fetch(
+    `http://localhost:8080/cart/${cardId}?removeItem=${gameId}`,
+    requestOpt,
+  )
   const cart = await response.json()
   data.value = cart
   return
@@ -75,7 +77,7 @@ async function removeItem(gameId) { // TO FINISH ****
         :remove="removeItem"
       />
     </div>
-    <button class="checkout"> Checkout</button>
+    <button class="checkout">Checkout</button>
   </main>
 </template>
 
@@ -110,6 +112,4 @@ button {
   background-color: #da8cb5;
   color: #ac3976;
 }
-
-
 </style>

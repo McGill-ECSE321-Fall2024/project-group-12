@@ -40,18 +40,23 @@ const props = defineProps({
 
 <template>
   <div class="cart-item">
-    <hr /> <!--creates horizontal line-->
+    <hr />
+    <!--creates horizontal line-->
     <div class="item">
       <img class="game-cover" :src="image" />
       <div class="game-info">
-        <h2>{{ name }}</h2> <!--game title-->
+        <h2>{{ name }}</h2>
+        <!--game title-->
         <div class="game-details">
-          <p class="game-console">{{ console }}</p> <!--PC/XBOX/nintendo etc-->
+          <p class="game-console">{{ console }}</p>
+          <!--PC/XBOX/nintendo etc-->
 
-          <p class="game-year">{{ year }}</p> <!--year of release-->
-          <p class="game-price">${{ price }}</p> <!--price-->
+          <p class="game-year">{{ year }}</p>
+          <!--year of release-->
+          <p class="game-price">${{ price }}</p>
+          <!--price-->
         </div>
-        <button class="remove" @click="() => removeItem(gameId)"> Remove from Cart</button>
+        <button class="remove" @click="() => removeItem(gameId)">Remove from Cart</button>
       </div>
     </div>
     <hr />
