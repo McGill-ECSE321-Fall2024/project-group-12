@@ -22,6 +22,8 @@ public class CustomerCreateResponseDto {
 
 	private String token;
 
+	private String address;
+
 	@SuppressWarnings("unused")
 	private CustomerCreateResponseDto() {
 	}
@@ -33,6 +35,7 @@ public class CustomerCreateResponseDto {
 		this.phoneNumber = model.getPhoneNumber();
 		this.cart = new CartResponseDto(model.getCart());
 		this.wishlist = model.getWishlist();
+		this.address = model.getAddress();
 	}
 
 	public int getId() {
@@ -85,6 +88,14 @@ public class CustomerCreateResponseDto {
 
 	public Wishlist getWishlist() {
 		return wishlist;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 }

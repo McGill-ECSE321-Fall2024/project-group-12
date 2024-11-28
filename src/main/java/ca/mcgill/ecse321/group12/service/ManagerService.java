@@ -49,6 +49,7 @@ public class ManagerService {
 	 * @author Amy Ding
 	 * @return The manager account.
 	 */
+	@Transactional
 	public Manager findManager() {
 		if (managerRepo.count() < 1) {
 			throw new CustomException(HttpStatus.NOT_FOUND, "Get manager failed. No manager account exists");

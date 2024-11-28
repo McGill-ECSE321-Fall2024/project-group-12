@@ -102,7 +102,8 @@ public class WishlistServiceTests {
 		String aName = "Game Name...";
 		String aDescription = "Game Description...";
 		GameStatus aStatus = GameStatus.Archived;
-		Game game = new Game(gameId, aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus);
+		int aYear = 2021;
+		Game game = new Game(gameId, aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus, aYear);
 
 		Wishlist wishlist = new Wishlist();
 		when(gameRepo.findGameById(gameId)).thenReturn(game);
@@ -172,7 +173,8 @@ public class WishlistServiceTests {
 		String aName = "Game Name...";
 		String aDescription = "Game Description...";
 		GameStatus aStatus = GameStatus.Archived;
-		Game game = new Game(gameId, aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus);
+		int aYear = 2021;
+		Game game = new Game(gameId, aCategory, aConsole, aInventory, aPrice, aName, aDescription, aStatus, aYear);
 
 		Wishlist wishlist = new Wishlist();
 		when(gameRepo.findGameById(gameId)).thenReturn(game);

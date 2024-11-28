@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import ca.mcgill.ecse321.group12.dto.ImageDto;
 import ca.mcgill.ecse321.group12.exception.CustomException;
 import ca.mcgill.ecse321.group12.model.Game;
 import ca.mcgill.ecse321.group12.model.Game.Category;
@@ -60,7 +61,7 @@ public class GameService {
 	 */
 	@Transactional
 	public Game createGame(Category aCategory, Console aConsole, int aInventory, float aPrice, String aName,
-			String aDescription, GameStatus aStatus) {
+			String aDescription, GameStatus aStatus, int aYear) {
 
 		// input validation
 		if (aInventory < 0) {
@@ -74,6 +75,9 @@ public class GameService {
 		}
 		if (aDescription == null || aDescription.isBlank()) {
 			throw new CustomException(HttpStatus.BAD_REQUEST, "Description cannot be empty.");
+		}
+		if (aYear < 0) {
+			throw new CustomException(HttpStatus.BAD_REQUEST, "Year has to be a positive integer.");
 		}
 
 		Game gameToCreate = new Game();
@@ -84,6 +88,7 @@ public class GameService {
 		gameToCreate.setName(aName);
 		gameToCreate.setDescription(aDescription);
 		gameToCreate.setStatus(aStatus);
+		gameToCreate.setYear(aYear);
 
 		return gameRepository.save(gameToCreate);
 	}
@@ -93,7 +98,7 @@ public class GameService {
 	 */
 	@Transactional
 	public Game updateGame(int aId, Category aCategory, Console aConsole, int aInventory, float aPrice, String aName,
-			String aDescription, GameStatus aStatus) {
+			String aDescription, GameStatus aStatus, int aYear) {
 
 		// input validation
 		if (aInventory < 0) {
@@ -108,6 +113,9 @@ public class GameService {
 		if (aDescription == null || aDescription.isBlank()) {
 			throw new CustomException(HttpStatus.BAD_REQUEST, "Description cannot be empty.");
 		}
+		if (aYear < 0) {
+			throw new CustomException(HttpStatus.BAD_REQUEST, "Year has to be a positive integer.");
+		}
 
 		Game gameToUpdate = gameRepository.findGameById(aId);
 		gameToUpdate.setCategory(aCategory);
@@ -117,6 +125,7 @@ public class GameService {
 		gameToUpdate.setName(aName);
 		gameToUpdate.setDescription(aDescription);
 		gameToUpdate.setStatus(aStatus);
+		gameToUpdate.setYear(aYear);
 
 		return gameRepository.save(gameToUpdate);
 	}
@@ -159,6 +168,52 @@ public class GameService {
 			gameRepository.save(game);
 		}
 
+	}
+
+	/**
+	 * Set the cover of a game
+	 * @param id The ID of the game
+	 * @param cover The cover of the game
+	 */
+	@Transactional
+	public void setCover(int id, byte[] cover, String coverType) {
+		Game game = gameRepository.findGameById(id);
+		game.setCover(cover);
+		game.setCoverType(coverType);
+		gameRepository.save(game);
+	}
+
+	/**
+	 * Set the background image of a game
+	 * @param id The ID of the game
+	 * @param cover The background image of the game
+	 */
+	@Transactional
+	public void setBackground(int id, byte[] background, String backgroundType) {
+		Game game = gameRepository.findGameById(id);
+		game.setBackground(background);
+		game.setBackgroundType(backgroundType);
+		gameRepository.save(game);
+	}
+
+	/**
+	 * Get the cover image of a game
+	 * @param id The ID of the game
+	 * @return The cover image of the game
+	 */
+	public ImageDto getCover(int id) {
+		Game game = gameRepository.findGameById(id);
+		return new ImageDto(game.getCoverType(), game.getCover());
+	}
+
+	/**
+	 * Get the cover image of a game
+	 * @param id The ID of the game
+	 * @return The cover image of the game
+	 */
+	public ImageDto getBackground(int id) {
+		Game game = gameRepository.findGameById(id);
+		return new ImageDto(game.getBackgroundType(), game.getBackground());
 	}
 
 }

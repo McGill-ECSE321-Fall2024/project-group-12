@@ -57,7 +57,7 @@ public class CommentServiceIntegrationTests {
 
 		// create a customer
 		CustomerRequestDto customerRequest = new CustomerRequestDto("customer@email.com", "password123", "Customer",
-				"778 000 0000");
+				"778 000 0000", "1234 Street");
 		ResponseEntity<CustomerCreateResponseDto> customerResponse = client.postForEntity("/customers", customerRequest,
 				CustomerCreateResponseDto.class);
 		// store the customer's authentication token

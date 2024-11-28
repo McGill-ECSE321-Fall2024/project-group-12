@@ -9,6 +9,9 @@ let token = ref(authResponse?.token)
 const user = ref(null)
 let loadedToken = token.value
 
+// store the user type, once loaded
+const userType = ref(authResponse?.userType)
+
 const loadUser = async () => {
   console.log('attempting to load user')
   console.log(token.value, loadedToken)
@@ -42,7 +45,7 @@ const loadUser = async () => {
 }
 
 // load the user initially
-loadUser()
+await loadUser()
 
 // give sign in, sign up, and sign out methods
 const signIn = async (email, password) => {
@@ -58,14 +61,14 @@ const signIn = async (email, password) => {
   const data = await resp.json()
   const newToken = data.token
   const id = data.id
-  const userType = data.userType
+  userType.value = data.userType
   // store the data
   localStorage.setItem(
     'auth',
     JSON.stringify({
       token: newToken,
       id,
-      userType,
+      userType: userType.value,
     }),
   )
   // update the token
@@ -92,6 +95,7 @@ const signUp = async (name, email, phoneNumber, password) => {
   const data = await resp.json()
   const newToken = data.token
   const id = data.id
+  userType.value = 'CUSTOMER'
   // store the data
   localStorage.setItem(
     'auth',
@@ -107,9 +111,44 @@ const signUp = async (name, email, phoneNumber, password) => {
   loadUser()
 }
 
+const updateUser = async (name, email, phoneNumber) => {
+  authResponse = JSON.parse(localStorage.getItem('auth'))
+  const { id: userId, userType } = authResponse
+  const resp = await fetch(`http://localhost:8080/${userType.toLowerCase()}s/${userId}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token.value}`,
+      Accept: 'application/json',
+    },
+    body: JSON.stringify({
+      name,
+      email,
+      phoneNumber,
+    }),
+  })
+  if (!resp.ok) {
+    throw new Error(`HTTP error! status: ${resp.status}`)
+  }
+  // read the response
+  const data = await resp.json()
+  const id = data.id
+  // store the data
+  localStorage.setItem(
+    'auth',
+    JSON.stringify({
+      token: token.value,
+      id,
+      userType: 'CUSTOMER',
+    }),
+  )
+  // load the user again
+  loadUser()
+}
 const signOut = () => {
   localStorage.removeItem('auth')
   token.value = null
+  userType.value = null
   // load the user again
   loadUser()
 }
@@ -122,6 +161,8 @@ provide('auth', {
   signIn,
   signUp,
   signOut,
+  updateUser,
+  userType,
 })
 </script>
 
