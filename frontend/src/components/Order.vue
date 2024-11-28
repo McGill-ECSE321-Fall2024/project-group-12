@@ -1,5 +1,4 @@
 <script setup>
-import { defineProps } from 'vue'
 // :category="order.category"
 //           :console="order.console"
 //           :inventory="order.inventory"
