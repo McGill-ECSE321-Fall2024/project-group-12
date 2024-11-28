@@ -12,35 +12,31 @@ import ThemeProvider from '@/components/providers/ThemeProvider.vue'
     <AuthProvider>
       <ThemeProvider>
         <div class="app-root">
+          <!-- switch to different views depending on the auth state -->
+          <AuthRouter>
+            <template #manager>
+              <h1>Manager view</h1>
+            </template>
 
-        <!-- switch to different views depending on the auth state -->
-         <AuthRouter>
+            <template #employee>
+              <h1>Employee view</h1>
+            </template>
 
-          <template #manager>
-            <h1>Manager view</h1>
-          </template>
+            <template #customer>
+              <NavBar />
 
-          <template #employee>
-            <h1>Employee view</h1>
-          </template>
+              <main class="page-container">
+                <Suspense>
+                  <RouterView />
 
-          <template #customer>
-            <NavBar />
-
-            <main class="page-container">
-              <Suspense>
-                <RouterView />
-
-                <!-- if any pages are awaiting, show a loading spinner -->
-                <template #fallback>
-                  <p>loading...</p>
-                </template>
-              </Suspense>
-            </main>
-          </template>
-
-         </AuthRouter>
-
+                  <!-- if any pages are awaiting, show a loading spinner -->
+                  <template #fallback>
+                    <p>loading...</p>
+                  </template>
+                </Suspense>
+              </main>
+            </template>
+          </AuthRouter>
         </div>
       </ThemeProvider>
     </AuthProvider>

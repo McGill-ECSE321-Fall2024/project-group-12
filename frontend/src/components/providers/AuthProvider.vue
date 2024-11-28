@@ -161,7 +161,7 @@ provide('auth', {
   signUp,
   signOut,
   updateUser,
-  userType
+  userType,
 })
 </script>
 
