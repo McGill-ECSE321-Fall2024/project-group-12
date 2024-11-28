@@ -1,9 +1,10 @@
 <script setup>
-import { inject, ref, watch } from 'vue'
+import { inject, ref } from 'vue'
 import SigninView from '@/views/SigninView.vue'
 import Order from '@/components/Order.vue'
+import BackgroundGradient from '@/components/BackgroundGradient.vue'
 // load the current user
-const { user, signOut, updateUser, token } = inject('auth')
+const { user, signOut, updateUser } = inject('auth')
 console.log('user view loaded')
 // createThemeFromColour('#FF9797')
 
@@ -27,7 +28,7 @@ async function getOrders() {
   // check whether auth response exists
   if (!authResponse) return []
 
-  const { token, id, userType } = authResponse
+  const { token, id } = authResponse
   console.log(authResponse.id)
 
   const resp = await fetch(`http://localhost:8080/orders/customer/${id}`, {
@@ -81,6 +82,8 @@ orders.value = [
   <SigninView v-if="user == null" />
   <!-- otherwise, the normal page can be shown -->
   <div v-else class="user">
+    <BackgroundGradient colour="65, 93, 67" />
+
     <h2 class="title">Profile</h2>
 
     <div class="grid-container">
