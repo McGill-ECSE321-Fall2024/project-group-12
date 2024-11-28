@@ -14,7 +14,33 @@ const props = defineProps({
 const { createThemeFromImg } = inject('theme')
 const { user, token } = inject('auth')
 
+// pictures for the game
+const posterImgUrl = ref("")
+const backgroundImgUrl = ref("")
+
 const game = ref(null)
+
+// load the images
+async function loadImages() {
+
+  // do both API calls at once
+  const responses = await Promise.all([
+    fetch(`http://localhost:8080/games/${props.id}/cover`),
+    fetch(`http://localhost:8080/games/${props.id}/background`)
+  ])
+  // convert to JSON
+  const images = await Promise.all(responses.map(resp => resp.json()))
+
+  // set the URLs
+  posterImgUrl.value = `data:image/${images[0].type};base64,${images[0].image}`
+  backgroundImgUrl.value = `data:image/${images[1].type};base64,${images[1].image}`
+
+  // update the colour theme
+  createThemeFromImg(backgroundImg.value)
+
+}
+
+loadImages()
 
 // set the colour scheme
 const backgroundImg = useTemplateRef('background-img')
@@ -68,11 +94,11 @@ const addToWishlist = async () => {
 
 <template>
   <div class="game-page">
-    <img class="game-background" src="@/assets/loz-poster.jpg" ref="background-img" />
+    <img class="game-background" :src="backgroundImgUrl" ref="background-img" />
     <header class="game-info">
       <img
         class="game-poster"
-        src="https://upload.wikimedia.org/wikipedia/en/f/fb/The_Legend_of_Zelda_Tears_of_the_Kingdom_cover.jpg"
+        :src="posterImgUrl"
       />
       <div class="game-titles">
         <h1 class="header">{{ game ? game.name : '...' }}</h1>
@@ -117,6 +143,8 @@ const addToWishlist = async () => {
 
 .game-poster {
   width: 200px;
+  height: 277px;
+  object-fit: cover;
   view-transition-name: game-cover;
 }
 
