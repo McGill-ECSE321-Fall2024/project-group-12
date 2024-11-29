@@ -11,6 +11,7 @@ import BackgroundGradient from '@/components/BackgroundGradient.vue'
 const { user, signOut, updateUser, token } = inject('auth')
 const { createThemeFromColour } = inject('theme')
 const showPasswordPopup = ref(false)
+const showAddressPopup = ref(false)
 console.log('user view loaded')
 
 // set a green theme for a nice holiday design
@@ -30,6 +31,7 @@ const togglePasswordPopup = () => {
     newPassword.value = ''
   }
   showPasswordPopup.value = !showPasswordPopup.value
+
 }
 async function updatePassword(event) {
   event.preventDefault()
@@ -66,6 +68,9 @@ async function updatePassword(event) {
   }
 
   togglePasswordPopup()
+}
+async function updateAddress(event) {
+  event.preventDefault()
 }
 async function getOrders() {
   const authResponse = JSON.parse(localStorage.getItem('auth'))
@@ -181,7 +186,29 @@ orders.value = [
         <h3 v-if="user.address == null">No shipping address associated with this account</h3>
         <input v-else type="text" id="address" />
       </div>
-
+      <div v-if="showAddressPopup" class="popup">
+        <div class="popup-content">
+          <h2>Change Password</h2>
+          <form @submit.prevent="updatePassword">
+            <label>Address</label>
+            <input type="text" id="address"/>
+            <label>Apt/Building/Other</label>
+            <input type="text" id="apt"/>
+            <label>City</label>
+            <input type="text" id="city"/>
+            <label>Province/State/Territory</label>
+            <input type="text" id="province"></input>
+            <label>Country</label>
+            <input type="text" id="country"/>
+            <label>Postal Code</label>
+            <input type="text" id="postal-code"/>
+            <div class="popup-buttons">
+              <button type="submit">Save</button>
+              <button type="button" @click="togglePasswordPopup">Cancel</button>
+            </div>
+          </form>
+        </div>
+      </div>
       <div class="payment-info card">
         <div>
           <h2>Payment Method</h2>
