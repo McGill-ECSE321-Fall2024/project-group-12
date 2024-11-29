@@ -126,11 +126,13 @@ const updateUser = async (name, email, phoneNumber) => {
       phoneNumber,
     }),
   })
-  if (!resp.ok) {
-    throw new Error(`HTTP error! status: ${resp.status}`)
-  }
   // read the response
   const data = await resp.json()
+  if (data.errors) {
+    alert(data.errors);
+  } else {
+    alert("Password successfully changed!")
+  }
   const id = data.id
   // store the data
   localStorage.setItem(
