@@ -1,8 +1,38 @@
+<!--
+ checkout page
+ @author Julien Heng
+-->
+
 <script setup>
 import { inject } from 'vue'
 const { createThemeFromColour } = inject('theme')
-// change to a red theme to match the holiday effect
 createThemeFromColour('#00ff00')
+
+const submitPayment = async () => {
+    try {
+        axios({
+            method: 'post',
+            url: '/orders',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authentication': 'Bearer ' + localStorage.getItem('token')
+            },
+            data: {
+                deliveryAddress: document.getElementById('billingAddress').value,
+                nameOnCard: document.getElementById('nameOnCard').value,
+                cvc: document.getElementById('cvc').value,
+                cardNumber: document.getElementById('cardNumber').value,
+                billingAddress: document.getElementById('billingAddress').value,
+                isSaved: document.getElementById('save').value,
+                expiryDate: document.getElementById('expiryDate').value
+            }
+        })
+    } catch (error) {
+        // if unsuccessful, show an error message
+        console.error(error)
+    }
+}
+
 </script>
 
 <template>
@@ -14,23 +44,23 @@ createThemeFromColour('#00ff00')
         <div class="input-line">
             <p style="text-align: left; font-size: 30px;">Card Details</p>
         </div>
-        <input class="input-line input-box" placeholder="Name"></input>
-        <input class="input-line input-box" placeholder="Card Number"></input>
+        <input class="input-line input-box" id="name" placeholder="nameOnCard"></input>
+        <input class="input-line input-box" placeholder="Card Number" id="cardNumber"></input>
         <div class="input-line" style="gap:5%;">
-            <input class="input-box" style="width:70%"placeholder="Expiry Date MM/YY"></input>
-            <input class="input-box" style="width: 25%" placeholder="CVV"></input>
+            <input class="input-box" style="width:70%" placeholder="Expiry Date MM/YY" id="expiryDate"></input>
+            <input class="input-box" style="width: 25%" placeholder="CVV" id="cvc"></input>
         </div>
         <div class="input-line" style="font-size: medium; gap:8px; height:28px;">
             <p>Save this card to account?</p>
-            <input type="checkbox"></input>
+            <input type="checkbox" input="save"></input>
         </div>
         <div class="input-line">
             <p style="text-align: left; font-size: 30px;">Billing address</p>
         </div>  
-        <input class="input-line input-box" placeholder="Address"></input>
+        <input class="input-line input-box" placeholder="Address" id="billingAddress"></input>
         <div class="input-line" style="justify-content: center; gap: 20px">
-            <button style="width:20%; border-radius: 8px; padding-left: 10px;">Cancel</button>
-            <button style="width:20%; background-color: green; border-radius: 8px; padding-left: 10px; color: white;">Submit</button>
+            <button style="width:20%; border-radius: 8px; padding-left: 10px;" @click="$router.push('/cart')">Cancel</button>
+            <button style="width:20%; background-color: green; border-radius: 8px; padding-left: 10px; color: white;"@click="submitPayment">Submit</button>
         </div>
     </div>
 </template>
