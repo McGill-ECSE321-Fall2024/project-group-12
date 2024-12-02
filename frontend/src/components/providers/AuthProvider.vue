@@ -124,15 +124,15 @@ const updateUser = async (name, email, phoneNumber, address) => {
       name,
       email,
       phoneNumber,
-      address
+      address,
     }),
   })
   // read the response
   const data = await resp.json()
   if (data.errors) {
-    alert(data.errors);
+    alert(data.errors)
   } else {
-    alert("Info successfully changed!")
+    alert('Info successfully changed!')
   }
   const id = data.id
   // store the data
