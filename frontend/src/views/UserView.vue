@@ -10,15 +10,25 @@ import Order from '@/components/Order.vue'
 const { user, signOut, updateUser, token } = inject('auth')
 const showPasswordPopup = ref(false)
 const showAddressPopup = ref(false)
+const addressFields = ref({
+  address: '',
+  apt: '',
+  city: '',
+  province: '', 
+  country: '',
+  postal: ''
+})
 console.log('user view loaded')
 
 const updateInfo = async (event) => {
   event.preventDefault()
+  console.log("updating info...");
   const form = event.target
   const name = form.querySelector('#name').value
   const email = form.querySelector('#email').value
   const phoneNumber = form.querySelector('#phoneNumber').value
-  updateUser(name, email, phoneNumber)
+  const address = user.value.address
+  updateUser(name, email, phoneNumber, address)
 }
 const togglePasswordPopup = () => {
   if (showPasswordPopup.value) {
@@ -28,14 +38,14 @@ const togglePasswordPopup = () => {
   showPasswordPopup.value = !showPasswordPopup.value
 }
 const toggleAddressPopup = () => {
-  if (showAddressPopup.value) {
-    oldPassword.value = ''
-    newPassword.value = ''
+  if (!showAddressPopup.value) {
+    populateAddressFields()
   }
   showAddressPopup.value = !showAddressPopup.value
 }
 async function updatePassword(event) {
   event.preventDefault()
+  console.log("updating password")
   const email = user.value.email
   console.log(email)
   const form = event.target
@@ -72,7 +82,47 @@ async function updatePassword(event) {
 }
 async function updateAddress(event) {
   event.preventDefault()
+  const form = event.target
+  const addressComponents = [
+    form.querySelector('#address').value,
+    form.querySelector('#apt').value,
+    form.querySelector('#city').value,
+    form.querySelector('#province').value,
+    form.querySelector('#country').value,
+    form.querySelector('#postal').value
+]
+  const addressLine = addressComponents.join('\\n');
+  console.log(addressLine);
+  toggleAddressPopup();
+  const email = user.value.email
+  const name = user.value.name
+  const phoneNumber = user.value.phoneNumber
+  console.log(email)
+  console.log(name)
+  console.log(phoneNumber)
+  updateUser(name, email, phoneNumber, addressLine)
+  toggleAddressPopup
+  location.reload();
 }
+const formatAddress = (address) => {
+  return address.replace(/\\n\\n/g, '\n').replace(/\\n/g, '\n')
+}
+
+const populateAddressFields = () => {
+  if (user.value?.address) {
+    const parts = user.value.address.split('\\n')
+    addressFields.value = {
+      address: parts[0] || '',
+      apt: parts[1] || '',
+      city: parts[2] || '',
+      province: parts[3] || '',
+      country: parts[4] || '',
+      postal: parts[5] || ''
+    }
+    console.log("haiii");
+  }
+}
+
 async function getOrders() {
   const authResponse = JSON.parse(localStorage.getItem('auth'))
   // check whether auth response exists
@@ -148,7 +198,7 @@ orders.value = [
         <label for="password">Password</label>
         <div class="password-container">
           <input type="password" value="password" readonly />
-          <button type="password" class="edit-button" @click="togglePasswordPopup">Edit</button>
+          <button type="button" class="edit-button" @click="togglePasswordPopup">Edit</button>
         </div>
         <label for="phoneNumber">Phone Number</label>
         <input
@@ -179,41 +229,39 @@ orders.value = [
       <div class="shipping-address card">
         <div>
           <h2>Shipping Address</h2>
-          <button v-if="user.address == null" class="edit-button" @click="editAddress">Add</button>
-          <button v-else class="edit-button">Edit</button>
+          <button v-if="user.address == null" class="edit-button" @click="toggleAddressPopup">Add</button>
+          <button v-else class="edit-button" @click="toggleAddressPopup">Edit</button>
         </div>
         <h3 v-if="user.address == null">No shipping address associated with this account</h3>
-        <input v-else type="text" id="address" />
+        <span v-else style="white-space: pre;"> {{ formatAddress(user.address) }}</span>
       </div>
+
       <div v-if="showAddressPopup" class="popup">
         <div class="popup-content">
           <h2>Change Password</h2>
-          <form @submit.prevent="updatePassword">
+          <form @submit.prevent="updateAddress">
             <label>Address</label>
-            <input type="text" id="address"/>
+            <input type="text" id="address" :value="addressFields.address" @input="(event) => (addressFields.address = event.target.value)" required/>
             <label>Apt/Building/Other</label>
-            <input type="text" id="apt"/>
+            <input type="text" id="apt" :value="addressFields.apt" @input="(event) => (addressFields.apt = event.target.value)"/>
             <label>City</label>
-            <input type="text" id="city"/>
+            <input type="text" id="city" :value="addressFields.city" @input="(event) => (addressFields.city = event.target.value)" required/>
             <label>Province/State/Territory</label>
-            <input type="text" id="province"></input>
+            <input type="text" id="province" :value="addressFields.province" @input="(event) => (addressFields.province = event.target.value)" required/>
             <label>Country</label>
-            <input type="text" id="country"/>
+            <input type="text" id="country" :value="addressFields.country" @input="(event) => (addressFields.country = event.target.value)" required/>
             <label>Postal Code</label>
-            <input type="text" id="postal-code"/>
+            <input type="text" id="postal" :value="addressFields.postal" @input="(event) => (addressFields.postal = event.target.value)" required/>
             <div class="popup-buttons">
               <button type="submit">Save</button>
-              <button type="button" @click="togglePasswordPopup">Cancel</button>
+              <button type="button" @click="toggleAddressPopup">Cancel</button>
             </div>
           </form>
         </div>
       </div>
+
       <div class="payment-info card">
-        <div>
-          <h2>Payment Method</h2>
-          <button v-if="user.payment == null" class="edit-button" @click="getOrders">Add</button>
-          <button v-else class="edit-button">Edit</button>
-        </div>
+        <h2>Last Used Payment Method</h2>
         <h3 v-if="user.paymentinfo == null">No payment information associated with this account</h3>
         <input v-else type="text" id="payment" />
       </div>
@@ -221,7 +269,7 @@ orders.value = [
     <button @click="signOut">Sign out</button>
     <section>
       <h2 class="title">Orders</h2>
-      <div>
+      <div class="orders-container">
         <Order v-for="order in orders" :key="order.id" :order="order" />
       </div>
     </section>
@@ -347,4 +395,18 @@ button {
 .popup-buttons {
   margin-top: 1rem;
 }
+.order-containers {
+  display: flex;
+  padding-top: 8px;
+  padding-left: 16px;
+  padding-right: 16px;
+  overflow-x: auto;
+  overflow-y: visible;
+  text-wrap: nowrap;
+  position: relative;
+  gap: 32px;
+  left: -16px;
+  width: calc(100% + 32px);
+}
+ 
 </style>

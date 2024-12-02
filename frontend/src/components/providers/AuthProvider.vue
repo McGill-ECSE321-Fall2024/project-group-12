@@ -110,7 +110,7 @@ const signUp = async (name, email, phoneNumber, password) => {
   loadUser()
 }
 
-const updateUser = async (name, email, phoneNumber) => {
+const updateUser = async (name, email, phoneNumber, address) => {
   authResponse = JSON.parse(localStorage.getItem('auth'))
   const { id: userId, userType } = authResponse
   const resp = await fetch(`http://localhost:8080/${userType.toLowerCase()}s/${userId}`, {
@@ -124,6 +124,7 @@ const updateUser = async (name, email, phoneNumber) => {
       name,
       email,
       phoneNumber,
+      address
     }),
   })
   // read the response
@@ -131,7 +132,7 @@ const updateUser = async (name, email, phoneNumber) => {
   if (data.errors) {
     alert(data.errors);
   } else {
-    alert("Password successfully changed!")
+    alert("Info successfully changed!")
   }
   const id = data.id
   // store the data

@@ -1,14 +1,5 @@
 <script setup>
 import { defineProps } from 'vue'
-// :category="order.category"
-//           :console="order.console"
-//           :inventory="order.inventory"
-//           :price="order.price"
-//           :name="order.name"
-//           :description="order.description"
-//           :status="order.status"
-//           :year="order.year"
-// Define props interface
 const props = defineProps({
   order: {
     type: Object,
@@ -20,12 +11,13 @@ const props = defineProps({
   },
 })
 </script>
+
 <template>
   <div class="order-card">
     <div class="heading">
       <div>
         <h2>Order delivered November 20, 2022</h2>
-        <h3 class="total" :style="{ 'font=size': '1rem;' }">Total: $100</h3>
+        <h3 class="total" :style="{ 'font=size': '1rem' }">Total: $100</h3>
       </div>
       <h3>Order Number: #1000</h3>
     </div>
@@ -37,7 +29,7 @@ const props = defineProps({
         :style="{ 'grid-row': 'index + 2' }"
       />
       <div class="game" :style="{ 'grid-row': 'index + 2' }">
-        <h3 class="game-title" :style="{ 'font=size': '1rem;' }">{{ game.name }}</h3>
+        <h3 class="game-title" :style="{ 'font=size': '1rem' }">{{ game.name }}</h3>
         <div class="game-details">
           <h4>{{ game.console }}</h4>
           •
@@ -53,12 +45,6 @@ const props = defineProps({
         </div>
       </div>
     </div>
-
-    <!-- <div class="buttons" :style="{ 'grid-row': 'index + 2' }">
-            <button v-if="review.user==user">Edit your review</button>
-            <button class="review-button">Leave a review</button>
-            <button class="return-button">Return item</button>
-        </div> -->
   </div>
 </template>
 
