@@ -7,10 +7,10 @@
 import { inject } from 'vue'
 const { createThemeFromColour } = inject('theme')
 const {token, auth} = inject('auth')
-const {axios} = inject('axios')
 createThemeFromColour('#00ff00')
 
 const submitPayment = async () => {
+    /*
     try {
         axios({
             method: 'post',
@@ -33,6 +33,7 @@ const submitPayment = async () => {
         // if unsuccessful, show an error message
         console.error(error)
     }
+        */
 }
 
 </script>
