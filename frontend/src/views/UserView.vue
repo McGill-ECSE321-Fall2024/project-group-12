@@ -18,7 +18,7 @@ const addressFields = ref({
   city: '',
   province: '',
   country: '',
-  postal: ''
+  postal: '',
 })
 console.log('user view loaded')
 
@@ -27,7 +27,7 @@ createThemeFromColour('#415d43')
 
 const updateInfo = async (event) => {
   event.preventDefault()
-  console.log("updating info...");
+  console.log('updating info...')
   const form = event.target
   const name = form.querySelector('#name').value
   const email = form.querySelector('#email').value
@@ -36,10 +36,6 @@ const updateInfo = async (event) => {
   updateUser(name, email, phoneNumber, address)
 }
 const togglePasswordPopup = () => {
-  if (showPasswordPopup.value) {
-    oldPassword.value = ''
-    newPassword.value = ''
-  }
   showPasswordPopup.value = !showPasswordPopup.value
 }
 const toggleAddressPopup = () => {
@@ -50,7 +46,7 @@ const toggleAddressPopup = () => {
 }
 async function updatePassword(event) {
   event.preventDefault()
-  console.log("updating password")
+  console.log('updating password')
   const email = user.value.email
   console.log(email)
   const form = event.target
@@ -94,11 +90,11 @@ async function updateAddress(event) {
     form.querySelector('#city').value,
     form.querySelector('#province').value,
     form.querySelector('#country').value,
-    form.querySelector('#postal').value
-]
-  const addressLine = addressComponents.join('\\n');
-  console.log(addressLine);
-  toggleAddressPopup();
+    form.querySelector('#postal').value,
+  ]
+  const addressLine = addressComponents.join('\\n')
+  console.log(addressLine)
+  toggleAddressPopup()
   const email = user.value.email
   const name = user.value.name
   const phoneNumber = user.value.phoneNumber
@@ -107,7 +103,7 @@ async function updateAddress(event) {
   console.log(phoneNumber)
   updateUser(name, email, phoneNumber, addressLine)
   toggleAddressPopup
-  location.reload();
+  location.reload()
 }
 const formatAddress = (address) => {
   return address.replace(/\\n\\n/g, '\n').replace(/\\n/g, '\n')
@@ -122,9 +118,9 @@ const populateAddressFields = () => {
       city: parts[2] || '',
       province: parts[3] || '',
       country: parts[4] || '',
-      postal: parts[5] || ''
+      postal: parts[5] || '',
     }
-    console.log("haiii");
+    console.log('haiii')
   }
 }
 
@@ -132,7 +128,7 @@ async function getOrders() {
   const authResponse = JSON.parse(localStorage.getItem('auth'))
   // check whether auth response exists
   if (!authResponse) return []
-  const { token, id, userType } = authResponse
+  const { token, id } = authResponse
   console.log(authResponse.id)
   const resp = await fetch(`http://localhost:8080/orders/customer/${id}`, {
     method: 'GET',
@@ -236,11 +232,13 @@ orders.value = [
       <div class="shipping-address card">
         <div>
           <h2>Shipping Address</h2>
-          <button v-if="user.address == null" class="edit-button" @click="toggleAddressPopup">Add</button>
+          <button v-if="user.address == null" class="edit-button" @click="toggleAddressPopup">
+            Add
+          </button>
           <button v-else class="edit-button" @click="toggleAddressPopup">Edit</button>
         </div>
         <h3 v-if="user.address == null">No shipping address associated with this account</h3>
-        <span v-else style="white-space: pre;"> {{ formatAddress(user.address) }}</span>
+        <span v-else style="white-space: pre"> {{ formatAddress(user.address) }}</span>
       </div>
 
       <div v-if="showAddressPopup" class="popup">
@@ -248,17 +246,52 @@ orders.value = [
           <h2>Change Password</h2>
           <form @submit.prevent="updateAddress">
             <label>Address</label>
-            <input type="text" id="address" :value="addressFields.address" @input="(event) => (addressFields.address = event.target.value)" required/>
+            <input
+              type="text"
+              id="address"
+              :value="addressFields.address"
+              @input="(event) => (addressFields.address = event.target.value)"
+              required
+            />
             <label>Apt/Building/Other</label>
-            <input type="text" id="apt" :value="addressFields.apt" @input="(event) => (addressFields.apt = event.target.value)"/>
+            <input
+              type="text"
+              id="apt"
+              :value="addressFields.apt"
+              @input="(event) => (addressFields.apt = event.target.value)"
+            />
             <label>City</label>
-            <input type="text" id="city" :value="addressFields.city" @input="(event) => (addressFields.city = event.target.value)" required/>
+            <input
+              type="text"
+              id="city"
+              :value="addressFields.city"
+              @input="(event) => (addressFields.city = event.target.value)"
+              required
+            />
             <label>Province/State/Territory</label>
-            <input type="text" id="province" :value="addressFields.province" @input="(event) => (addressFields.province = event.target.value)" required/>
+            <input
+              type="text"
+              id="province"
+              :value="addressFields.province"
+              @input="(event) => (addressFields.province = event.target.value)"
+              required
+            />
             <label>Country</label>
-            <input type="text" id="country" :value="addressFields.country" @input="(event) => (addressFields.country = event.target.value)" required/>
+            <input
+              type="text"
+              id="country"
+              :value="addressFields.country"
+              @input="(event) => (addressFields.country = event.target.value)"
+              required
+            />
             <label>Postal Code</label>
-            <input type="text" id="postal" :value="addressFields.postal" @input="(event) => (addressFields.postal = event.target.value)" required/>
+            <input
+              type="text"
+              id="postal"
+              :value="addressFields.postal"
+              @input="(event) => (addressFields.postal = event.target.value)"
+              required
+            />
             <div class="popup-buttons">
               <button type="submit">Save</button>
               <button type="button" @click="toggleAddressPopup">Cancel</button>
@@ -414,5 +447,4 @@ button {
   left: -16px;
   width: calc(100% + 32px);
 }
-
 </style>
