@@ -16,10 +16,13 @@ createThemeFromColour('#00ff00')
         </div>
         <input class="input-line input-box" placeholder="Name"></input>
         <input class="input-line input-box" placeholder="Card Number"></input>
-        <div class="input-line" style="gap:8px;">
-            <input class="input-box" placeholder="Expiry Date MM/YY"></input>
+        <div class="input-line" style="gap:20px;">
+            <input class="input-box" style="width:400px" placeholder="Expiry Date MM/YY"></input>
             <input class="input-box" placeholder="CVV"></input>
         </div>
+        <div class="input-line">
+            <p style="text-align: left; font-size: 30px;">Save card to account?</p>
+        </div>  
     </div>
 </template>
   
@@ -35,5 +38,6 @@ createThemeFromColour('#00ff00')
 }
 .input-box {
     border-radius: 8px;
+    padding-left: 10px;
 }
 </style>
