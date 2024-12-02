@@ -6,6 +6,8 @@
 <script setup>
 import { inject } from 'vue'
 const { createThemeFromColour } = inject('theme')
+const {token, auth} = inject('auth')
+const {axios} = inject('axios')
 createThemeFromColour('#00ff00')
 
 const submitPayment = async () => {
@@ -15,7 +17,7 @@ const submitPayment = async () => {
             url: '/orders',
             headers: {
                 'Content-Type': 'application/json',
-                'Authentication': 'Bearer ' + localStorage.getItem('token')
+                'Authentication': 'Bearer ' + token.value
             },
             data: {
                 deliveryAddress: document.getElementById('billingAddress').value,
