@@ -47,34 +47,34 @@ const submitPayment = async () => {
         <div class="input-line">
             <p style="text-align: left; font-size: 30px;">Card Details</p>
         </div>
-        <input class="input-line input-box" id="name" placeholder="nameOnCard"></input>
-        <input class="input-line input-box" placeholder="Card Number" id="cardNumber"></input>
+        <input class="input-line input-box" id="name" placeholder="nameOnCard">
+        <input class="input-line input-box" placeholder="Card Number" id="cardNumber">
         <div class="input-line" style="gap:5%;">
-            <input class="input-box" style="width:70%" placeholder="Expiry Date MM/YY" id="expiryDate"></input>
-            <input class="input-box" style="width: 25%" placeholder="CVV" id="cvc"></input>
+            <input class="input-box" style="width:70%" placeholder="Expiry Date MM/YY" id="expiryDate">
+            <input class="input-box" style="width: 25%" placeholder="CVV" id="cvc">
         </div>
         <div class="input-line" style="font-size: medium; gap:8px; height:28px;">
             <p>Save this card to account?</p>
-            <input type="checkbox" input="save"></input>
+            <input type="checkbox" input="save">
         </div>
         <div class="input-line">
             <p style="text-align: left; font-size: 30px;">Billing address</p>
-        </div>  
-        <input class="input-line input-box" placeholder="Address" id="billingAddress"></input>
+        </div>
+        <input class="input-line input-box" placeholder="Address" id="billingAddress">
         <div class="input-line" style="justify-content: center; gap: 20px">
             <button style="width:20%; border-radius: 8px; padding-left: 10px;" @click="$router.push('/cart')">Cancel</button>
-            <button style="width:20%; background-color: green; border-radius: 8px; padding-left: 10px; color: white;"@click="submitPayment">Submit</button>
+            <button style="width:20%; background-color: green; border-radius: 8px; padding-left: 10px; color: white;" @click="submitPayment">Submit</button>
         </div>
     </div>
 </template>
-  
+
 <style scoped>
 .input-line {
     height: 48px;
-    width: 60%; 
-    display: flex; 
-    justify-content: left; 
-    margin-left: auto; 
+    width: 60%;
+    display: flex;
+    justify-content: left;
+    margin-left: auto;
     margin-right: auto;
     margin-top: 20px;
 }
