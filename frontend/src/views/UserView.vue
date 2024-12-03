@@ -5,7 +5,7 @@
 <script setup>
 import { inject, ref, watch } from 'vue'
 import SigninView from '@/views/SigninView.vue'
-import Order from '@/components/Order.vue'
+import OrderCard from '@/components/OrderCard.vue'
 // load the current user
 const { user, signOut, updateUser, token } = inject('auth')
 const showPasswordPopup = ref(false)
@@ -127,45 +127,50 @@ async function getOrders() {
     },
   })
   const data = await resp.json()
+  console.log("THIS IS THE ORDER");
+  console.log(data);
   return data
+
 }
 const orders = ref(null)
 orders.value = await getOrders()
-orders.value = [
-  {
-    id: 1,
-    games: [
-      {
-        id: 101,
-        name: 'Animal Crossing',
-        console: 'Nintendo Switch',
-        year: 2014,
-        price: 1212.22,
-      },
-      {
-        id: 102,
-        name: 'Minecraft',
-        console: 'PC',
-        year: 1980,
-        price: 999.99,
-      },
-      {
-        id: 103,
-        name: 'League of Legends',
-        console: 'XBox',
-        year: 1823,
-        price: 1,
-      },
-      {
-        id: 101,
-        name: 'Animal Crossing',
-        console: 'Nintendo Switch',
-        year: 2014,
-        price: 1212.22,
-      },
-    ],
-  },
-]
+// orders.value = [
+//   {
+//     id: 1,
+//     games: [
+//       {
+//         id: 101,
+//         name: 'Animal Crossing',
+//         console: 'Nintendo Switch',
+//         year: 2014,
+//         price: 1212.22,
+//       },
+//       {
+//         id: 102,
+//         name: 'Minecraft',
+//         console: 'PC',
+//         year: 1980,
+//         price: 999.99,
+//       },
+//       {
+//         id: 103,
+//         name: 'League of Legends',
+//         console: 'XBox',
+//         year: 1823,
+//         price: 1,
+//       },
+//       {
+//         id: 101,
+//         name: 'Animal Crossing',
+//         console: 'Nintendo Switch',
+//         year: 2014,
+//         price: 1212.22,
+//       },
+//     ],
+//   },
+// ]
+console.log("haiiiiiii");
+console.log(orders.value);
 </script>
 
 <template>
@@ -304,7 +309,8 @@ orders.value = [
     <section>
       <h2 class="title">Orders</h2>
       <div class="orders-container">
-        <Order v-for="order in orders" :key="order.id" :order="order" />
+        <OrderCard v-for="order in orders.value" :order="order" />
+         <!-- <OrderCard/> -->
       </div>
     </section>
   </div>

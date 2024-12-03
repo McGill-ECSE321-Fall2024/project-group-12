@@ -1,22 +1,27 @@
 <script setup>
-import { defineProps } from 'vue'
-const props = defineProps({
-  order: {
-    type: Object,
-    required: true,
-    default: () => ({
-      id: null,
-      games: [],
-    }),
-  },
-})
+  // defineProps({
+  //   order: {
+  //     type: Object,
+  //     // required: true,
+  //     default: () => ({
+  //       id: null,
+  //       deliveryAddress: '',
+  //       games: [],
+  //       purchaseDate: '',
+  //       purchaseTotal: 0,
+  //       status: ''
+  //     }),
+  //   },
+  // })
 </script>
 
 <template>
-  <div class="order-card">
+  <h1>HELPPPPPP</h1>
+  <!-- <h2>{{  order.id }}</h2> -->
+  <!-- <div class="order-card">
     <div class="heading">
       <div>
-        <h2>Order delivered November 20, 2022</h2>
+        <h2>Order {{ order.status }} {{ order.purchaseDate }}</h2>
         <h3 class="total" :style="{ 'font=size': '1rem' }">Total: $100</h3>
       </div>
       <h3>Order Number: #1000</h3>
@@ -26,7 +31,6 @@ const props = defineProps({
       <img
         src="../assets/games/minecraft.png"
         class="game-img"
-        :style="{ 'grid-row': 'index + 2' }"
       />
       <div>
         <h3 class="game-title" :style="{ 'font=size': '1rem' }">{{ game.name }}</h3>
@@ -45,7 +49,7 @@ const props = defineProps({
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 </template>
 
 <style scoped>
