@@ -77,7 +77,7 @@ async function updatePassword(event) {
 }
 async function updateAddress(event) {
   event.preventDefault()
-  console.log("updating address")
+  console.log('updating address')
   const form = event.target
   const addressComponents = [
     form.querySelector('#address').value,
@@ -452,5 +452,4 @@ button {
     grid-area: 3 / 1 / 4 / 2;
   }
 }
-
 </style>

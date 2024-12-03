@@ -23,18 +23,25 @@ const props = defineProps({
     </div>
 
     <div class="game" v-for="game in order.games" :key="game.id">
-      <img src="../assets/games/minecraft.png" class="game-img" :style="{ 'grid-row': 'index + 2' }"/>
+      <img
+        src="../assets/games/minecraft.png"
+        class="game-img"
+        :style="{ 'grid-row': 'index + 2' }"
+      />
       <div>
         <h3 class="game-title" :style="{ 'font=size': '1rem' }">{{ game.name }}</h3>
         <div class="game-details">
-          <h4>{{ game.console }}</h4>•
-          <h4>{{ game.year }}</h4>•
-          <h4>${{ game.price }}</h4>•
+          <h4>{{ game.console }}</h4>
+          •
+          <h4>{{ game.year }}</h4>
+          •
+          <h4>${{ game.price }}</h4>
+          •
           <h4>Rating</h4>
         </div>
         <div class="buttons">
-          <button :style="{'background': 'rgba(65, 93, 67, 1)'}">Leave a review</button>
-          <button :style="{'background': 'rgba(162, 62, 72, 1)'}">Return item</button>
+          <button :style="{ background: 'rgba(65, 93, 67, 1)' }">Leave a review</button>
+          <button :style="{ background: 'rgba(162, 62, 72, 1)' }">Return item</button>
         </div>
       </div>
     </div>
