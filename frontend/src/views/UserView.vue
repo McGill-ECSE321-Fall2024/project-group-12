@@ -27,7 +27,7 @@ createThemeFromColour('#415d43')
 
 const updateInfo = async (event) => {
   event.preventDefault()
-  console.log('updating info...')
+  console.log('updating info')
   const form = event.target
   const name = form.querySelector('#name').value
   const email = form.querySelector('#email').value
@@ -48,14 +48,9 @@ async function updatePassword(event) {
   event.preventDefault()
   console.log('updating password')
   const email = user.value.email
-  console.log(email)
   const form = event.target
   const oldPassword = form.querySelector('#oldPassword').value
   const newPassword = form.querySelector('#newPassword').value
-  console.log('Updating password:', {
-    old: oldPassword,
-    new: newPassword,
-  })
   const authResponse = JSON.parse(localStorage.getItem('auth'))
   const { id } = authResponse
   const resp = await fetch(`http://localhost:8080/customers/auth/${id}`, {
@@ -83,6 +78,7 @@ async function updatePassword(event) {
 }
 async function updateAddress(event) {
   event.preventDefault()
+  console.log("updating address")
   const form = event.target
   const addressComponents = [
     form.querySelector('#address').value,
@@ -93,14 +89,10 @@ async function updateAddress(event) {
     form.querySelector('#postal').value,
   ]
   const addressLine = addressComponents.join('\\n')
-  console.log(addressLine)
   toggleAddressPopup()
   const email = user.value.email
   const name = user.value.name
   const phoneNumber = user.value.phoneNumber
-  console.log(email)
-  console.log(name)
-  console.log(phoneNumber)
   updateUser(name, email, phoneNumber, addressLine)
   toggleAddressPopup
   location.reload()
@@ -108,7 +100,6 @@ async function updateAddress(event) {
 const formatAddress = (address) => {
   return address.replace(/\\n\\n/g, '\n').replace(/\\n/g, '\n')
 }
-
 const populateAddressFields = () => {
   if (user.value?.address) {
     const parts = user.value.address.split('\\n')
@@ -120,10 +111,8 @@ const populateAddressFields = () => {
       country: parts[4] || '',
       postal: parts[5] || '',
     }
-    console.log('haiii')
   }
 }
-
 async function getOrders() {
   const authResponse = JSON.parse(localStorage.getItem('auth'))
   // check whether auth response exists
@@ -168,6 +157,13 @@ orders.value = [
         year: 1823,
         price: 1,
       },
+      {
+        id: 101,
+        name: 'Animal Crossing',
+        console: 'Nintendo Switch',
+        year: 2014,
+        price: 1212.22,
+      },
     ],
   },
 ]
@@ -211,6 +207,7 @@ orders.value = [
           @input="(event) => (user.phoneNumber = event.target.value)"
         />
         <button class="update-button">Update</button>
+        <button class="signout-button" @click="signOut">Sign out</button>
       </form>
 
       <div v-if="showPasswordPopup" class="popup">
@@ -306,7 +303,7 @@ orders.value = [
         <input v-else type="text" id="payment" />
       </div>
     </div>
-    <button @click="signOut">Sign out</button>
+    <div class="spacer"></div>
     <section>
       <h2 class="title">Orders</h2>
       <div class="orders-container">
@@ -319,7 +316,7 @@ orders.value = [
 <style scoped>
 .title {
   display: inline;
-  font-size: 2.25rem;
+  font-size: 3rem;
 }
 
 .grid-container {
@@ -375,6 +372,9 @@ button {
   border-radius: 100px;
   padding: 0.75rem;
   margin: 1px 0px;
+}
+.signout-button {
+  background: linear-gradient(90deg, rgb(162, 62, 72, 1) 30%, rgba(65, 93, 67, 1) 70%);
 }
 .update-button {
   background: linear-gradient(90deg, rgba(65, 93, 67, 1) 30%, rgba(162, 62, 72, 1) 70%);
@@ -434,17 +434,26 @@ button {
 .popup-buttons {
   margin-top: 1rem;
 }
-.order-containers {
-  display: flex;
-  padding-top: 8px;
-  padding-left: 16px;
-  padding-right: 16px;
-  overflow-x: auto;
-  overflow-y: visible;
-  text-wrap: nowrap;
-  position: relative;
-  gap: 32px;
-  left: -16px;
-  width: calc(100% + 32px);
+.spacer {
+  margin: 3rem;
 }
+
+@media only screen and (max-width: 600px) {
+  .grid-container {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(3, 1fr);
+  }
+  .user-info {
+    display: inline-flex;
+    flex-direction: column;
+    grid-area: 1 / 1 / 2 / 2;
+  }
+  .shipping-address {
+    grid-area: 2 / 1 / 3 / 2;
+  }
+  .payment-method {
+    grid-area: 3 / 1 / 4 / 2;
+  }
+}
+
 </style>
