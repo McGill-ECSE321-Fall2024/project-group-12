@@ -1,36 +1,75 @@
+<!--
+ Cart page
+ @author Amy Ding
+-->
 <script setup>
 import { inject, ref } from 'vue'
 import SigninView from '@/views/SigninView.vue'
 import Order from '@/components/Order.vue'
 import BackgroundGradient from '@/components/BackgroundGradient.vue'
 // load the current user
-const { user, signOut, updateUser } = inject('auth')
+const { user, signOut, updateUser, token } = inject('auth')
+const showPasswordPopup = ref(false)
 console.log('user view loaded')
-// createThemeFromColour('#FF9797')
 
 const updateInfo = async (event) => {
   event.preventDefault()
-  console.log('hai')
   const form = event.target
-  // load the data from each input
-  console.log(form.querySelector('#name'))
   const name = form.querySelector('#name').value
   const email = form.querySelector('#email').value
   const phoneNumber = form.querySelector('#phoneNumber').value
-
-  console.log('hai')
   updateUser(name, email, phoneNumber)
 }
+const togglePasswordPopup = () => {
+  if (showPasswordPopup.value) {
+    oldPassword.value = ''
+    newPassword.value = ''
+  }
+  showPasswordPopup.value = !showPasswordPopup.value
 
+}
+async function updatePassword(event) {
+  event.preventDefault()
+  const email = user.value.email
+  console.log(email)
+  const form = event.target
+  const oldPassword = form.querySelector('#oldPassword').value
+  const newPassword = form.querySelector('#newPassword').value
+  console.log('Updating password:', {
+    old: oldPassword,
+    new: newPassword
+  })
+  const authResponse = JSON.parse(localStorage.getItem('auth'))
+  const { id } = authResponse
+  const resp = await fetch(`http://localhost:8080/customers/auth/${id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token.value}`,
+      Accept: 'application/json',
+    },
+    body: JSON.stringify({
+      oldPassword: oldPassword,
+      newPassword: newPassword,
+      email: email
+    }),
+  })
+
+  const data = await resp.json()
+  if (data.errors) {
+    alert(data.errors);
+  } else {
+    alert("Password successfully changed!")
+  }
+  
+  togglePasswordPopup()
+}
 async function getOrders() {
   const authResponse = JSON.parse(localStorage.getItem('auth'))
-
   // check whether auth response exists
   if (!authResponse) return []
-
-  const { token, id } = authResponse
+  const { token, id, userType } = authResponse
   console.log(authResponse.id)
-
   const resp = await fetch(`http://localhost:8080/orders/customer/${id}`, {
     method: 'GET',
     headers: {
@@ -39,13 +78,11 @@ async function getOrders() {
       Accept: 'application/json',
     },
   })
-
   const data = await resp.json()
   return data
 }
 const orders = ref(null)
 orders.value = await getOrders()
-
 orders.value = [
   {
     id: 1,
@@ -77,7 +114,6 @@ orders.value = [
 </script>
 
 <template>
-  <!-- login page can go here on mobile, on desktop it'll be a popup -->
   <!-- IF current user is null -->
   <SigninView v-if="user == null" />
   <!-- otherwise, the normal page can be shown -->
@@ -105,7 +141,7 @@ orders.value = [
         <label for="password">Password</label>
         <div class="password-container">
           <input type="password" value="password" readonly />
-          <button type="password" class="edit-button">Edit</button>
+          <button type="password" class="edit-button" @click="togglePasswordPopup">Edit</button>
         </div>
         <label for="phoneNumber">Phone Number</label>
         <input
@@ -116,6 +152,22 @@ orders.value = [
         />
         <button class="update-button">Update</button>
       </form>
+
+      <div v-if="showPasswordPopup" class="popup">
+        <div class="popup-content">
+          <h2>Change Password</h2>
+          <form @submit.prevent="updatePassword">
+            <label>Current Password</label>
+            <input type="password" id="oldPassword" required />
+            <label>New Password</label>
+            <input type="password" id="newPassword" required />
+            <div class="popup-buttons">
+              <button type="submit">Save</button>
+              <button type="button" @click="togglePasswordPopup">Cancel</button>
+            </div>
+          </form>
+        </div>
+      </div>
 
       <div class="shipping-address card">
         <div>
@@ -172,12 +224,12 @@ orders.value = [
   flex-direction: column;
   grid-area: 1 / 1 / 3 / 2;
 }
-.user-info label {
+label {
   font-size: 0.75rem;
   padding: 0.6rem 0rem 0.5rem 0rem;
 }
-.user-info input {
-  padding: 0rem 1rem 1rem 1rem;
+input {
+  padding: 0.3rem 1rem 0.3rem 1rem;
   background-color: inherit;
   color: inherit;
   font-size: 1.5rem;
@@ -234,5 +286,36 @@ button {
 .card > div {
   display: flex;
   justify-content: space-between;
+}
+
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+}
+.popup-content {
+  background: rgba(65, 93, 67, 1);
+  padding: 20px;
+  border-radius: 8px;
+  min-width: 300px;
+}
+.popup button {
+  background: rgba(162, 62, 72, 1);
+  width: 100%;
+}
+
+.popup form{
+  display: flex;
+  flex-direction: column;
+}
+.popup-buttons {
+  margin-top: 1rem;
 }
 </style>

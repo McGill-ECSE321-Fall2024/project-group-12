@@ -4,6 +4,7 @@ import CartView from '../views/CartView.vue'
 import UserView from '../views/UserView.vue'
 import WishlistView from '../views/WishlistView.vue'
 import GameView from '../views/GameView.vue'
+import CheckoutView from '@/views/CheckoutView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -38,6 +39,11 @@ const router = createRouter({
       props: true,
       name: 'game',
       component: GameView,
+    },
+    {
+      path: '/checkout',
+      name: 'checkout',
+      component: CheckoutView,
     },
   ],
 })

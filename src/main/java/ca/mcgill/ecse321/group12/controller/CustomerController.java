@@ -121,5 +121,4 @@ public class CustomerController {
 				changePasswordDto.getOldPassword(), encryptedNewPassword);
 		return new CustomerResponseDto(updatedCustomer);
 	}
-
 }

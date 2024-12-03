@@ -37,41 +37,45 @@ const submitSignUp = async (event) => {
 
 <template>
   <div v-if="showingSignIn" class="signin-container">
-    <h1>Sign In</h1>
-    <p>Don't have an account? <a @click="toggleShowingSignIn">Sign up</a></p>
+    <h1 style="font-size: xxx-large;">Sign In</h1>
+    <p style="font-size: x-large;">Don't have an account? <a @click="toggleShowingSignIn">Sign up</a></p>
 
     <form @submit="submitSignIn">
-      <label for="email">Email</label>
-      <input type="email" id="email" />
-      <br />
-
-      <label for="password">Password</label>
-      <input type="password" id="password" />
-      <br />
-
+      <div class="form-element">
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="email" />
+      </div>
+      <div class="form-element">
+        <label for="password">Password</label>
+        <input type="password" id="password"  placeholder="password"/>
+      </div>
       <button>Sign In</button>
     </form>
   </div>
   <div v-else class="signup-container">
-    <h1>Sign Up</h1>
-    <p>Already have an account? <a @click="toggleShowingSignIn">Sign in</a></p>
+    <h1 style="font-size: xxx-large;">Sign Up</h1>
+    <p style="font-size: x-large;">Already have an account? <a @click="toggleShowingSignIn">Sign in</a></p>
 
     <form @submit="submitSignUp">
-      <label for="name">Name</label>
-      <input type="text" id="name" />
-      <br />
+      <div class="form-element">
+        <label for="name">Name</label>
+        <input type="text" id="name" placeholder="name"/>
+      </div>
 
-      <label for="email">Email</label>
-      <input type="email" id="email" />
-      <br />
+      <div class="form-element">
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="email" />
+      </div>
 
-      <label for="phone-number">Phone Number</label>
-      <input type="text" id="phone-number" />
-      <br />
+      <div class="form-element">
+        <label for="phone-number">Phone Number</label>
+        <input type="text" id="phone-number" placeholder="phone number" />
+      </div>
 
-      <label for="password">Password</label>
-      <input type="password" id="password" />
-      <br />
+      <div class="form-element">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="password" />
+      </div>
 
       <button>Sign Up</button>
     </form>
@@ -82,5 +86,62 @@ const submitSignUp = async (event) => {
 a {
   color: #4287f5;
   cursor: pointer;
+}
+.signin-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+  justify-items: center;
+}
+.signup-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+  justify-items: center;
+}
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 40%;
+  margin-top: 20px;
+}
+.form-element {
+  margin-bottom: 20px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  font-size: x-large;
+}
+input {
+  height: 48px;
+  border-radius: 8px;
+  padding-left: 10px;
+}
+button {
+  width: 30%;
+  height: 48px;
+  border: none;
+  border-radius: 24px;
+  padding-left: 10px;
+  background-color: green;
+  font-size: large;
+  color: white;
+}
+@media screen and (max-width: 600px) {
+  .signin-container {
+    width: 100%;
+  }
+  .signup-container {
+    width: 100%;
+  }
+  form {
+    width: 100%;
+  }
+  button {
+    width: 50%;
+  }
 }
 </style>
