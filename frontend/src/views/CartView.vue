@@ -17,38 +17,30 @@ async function fetchData() {
       Authorization: `Bearer ${token.value}`,
     },
   })
-  return await response.json()
+  return response.json()
 }
 
 const data = ref(null)
 data.value = await fetchData()
-
-/*
-async function fetchCart(gameId) { // FINISH ****
-  const response = await fetch('http://localhost:8080/cart/$cardId/${cartId}', {
-   headers: {
-      'Authorization': `Bearer ${token.value}`,
-   }
-})
-  return response.json()
-}
-*/
 
 // update cart data when user updates
 watch(user, async () => {
   data.value = await fetchData()
 })
 
-async function removeItem(gameId) {
+async function remove(gameId) {
   // TO FINISH ****
   alert('Removed from cart')
-  const cardId = user.value.cart.Id
+  const cartId = user.value.cart.Id
   const requestOpt = {
-    method: 'DELETE',
-    headers: { 'Content-Type': 'application/json' },
+    method: 'put',
+    headers: { 
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token.value}`,
+     },
   }
   const response = await fetch(
-    `http://localhost:8080/cart/${cardId}?removeItem=${gameId}`,
+    `http://localhost:8080/cart/${cartId}?remove=${gameId}`,
     requestOpt,
   )
   const cart = await response.json()
@@ -74,7 +66,8 @@ async function removeItem(gameId) {
         :console="item.console"
         :year="item.year"
         :price="item.price"
-        :remove="removeItem"
+        :remove="remove"
+      
       />
     </div>
     <button class="checkout">Checkout</button>

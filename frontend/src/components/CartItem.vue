@@ -48,6 +48,29 @@ async function loadCover() {
 
 loadCover()
 
+
+
+async function remove(gameId) {
+  // TO FINISH ****
+  alert('Removed from cart')
+  const cartId = user.value.cart.id
+  console.log(cartId)
+  const requestOpt = {
+    method: 'put',
+    headers: { 
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token.value}`,
+     },
+  }
+  const response = await fetch(
+    `http://localhost:8080/cart/${cartId}?remove=${gameId}`,
+    requestOpt,
+  )
+  const cart = await response.json()
+  location.reload()
+  return
+}
+
 </script>
 
 
@@ -70,7 +93,7 @@ loadCover()
           <p class="game-price">${{ price }}</p>
           <!--price-->
         </div>
-        <button class="remove" @click="() => remove(gameId)">Remove from Cart</button>
+        <button class="remove" @click="() => {remove(gameId)}">Remove from Cart</button>
       </div>
     </div>
     <hr />
