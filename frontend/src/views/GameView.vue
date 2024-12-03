@@ -1,9 +1,10 @@
 <script setup>
 import FancyButton from '@/components/FancyButton.vue'
 import GameReviews from '@/components/GameReviews.vue'
+import StarRating from '@/components/StarRating.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import HeartOutlineIcon from 'vue-material-design-icons/HeartOutline.vue'
-import { ref, useTemplateRef, onMounted, inject } from 'vue'
+import { ref, useTemplateRef, inject } from 'vue'
 
 const props = defineProps({
   id: {
@@ -107,7 +108,7 @@ const addToWishlist = async () => {
       <div class="game-titles">
         <h1 class="header">{{ game ? game.name : '...' }}</h1>
         <h2 class="subheader">
-          {{ game?.console }} • {{ game?.year }} • ${{ game?.price }} • rating
+          {{ game?.console }} • {{ game?.year }} • ${{ game?.price }} • <StarRating :rating="4"></StarRating>
         </h2>
       </div>
     </header>
@@ -124,7 +125,7 @@ const addToWishlist = async () => {
           <HeartOutlineIcon />
         </FancyButton>
       </div>
-      <h2>Reviews</h2>
+      <h1>Reviews</h1>
       <!-- provide a fallback loading spinner while reviews load -->
       <Suspense>
         <GameReviews :id="id"></GameReviews>
@@ -138,20 +139,21 @@ const addToWishlist = async () => {
 </template>
 
 <style scoped>
+.game-page {
+  margin-top: 160px;
+}
 .game-info {
   color: white;
   position: relative;
   z-index: 1;
   display: flex;
   padding: 0 16px;
-  top: 160px;
   align-items: end;
   gap: 28px;
 }
 
 .game-content {
   position: relative;
-  top: 160px;
 }
 
 .game-poster {
@@ -184,8 +186,31 @@ const addToWishlist = async () => {
   height: calc(100% - 128px);
   width: 100%;
   left: 0;
-  background-color: rgba(17, 17, 17, 0.9);
+  background-color: rgba(34, 34, 34, 0.9);
   backdrop-filter: blur(64px);
   mask-image: linear-gradient(transparent, rgba(0, 0, 0, 0.75) 84px, rgba(0, 0, 0, 1) 168px);
+}
+
+/* adapt to a mobile layout */
+@media only screen and (max-width: 600px) {
+
+  .game-info {
+    flex-direction: column;
+    align-items: center;
+  }
+  .game-poster {
+    width: 132px;
+    height: 183px;
+  }
+  .header {
+    font-size: 32px;
+    line-height: 32px;
+    text-align: center;
+  }
+  .subheader {
+    font-size: 20px;
+    text-align: center;
+  }
+
 }
 </style>
