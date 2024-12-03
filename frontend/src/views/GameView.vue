@@ -1,5 +1,6 @@
 <script setup>
 import FancyButton from '@/components/FancyButton.vue'
+import GameReviews from '@/components/GameReviews.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import HeartOutlineIcon from 'vue-material-design-icons/HeartOutline.vue'
 import { ref, useTemplateRef, onMounted, inject } from 'vue'
@@ -11,7 +12,7 @@ const props = defineProps({
   },
 })
 
-const { createThemeFromImg } = inject('theme')
+const { createThemeFromImg, createThemeFromColour } = inject('theme')
 const { user, token } = inject('auth')
 
 // pictures for the game
@@ -19,6 +20,11 @@ const posterImgUrl = ref("")
 const backgroundImgUrl = ref("")
 
 const game = ref(null)
+
+// set the default theme to a grey while the theme colour is loaded
+createThemeFromColour('#999999');
+
+const backgroundImg = useTemplateRef('background-img')
 
 // load the images
 async function loadImages() {
@@ -35,17 +41,16 @@ async function loadImages() {
   posterImgUrl.value = `data:image/${images[0].type};base64,${images[0].image}`
   backgroundImgUrl.value = `data:image/${images[1].type};base64,${images[1].image}`
 
+  // set the colour scheme
+  backgroundImg.value.addEventListener('load', () => {
+    setTimeout(() => {
+      createThemeFromImg(backgroundImg.value)
+    }, 300)
+  })
+
 }
 
 loadImages()
-
-// set the colour scheme
-const backgroundImg = useTemplateRef('background-img')
-onMounted(() => {
-  backgroundImg.value.addEventListener('load', () => {
-    createThemeFromImg(backgroundImg.value)
-  })
-})
 
 // load the game
 const loadGame = async () => {
@@ -119,6 +124,15 @@ const addToWishlist = async () => {
           <HeartOutlineIcon />
         </FancyButton>
       </div>
+      <h2>Reviews</h2>
+      <!-- provide a fallback loading spinner while reviews load -->
+      <Suspense>
+        <GameReviews :id="id"></GameReviews>
+
+        <template #fallback>
+          <p>Loading...</p>
+        </template>
+      </Suspense>
     </main>
   </div>
 </template>
