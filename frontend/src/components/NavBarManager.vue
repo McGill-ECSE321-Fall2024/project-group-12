@@ -1,59 +1,62 @@
 <script setup>
-import AnimatedLink from './AnimatedLink.vue'
-import SearchBar from './SearchBar.vue'
+import AnimatedLink from './AnimatedLink.vue';
 </script>
 
 <template>
   <nav>
-    <!-- use the app logo as the home link -->
+    <!-- Home link with app logo -->
     <AnimatedLink to="/" class="nav-desktop-homelink">
       <div class="nav-wordmark">
-        <img class="nav-logo" src="@/assets/icons/navbar/deer.png" />
+        <img class="nav-logo" src="@/assets/icons/navbar/deer.png" alt="Reindeer Games Logo" />
         <span class="nav-title">Reindeer Games</span>
       </div>
     </AnimatedLink>
-    <!-- the main, labelled section of the navbar -->
-    <ul class="nav-list">
-      <!-- the search bar -->
-      
 
-      <!-- fill space so that the end icons appear at the right side of the navbar -->
+    <!-- Navbar list -->
+    <ul class="nav-list">
+
+      <!-- Spacer to push icons to the right -->
       <div class="nav-spacing"></div>
 
-      <!-- the icons at the end of the navbar -->
-      <li class="nav-list--item" :class="{ selected: $route.path == '/manager/games' }">
-        <AnimatedLink to="/manager/games">
-            <h3>Games</h3>
+      <!-- Navbar items -->
+      <li class="nav-list--item" :class="{ selected: $route.path === '/manager/review' }">
+        <AnimatedLink to="/manager/review">
+          <h3>Review</h3>
         </AnimatedLink>
-        
       </li>
-      
-      
-      <li class="nav-list--item" :class="{ selected: $route.path == '/signin' }">
-        <AnimatedLink to="/signin">
+      <li class="nav-list--item" :class="{ selected: $route.path === '/manager/games' }">
+        <AnimatedLink to="/manager/games">
+          <h3>Games</h3>
+        </AnimatedLink>
+      </li>
+      <li class="nav-list--item" :class="{ selected: $route.path === '/manager/employees' }">
+        <AnimatedLink to="/manager/employees">
           <h3>Employees</h3>
         </AnimatedLink>
       </li>
-      
       <li class="nav-list--item" :class="{ selected: $route.path == '/manager/customer' }">
         <AnimatedLink to="/manager/customer">
             <h3>Customers</h3>
         </AnimatedLink>
       </li>
-      <li class="nav-list--item" :class="{ selected: $route.path == '/manager/account' }">
+      <li class="nav-list--item" :class="{ selected: $route.path === '/manager/account' }">
         <AnimatedLink to="/manager/account">
-            <h3>Account</h3>
+          <h3>Account</h3>
         </AnimatedLink>
-        
       </li>
 
-      
-      
+      <!-- Logout icon -->
+      <li class="nav-list--logo">
+        <AnimatedLink to="/signin">
+          <img class="icon" src="@/assets/icons/navbar/logout-512.webp" alt="Logout Icon" />
+        </AnimatedLink>
+      </li>
     </ul>
   </nav>
 </template>
 
 <style scoped>
+/* General navbar styles */
 nav {
   position: relative;
   top: 0;
@@ -61,18 +64,19 @@ nav {
   width: 100%;
   height: var(--navbar-height);
   display: flex;
+  background-color: var(--navbar-bg-color, #333);
 }
+
+/* Branding */
 .nav-wordmark {
   display: flex;
-  height: var(--navbar-height);
   align-items: center;
+  height: var(--navbar-height);
 }
 .nav-logo {
-  display: inline-block;
   height: 100%;
   width: var(--navbar-height);
   padding: 16px;
-  flex-shrink: 0;
 }
 .nav-title {
   font-size: 24px;
@@ -80,86 +84,76 @@ nav {
   text-wrap: nowrap;
 }
 
-
-
+/* Navbar list */
 .nav-list {
   display: flex;
-  padding-left: 0;
-  list-style: none;
+  align-items: center;
   height: 100%;
-  align-content: center;
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
   width: 100%;
 }
 
 .nav-list--item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   font-size: 1.25rem;
   color: white;
-  text-align: center;
-  background-color: hsl(0, 0%, 63%); 
+  background-color: hsl(0, 0%, 63%);
   border-radius: 3px;
-  margin: 28px;
+  margin: 0 8px;
   height: 40px;
   width: 150px;
-
-
+  transition: background-color 0.3s ease;
 }
-.nav-list--mobile {
-  display: none;
-}
-/* version of nav list item that appears at the end of the bar */
 
-
-.selected {
+.nav-list--item.selected {
   background-color: hsl(0, 0%, 28%);
 }
 
+.nav-list--item:hover {
+  background-color: hsl(0, 0%, 50%);
+}
+
+/* Logout icon */
+.nav-list--logo .icon {
+  width: 35px;
+  height: 35px;
+  margin-top: 5px;
+}
+
+/* Search bar */
+.nav-search--container {
+  flex-grow: 1;
+  max-width: 300px;
+}
+
+/* Spacing for alignment */
 .nav-spacing {
-  display: block;
-  width: 0px;
   flex-grow: 2;
 }
 
-/**
- shrink the search bar on smaller screens
- */
-@media only screen and (max-width: 1072px) {
-  .nav-search--container {
-    width: 256px;
-  }
-}
-
-/**
- * adapt the navbar to a mobile device
- */
-@media only screen and (max-width: 600px) {
-  /**
-   * hide desktop-only parts
-   */
-  .nav-wordmark,
-  .nav-search--container,
-  .nav-desktop-homelink,
-  .nav-list--label {
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .nav-wordmark {
     display: none;
   }
 
-  /**
-   * show mobile-only parts
-   */
-  .nav-list--mobile {
-    display: initial;
+  .nav-search--container {
+    max-width: 200px;
   }
 
-  /**
-   * spread visible links evenly throughout the bar
-   */
-  .nav-list {
-    padding-left: 0;
-  }
   .nav-list--item {
-    width: 100%;
+    width: auto;
+    padding: 0 10px;
+    font-size: 1rem;
   }
-  a {
-    width: 100%;
+
+  .icon {
+    width: 24px;
+    height: 24px;
   }
 }
 </style>
