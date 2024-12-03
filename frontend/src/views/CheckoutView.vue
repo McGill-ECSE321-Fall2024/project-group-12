@@ -62,8 +62,8 @@ const submitPayment = async () => {
         </div>
         <input class="input-line input-box" placeholder="Address" id="billingAddress">
         <div class="input-line" style="justify-content: center; gap: 20px">
-            <button style="width:20%; border-radius: 8px; padding-left: 10px;" @click="$router.push('/cart')">Cancel</button>
-            <button style="width:20%; background-color: green; border-radius: 8px; padding-left: 10px; color: white;" @click="submitPayment">Submit</button>
+            <button style="width:20%; border: none; border-radius: 24px; padding-left: 10px;" @click="$router.push('/cart')">Cancel</button>
+            <button style="width:20%; background-color: green; border: none; border-radius: 24px; padding-left: 10px; color: white;" @click="submitPayment">Submit</button>
         </div>
     </div>
 </template>
