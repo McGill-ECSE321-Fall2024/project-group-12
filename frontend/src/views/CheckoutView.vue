@@ -6,13 +6,13 @@
 <script setup>
 import { inject } from 'vue'
 const { createThemeFromColour } = inject('theme')
-const {token, auth} = inject('auth')
+const {token, user} = inject('auth')
 createThemeFromColour('#00ff00')
 
 const submitPayment = async () => {
-    /*
+    
     try {
-        axios({
+        fetch({
             method: 'post',
             url: '/orders',
             headers: {
@@ -20,10 +20,10 @@ const submitPayment = async () => {
                 'Authentication': 'Bearer ' + token.value
             },
             data: {
-                deliveryAddress: document.getElementById('billingAddress').value,
+                deliveryAddress: user.deliveryAddress,
                 nameOnCard: document.getElementById('nameOnCard').value,
                 cvc: document.getElementById('cvc').value,
-                cardNumber: document.getElementById('cardNumber').value,
+                cardNumber: formatCardNumber(document.getElementById('cardNumber').value),
                 billingAddress: document.getElementById('billingAddress').value,
                 isSaved: document.getElementById('save').value,
                 expiryDate: document.getElementById('expiryDate').value
@@ -32,8 +32,11 @@ const submitPayment = async () => {
     } catch (error) {
         // if unsuccessful, show an error message
         console.error(error)
-    }
-        */
+    }  
+}
+
+const formatCardNumber = (cardNumber) => {
+    return cardNumber.substring(0, 4) + ' ' + cardNumber.substring(4, 8) + ' ' + cardNumber.substring(8, 12) + ' ' + cardNumber.substring(12, 16)
 }
 
 </script>
