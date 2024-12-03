@@ -1,8 +1,10 @@
 <script setup>
 import FancyButton from '@/components/FancyButton.vue'
+import GameReviews from '@/components/GameReviews.vue'
+import StarRating from '@/components/StarRating.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import HeartOutlineIcon from 'vue-material-design-icons/HeartOutline.vue'
-import { ref, useTemplateRef, onMounted, inject } from 'vue'
+import { ref, useTemplateRef, inject } from 'vue'
 
 const props = defineProps({
   id: {
@@ -11,16 +13,45 @@ const props = defineProps({
   },
 })
 
-const { createThemeFromImg } = inject('theme')
+const { createThemeFromImg, createThemeFromColour } = inject('theme')
 const { user, token } = inject('auth')
+
+// pictures for the game
+const posterImgUrl = ref("")
+const backgroundImgUrl = ref("")
 
 const game = ref(null)
 
-// set the colour scheme
+// set the default theme to a grey while the theme colour is loaded
+createThemeFromColour('#999999');
+
 const backgroundImg = useTemplateRef('background-img')
-onMounted(() => {
-  createThemeFromImg(backgroundImg.value)
-})
+
+// load the images
+async function loadImages() {
+
+  // do both API calls at once
+  const responses = await Promise.all([
+    fetch(`http://localhost:8080/games/${props.id}/cover`),
+    fetch(`http://localhost:8080/games/${props.id}/background`)
+  ])
+  // convert to JSON
+  const images = await Promise.all(responses.map(resp => resp.json()))
+
+  // set the URLs
+  posterImgUrl.value = `data:image/${images[0].type};base64,${images[0].image}`
+  backgroundImgUrl.value = `data:image/${images[1].type};base64,${images[1].image}`
+
+  // set the colour scheme
+  backgroundImg.value.addEventListener('load', () => {
+    setTimeout(() => {
+      createThemeFromImg(backgroundImg.value)
+    }, 300)
+  })
+
+}
+
+loadImages()
 
 // load the game
 const loadGame = async () => {
@@ -68,16 +99,16 @@ const addToWishlist = async () => {
 
 <template>
   <div class="game-page">
-    <img class="game-background" src="@/assets/loz-poster.jpg" ref="background-img" />
+    <img class="game-background" :src="backgroundImgUrl" ref="background-img" />
     <header class="game-info">
       <img
         class="game-poster"
-        src="https://upload.wikimedia.org/wikipedia/en/f/fb/The_Legend_of_Zelda_Tears_of_the_Kingdom_cover.jpg"
+        :src="posterImgUrl"
       />
       <div class="game-titles">
         <h1 class="header">{{ game ? game.name : '...' }}</h1>
         <h2 class="subheader">
-          {{ game?.console }} • {{ game?.year }} • ${{ game?.price }} • rating
+          {{ game?.console }} • {{ game?.year }} • ${{ game?.price }} • <StarRating :rating="4"></StarRating>
         </h2>
       </div>
     </header>
@@ -94,29 +125,41 @@ const addToWishlist = async () => {
           <HeartOutlineIcon />
         </FancyButton>
       </div>
+      <h1>Reviews</h1>
+      <!-- provide a fallback loading spinner while reviews load -->
+      <Suspense>
+        <GameReviews :id="id"></GameReviews>
+
+        <template #fallback>
+          <p>Loading...</p>
+        </template>
+      </Suspense>
     </main>
   </div>
 </template>
 
 <style scoped>
+.game-page {
+  margin-top: 160px;
+}
 .game-info {
   color: white;
   position: relative;
   z-index: 1;
   display: flex;
   padding: 0 16px;
-  top: 160px;
   align-items: end;
   gap: 28px;
 }
 
 .game-content {
   position: relative;
-  top: 160px;
 }
 
 .game-poster {
   width: 200px;
+  height: 277px;
+  object-fit: cover;
   view-transition-name: game-cover;
 }
 
@@ -143,8 +186,31 @@ const addToWishlist = async () => {
   height: calc(100% - 128px);
   width: 100%;
   left: 0;
-  background-color: rgba(17, 17, 17, 0.9);
+  background-color: rgba(34, 34, 34, 0.9);
   backdrop-filter: blur(64px);
   mask-image: linear-gradient(transparent, rgba(0, 0, 0, 0.75) 84px, rgba(0, 0, 0, 1) 168px);
+}
+
+/* adapt to a mobile layout */
+@media only screen and (max-width: 600px) {
+
+  .game-info {
+    flex-direction: column;
+    align-items: center;
+  }
+  .game-poster {
+    width: 132px;
+    height: 183px;
+  }
+  .header {
+    font-size: 32px;
+    line-height: 32px;
+    text-align: center;
+  }
+  .subheader {
+    font-size: 20px;
+    text-align: center;
+  }
+
 }
 </style>

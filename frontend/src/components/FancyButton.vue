@@ -1,13 +1,14 @@
 <script setup>
 defineProps({
   filled: Boolean,
+  small: Boolean,
   label: String,
   icon: String,
 })
 </script>
 
 <template>
-  <button class="fancy-button" :class="filled ? 'fancy-button--filled' : ''">
+  <button class="fancy-button" :class="[filled ? 'fancy-button--filled ' : '', small ? 'fancy-button--small' : '']">
     <slot class="fancy-button--icon"></slot>
     <p class="fancy-button--label">{{ label }}</p>
   </button>
@@ -39,5 +40,13 @@ defineProps({
 .fancy-button--filled {
   background: var(--theme-primary); /* use the current colour theme */
   color: white;
+}
+.fancy-button--small {
+  height: 32px;
+  width: 128px;
+  border-radius: 16px;
+}
+.fancy-button--small .fancy-button--label {
+  font-size: 14px;
 }
 </style>

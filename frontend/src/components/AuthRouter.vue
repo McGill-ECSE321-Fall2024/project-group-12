@@ -6,13 +6,7 @@ const { userType } = inject('auth')
 </script>
 
 <template>
-  <div v-if="userType === 'MANAGER'">
-    <slot name="manager"></slot>
-  </div>
-  <div v-else-if="userType === 'EMPLOYEE'">
-    <slot name="employee"></slot>
-  </div>
-  <div v-else>
-    <slot name="customer"></slot>
-  </div>
+  <slot name="manager" v-if="userType === 'MANAGER'"></slot>
+  <slot name="employee" v-else-if="userType === 'EMPLOYEE'"></slot>
+  <slot name="customer" v-else></slot>
 </template>
