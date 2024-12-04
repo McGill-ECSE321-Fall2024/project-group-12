@@ -1,5 +1,5 @@
 <script setup>
-import AnimatedLink from './AnimatedLink.vue';
+import AnimatedLink from './AnimatedLink.vue'
 </script>
 
 <template>
@@ -14,7 +14,6 @@ import AnimatedLink from './AnimatedLink.vue';
 
     <!-- Navbar list -->
     <ul class="nav-list">
-
       <!-- Spacer to push icons to the right -->
       <div class="nav-spacing"></div>
 
@@ -36,7 +35,7 @@ import AnimatedLink from './AnimatedLink.vue';
       </li>
       <li class="nav-list--item" :class="{ selected: $route.path == '/manager/customer' }">
         <AnimatedLink to="/manager/customer">
-            <h3>Customers</h3>
+          <h3>Customers</h3>
         </AnimatedLink>
       </li>
       <li class="nav-list--item" :class="{ selected: $route.path === '/manager/account' }">

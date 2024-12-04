@@ -7,38 +7,27 @@ import { inject, ref } from 'vue'
 import SigninView from '@/views/SigninView.vue'
 import OrderCard from '@/components/OrderCard.vue'
 
-import { useRoute } from 'vue-router';
+import { useRoute } from 'vue-router'
 
-const route = useRoute();
-const customerId = route.params.id;
-
+const route = useRoute()
+const customerId = route.params.id
 
 // load the current customer
 const { updateUser, token } = inject('auth')
-
-
 
 const customer = ref('')
 const response = await fetch(`http://localhost:8080/customers/${customerId}`, {
   method: 'GET',
   headers: {
-    "Authorization": `Bearer ${token.value}`
+    Authorization: `Bearer ${token.value}`,
   },
-
-});
-if (response.ok) { 
-  console.log("Request successful");
+})
+if (response.ok) {
+  console.log('Request successful')
 } else {
-  console.log("Request failed");
+  console.log('Request failed')
 }
-customer.value = await response.json();
-
-
-
-
-
-
-
+customer.value = await response.json()
 
 const showAddressPopup = ref(false)
 const addressFields = ref({
@@ -140,7 +129,6 @@ console.log(orders.value)
   <div v-else class="customer">
     <h2 class="title">Profile</h2>
 
-
     <div class="grid-container">
       <form class="customer-info" @submit.prevent="updateInfo">
         <label for="name">Name</label>
@@ -157,8 +145,7 @@ console.log(orders.value)
           :value="customer.email"
           @input="(event) => (customer.email = event.target.value)"
         />
-        
-        
+
         <label for="phoneNumber">Phone Number</label>
         <input
           type="phoneNumber"
@@ -168,92 +155,87 @@ console.log(orders.value)
         />
         <button class="update-button">Update</button>
       </form>
-
-      
-      </div>
-
-      <div class="shipping-address card">
-        <div>
-          <h2>Shipping Address</h2>
-          <button v-if="customer.address == null" class="edit-button" @click="toggleAddressPopup">
-            Add
-          </button>
-          <button v-else class="edit-button" @click="toggleAddressPopup">Edit</button>
-        </div>
-        <h3 v-if="customer.address == null">No shipping address associated with this account</h3>
-        <span v-else style="white-space: pre"> {{ formatAddress(customer.address) }}</span>
-      </div>
-
-      <div v-if="showAddressPopup" class="popup">
-        <div class="popup-content">
-          <h2>Change Password</h2>
-          <form @submit.prevent="updateAddress">
-            <label>Address</label>
-            <input
-              type="text"
-              id="address"
-              :value="addressFields.address"
-              @input="(event) => (addressFields.address = event.target.value)"
-              required
-            />
-            <label>Apt/Building/Other</label>
-            <input
-              type="text"
-              id="apt"
-              :value="addressFields.apt"
-              @input="(event) => (addressFields.apt = event.target.value)"
-            />
-            <label>City</label>
-            <input
-              type="text"
-              id="city"
-              :value="addressFields.city"
-              @input="(event) => (addressFields.city = event.target.value)"
-              required
-            />
-            <label>Province/State/Territory</label>
-            <input
-              type="text"
-              id="province"
-              :value="addressFields.province"
-              @input="(event) => (addressFields.province = event.target.value)"
-              required
-            />
-            <label>Country</label>
-            <input
-              type="text"
-              id="country"
-              :value="addressFields.country"
-              @input="(event) => (addressFields.country = event.target.value)"
-              required
-            />
-            <label>Postal Code</label>
-            <input
-              type="text"
-              id="postal"
-              :value="addressFields.postal"
-              @input="(event) => (addressFields.postal = event.target.value)"
-              required
-            />
-            <div class="popup-buttons">
-              <button type="submit">Save</button>
-              <button type="button" @click="toggleAddressPopup">Cancel</button>
-            </div>
-          </form>
-        </div>
-      </div>
-
-
     </div>
-    <div class="spacer"></div>
-    <section>
-      <h2 class="title">Orders</h2>
-      <div class="orders-container">
-        <OrderCard v-for="order in orders" :order="order" />
-        <!-- <OrderCard/> -->
-      </div>
-    </section>
 
+    <div class="shipping-address card">
+      <div>
+        <h2>Shipping Address</h2>
+        <button v-if="customer.address == null" class="edit-button" @click="toggleAddressPopup">
+          Add
+        </button>
+        <button v-else class="edit-button" @click="toggleAddressPopup">Edit</button>
+      </div>
+      <h3 v-if="customer.address == null">No shipping address associated with this account</h3>
+      <span v-else style="white-space: pre"> {{ formatAddress(customer.address) }}</span>
+    </div>
+
+    <div v-if="showAddressPopup" class="popup">
+      <div class="popup-content">
+        <h2>Change Password</h2>
+        <form @submit.prevent="updateAddress">
+          <label>Address</label>
+          <input
+            type="text"
+            id="address"
+            :value="addressFields.address"
+            @input="(event) => (addressFields.address = event.target.value)"
+            required
+          />
+          <label>Apt/Building/Other</label>
+          <input
+            type="text"
+            id="apt"
+            :value="addressFields.apt"
+            @input="(event) => (addressFields.apt = event.target.value)"
+          />
+          <label>City</label>
+          <input
+            type="text"
+            id="city"
+            :value="addressFields.city"
+            @input="(event) => (addressFields.city = event.target.value)"
+            required
+          />
+          <label>Province/State/Territory</label>
+          <input
+            type="text"
+            id="province"
+            :value="addressFields.province"
+            @input="(event) => (addressFields.province = event.target.value)"
+            required
+          />
+          <label>Country</label>
+          <input
+            type="text"
+            id="country"
+            :value="addressFields.country"
+            @input="(event) => (addressFields.country = event.target.value)"
+            required
+          />
+          <label>Postal Code</label>
+          <input
+            type="text"
+            id="postal"
+            :value="addressFields.postal"
+            @input="(event) => (addressFields.postal = event.target.value)"
+            required
+          />
+          <div class="popup-buttons">
+            <button type="submit">Save</button>
+            <button type="button" @click="toggleAddressPopup">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="spacer"></div>
+  <section>
+    <h2 class="title">Orders</h2>
+    <div class="orders-container">
+      <OrderCard v-for="order in orders" :order="order" />
+      <!-- <OrderCard/> -->
+    </div>
+  </section>
 </template>
 
 <style scoped>

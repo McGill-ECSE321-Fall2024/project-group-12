@@ -6,38 +6,27 @@ Specific employee view for managers
 import { inject, ref } from 'vue'
 import SigninView from '@/views/SigninView.vue'
 
-import { useRoute } from 'vue-router';
+import { useRoute } from 'vue-router'
 
-const route = useRoute();
-const employeeId = route.params.id;
-
+const route = useRoute()
+const employeeId = route.params.id
 
 // load the current employee
 const { updateUser, token } = inject('auth')
-
-
 
 const employee = ref('')
 const response = await fetch(`http://localhost:8080/employees/${employeeId}`, {
   method: 'GET',
   headers: {
-    "Authorization": `Bearer ${token.value}`
+    Authorization: `Bearer ${token.value}`,
   },
-
-});
-if (response.ok) { 
-  console.log("Request successful");
+})
+if (response.ok) {
+  console.log('Request successful')
 } else {
-    console.log("Request failed");
-    }
-employee.value = await response.json();
-
-
-
-
-
-
-
+  console.log('Request failed')
+}
+employee.value = await response.json()
 
 const showAddressPopup = ref(false)
 const addressFields = ref({
@@ -124,7 +113,6 @@ async function getOrders() {
   console.log(data)
   return data
 }
-
 </script>
 
 <template>
@@ -133,7 +121,6 @@ async function getOrders() {
   <!-- otherwise, the normal page can be shown -->
   <div v-else class="employee">
     <h2 class="title">Profile</h2>
-
 
     <div class="grid-container">
       <form class="employee-info" @submit.prevent="updateInfo">
@@ -151,8 +138,7 @@ async function getOrders() {
           :value="employee.email"
           @input="(event) => (employee.email = event.target.value)"
         />
-        
-        
+
         <label for="phoneNumber">Phone Number</label>
         <input
           type="phoneNumber"
@@ -162,14 +148,8 @@ async function getOrders() {
         />
         <button class="update-button">Update</button>
       </form>
-
-      
-      </div>
-
-
-
     </div>
-
+  </div>
 </template>
 
 <style scoped>

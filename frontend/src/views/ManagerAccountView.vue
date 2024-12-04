@@ -193,8 +193,6 @@ console.log(orders.value)
         </div>
       </div>
 
-      
-
       <div v-if="showAddressPopup" class="popup">
         <div class="popup-content">
           <h2>Change Password</h2>
@@ -253,10 +251,8 @@ console.log(orders.value)
           </form>
         </div>
       </div>
-
     </div>
     <div class="spacer"></div>
-    
   </div>
 </template>
 

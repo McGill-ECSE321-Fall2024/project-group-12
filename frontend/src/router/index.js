@@ -73,14 +73,14 @@ const router = createRouter({
       path: '/manager/customer/:id',
       name: 'manager/specificcustomer',
       component: ManagerSpecificCustomer,
-      props: true
+      props: true,
     },
 
     {
       path: '/manager/employee/:id',
       name: 'manager/specificemployee',
       component: ManagerSpecificEmployee,
-      props: true
+      props: true,
     },
   ],
 })
