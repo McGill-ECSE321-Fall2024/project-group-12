@@ -21,6 +21,7 @@ const posterImgUrl = ref("")
 const backgroundImgUrl = ref("")
 
 const game = ref(null)
+const rating = ref(null)
 
 // set the default theme to a grey while the theme colour is loaded
 createThemeFromColour('#999999');
@@ -57,6 +58,9 @@ loadImages()
 const loadGame = async () => {
   const response = await fetch(`http://localhost:8080/games/${props.id}`)
   game.value = await response.json()
+  // and get the rating for the game
+  const ratingResp = await fetch(`http://localhost:8080/games/${props.id}/rating`)
+  rating.value = new Number(await ratingResp.text()) + 0
 }
 loadGame()
 
@@ -108,7 +112,7 @@ const addToWishlist = async () => {
       <div class="game-titles">
         <h1 class="header">{{ game ? game.name : '...' }}</h1>
         <h2 class="subheader">
-          {{ game?.console }} • {{ game?.year }} • ${{ game?.price }} • <StarRating :rating="4"></StarRating>
+          {{ game?.console }} • {{ game?.year }} • ${{ game?.price }} • <StarRating v-if="rating != null" :rating="rating"></StarRating>
         </h2>
       </div>
     </header>
