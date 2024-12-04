@@ -92,7 +92,7 @@ const reviews = ref(await loadReviews())
   </div>
   <div class="reviews-grid" v-if="reviews.length > 0">
 
-    <ReviewCard v-for="review in reviews" :rating="review.rating" :review="review.review" :id="review.id" v-bind:key="review.id"></ReviewCard>
+    <ReviewCard v-for="review in reviews" :customerId="review.customerId" :gameId="id" :rating="review.rating" :review="review.review" :id="review.id" v-bind:key="review.id"></ReviewCard>
 
   </div>
   <h2 v-else>This game has no reviews.</h2>
