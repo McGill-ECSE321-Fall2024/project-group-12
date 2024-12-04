@@ -1,9 +1,9 @@
 <!--
- User and orders page
- @author Amy Ding
+ Manager Account page
+ @author Carmin Vidé
 -->
 <script setup>
-import { inject, ref, watch } from 'vue'
+import { inject, ref } from 'vue'
 import SigninView from '@/views/SigninView.vue'
 // load the current user
 const { user, signOut, updateUser, token } = inject('auth')
@@ -254,11 +254,6 @@ console.log(orders.value)
         </div>
       </div>
 
-      <!-- <div class="payment-info card">
-        <h2>Last Used Payment Method</h2>
-        <h3 v-if="user.paymentinfo == null">No payment information associated with this account</h3>
-        <input v-else type="text" id="payment" />
-      </div> -->
     </div>
     <div class="spacer"></div>
     

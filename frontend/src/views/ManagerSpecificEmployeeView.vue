@@ -1,11 +1,10 @@
 <!--
- User and orders page
- @author Carmin Vidé
+Specific employee view for managers
+@author Carmin Vidé
 -->
 <script setup>
-import { inject, ref, watch } from 'vue'
+import { inject, ref } from 'vue'
 import SigninView from '@/views/SigninView.vue'
-import OrderCard from '@/components/OrderCard.vue'
 
 import { useRoute } from 'vue-router';
 
@@ -14,7 +13,7 @@ const employeeId = route.params.id;
 
 
 // load the current employee
-const { user, signOut, updateUser, token } = inject('auth')
+const { updateUser, token } = inject('auth')
 
 
 
@@ -24,15 +23,13 @@ const response = await fetch(`http://localhost:8080/employees/${employeeId}`, {
   headers: {
     "Authorization": `Bearer ${token.value}`
   },
-  //only for POST body: {
-    // whatever body is...
-  //}
+
 });
 if (response.ok) { 
   console.log("Request successful");
 } else {
-  // error on request (for example, not correct authorization)
-}
+    console.log("Request failed");
+    }
 employee.value = await response.json();
 
 
@@ -42,7 +39,6 @@ employee.value = await response.json();
 
 
 
-const showPasswordPopup = ref(false)
 const showAddressPopup = ref(false)
 const addressFields = ref({
   address: '',
@@ -64,13 +60,7 @@ const updateInfo = async (event) => {
   const address = employee.value.address
   updateUser(name, email, phoneNumber, address)
 }
-const togglePasswordPopup = () => {
-  if (showPasswordPopup.value) {
-    oldPassword.value = ''
-    newPassword.value = ''
-  }
-  showPasswordPopup.value = !showPasswordPopup.value
-}
+
 const toggleAddressPopup = () => {
   if (!showAddressPopup.value) {
     populateAddressFields()
@@ -119,7 +109,7 @@ async function getOrders() {
   const authResponse = JSON.parse(localStorage.getItem('auth'))
   // check whether auth response exists
   if (!authResponse) return []
-  const { token, id, employeeType } = authResponse
+  const { token, id } = authResponse
   console.log(authResponse.id)
   const resp = await fetch(`http://localhost:8080/orders/employee/${id}`, {
     method: 'GET',
@@ -134,12 +124,7 @@ async function getOrders() {
   console.log(data)
   return data
 }
-const orders = ref(null)
-orders.value = await getOrders()
-console.log('teehee')
-console.log(orders.value[orders.value.length - 1])
-console.log('haiiiiiii')
-console.log(orders.value)
+
 </script>
 
 <template>
@@ -176,97 +161,14 @@ console.log(orders.value)
           @input="(event) => (employee.phoneNumber = event.target.value)"
         />
         <button class="update-button">Update</button>
-        <button class="signout-button" @click="signOut">Sign out</button>
       </form>
 
       
       </div>
 
-      <div class="shipping-address card">
-        <div>
-          <h2>Shipping Address</h2>
-          <button v-if="employee.address == null" class="edit-button" @click="toggleAddressPopup">
-            Add
-          </button>
-          <button v-else class="edit-button" @click="toggleAddressPopup">Edit</button>
-        </div>
-        <h3 v-if="employee.address == null">No shipping address associated with this account</h3>
-        <span v-else style="white-space: pre"> {{ formatAddress(employee.address) }}</span>
-      </div>
 
-      <div v-if="showAddressPopup" class="popup">
-        <div class="popup-content">
-          <h2>Change Password</h2>
-          <form @submit.prevent="updateAddress">
-            <label>Address</label>
-            <input
-              type="text"
-              id="address"
-              :value="addressFields.address"
-              @input="(event) => (addressFields.address = event.target.value)"
-              required
-            />
-            <label>Apt/Building/Other</label>
-            <input
-              type="text"
-              id="apt"
-              :value="addressFields.apt"
-              @input="(event) => (addressFields.apt = event.target.value)"
-            />
-            <label>City</label>
-            <input
-              type="text"
-              id="city"
-              :value="addressFields.city"
-              @input="(event) => (addressFields.city = event.target.value)"
-              required
-            />
-            <label>Province/State/Territory</label>
-            <input
-              type="text"
-              id="province"
-              :value="addressFields.province"
-              @input="(event) => (addressFields.province = event.target.value)"
-              required
-            />
-            <label>Country</label>
-            <input
-              type="text"
-              id="country"
-              :value="addressFields.country"
-              @input="(event) => (addressFields.country = event.target.value)"
-              required
-            />
-            <label>Postal Code</label>
-            <input
-              type="text"
-              id="postal"
-              :value="addressFields.postal"
-              @input="(event) => (addressFields.postal = event.target.value)"
-              required
-            />
-            <div class="popup-buttons">
-              <button type="submit">Save</button>
-              <button type="button" @click="toggleAddressPopup">Cancel</button>
-            </div>
-          </form>
-        </div>
-      </div>
 
-      <!-- <div class="payment-info card">
-        <h2>Last Used Payment Method</h2>
-        <h3 v-if="employee.paymentinfo == null">No payment information associated with this account</h3>
-        <input v-else type="text" id="payment" />
-      </div> -->
     </div>
-    <div class="spacer"></div>
-    <section>
-      <h2 class="title">Orders</h2>
-      <div class="orders-container">
-        <OrderCard v-for="order in orders" :order="order" />
-        <!-- <OrderCard/> -->
-      </div>
-    </section>
 
 </template>
 

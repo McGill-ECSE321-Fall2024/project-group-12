@@ -1,9 +1,9 @@
 <!--
- User and orders page
+ Specific customer view for managers
  @author Carmin Vidé
 -->
 <script setup>
-import { inject, ref, watch } from 'vue'
+import { inject, ref } from 'vue'
 import SigninView from '@/views/SigninView.vue'
 import OrderCard from '@/components/OrderCard.vue'
 
@@ -14,7 +14,7 @@ const customerId = route.params.id;
 
 
 // load the current customer
-const { user, signOut, updateUser, token } = inject('auth')
+const { updateUser, token } = inject('auth')
 
 
 
@@ -24,14 +24,12 @@ const response = await fetch(`http://localhost:8080/customers/${customerId}`, {
   headers: {
     "Authorization": `Bearer ${token.value}`
   },
-  //only for POST body: {
-    // whatever body is...
-  //}
+
 });
 if (response.ok) { 
   console.log("Request successful");
 } else {
-  // error on request (for example, not correct authorization)
+  console.log("Request failed");
 }
 customer.value = await response.json();
 
@@ -42,7 +40,6 @@ customer.value = await response.json();
 
 
 
-const showPasswordPopup = ref(false)
 const showAddressPopup = ref(false)
 const addressFields = ref({
   address: '',
@@ -64,13 +61,7 @@ const updateInfo = async (event) => {
   const address = customer.value.address
   updateUser(name, email, phoneNumber, address)
 }
-const togglePasswordPopup = () => {
-  if (showPasswordPopup.value) {
-    oldPassword.value = ''
-    newPassword.value = ''
-  }
-  showPasswordPopup.value = !showPasswordPopup.value
-}
+
 const toggleAddressPopup = () => {
   if (!showAddressPopup.value) {
     populateAddressFields()
@@ -176,7 +167,6 @@ console.log(orders.value)
           @input="(event) => (customer.phoneNumber = event.target.value)"
         />
         <button class="update-button">Update</button>
-        <button class="signout-button" @click="signOut">Sign out</button>
       </form>
 
       
@@ -253,11 +243,7 @@ console.log(orders.value)
         </div>
       </div>
 
-      <!-- <div class="payment-info card">
-        <h2>Last Used Payment Method</h2>
-        <h3 v-if="customer.paymentinfo == null">No payment information associated with this account</h3>
-        <input v-else type="text" id="payment" />
-      </div> -->
+
     </div>
     <div class="spacer"></div>
     <section>

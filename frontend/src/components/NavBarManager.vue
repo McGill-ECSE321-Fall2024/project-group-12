@@ -67,7 +67,6 @@ nav {
   background-color: var(--navbar-bg-color, #333);
 }
 
-/* Branding */
 .nav-wordmark {
   display: flex;
   align-items: center;
@@ -117,25 +116,21 @@ nav {
   background-color: hsl(0, 0%, 50%);
 }
 
-/* Logout icon */
 .nav-list--logo .icon {
   width: 35px;
   height: 35px;
   margin-top: 5px;
 }
 
-/* Search bar */
 .nav-search--container {
   flex-grow: 1;
   max-width: 300px;
 }
 
-/* Spacing for alignment */
 .nav-spacing {
   flex-grow: 2;
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
   .nav-wordmark {
     display: none;

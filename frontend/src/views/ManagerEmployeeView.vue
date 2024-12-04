@@ -20,18 +20,30 @@ const response = await fetch('http://localhost:8080/employees', {
   headers: {
     "Authorization": `Bearer ${token.value}`
   },
-  //only for POST body: {
-    // whatever body is...
-  //}
+
 });
 if (response.ok) { 
   console.log("Request successful");
 } else {
-  // error on request (for example, not correct authorization)
+  console.log("Request failed");
 }
 employees.value = await response.json();
 
 
+const fetchEmployees = async () => {
+  const response = await fetch('http://localhost:8080/employees', {
+    method: 'GET',
+    headers: {
+      "Authorization": `Bearer ${token.value}`,
+    },
+  });
+
+  if (response.ok) {
+    employees.value = await response.json();
+  } else {
+    console.error('Failed to fetch employees');
+  }
+};
 //
 
 

@@ -20,9 +20,7 @@ const response = await fetch('http://localhost:8080/customers', {
   headers: {
     "Authorization": `Bearer ${token.value}`
   },
-  //only for POST body: {
-    // whatever body is...
-  //}
+
 });
 if (response.ok) { 
   console.log("Request successful");
