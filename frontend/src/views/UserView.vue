@@ -1,23 +1,34 @@
 <!--
- Cart page
+ User and orders page
  @author Amy Ding
 -->
 <script setup>
 import { inject, ref, watch } from 'vue'
 import SigninView from '@/views/SigninView.vue'
-import Order from '@/components/Order.vue'
+import OrderCard from '@/components/OrderCard.vue'
 // load the current user
 const { user, signOut, updateUser, token } = inject('auth')
 const showPasswordPopup = ref(false)
+const showAddressPopup = ref(false)
+const addressFields = ref({
+  address: '',
+  apt: '',
+  city: '',
+  province: '',
+  country: '',
+  postal: '',
+})
 console.log('user view loaded')
 
 const updateInfo = async (event) => {
   event.preventDefault()
+  console.log('updating info')
   const form = event.target
   const name = form.querySelector('#name').value
   const email = form.querySelector('#email').value
   const phoneNumber = form.querySelector('#phoneNumber').value
-  updateUser(name, email, phoneNumber)
+  const address = user.value.address
+  updateUser(name, email, phoneNumber, address)
 }
 const togglePasswordPopup = () => {
   if (showPasswordPopup.value) {
@@ -25,19 +36,20 @@ const togglePasswordPopup = () => {
     newPassword.value = ''
   }
   showPasswordPopup.value = !showPasswordPopup.value
-
+}
+const toggleAddressPopup = () => {
+  if (!showAddressPopup.value) {
+    populateAddressFields()
+  }
+  showAddressPopup.value = !showAddressPopup.value
 }
 async function updatePassword(event) {
   event.preventDefault()
+  console.log('updating password')
   const email = user.value.email
-  console.log(email)
   const form = event.target
   const oldPassword = form.querySelector('#oldPassword').value
   const newPassword = form.querySelector('#newPassword').value
-  console.log('Updating password:', {
-    old: oldPassword,
-    new: newPassword
-  })
   const authResponse = JSON.parse(localStorage.getItem('auth'))
   const { id } = authResponse
   const resp = await fetch(`http://localhost:8080/customers/auth/${id}`, {
@@ -50,18 +62,55 @@ async function updatePassword(event) {
     body: JSON.stringify({
       oldPassword: oldPassword,
       newPassword: newPassword,
-      email: email
+      email: email,
     }),
   })
 
   const data = await resp.json()
   if (data.errors) {
-    alert(data.errors);
+    alert(data.errors)
   } else {
-    alert("Password successfully changed!")
+    alert('Password successfully changed!')
   }
-  
+
   togglePasswordPopup()
+}
+async function updateAddress(event) {
+  event.preventDefault()
+  console.log('updating address')
+  const form = event.target
+  const addressComponents = [
+    form.querySelector('#address').value,
+    form.querySelector('#apt').value,
+    form.querySelector('#city').value,
+    form.querySelector('#province').value,
+    form.querySelector('#country').value,
+    form.querySelector('#postal').value,
+  ]
+  const addressLine = addressComponents.join('\\n')
+  toggleAddressPopup()
+  const email = user.value.email
+  const name = user.value.name
+  const phoneNumber = user.value.phoneNumber
+  updateUser(name, email, phoneNumber, addressLine)
+  toggleAddressPopup
+  location.reload()
+}
+const formatAddress = (address) => {
+  return address.replace(/\\n\\n/g, '\n').replace(/\\n/g, '\n')
+}
+const populateAddressFields = () => {
+  if (user.value?.address) {
+    const parts = user.value.address.split('\\n')
+    addressFields.value = {
+      address: parts[0] || '',
+      apt: parts[1] || '',
+      city: parts[2] || '',
+      province: parts[3] || '',
+      country: parts[4] || '',
+      postal: parts[5] || '',
+    }
+  }
 }
 async function getOrders() {
   const authResponse = JSON.parse(localStorage.getItem('auth'))
@@ -78,38 +127,16 @@ async function getOrders() {
     },
   })
   const data = await resp.json()
+  console.log('THIS IS THE ORDER')
+  console.log(data)
   return data
 }
 const orders = ref(null)
 orders.value = await getOrders()
-orders.value = [
-  {
-    id: 1,
-    games: [
-      {
-        id: 101,
-        name: 'Animal Crossing',
-        console: 'Nintendo Switch',
-        year: 2014,
-        price: 1212.22,
-      },
-      {
-        id: 102,
-        name: 'Minecraft',
-        console: 'PC',
-        year: 1980,
-        price: 999.99,
-      },
-      {
-        id: 103,
-        name: 'League of Legends',
-        console: 'XBox',
-        year: 1823,
-        price: 1,
-      },
-    ],
-  },
-]
+console.log('teehee')
+console.log(orders.value[orders.value.length - 1])
+console.log('haiiiiiii')
+console.log(orders.value)
 </script>
 
 <template>
@@ -138,7 +165,7 @@ orders.value = [
         <label for="password">Password</label>
         <div class="password-container">
           <input type="password" value="password" readonly />
-          <button type="password" class="edit-button" @click="togglePasswordPopup">Edit</button>
+          <button type="button" class="edit-button" @click="togglePasswordPopup">Edit</button>
         </div>
         <label for="phoneNumber">Phone Number</label>
         <input
@@ -148,6 +175,7 @@ orders.value = [
           @input="(event) => (user.phoneNumber = event.target.value)"
         />
         <button class="update-button">Update</button>
+        <button class="signout-button" @click="signOut">Sign out</button>
       </form>
 
       <div v-if="showPasswordPopup" class="popup">
@@ -169,28 +197,86 @@ orders.value = [
       <div class="shipping-address card">
         <div>
           <h2>Shipping Address</h2>
-          <button v-if="user.address == null" class="edit-button" @click="editAddress">Add</button>
-          <button v-else class="edit-button">Edit</button>
+          <button v-if="user.address == null" class="edit-button" @click="toggleAddressPopup">
+            Add
+          </button>
+          <button v-else class="edit-button" @click="toggleAddressPopup">Edit</button>
         </div>
         <h3 v-if="user.address == null">No shipping address associated with this account</h3>
-        <input v-else type="text" id="address" />
+        <span v-else style="white-space: pre"> {{ formatAddress(user.address) }}</span>
       </div>
 
-      <div class="payment-info card">
-        <div>
-          <h2>Payment Method</h2>
-          <button v-if="user.payment == null" class="edit-button" @click="getOrders">Add</button>
-          <button v-else class="edit-button">Edit</button>
+      <div v-if="showAddressPopup" class="popup">
+        <div class="popup-content">
+          <h2>Change Password</h2>
+          <form @submit.prevent="updateAddress">
+            <label>Address</label>
+            <input
+              type="text"
+              id="address"
+              :value="addressFields.address"
+              @input="(event) => (addressFields.address = event.target.value)"
+              required
+            />
+            <label>Apt/Building/Other</label>
+            <input
+              type="text"
+              id="apt"
+              :value="addressFields.apt"
+              @input="(event) => (addressFields.apt = event.target.value)"
+            />
+            <label>City</label>
+            <input
+              type="text"
+              id="city"
+              :value="addressFields.city"
+              @input="(event) => (addressFields.city = event.target.value)"
+              required
+            />
+            <label>Province/State/Territory</label>
+            <input
+              type="text"
+              id="province"
+              :value="addressFields.province"
+              @input="(event) => (addressFields.province = event.target.value)"
+              required
+            />
+            <label>Country</label>
+            <input
+              type="text"
+              id="country"
+              :value="addressFields.country"
+              @input="(event) => (addressFields.country = event.target.value)"
+              required
+            />
+            <label>Postal Code</label>
+            <input
+              type="text"
+              id="postal"
+              :value="addressFields.postal"
+              @input="(event) => (addressFields.postal = event.target.value)"
+              required
+            />
+            <div class="popup-buttons">
+              <button type="submit">Save</button>
+              <button type="button" @click="toggleAddressPopup">Cancel</button>
+            </div>
+          </form>
         </div>
+      </div>
+
+      <!-- <div class="payment-info card">
+        <h2>Last Used Payment Method</h2>
         <h3 v-if="user.paymentinfo == null">No payment information associated with this account</h3>
         <input v-else type="text" id="payment" />
-      </div>
+      </div> -->
     </div>
-    <button @click="signOut">Sign out</button>
+    <div class="spacer"></div>
     <section>
       <h2 class="title">Orders</h2>
-      <div>
-        <Order v-for="order in orders" :key="order.id" :order="order" />
+      <div class="orders-container">
+        <OrderCard v-for="order in orders" :order="order" />
+        <!-- <OrderCard/> -->
       </div>
     </section>
   </div>
@@ -199,7 +285,7 @@ orders.value = [
 <style scoped>
 .title {
   display: inline;
-  font-size: 2.25rem;
+  font-size: 3rem;
 }
 
 .grid-container {
@@ -256,6 +342,9 @@ button {
   padding: 0.75rem;
   margin: 1px 0px;
 }
+.signout-button {
+  background: linear-gradient(90deg, rgb(162, 62, 72, 1) 30%, rgba(65, 93, 67, 1) 70%);
+}
 .update-button {
   background: linear-gradient(90deg, rgba(65, 93, 67, 1) 30%, rgba(162, 62, 72, 1) 70%);
   margin-top: 1rem;
@@ -295,7 +384,6 @@ button {
   display: flex;
   justify-content: center;
   align-items: center;
-  
 }
 .popup-content {
   background: rgba(65, 93, 67, 1);
@@ -308,11 +396,32 @@ button {
   width: 100%;
 }
 
-.popup form{
+.popup form {
   display: flex;
   flex-direction: column;
 }
 .popup-buttons {
   margin-top: 1rem;
+}
+.spacer {
+  margin: 3rem;
+}
+
+@media only screen and (max-width: 600px) {
+  .grid-container {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(3, 1fr);
+  }
+  .user-info {
+    display: inline-flex;
+    flex-direction: column;
+    grid-area: 1 / 1 / 2 / 2;
+  }
+  .shipping-address {
+    grid-area: 2 / 1 / 3 / 2;
+  }
+  .payment-method {
+    grid-area: 3 / 1 / 4 / 2;
+  }
 }
 </style>

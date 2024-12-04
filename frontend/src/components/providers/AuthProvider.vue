@@ -110,7 +110,7 @@ const signUp = async (name, email, phoneNumber, password) => {
   loadUser()
 }
 
-const updateUser = async (name, email, phoneNumber) => {
+const updateUser = async (name, email, phoneNumber, address) => {
   authResponse = JSON.parse(localStorage.getItem('auth'))
   const { id: userId, userType } = authResponse
   const resp = await fetch(`http://localhost:8080/${userType.toLowerCase()}s/${userId}`, {
@@ -124,13 +124,16 @@ const updateUser = async (name, email, phoneNumber) => {
       name,
       email,
       phoneNumber,
+      address,
     }),
   })
-  if (!resp.ok) {
-    throw new Error(`HTTP error! status: ${resp.status}`)
-  }
   // read the response
   const data = await resp.json()
+  if (data.errors) {
+    alert(data.errors)
+  } else {
+    alert('Info successfully changed!')
+  }
   const id = data.id
   // store the data
   localStorage.setItem(
