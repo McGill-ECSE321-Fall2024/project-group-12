@@ -128,10 +128,9 @@ async function getOrders() {
     },
   })
   const data = await resp.json()
-  console.log("THIS IS THE ORDER");
-  console.log(data);
+  console.log('THIS IS THE ORDER')
+  console.log(data)
   return data
-
 }
 const orders = ref(null)
 orders.value = await getOrders()
@@ -170,10 +169,10 @@ orders.value = await getOrders()
 //     ],
 //   },
 // ]
-console.log("teehee");
-console.log(orders.value[orders.value.length - 1]);
-console.log("haiiiiiii");
-console.log(orders.value);
+console.log('teehee')
+console.log(orders.value[orders.value.length - 1])
+console.log('haiiiiiii')
+console.log(orders.value)
 </script>
 
 <template>
