@@ -72,7 +72,6 @@ onUnmounted(() => {
         <div v-if="showPopup" class="popup">
             <ul class="popup-list">
                 <li @click=viewPage>View Page</li>
-                <li @click="action2">Edit</li>
                 <li @click="action3">Delete</li>
             </ul>
         </div>

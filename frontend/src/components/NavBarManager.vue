@@ -29,8 +29,8 @@ import AnimatedLink from './AnimatedLink.vue';
           <h3>Games</h3>
         </AnimatedLink>
       </li>
-      <li class="nav-list--item" :class="{ selected: $route.path === '/manager/employees' }">
-        <AnimatedLink to="/manager/employees">
+      <li class="nav-list--item" :class="{ selected: $route.path === '/manager/employee' }">
+        <AnimatedLink to="/manager/employee">
           <h3>Employees</h3>
         </AnimatedLink>
       </li>

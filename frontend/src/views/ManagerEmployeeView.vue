@@ -14,8 +14,8 @@ createThemeFromColour('#FF9797')
 //
 const { user, token } = inject('auth')
 // load all games from the db
-const customers = ref([])
-const response = await fetch('http://localhost:8080/customers', {
+const employees = ref([])
+const response = await fetch('http://localhost:8080/employees', {
   method: 'GET',
   headers: {
     "Authorization": `Bearer ${token.value}`
@@ -29,13 +29,13 @@ if (response.ok) {
 } else {
   // error on request (for example, not correct authorization)
 }
-customers.value = await response.json();
+employees.value = await response.json();
 
 
 //
 
 
-const customers_ex = ref([
+const employees_ex = ref([
   { id: "89023794", name: "Cunégonde Theodraalia", email: "laplusbellecune@hotmail.dk" },
   { id: "12345678", name: "John Doe", email: "john.doe@example.com" },
   { id: "87654321", name: "Jane Smith", email: "jane.smith@example.com" },
@@ -66,12 +66,12 @@ const customers_ex = ref([
 
     <div>
         <listItem 
-        v-for="customer in customers" 
-        :key="customer.id"
-        :id="customer.id"
-        :name="customer.name"
-        :email="customer.email"
-        :phoneNumber="customer.phoneNumber"
+        v-for="employee in employees" 
+        :key="employee.id"
+        :id="employee.id"
+        :name="employee.name"
+        :email="employee.email"
+        :phoneNumber="employee.phoneNumber"
         />
     </div>
     

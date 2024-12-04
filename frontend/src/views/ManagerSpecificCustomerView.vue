@@ -1,13 +1,47 @@
 <!--
  User and orders page
- @author Amy Ding
+ @author Carmin Vidé
 -->
 <script setup>
 import { inject, ref, watch } from 'vue'
 import SigninView from '@/views/SigninView.vue'
 import OrderCard from '@/components/OrderCard.vue'
-// load the current user
+
+import { useRoute } from 'vue-router';
+
+const route = useRoute();
+const customerId = route.params.id;
+
+
+// load the current customer
 const { user, signOut, updateUser, token } = inject('auth')
+
+
+
+const customer = ref('')
+const response = await fetch(`http://localhost:8080/customers/${customerId}`, {
+  method: 'GET',
+  headers: {
+    "Authorization": `Bearer ${token.value}`
+  },
+  //only for POST body: {
+    // whatever body is...
+  //}
+});
+if (response.ok) { 
+  console.log("Request successful");
+} else {
+  // error on request (for example, not correct authorization)
+}
+customer.value = await response.json();
+
+
+
+
+
+
+
+
 const showPasswordPopup = ref(false)
 const showAddressPopup = ref(false)
 const addressFields = ref({
@@ -18,7 +52,7 @@ const addressFields = ref({
   country: '',
   postal: '',
 })
-console.log('user view loaded')
+console.log('customer view loaded')
 
 const updateInfo = async (event) => {
   event.preventDefault()
@@ -27,7 +61,7 @@ const updateInfo = async (event) => {
   const name = form.querySelector('#name').value
   const email = form.querySelector('#email').value
   const phoneNumber = form.querySelector('#phoneNumber').value
-  const address = user.value.address
+  const address = customer.value.address
   updateUser(name, email, phoneNumber, address)
 }
 const togglePasswordPopup = () => {
@@ -43,38 +77,7 @@ const toggleAddressPopup = () => {
   }
   showAddressPopup.value = !showAddressPopup.value
 }
-async function updatePassword(event) {
-  event.preventDefault()
-  console.log('updating password')
-  const email = user.value.email
-  const form = event.target
-  const oldPassword = form.querySelector('#oldPassword').value
-  const newPassword = form.querySelector('#newPassword').value
-  const authResponse = JSON.parse(localStorage.getItem('auth'))
-  const { id } = authResponse
-  const resp = await fetch(`http://localhost:8080/customers/auth/${id}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token.value}`,
-      Accept: 'application/json',
-    },
-    body: JSON.stringify({
-      oldPassword: oldPassword,
-      newPassword: newPassword,
-      email: email,
-    }),
-  })
 
-  const data = await resp.json()
-  if (data.errors) {
-    alert(data.errors)
-  } else {
-    alert('Password successfully changed!')
-  }
-
-  togglePasswordPopup()
-}
 async function updateAddress(event) {
   event.preventDefault()
   console.log('updating address')
@@ -89,9 +92,9 @@ async function updateAddress(event) {
   ]
   const addressLine = addressComponents.join('\\n')
   toggleAddressPopup()
-  const email = user.value.email
-  const name = user.value.name
-  const phoneNumber = user.value.phoneNumber
+  const email = customer.value.email
+  const name = customer.value.name
+  const phoneNumber = customer.value.phoneNumber
   updateUser(name, email, phoneNumber, addressLine)
   toggleAddressPopup
   location.reload()
@@ -100,8 +103,8 @@ const formatAddress = (address) => {
   return address.replace(/\\n\\n/g, '\n').replace(/\\n/g, '\n')
 }
 const populateAddressFields = () => {
-  if (user.value?.address) {
-    const parts = user.value.address.split('\\n')
+  if (customer.value?.address) {
+    const parts = customer.value.address.split('\\n')
     addressFields.value = {
       address: parts[0] || '',
       apt: parts[1] || '',
@@ -116,7 +119,7 @@ async function getOrders() {
   const authResponse = JSON.parse(localStorage.getItem('auth'))
   // check whether auth response exists
   if (!authResponse) return []
-  const { token, id, userType } = authResponse
+  const { token, id, customerType } = authResponse
   console.log(authResponse.id)
   const resp = await fetch(`http://localhost:8080/orders/customer/${id}`, {
     method: 'GET',
@@ -140,70 +143,55 @@ console.log(orders.value)
 </script>
 
 <template>
-  <!-- IF current user is null -->
-  <SigninView v-if="user == null" />
+  <!-- IF current customer is null -->
+  <SigninView v-if="customer == null" />
   <!-- otherwise, the normal page can be shown -->
-  <div v-else class="user">
+  <div v-else class="customer">
     <h2 class="title">Profile</h2>
 
+
     <div class="grid-container">
-      <form class="user-info" @submit.prevent="updateInfo">
+      <form class="customer-info" @submit.prevent="updateInfo">
         <label for="name">Name</label>
         <input
           type="name"
           id="name"
-          :value="user.name"
-          @input="(event) => (user.name = event.target.value)"
+          :value="customer.name"
+          @input="(event) => (customer.name = event.target.value)"
         />
         <label for="email">Email</label>
         <input
           type="email"
           id="email"
-          :value="user.email"
-          @input="(event) => (user.email = event.target.value)"
+          :value="customer.email"
+          @input="(event) => (customer.email = event.target.value)"
         />
-        <label for="password">Password</label>
-        <div class="password-container">
-          <input type="password" value="password" readonly />
-          <button type="button" class="edit-button" @click="togglePasswordPopup">Edit</button>
-        </div>
+        
+        
         <label for="phoneNumber">Phone Number</label>
         <input
           type="phoneNumber"
           id="phoneNumber"
-          :value="user.phoneNumber"
-          @input="(event) => (user.phoneNumber = event.target.value)"
+          :value="customer.phoneNumber"
+          @input="(event) => (customer.phoneNumber = event.target.value)"
         />
         <button class="update-button">Update</button>
         <button class="signout-button" @click="signOut">Sign out</button>
       </form>
 
-      <div v-if="showPasswordPopup" class="popup">
-        <div class="popup-content">
-          <h2>Change Password</h2>
-          <form @submit.prevent="updatePassword">
-            <label>Current Password</label>
-            <input type="password" id="oldPassword" required />
-            <label>New Password</label>
-            <input type="password" id="newPassword" required />
-            <div class="popup-buttons">
-              <button type="submit">Save</button>
-              <button type="button" @click="togglePasswordPopup">Cancel</button>
-            </div>
-          </form>
-        </div>
+      
       </div>
 
       <div class="shipping-address card">
         <div>
           <h2>Shipping Address</h2>
-          <button v-if="user.address == null" class="edit-button" @click="toggleAddressPopup">
+          <button v-if="customer.address == null" class="edit-button" @click="toggleAddressPopup">
             Add
           </button>
           <button v-else class="edit-button" @click="toggleAddressPopup">Edit</button>
         </div>
-        <h3 v-if="user.address == null">No shipping address associated with this account</h3>
-        <span v-else style="white-space: pre"> {{ formatAddress(user.address) }}</span>
+        <h3 v-if="customer.address == null">No shipping address associated with this account</h3>
+        <span v-else style="white-space: pre"> {{ formatAddress(customer.address) }}</span>
       </div>
 
       <div v-if="showAddressPopup" class="popup">
@@ -267,7 +255,7 @@ console.log(orders.value)
 
       <!-- <div class="payment-info card">
         <h2>Last Used Payment Method</h2>
-        <h3 v-if="user.paymentinfo == null">No payment information associated with this account</h3>
+        <h3 v-if="customer.paymentinfo == null">No payment information associated with this account</h3>
         <input v-else type="text" id="payment" />
       </div> -->
     </div>
@@ -279,7 +267,7 @@ console.log(orders.value)
         <!-- <OrderCard/> -->
       </div>
     </section>
-  </div>
+
 </template>
 
 <style scoped>
@@ -299,10 +287,10 @@ console.log(orders.value)
 * {
   color: white;
 }
-.user {
+.customer {
   padding: 3%;
 }
-.user-info {
+.customer-info {
   display: inline-flex;
   flex-direction: column;
   grid-area: 1 / 1 / 3 / 2;
@@ -319,21 +307,11 @@ input {
   border: none;
   border-bottom: 1px solid grey;
 }
-.user-info input:focus {
+.customer-info input:focus {
   border-bottom: 1px solid #a23e48;
   outline: none;
 }
-.password-container {
-  display: flex;
-  justify-content: space-between;
-}
-.password-container > input {
-  width: 90%;
-}
-.password-container > button {
-  width: 10%;
-  border: 0;
-}
+
 button {
   background: inherit;
   color: #ffffff;
@@ -412,7 +390,7 @@ button {
     grid-template-columns: 1fr;
     grid-template-rows: repeat(3, 1fr);
   }
-  .user-info {
+  .customer-info {
     display: inline-flex;
     flex-direction: column;
     grid-area: 1 / 1 / 2 / 2;
