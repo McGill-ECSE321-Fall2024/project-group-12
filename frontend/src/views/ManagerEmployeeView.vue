@@ -1,5 +1,5 @@
 <!--
- Manager Customer page
+ Manager Employee page
  @author Carmin Vidé
 -->
 <script setup>
@@ -46,12 +46,22 @@ const employees_ex = ref([
   { id: "24681357", name: "María García", email: "maria.garcia@example.es" }
 ])
 
+// Fetch Employees when the component is mounted
+await fetchEmployees();
+
+// Function to handle the delete action
+const handleEmployeeDelete = async () => {
+  // Re-fetch the Employee list after deletion
+  await fetchEmployees();
+};
+//
+
 </script>
 
 <template>
   <main>
     <div>
-      <h1 class="title left-aligned">Customers</h1>
+      <h1 class="title left-aligned">Employees</h1>
     </div>
     <div class="topbar">
       <div class="rectangle parent">
@@ -72,6 +82,7 @@ const employees_ex = ref([
         :name="employee.name"
         :email="employee.email"
         :phoneNumber="employee.phoneNumber"
+        @deleteEmployee="handleEmployeeDelete" 
         />
     </div>
     

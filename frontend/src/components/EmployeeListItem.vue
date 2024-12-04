@@ -28,6 +28,9 @@ const props = defineProps({
     }
 });
 
+const emit = defineEmits(['deleteEmployee']); // Event to notify parent about deletion
+
+
 
 const togglePopup = () => {
     event.stopPropagation(); // Prevent the click from propagating to the document
@@ -48,14 +51,21 @@ const viewPage = () => {
 };
 
 
-const deleteCustomer = async () => {
-    console.log('Delete Customer');
-    const reponse = await fetch(`http://localhost:8080/employees/${props.id}`, {
-    method: 'DELETE',
-     headers: {
-    "Authorization": `Bearer ${token.value}`
-  },
-});
+const deleteEmployee = async () => {
+    console.log('Delete Employee');
+    const response = await fetch(`http://localhost:8080/employees/${props.id}`, {
+        method: 'DELETE',
+        headers: {
+            "Authorization": `Bearer ${token.value}`
+        },
+    });
+
+    if (response.ok) {
+        console.log('Employee deleted successfully');
+        emit('deleteEmployee'); // Emit event to notify parent to refresh the list
+    } else {
+        console.error('Failed to delete employee');
+    }
 };
 
 
@@ -88,7 +98,7 @@ onUnmounted(() => {
         <div v-if="showPopup" class="popup">
             <ul class="popup-list">
                 <li @click=viewPage>View Page</li>
-                <li @click="deleteCustomer">Delete</li>
+                <li @click="deleteEmployee">Delete</li>
             </ul>
         </div>
     </div>
