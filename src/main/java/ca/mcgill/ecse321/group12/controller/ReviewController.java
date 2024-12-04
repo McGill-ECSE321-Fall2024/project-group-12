@@ -1,5 +1,7 @@
 package ca.mcgill.ecse321.group12.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,12 +23,24 @@ public class ReviewController {
 	@Autowired
 	private ReviewService reviewService;
 
+	
+	/**
+	 * return all reviews for the given game
+	 * @param id the id of the game
+	 * @return all the reviews
+	 * @author James Madden
+	 */
+	@GetMapping("/games/{id}/reviews")
+	@ResponseStatus(HttpStatus.OK)
+	public List<ReviewResponseDto> getReviewsForGame(@PathVariable int id) {
+		return reviewService.findReviewsByGameId(id);
+	}
+
 	/**
 	 * Return the review with the given id
 	 * @param id the primary of the review
 	 * @return the review with the given id
 	 */
-
 	@GetMapping("/reviews/{id}")
 	@ResponseStatus(HttpStatus.OK)
 	public ReviewResponseDto getReview(@PathVariable int id) {
