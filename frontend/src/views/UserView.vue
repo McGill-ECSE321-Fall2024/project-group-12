@@ -170,6 +170,8 @@ orders.value = await getOrders()
 //     ],
 //   },
 // ]
+console.log("teehee");
+console.log(orders.value[orders.value.length - 1]);
 console.log("haiiiiiii");
 console.log(orders.value);
 </script>
@@ -302,17 +304,17 @@ console.log(orders.value);
         </div>
       </div>
 
-      <div class="payment-info card">
+      <!-- <div class="payment-info card">
         <h2>Last Used Payment Method</h2>
         <h3 v-if="user.paymentinfo == null">No payment information associated with this account</h3>
         <input v-else type="text" id="payment" />
-      </div>
+      </div> -->
     </div>
     <div class="spacer"></div>
     <section>
       <h2 class="title">Orders</h2>
       <div class="orders-container">
-        <OrderCard v-for="order in orders.value" :order="order" v-bind:key="order" />
+        <OrderCard v-for="order in orders" :order="order" v-bind:key="order" />
          <!-- <OrderCard/> -->
       </div>
     </section>

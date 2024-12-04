@@ -93,9 +93,7 @@ public class OrderController {
 
 		// #5: empty user's cart
 		cartService.clearCart(cart.getId());
-
 		return new OrderResponseDto(order);
-
 	}
 
 	/**
@@ -128,7 +126,6 @@ public class OrderController {
 		for (Order order : orders) {
 			orderDtos.add(new OrderResponseDto(order));
 		}
-
 		return orderDtos;
 	}
 

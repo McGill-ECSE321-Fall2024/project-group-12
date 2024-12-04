@@ -57,7 +57,6 @@ public class OrderService {
 	@Transactional
 	public Order createOrder(String deliveryAddress, List<Game> games, Customer customer, CardPayment cardPayment,
 			Optional<String> discount) {
-
 		// create the order
 		Order order = new Order();
 		order.setDeliveryAddress(deliveryAddress);
@@ -67,23 +66,18 @@ public class OrderService {
 		// order can be assumed to be delivered immediately
 		order.setStatus(OrderStatus.Delivered);
 		order.setPurchaseDate(new Date()); // current time
-
 		// calculate purchase total
 		float purchaseTotal = 0;
 		for (Game game : games) {
 			purchaseTotal += game.getPrice();
 		}
-
 		// apply discount if present
 		if (!discount.isEmpty()) {
 			float discountAmount = Float.parseFloat(discount.get());
 			purchaseTotal *= 1f - discountAmount / 100f;
 		}
-
 		order.setPurchaseTotal(purchaseTotal);
-
 		return repo.save(order);
-
 	}
 
 	/**
