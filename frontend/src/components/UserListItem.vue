@@ -41,7 +41,7 @@ const handleClickOutside = (event) => {
 
 const viewPage = () => {
     console.log('View Page');
-    router.push('manager/customer/' + props.id);
+    router.push('customer/' + props.id);
 };
 
 onMounted(() => {
