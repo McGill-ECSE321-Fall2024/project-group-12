@@ -9,8 +9,12 @@ import Order from '@/components/Order.vue'
 import BackgroundGradient from '@/components/BackgroundGradient.vue'
 // load the current user
 const { user, signOut, updateUser, token } = inject('auth')
+const { createThemeFromColour } = inject('theme')
 const showPasswordPopup = ref(false)
 console.log('user view loaded')
+
+// set a green theme for a nice holiday design
+createThemeFromColour('#415d43')
 
 const updateInfo = async (event) => {
   event.preventDefault()
@@ -61,7 +65,7 @@ async function updatePassword(event) {
   } else {
     alert("Password successfully changed!")
   }
-  
+
   togglePasswordPopup()
 }
 async function getOrders() {
@@ -237,7 +241,7 @@ input {
   border-bottom: 1px solid grey;
 }
 .user-info input:focus {
-  border-bottom: 1px solid #a23e48;
+  border-bottom: 1px solid var(--theme-primary);
   outline: none;
 }
 .password-container {
@@ -298,7 +302,7 @@ button {
   display: flex;
   justify-content: center;
   align-items: center;
-  
+
 }
 .popup-content {
   background: rgba(65, 93, 67, 1);
