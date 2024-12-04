@@ -127,10 +127,9 @@ async function getOrders() {
     },
   })
   const data = await resp.json()
-  console.log("THIS IS THE ORDER");
-  console.log(data);
+  console.log('THIS IS THE ORDER')
+  console.log(data)
   return data
-
 }
 const orders = ref(null)
 orders.value = await getOrders()
@@ -169,10 +168,10 @@ orders.value = await getOrders()
 //     ],
 //   },
 // ]
-console.log("teehee");
-console.log(orders.value[orders.value.length - 1]);
-console.log("haiiiiiii");
-console.log(orders.value);
+console.log('teehee')
+console.log(orders.value[orders.value.length - 1])
+console.log('haiiiiiii')
+console.log(orders.value)
 </script>
 
 <template>
@@ -312,7 +311,7 @@ console.log(orders.value);
       <h2 class="title">Orders</h2>
       <div class="orders-container">
         <OrderCard v-for="order in orders" :order="order" />
-         <!-- <OrderCard/> -->
+        <!-- <OrderCard/> -->
       </div>
     </section>
   </div>

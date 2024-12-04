@@ -1,18 +1,18 @@
 <script setup>
-  const props = defineProps({
-    order: {
-      type: Object,
-      // required: true,
-      default: () => ({
-        id: null,
-        deliveryAddress: '',
-        games: [],
-        purchaseDate: '',
-        purchaseTotal: 0,
-        status: ''
-      }),
-    },
-  })
+const props = defineProps({
+  order: {
+    type: Object,
+    // required: true,
+    default: () => ({
+      id: null,
+      deliveryAddress: '',
+      games: [],
+      purchaseDate: '',
+      purchaseTotal: 0,
+      status: '',
+    }),
+  },
+})
 
 const formatDate = (dateString) => {
   const options = {
@@ -20,11 +20,11 @@ const formatDate = (dateString) => {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
-  };
-  return new Date(dateString).toLocaleString(options);
+  }
+  return new Date(dateString).toLocaleString(options)
 }
 const getGameCover = (game) => {
-  return "src/assets/games/minecraft.png";
+  return 'src/assets/games/minecraft.png'
   return game.cover
 }
 
@@ -42,8 +42,8 @@ async function returnOrder(event) {
       Accept: 'application/json',
     },
     body: JSON.stringify({
-      status: "Returned"
-    })
+      status: 'Returned',
+    }),
   })
   if (resp.errors) {
     alert(resp.errors)
@@ -58,18 +58,23 @@ async function returnOrder(event) {
   <div class="order-card">
     <div class="heading">
       <div>
-        <div v-if="order.status === 'Returned'"><h2 class="returned-heading">Order {{ formatDate(order.purchaseDate) }}</h2><h2 class="returned"> RETURNED</h2></div>
+        <div v-if="order.status === 'Returned'">
+          <h2 class="returned-heading">Order {{ formatDate(order.purchaseDate) }}</h2>
+          <h2 class="returned">RETURNED</h2>
+        </div>
         <h2 v-else>Order {{ order.status }} {{ formatDate(order.purchaseDate) }}</h2>
         <h3 class="total" :style="{ 'font=size': '1rem' }">Total: ${{ order.purchaseTotal }}</h3>
       </div>
       <div class="subheading">
-      <h3>Order Number: #{{ order.id }}</h3>
-        <button class="return-button" :disabled="order.status === 'Returned'" @click="returnOrder">Return order</button>
+        <h3>Order Number: #{{ order.id }}</h3>
+        <button class="return-button" :disabled="order.status === 'Returned'" @click="returnOrder">
+          Return order
+        </button>
       </div>
     </div>
 
     <div class="game" v-for="game in order.games" :key="game.id">
-      <img :src="getGameCover(game)" class="game-img"/>
+      <img :src="getGameCover(game)" class="game-img" />
       <div>
         <h3 class="game-title" :style="{ 'font=size': '1rem' }">{{ game.name }}</h3>
         <div class="game-details">
