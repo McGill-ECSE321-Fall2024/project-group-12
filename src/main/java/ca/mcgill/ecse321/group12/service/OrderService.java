@@ -34,9 +34,7 @@ public class OrderService {
 		if (order == null) {
 			throw new CustomException(HttpStatus.NOT_FOUND, "There is no order with ID " + id + ".");
 		}
-
 		return order;
-
 	}
 
 	/**
