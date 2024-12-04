@@ -1,5 +1,5 @@
 <!--
- Cart page
+ User and orders page
  @author Amy Ding
 -->
 <script setup>
@@ -134,41 +134,6 @@ async function getOrders() {
 }
 const orders = ref(null)
 orders.value = await getOrders()
-// orders.value = [
-//   {
-//     id: 1,
-//     games: [
-//       {
-//         id: 101,
-//         name: 'Animal Crossing',
-//         console: 'Nintendo Switch',
-//         year: 2014,
-//         price: 1212.22,
-//       },
-//       {
-//         id: 102,
-//         name: 'Minecraft',
-//         console: 'PC',
-//         year: 1980,
-//         price: 999.99,
-//       },
-//       {
-//         id: 103,
-//         name: 'League of Legends',
-//         console: 'XBox',
-//         year: 1823,
-//         price: 1,
-//       },
-//       {
-//         id: 101,
-//         name: 'Animal Crossing',
-//         console: 'Nintendo Switch',
-//         year: 2014,
-//         price: 1212.22,
-//       },
-//     ],
-//   },
-// ]
 console.log('teehee')
 console.log(orders.value[orders.value.length - 1])
 console.log('haiiiiiii')

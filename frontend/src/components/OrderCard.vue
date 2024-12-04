@@ -1,3 +1,7 @@
+<!--
+ Order card page
+ @author Amy Ding
+-->
 <script setup>
 const props = defineProps({
   order: {
@@ -13,7 +17,6 @@ const props = defineProps({
     }),
   },
 })
-
 const formatDate = (dateString) => {
   const options = {
     weekday: 'long',
@@ -24,10 +27,8 @@ const formatDate = (dateString) => {
   return new Date(dateString).toLocaleString(options)
 }
 const getGameCover = (game) => {
-  return 'src/assets/games/minecraft.png'
   return game.cover
 }
-
 async function returnOrder(event) {
   event.preventDefault()
   const authResponse = JSON.parse(localStorage.getItem('auth'))
