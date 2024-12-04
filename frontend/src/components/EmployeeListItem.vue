@@ -1,6 +1,9 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router'
+import { inject } from 'vue'
+
+const { user, token } = inject('auth')
 
 const showPopup = ref(false);
 
@@ -44,6 +47,19 @@ const viewPage = () => {
     router.push('employee/' + props.id);
 };
 
+
+const deleteCustomer = async () => {
+    console.log('Delete Customer');
+    const reponse = await fetch(`http://localhost:8080/employees/${props.id}`, {
+    method: 'DELETE',
+     headers: {
+    "Authorization": `Bearer ${token.value}`
+  },
+});
+};
+
+
+
 onMounted(() => {
     document.addEventListener('click', handleClickOutside);
 });
@@ -72,7 +88,7 @@ onUnmounted(() => {
         <div v-if="showPopup" class="popup">
             <ul class="popup-list">
                 <li @click=viewPage>View Page</li>
-                <li @click="action3">Delete</li>
+                <li @click="deleteCustomer">Delete</li>
             </ul>
         </div>
     </div>

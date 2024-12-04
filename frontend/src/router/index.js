@@ -9,6 +9,7 @@ import ManagerCustomerView from '@/views/ManagerCustomerView.vue'
 import SigninView from '@/views/SigninView.vue'
 import ManagerSpecificCustomer from '@/views/ManagerSpecificCustomerView.vue'
 import ManagerEmployeeView from '@/views/ManagerEmployeeView.vue'
+import ManagerSpecificEmployee from '@/views/ManagerSpecificEmployeeView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -72,6 +73,13 @@ const router = createRouter({
       path: '/manager/customer/:id',
       name: 'manager/specificcustomer',
       component: ManagerSpecificCustomer,
+      props: true
+    },
+
+    {
+      path: '/manager/employee/:id',
+      name: 'manager/specificemployee',
+      component: ManagerSpecificEmployee,
       props: true
     },
   ],

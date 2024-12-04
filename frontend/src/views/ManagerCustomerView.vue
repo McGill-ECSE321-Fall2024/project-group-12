@@ -27,11 +27,33 @@ const response = await fetch('http://localhost:8080/customers', {
 if (response.ok) { 
   console.log("Request successful");
 } else {
-  // error on request (for example, not correct authorization)
+  console.log("Request failed");
 }
 customers.value = await response.json();
 
+const fetchCustomers = async () => {
+  const response = await fetch('http://localhost:8080/customers', {
+    method: 'GET',
+    headers: {
+      "Authorization": `Bearer ${token.value}`,
+    },
+  });
 
+  if (response.ok) {
+    customers.value = await response.json();
+  } else {
+    console.error('Failed to fetch customers');
+  }
+};
+
+// Fetch customers when the component is mounted
+await fetchCustomers();
+
+// Function to handle the delete action
+const handleCustomerDelete = async () => {
+  // Re-fetch the customer list after deletion
+  await fetchCustomers();
+};
 //
 
 
@@ -72,6 +94,7 @@ const customers_ex = ref([
         :name="customer.name"
         :email="customer.email"
         :phoneNumber="customer.phoneNumber"
+        @deleteCustomer="handleCustomerDelete" 
         />
     </div>
     

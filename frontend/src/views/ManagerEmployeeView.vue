@@ -5,7 +5,7 @@
 <script setup>
 import { ref } from 'vue';
 import { inject } from 'vue'
-import listItem from '@/components/CustomerListItem.vue'
+import listItem from '@/components/EmployeeListItem.vue'
 const { createThemeFromColour } = inject('theme')
 // change to a red theme to match the holiday effect
 createThemeFromColour('#FF9797')

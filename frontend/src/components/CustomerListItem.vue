@@ -1,6 +1,9 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router'
+import { inject } from 'vue'
+
+const { user, token } = inject('auth')
 
 const showPopup = ref(false);
 
@@ -25,6 +28,8 @@ const props = defineProps({
     }
 });
 
+const emit = defineEmits(['deleteCustomer']); // Event to notify parent about deletion
+
 
 const togglePopup = () => {
     event.stopPropagation(); // Prevent the click from propagating to the document
@@ -43,6 +48,26 @@ const viewPage = () => {
     console.log('View Page');
     router.push('customer/' + props.id);
 };
+
+
+const deleteCustomer = async () => {
+    console.log('Delete Customer');
+    const response = await fetch(`http://localhost:8080/customers/${props.id}`, {
+        method: 'DELETE',
+        headers: {
+            "Authorization": `Bearer ${token.value}`
+        },
+    });
+
+    if (response.ok) {
+        console.log('Customer deleted successfully');
+        emit('deleteCustomer'); // Emit event to notify parent to refresh the list
+    } else {
+        console.error('Failed to delete customer');
+    }
+};
+
+
 
 onMounted(() => {
     document.addEventListener('click', handleClickOutside);
@@ -72,7 +97,7 @@ onUnmounted(() => {
         <div v-if="showPopup" class="popup">
             <ul class="popup-list">
                 <li @click=viewPage>View Page</li>
-                <li @click="action3">Delete</li>
+                <li @click="deleteCustomer">Delete</li>
             </ul>
         </div>
     </div>

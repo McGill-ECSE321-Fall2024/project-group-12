@@ -10,16 +10,16 @@ import OrderCard from '@/components/OrderCard.vue'
 import { useRoute } from 'vue-router';
 
 const route = useRoute();
-const customerId = route.params.id;
+const employeeId = route.params.id;
 
 
-// load the current customer
+// load the current employee
 const { user, signOut, updateUser, token } = inject('auth')
 
 
 
-const customer = ref('')
-const response = await fetch(`http://localhost:8080/customers/${customerId}`, {
+const employee = ref('')
+const response = await fetch(`http://localhost:8080/employees/${employeeId}`, {
   method: 'GET',
   headers: {
     "Authorization": `Bearer ${token.value}`
@@ -33,7 +33,7 @@ if (response.ok) {
 } else {
   // error on request (for example, not correct authorization)
 }
-customer.value = await response.json();
+employee.value = await response.json();
 
 
 
@@ -52,7 +52,7 @@ const addressFields = ref({
   country: '',
   postal: '',
 })
-console.log('customer view loaded')
+console.log('employee view loaded')
 
 const updateInfo = async (event) => {
   event.preventDefault()
@@ -61,7 +61,7 @@ const updateInfo = async (event) => {
   const name = form.querySelector('#name').value
   const email = form.querySelector('#email').value
   const phoneNumber = form.querySelector('#phoneNumber').value
-  const address = customer.value.address
+  const address = employee.value.address
   updateUser(name, email, phoneNumber, address)
 }
 const togglePasswordPopup = () => {
@@ -92,9 +92,9 @@ async function updateAddress(event) {
   ]
   const addressLine = addressComponents.join('\\n')
   toggleAddressPopup()
-  const email = customer.value.email
-  const name = customer.value.name
-  const phoneNumber = customer.value.phoneNumber
+  const email = employee.value.email
+  const name = employee.value.name
+  const phoneNumber = employee.value.phoneNumber
   updateUser(name, email, phoneNumber, addressLine)
   toggleAddressPopup
   location.reload()
@@ -103,8 +103,8 @@ const formatAddress = (address) => {
   return address.replace(/\\n\\n/g, '\n').replace(/\\n/g, '\n')
 }
 const populateAddressFields = () => {
-  if (customer.value?.address) {
-    const parts = customer.value.address.split('\\n')
+  if (employee.value?.address) {
+    const parts = employee.value.address.split('\\n')
     addressFields.value = {
       address: parts[0] || '',
       apt: parts[1] || '',
@@ -119,9 +119,9 @@ async function getOrders() {
   const authResponse = JSON.parse(localStorage.getItem('auth'))
   // check whether auth response exists
   if (!authResponse) return []
-  const { token, id, customerType } = authResponse
+  const { token, id, employeeType } = authResponse
   console.log(authResponse.id)
-  const resp = await fetch(`http://localhost:8080/orders/customer/${id}`, {
+  const resp = await fetch(`http://localhost:8080/orders/employee/${id}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -143,28 +143,28 @@ console.log(orders.value)
 </script>
 
 <template>
-  <!-- IF current customer is null -->
-  <SigninView v-if="customer == null" />
+  <!-- IF current employee is null -->
+  <SigninView v-if="employee == null" />
   <!-- otherwise, the normal page can be shown -->
-  <div v-else class="customer">
+  <div v-else class="employee">
     <h2 class="title">Profile</h2>
 
 
     <div class="grid-container">
-      <form class="customer-info" @submit.prevent="updateInfo">
+      <form class="employee-info" @submit.prevent="updateInfo">
         <label for="name">Name</label>
         <input
           type="name"
           id="name"
-          :value="customer.name"
-          @input="(event) => (customer.name = event.target.value)"
+          :value="employee.name"
+          @input="(event) => (employee.name = event.target.value)"
         />
         <label for="email">Email</label>
         <input
           type="email"
           id="email"
-          :value="customer.email"
-          @input="(event) => (customer.email = event.target.value)"
+          :value="employee.email"
+          @input="(event) => (employee.email = event.target.value)"
         />
         
         
@@ -172,8 +172,8 @@ console.log(orders.value)
         <input
           type="phoneNumber"
           id="phoneNumber"
-          :value="customer.phoneNumber"
-          @input="(event) => (customer.phoneNumber = event.target.value)"
+          :value="employee.phoneNumber"
+          @input="(event) => (employee.phoneNumber = event.target.value)"
         />
         <button class="update-button">Update</button>
         <button class="signout-button" @click="signOut">Sign out</button>
@@ -185,13 +185,13 @@ console.log(orders.value)
       <div class="shipping-address card">
         <div>
           <h2>Shipping Address</h2>
-          <button v-if="customer.address == null" class="edit-button" @click="toggleAddressPopup">
+          <button v-if="employee.address == null" class="edit-button" @click="toggleAddressPopup">
             Add
           </button>
           <button v-else class="edit-button" @click="toggleAddressPopup">Edit</button>
         </div>
-        <h3 v-if="customer.address == null">No shipping address associated with this account</h3>
-        <span v-else style="white-space: pre"> {{ formatAddress(customer.address) }}</span>
+        <h3 v-if="employee.address == null">No shipping address associated with this account</h3>
+        <span v-else style="white-space: pre"> {{ formatAddress(employee.address) }}</span>
       </div>
 
       <div v-if="showAddressPopup" class="popup">
@@ -255,7 +255,7 @@ console.log(orders.value)
 
       <!-- <div class="payment-info card">
         <h2>Last Used Payment Method</h2>
-        <h3 v-if="customer.paymentinfo == null">No payment information associated with this account</h3>
+        <h3 v-if="employee.paymentinfo == null">No payment information associated with this account</h3>
         <input v-else type="text" id="payment" />
       </div> -->
     </div>
@@ -287,10 +287,10 @@ console.log(orders.value)
 * {
   color: white;
 }
-.customer {
+.employee {
   padding: 3%;
 }
-.customer-info {
+.employee-info {
   display: inline-flex;
   flex-direction: column;
   grid-area: 1 / 1 / 3 / 2;
@@ -307,7 +307,7 @@ input {
   border: none;
   border-bottom: 1px solid grey;
 }
-.customer-info input:focus {
+.employee-info input:focus {
   border-bottom: 1px solid #a23e48;
   outline: none;
 }
@@ -390,7 +390,7 @@ button {
     grid-template-columns: 1fr;
     grid-template-rows: repeat(3, 1fr);
   }
-  .customer-info {
+  .employee-info {
     display: inline-flex;
     flex-direction: column;
     grid-area: 1 / 1 / 2 / 2;
