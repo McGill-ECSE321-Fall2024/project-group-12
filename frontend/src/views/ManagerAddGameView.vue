@@ -29,64 +29,62 @@ const addGame = async (event) => {
       price,
       status,
     }),
-  }).then(
-    (response) => {
-      if (response.ok) {
-        response.json().then((game) => {
-            upload(game.id);
-        })
-      }
-    });
+  }).then((response) => {
+    if (response.ok) {
+      response.json().then((game) => {
+        upload(game.id)
+      })
+    }
+  })
 }
 
 const upload = async (id) => {
-  
   const cover = document.querySelector('#cover').files[0]
   if (cover !== undefined) {
     const coverType = cover.type.toString().substring(cover.type.indexOf('/') + 1)
     const reader = new FileReader()
     reader.onload = async function (e) {
-        const data = e.target.result.split(',')[1]
-        const response = await fetch('http://localhost:8080/games/' + id +'/cover', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token.value}`,
-          },
-          body: JSON.stringify({
-            image: data,
-            type: coverType,
-          }),
-        })
+      const data = e.target.result.split(',')[1]
+      const response = await fetch('http://localhost:8080/games/' + id + '/cover', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token.value}`,
+        },
+        body: JSON.stringify({
+          image: data,
+          type: coverType,
+        }),
+      })
 
-        if (response.ok) {
-          const background = document.querySelector('#background').files[0]
-          if (background !== undefined) {
-            const backgroundType = background.type
-              .toString()
-              .substring(background.type.indexOf('/') + 1)
-            const reader = new FileReader()
-            reader.onload = async function (e) {
-              const data = e.target.result.split(',')[1]
-              const response = await fetch('http://localhost:8080/games/' + id + '/background', {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                  Authorization: `Bearer ${token.value}`,
-                },
-                body: JSON.stringify({
-                  image: data,
-                  type: backgroundType,
-                }),
-              })
+      if (response.ok) {
+        const background = document.querySelector('#background').files[0]
+        if (background !== undefined) {
+          const backgroundType = background.type
+            .toString()
+            .substring(background.type.indexOf('/') + 1)
+          const reader = new FileReader()
+          reader.onload = async function (e) {
+            const data = e.target.result.split(',')[1]
+            const response = await fetch('http://localhost:8080/games/' + id + '/background', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token.value}`,
+              },
+              body: JSON.stringify({
+                image: data,
+                type: backgroundType,
+              }),
+            })
 
-              if (response.ok) {
-                alert('Game added successfully')
-              }
+            if (response.ok) {
+              alert('Game added successfully')
             }
-            reader.readAsDataURL(background)
           }
+          reader.readAsDataURL(background)
         }
+      }
     }
     reader.readAsDataURL(cover)
   }
@@ -94,8 +92,7 @@ const upload = async (id) => {
 </script>
 
 <template>
-  <div style="width: full; display: flex; flex-direction: row; justify-content: center;">
-    
+  <div style="width: full; display: flex; flex-direction: row; justify-content: center">
     <form @submit.prevent="addGame" style="display: flex; flex-direction: column; width: 60%">
       <h1>Manager Add Game</h1>
       <label for="name">Name</label>
@@ -132,13 +129,23 @@ const upload = async (id) => {
       <label for="cover">Cover</label>
       <input type="file" id="cover" />
       <br />
-        <label for="background">Background</label>
+      <label for="background">Background</label>
       <input type="file" id="background" />
       <br />
-      <div style="display: flex; flex-direction: row; justify-content: center;">
-        <button type="submit" style="width:150px ; height: 50px; border-radius: 10px; background-color: green; color: white">Add Game</button>
+      <div style="display: flex; flex-direction: row; justify-content: center">
+        <button
+          type="submit"
+          style="
+            width: 150px;
+            height: 50px;
+            border-radius: 10px;
+            background-color: green;
+            color: white;
+          "
+        >
+          Add Game
+        </button>
       </div>
-      
     </form>
   </div>
 </template>
@@ -147,7 +154,6 @@ const upload = async (id) => {
 input {
   margin-bottom: 10px;
   height: 25px;
-  
 }
 select {
   margin-bottom: 10px;

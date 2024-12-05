@@ -12,7 +12,6 @@ createThemeFromColour('#FF9797')
 const { user, token } = inject('auth')
 
 async function fetchData() {
-
   // if there's no user, give up this try
   if (user.value == null) {
     return

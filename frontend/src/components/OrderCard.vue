@@ -117,7 +117,8 @@ const goToGame = (gameId) => {
           <AnimatedLink :to="`/game/${game.id}`"
             ><button :style="{ background: 'rgba(65, 93, 67, 1)' }">
               Leave a review
-            </button></AnimatedLink>
+            </button></AnimatedLink
+          >
         </div>
       </div>
     </div>

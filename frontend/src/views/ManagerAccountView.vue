@@ -123,7 +123,12 @@ async function updatePassword(event) {
           @input="(event) => (user.email = event.target.value)"
         />
         <label for="password">Password</label>
-        <input type="password" placeholder="Enter current password or new password" id="password" required />
+        <input
+          type="password"
+          placeholder="Enter current password or new password"
+          id="password"
+          required
+        />
         <label for="phoneNumber">Phone Number</label>
         <input
           type="phoneNumber"

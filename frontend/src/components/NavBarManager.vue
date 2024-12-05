@@ -52,7 +52,15 @@ const { signOut, userType } = inject('auth')
       </li>
 
       <!-- Logout icon -->
-      <li class="nav-list--logo" @click="() => {signOut(); location.href = '/user'}">
+      <li
+        class="nav-list--logo"
+        @click="
+          () => {
+            signOut()
+            location.href = '/user'
+          }
+        "
+      >
         <a href="/user">
           <img class="icon" src="@/assets/icons/navbar/logout-512.webp" alt="Logout Icon" />
         </a>
