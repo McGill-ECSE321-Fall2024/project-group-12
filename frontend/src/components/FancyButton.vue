@@ -17,7 +17,7 @@ defineProps({
 
 <style scoped>
 .fancy-button {
-  display: flex;
+  display: inline-flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;

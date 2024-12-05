@@ -2,8 +2,13 @@
 import { inject, ref } from 'vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import HeartOutlineIcon from 'vue-material-design-icons/HeartOutline.vue'
+import CheckIcon from 'vue-material-design-icons/CheckBold.vue'
+import FancyButton from './FancyButton.vue'
 
-const { user, token } = inject('auth')
+const { user, token, loadUser } = inject('auth')
+const { createThemeFromColour } = inject('theme')
+
+createThemeFromColour('#ff57b0')
 
 const props = defineProps({
   gameId: {
@@ -36,11 +41,24 @@ const props = defineProps({
   },
 })
 
+const inCart = ref(false)
+
+// check if a game with this id is in the user's cart or wishlist
+const checkInCart = () => {
+  if (user.value != null) {
+    inCart.value = false
+    user.value.cart.games.forEach(game => {
+      if (game.id == props.gameId) inCart.value = true
+    })
+  }
+}
+
+checkInCart()
+
 /**
  * Add the game to the user's cart
  */
 async function add() {
-  alert('Added to cart')
   const cartId = user.value.cart.id
   const requestOptions = {
     method: 'PUT',
@@ -48,6 +66,8 @@ async function add() {
     body: JSON.stringify({ gameId: props.gameId }),
   }
   const response = await fetch(`http://localhost:8080/cart/${cartId}`, requestOptions)
+  inCart.value = true
+  loadUser()
   return response.json()
 }
 
@@ -77,16 +97,17 @@ if (cover.value && cover.value.type && cover.value.image) {
       <div class="game-info">
         <h2>{{ name }}</h2>
         <div class="game-details">
-          <p class="game-console">{{ console }}</p>
-          <img class="icon" src="@/assets/icons/navbar/wishlist.png" />
-          <p class="game-year">{{ year }}</p>
-          <img class="icon" src="@/assets/icons/navbar/wishlist.png" />
+          <p class="game-console">{{ console }} •</p>
+          <p class="game-year">{{ year }} •</p>
           <p class="game-price">${{ price }}</p>
         </div>
-        <button class="add" @click="add"><PlusIcon /> Add to Cart</button>
-        <button class="remove" @click="() => remove(gameId)">
-          <HeartOutlineIcon /> Remove from Wishlist
-        </button>
+        <FancyButton filled :disabled="inCart" class="add" @click="add" :label="inCart ? 'Added to Cart' : 'Add to Cart'">
+          <CheckIcon v-if="inCart" />
+          <PlusIcon v-else />
+        </FancyButton>
+        <FancyButton class="remove" @click="() => remove(gameId)" label="Remove">
+          <HeartOutlineIcon />
+        </FancyButton>
       </div>
     </div>
     <hr />
@@ -133,6 +154,8 @@ button {
   vertical-align: top;
 }
 .game-details {
+  display: flex;
+  gap: 4px;
   font-size: 20px;
 }
 .game-console {
