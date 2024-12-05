@@ -36,12 +36,12 @@ const addGame = async (event) => {
   })
 
     if (response.ok) {
-        upload()
+        upload(game.id)
     } 
   
 }
 
-const upload = async ()  => {
+const upload = async (id)  => {
 
     const cover = document.querySelector('#cover').files[0];
     if (cover) {
@@ -54,7 +54,7 @@ const upload = async ()  => {
         };
         reader.readAsDataURL(cover);
 
-        const response = await fetch('http://localhost:8080/games/cover', {
+        const response = await fetch('http://localhost:8080/games/' + id + '/cover', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -81,7 +81,7 @@ const upload = async ()  => {
         };
         reader.readAsDataURL(cover);
 
-        const response = await fetch('http://localhost:8080/games/background', {
+        const response = await fetch('http://localhost:8080/games/' + id + '/background', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
