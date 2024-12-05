@@ -15,9 +15,11 @@ import SearchBar from './SearchBar.vue'
     <!-- the main, labelled section of the navbar -->
     <ul class="nav-list">
       <!-- the search bar -->
-      <div class="nav-search--container">
-        <SearchBar />
-      </div>
+      <AnimatedLink to="/search">
+        <div class="nav-search--container">
+          <SearchBar />
+        </div>
+      </AnimatedLink>
 
       <!-- fill space so that the end icons appear at the right side of the navbar -->
       <div class="nav-spacing"></div>
