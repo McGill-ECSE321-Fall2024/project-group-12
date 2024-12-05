@@ -6,8 +6,14 @@
 import { inject, ref } from 'vue'
 import SigninView from '@/views/SigninView.vue'
 // load the current user
-const { user, signOut, token } = inject('auth')
+const { user, signOut, token, userType } = inject('auth')
 const showPasswordPopup = ref(false)
+
+// if the current user is an employee, redirect to their specific page
+if (userType.value == 'EMPLOYEE') {
+  console.log('redirecting to employee page...')
+  location.href = `http://localhost:5173/manager/employee/${user.value.id}`
+}
 
 const updateUser = async (name, email, phoneNumber, password) => {
   const resp = await fetch(`http://localhost:8080/manager`, {

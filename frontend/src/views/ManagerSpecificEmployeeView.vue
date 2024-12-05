@@ -98,7 +98,7 @@ const updateInfo = async (event) => {
           @input="(event) => (employee.email = event.target.value)"
         />
         <label for="password">Password</label>
-        <input placeholder="Enter current password or new password" id="password" required />
+        <input placeholder="Enter current password or new password" id="password" type="password" required />
         <label for="phoneNumber">Phone Number</label>
         <input
           type="phoneNumber"
