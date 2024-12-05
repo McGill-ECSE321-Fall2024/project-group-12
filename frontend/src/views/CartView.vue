@@ -34,7 +34,7 @@ async function remove(gameId) {
   const cartId = user.value.cart.Id
   const requestOpt = {
     method: 'put',
-    headers: { 
+    headers: {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token.value}`,
      },
@@ -67,10 +67,10 @@ async function remove(gameId) {
         :year="item.year"
         :price="item.price"
         :remove="remove"
-      
+
       />
     </div>
-    <button class="checkout" @click="$router.push('/checkout')">Checkout</button>
+    <AnimatedLink to="/checkout"><button class="checkout">Checkout</button></AnimatedLink>
   </main>
 </template>
 

@@ -35,7 +35,7 @@ const props = defineProps({
 })
 
 const coverImg = ref('')
-// load cover image 
+// load cover image
 async function loadCover() {
   const response = await fetch(`http://localhost:8080/games/${props.gameId}/cover`)
   if (response.ok) {
@@ -50,14 +50,14 @@ loadCover()
 
 
 
-async function remove(gameId) {
+async function removeGame(gameId) {
   // TO FINISH ****
   alert('Removed from cart')
   const cartId = user.value.cart.id
   console.log(cartId)
   const requestOpt = {
     method: 'put',
-    headers: { 
+    headers: {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token.value}`,
      },
@@ -66,7 +66,7 @@ async function remove(gameId) {
     `http://localhost:8080/cart/${cartId}?remove=${gameId}`,
     requestOpt,
   )
-  const cart = await response.json()
+  await response.json()
   location.reload()
   return
 }
@@ -93,7 +93,7 @@ async function remove(gameId) {
           <p class="game-price">${{ price }}</p>
           <!--price-->
         </div>
-        <button class="remove" @click="() => {remove(gameId)}">Remove from Cart</button>
+        <button class="remove" @click="() => {removeGame(gameId)}">Remove from Cart</button>
       </div>
     </div>
     <hr />
@@ -125,6 +125,8 @@ button {
   max-height: 155px;
   display: inline-block;
   margin-right: 20px;
+  aspect-ratio: 144 / 200;
+  object-fit: cover;
 }
 .game-info {
   display: inline-block;
