@@ -166,6 +166,17 @@ h1 {
   background: Gray;
 }
 
+.add-button {
+  padding: 10px;
+  background-color: grey;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+
+
 .line_top {
   position: relative;
 
