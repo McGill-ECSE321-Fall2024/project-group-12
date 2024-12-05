@@ -46,6 +46,15 @@ Julien: "Hey. I am a U2 Software Engineering student at McGill! A fun fact about
 | Kennedy Olsen    | Business Analyst |  19.5 | <ul><li> Implemented review related use cases</li><li> Updated Wiki for Quality Assurance Report</li></ul> |
 | Carmin Vidé | Scrum Master     |   19  | <ul><li> Implemented customer and comment related use cases</li><li> Updated Wiki for Quality Assurance Report</li></ul>|
 
+### Deliverable 3
+| Name             | Team Roles       | Hours | Individual Effort |
+| ---------------- | ---------------- | ----- | ----------------- |
+| James Madden     | Tech Lead        |  27   | <ul><li> Designed and implemented home page.</li><li> Designed and implemented navbar</li><li> Designed and implemented individual game page</li><li>Designed and implemented search results page</li></ul>|
+| Sophia Li        | Project Manager  |  25   | <ul><li> Designed and implemented wishlist page</li><li>Designed checkout page</li></ul>   |
+| Amy Ding         | UI/UX Designer   |   24  | <ul><li> Designed and implemented profile page</li><li>Designed and implemented orders page</li><li>Helped implement checkout page</li><li>Updated wiki and README.</li></ul>|
+| Julien Heng      | Developer        |  25   | <ul><li>Designed and implemented login page</li><li>Helped implement checkout page</li><li>Updated backend requests for password change endpoint</li></ul> |
+| Kennedy Olsen    | Business Analyst |  19.5 | <ul><li>Designed and implemented cart page</li></ul> |
+| Carmin Vidé | Scrum Master     |   19  | <ul><li>Designed and implemented manager dashboard</li><li>Designed and implemented employee dashboard</li></ul>|
 
 
 ## Contributing

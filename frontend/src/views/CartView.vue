@@ -5,6 +5,7 @@
 <script setup>
 import { inject, ref, watch } from 'vue'
 import CartItem from '@/components/CartItem.vue'
+import { useRouter } from 'vue-router'
 
 const { createThemeFromColour } = inject('theme')
 createThemeFromColour('#FF9797')
@@ -55,6 +56,12 @@ async function removeItem(gameId) {
   data.value = cart
   return
 }
+
+const router = useRouter()
+
+const goToCheckout = () => {
+  router.push('/checkout')
+}
 </script>
 
 <template>
@@ -77,7 +84,7 @@ async function removeItem(gameId) {
         :remove="removeItem"
       />
     </div>
-    <button class="checkout">Checkout</button>
+    <button class="checkout" @click="goToCheckout">Checkout</button>
   </main>
 </template>
 

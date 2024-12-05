@@ -4,36 +4,51 @@
 -->
 
 <script setup>
-import { inject } from 'vue'
+import { inject, ref } from 'vue'
+import { useRouter } from 'vue-router'
 const { createThemeFromColour } = inject('theme')
-const { token, auth } = inject('auth')
+const { token, user } = inject('auth')
+const router = useRouter()
 createThemeFromColour('#00ff00')
 
-const submitPayment = async () => {
-  /*
-    try {
-        axios({
-            method: 'post',
-            url: '/orders',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authentication': 'Bearer ' + token.value
-            },
-            data: {
-                deliveryAddress: document.getElementById('billingAddress').value,
-                nameOnCard: document.getElementById('nameOnCard').value,
-                cvc: document.getElementById('cvc').value,
-                cardNumber: document.getElementById('cardNumber').value,
-                billingAddress: document.getElementById('billingAddress').value,
-                isSaved: document.getElementById('save').value,
-                expiryDate: document.getElementById('expiryDate').value
-            }
-        })
-    } catch (error) {
-        // if unsuccessful, show an error message
-        console.error(error)
+// display error messages if the checkout fails
+const errorMsg = ref(null)
+
+async function submitPayment(event) {
+  event.preventDefault()
+  const form = event.target
+  const requestBody = {
+    customerId: user.value.id,
+    deliveryAddress: form.querySelector('#billingAddress')?.value || '',
+    nameOnCard: form.querySelector('#name')?.value || '',
+    cvc: form.querySelector('#cvc')?.value || '',
+    cardNumber: form.querySelector('#cardNumber')?.value || '',
+    billingAddress: form.querySelector('#billingAddress')?.value || '',
+    isSaved: form.querySelector('input[type="checkbox"]')?.checked || false,
+    expiryDate: form.querySelector('#expiryDate')?.value || '',
+  }
+
+  try {
+    const resp = await fetch(`http://localhost:8080/orders`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token.value}`,
+        Accept: 'application/json',
+      },
+      body: JSON.stringify(requestBody),
+    })
+    if (!resp.ok) {
+      const errorData = await resp.json()
+      console.log(errorData.errors)
+      errorMsg.value = errorData.errors[0]
     }
-        */
+    const data = await resp.json()
+    console.log('Checkout successful:', data)
+    await router.push('/user')
+  } catch (error) {
+    console.error(error)
+  }
 }
 </script>
 
@@ -43,44 +58,51 @@ const submitPayment = async () => {
       <img src="@/assets/icons/navbar/cart.png" />
       <p style="font-size: 36px">Payment</p>
     </div>
-    <div class="input-line">
-      <p style="text-align: left; font-size: 30px">Card Details</p>
-    </div>
-    <input class="input-line input-box" id="name" placeholder="nameOnCard" />
-    <input class="input-line input-box" placeholder="Card Number" id="cardNumber" />
-    <div class="input-line" style="gap: 5%">
-      <input class="input-box" style="width: 70%" placeholder="Expiry Date MM/YY" id="expiryDate" />
-      <input class="input-box" style="width: 25%" placeholder="CVV" id="cvc" />
-    </div>
-    <div class="input-line" style="font-size: medium; gap: 8px; height: 28px">
-      <p>Save this card to account?</p>
-      <input type="checkbox" input="save" />
-    </div>
-    <div class="input-line">
-      <p style="text-align: left; font-size: 30px">Billing address</p>
-    </div>
-    <input class="input-line input-box" placeholder="Address" id="billingAddress" />
-    <div class="input-line" style="justify-content: center; gap: 20px">
-      <button
-        style="width: 20%; border: none; border-radius: 24px; padding-left: 10px"
-        @click="$router.push('/cart')"
-      >
-        Cancel
-      </button>
-      <button
-        style="
-          width: 20%;
-          background-color: green;
-          border: none;
-          border-radius: 24px;
-          padding-left: 10px;
-          color: white;
-        "
-        @click="submitPayment"
-      >
-        Submit
-      </button>
-    </div>
+    <form @submit.prevent="submitPayment">
+      <div class="input-line">
+        <p style="text-align: left; font-size: 30px">Card Details</p>
+      </div>
+      <input class="input-line input-box" id="name" placeholder="Cardholder Name" />
+      <input class="input-line input-box" placeholder="Card Number" id="cardNumber" />
+      <div class="input-line" style="gap: 5%">
+        <input
+          class="input-box"
+          style="width: 70%"
+          placeholder="Expiry Date MM/YY"
+          id="expiryDate"
+        />
+        <input class="input-box" style="width: 25%" placeholder="CVV" id="cvc" />
+      </div>
+      <div class="input-line" style="font-size: medium; gap: 8px; height: 28px">
+        <p>Save this card to account?</p>
+        <input type="checkbox" input="save" />
+      </div>
+      <div class="input-line">
+        <p style="text-align: left; font-size: 30px">Billing address</p>
+      </div>
+      <input class="input-line input-box" placeholder="Address" id="billingAddress" />
+      <p v-if="errorMsg != null" class="error-msg">{{ errorMsg }}</p>
+      <div class="input-line" style="justify-content: center; gap: 20px">
+        <button
+          style="width: 20%; border: none; border-radius: 24px; padding-left: 10px"
+          @click="$router.push('/cart')"
+        >
+          Cancel
+        </button>
+        <button
+          style="
+            width: 20%;
+            background-color: green;
+            border: none;
+            border-radius: 24px;
+            padding-left: 10px;
+            color: white;
+          "
+        >
+          Submit
+        </button>
+      </div>
+    </form>
   </div>
 </template>
 
@@ -97,6 +119,11 @@ const submitPayment = async () => {
 .input-box {
   border-radius: 8px;
   padding-left: 10px;
+}
+.error-msg {
+  color: red;
+  text-align: center;
+  margin-top: 8px;
 }
 
 @media only screen and (max-width: 600px) {
