@@ -68,6 +68,13 @@ async function returnOrder(event) {
     location.reload()
   }
 }
+const goToGame = (gameId) => {
+  // for review button functionality
+  router.push({
+    name: 'game',
+    params: { id: gameId },
+  })
+}
 </script>
 
 <template>

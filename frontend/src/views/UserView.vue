@@ -3,7 +3,7 @@
  @author Amy Ding
 -->
 <script setup>
-import { inject, ref } from 'vue'
+import { inject, ref, computed } from 'vue'
 import SigninView from '@/views/SigninView.vue'
 import BackgroundGradient from '@/components/BackgroundGradient.vue'
 import OrderCard from '@/components/OrderCard.vue'
@@ -25,6 +25,10 @@ console.log('user view loaded')
 // set a green theme for a nice holiday design
 createThemeFromColour('#415d43')
 
+const reversedOrders = computed(() => {
+  // so we can display orders from most recent to least recent
+  return [...orders.value].reverse()
+})
 const updateInfo = async (event) => {
   event.preventDefault()
   console.log('updating info')
@@ -73,7 +77,6 @@ async function updatePassword(event) {
   } else {
     alert('Password successfully changed!')
   }
-
   togglePasswordPopup()
 }
 async function updateAddress(event) {
@@ -118,7 +121,6 @@ async function getOrders() {
   // check whether auth response exists
   if (!authResponse) return []
   const { token, id } = authResponse
-  console.log(authResponse.id)
   const resp = await fetch(`http://localhost:8080/orders/customer/${id}`, {
     method: 'GET',
     headers: {
@@ -128,16 +130,10 @@ async function getOrders() {
     },
   })
   const data = await resp.json()
-  console.log('THIS IS THE ORDER')
-  console.log(data)
   return data
 }
 const orders = ref(null)
 orders.value = await getOrders()
-console.log('teehee')
-console.log(orders.value[orders.value.length - 1])
-console.log('haiiiiiii')
-console.log(orders.value)
 </script>
 
 <template>
@@ -267,19 +263,12 @@ console.log(orders.value)
           </form>
         </div>
       </div>
-
-      <!-- <div class="payment-info card">
-        <h2>Last Used Payment Method</h2>
-        <h3 v-if="user.paymentinfo == null">No payment information associated with this account</h3>
-        <input v-else type="text" id="payment" />
-      </div> -->
     </div>
     <div class="spacer"></div>
     <section>
       <h2 class="title">Orders</h2>
       <div class="orders-container">
-        <OrderCard v-for="order in orders" :order="order" v-bind:key="order" />
-         <!-- <OrderCard/> -->
+        <OrderCard v-for="order in reversedOrders" :order="order" v-bind:key="order" />
       </div>
     </section>
   </div>
