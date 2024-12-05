@@ -1,9 +1,11 @@
-<script setup></script>
+<script setup>
+import store from '@/store.js'
+</script>
 
 <template>
   <div class="search-bar">
     <img src="@/assets/icons/navbar/search.png" />
-    <input class="search-input" type="search" placeholder="Search..." />
+    <input class="search-input" type="search" placeholder="Search..." v-model="store.searchQuery" />
   </div>
 </template>
 

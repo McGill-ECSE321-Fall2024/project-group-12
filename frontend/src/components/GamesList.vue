@@ -1,12 +1,19 @@
 <!-- a component used to display and browse all games, used both on the homepage and the games page -->
 <script setup>
-import { ref, nextTick } from 'vue'
+import { ref, nextTick, watch } from 'vue'
 import GameCard from '@/components/GameCard.vue'
 import FancyChips from '@/components/FancyChips.vue'
+import store from '@/store.js'
 
 const props = defineProps({
   filterFromSearch: Boolean
 })
+
+if (props.filterFromSearch) {
+  watch(store, () => {
+    // update the filtered games
+  })
+}
 
 // the filterable conditions
 const consoleFilters = ['PlayStation', 'XBox', 'PC', 'Switch']
@@ -44,7 +51,8 @@ const filterGames = () => {
   let filteredGames = games
   // filter the list, if filters are on
   if (props.filterFromSearch) {
-    // tbi
+    const regex = new RegExp( store.searchQuery, "i");
+    filteredGames = filteredGames.filter((game) => regex.test(game.name) || regex.test(game.description))
   }
   if (enabledConsoleFilter.value != null) {
     filteredGames = filteredGames.filter((game) => game.console == enabledConsoleFilter.value)

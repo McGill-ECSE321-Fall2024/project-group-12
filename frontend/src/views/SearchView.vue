@@ -19,7 +19,7 @@ console.log('updated theme')
     <BackgroundGradient colour="151, 184, 255" />
     <h1 class="header sale--text">Search</h1>
   </header>
-  <GamesList :filter-from-search="false" />
+  <GamesList :filter-from-search="true" />
 </template>
 
 <style scoped>
