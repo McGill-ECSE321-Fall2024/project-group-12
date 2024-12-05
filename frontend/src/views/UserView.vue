@@ -3,7 +3,7 @@
  @author Amy Ding
 -->
 <script setup>
-import { inject, ref, watch } from 'vue'
+import { inject, ref } from 'vue'
 import SigninView from '@/views/SigninView.vue'
 import OrderCard from '@/components/OrderCard.vue'
 // load the current user
