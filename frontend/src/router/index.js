@@ -84,6 +84,7 @@ const router = createRouter({
       component: ManagerSpecificEmployee,
       props: true,
     },
+    {
       path: '/checkout',
       name: 'checkout',
       component: CheckoutView,

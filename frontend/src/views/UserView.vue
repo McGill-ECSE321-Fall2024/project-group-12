@@ -9,7 +9,6 @@ import BackgroundGradient from '@/components/BackgroundGradient.vue'
 import OrderCard from '@/components/OrderCard.vue'
 // load the current user
 const { user, signOut, updateUser, token, userType } = inject('auth')
-const { user, signOut, updateUser, token } = inject('auth')
 const { createThemeFromColour } = inject('theme')
 const showPasswordPopup = ref(false)
 const showAddressPopup = ref(false)
