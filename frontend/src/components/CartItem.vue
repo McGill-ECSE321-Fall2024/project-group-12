@@ -39,7 +39,7 @@ const coverImg = ref('')
 async function loadCover() {
   const response = await fetch(`http://localhost:8080/games/${props.gameId}/cover`)
   if (response.ok) {
-    console.log("loaded image")
+    console.log('loaded image')
     const { image, type } = await response.json()
 
     coverImg.value = `data:image/${type};base64,${image}`
@@ -47,8 +47,6 @@ async function loadCover() {
 }
 
 loadCover()
-
-
 
 async function removeGame(gameId) {
   // TO FINISH ****
@@ -59,21 +57,15 @@ async function removeGame(gameId) {
     method: 'put',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token.value}`,
-     },
+      Authorization: `Bearer ${token.value}`,
+    },
   }
-  const response = await fetch(
-    `http://localhost:8080/cart/${cartId}?remove=${gameId}`,
-    requestOpt,
-  )
+  const response = await fetch(`http://localhost:8080/cart/${cartId}?remove=${gameId}`, requestOpt)
   await response.json()
   location.reload()
   return
 }
-
 </script>
-
-
 
 <template>
   <div class="cart-item">
@@ -93,7 +85,16 @@ async function removeGame(gameId) {
           <p class="game-price">${{ price }}</p>
           <!--price-->
         </div>
-        <button class="remove" @click="() => {removeGame(gameId)}">Remove from Cart</button>
+        <button
+          class="remove"
+          @click="
+            () => {
+              removeGame(gameId)
+            }
+          "
+        >
+          Remove from Cart
+        </button>
       </div>
     </div>
     <hr />

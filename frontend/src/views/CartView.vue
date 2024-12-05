@@ -37,13 +37,10 @@ async function remove(gameId) {
     method: 'put',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token.value}`,
-     },
+      Authorization: `Bearer ${token.value}`,
+    },
   }
-  const response = await fetch(
-    `http://localhost:8080/cart/${cartId}?remove=${gameId}`,
-    requestOpt,
-  )
+  const response = await fetch(`http://localhost:8080/cart/${cartId}?remove=${gameId}`, requestOpt)
   const cart = await response.json()
   data.value = cart
   return
@@ -68,7 +65,6 @@ async function remove(gameId) {
         :year="item.year"
         :price="item.price"
         :remove="remove"
-
       />
     </div>
     <AnimatedLink to="/checkout"><button class="checkout">Checkout</button></AnimatedLink>
