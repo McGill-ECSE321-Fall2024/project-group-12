@@ -3,9 +3,10 @@
  @author James Madden
 -->
 <script setup>
-import { inject } from 'vue'
+import { inject, ref, nextTick } from 'vue'
 import BackgroundGradient from '@/components/BackgroundGradient.vue'
 import GameCard from '@/components/GameCard.vue'
+import FancyChips from '@/components/FancyChips.vue'
 
 const { createThemeFromColour } = inject('theme')
 const { user } = inject('auth')
@@ -13,73 +14,69 @@ const { user } = inject('auth')
 // change to a red theme to match the holiday effect
 createThemeFromColour('#FF9797')
 
+// the filterable conditions
+const consoleFilters = ['PlayStation', 'XBox', 'PC', 'Switch']
+const genreFilters = ['Action', 'Adventure', 'Sports', 'Puzzle']
+const enabledConsoleFilter = ref(null)
+const enabledGenreFilter = ref(null)
+
 // load all games from the db
 const response = await fetch('http://localhost:8080/games?status=InCatalog')
 const games = await response.json()
+
+const setConsoleFilter = (newFilter) => {
+  if (document.startViewTransition) {
+    document.startViewTransition(async () => {
+      enabledConsoleFilter.value = newFilter
+      await nextTick()
+    })
+  } else {
+    enabledConsoleFilter.value = newFilter
+  }
+}
+const setGenreFilter = (newFilter) => {
+  if (document.startViewTransition) {
+    document.startViewTransition(async () => {
+      enabledGenreFilter.value = newFilter
+      await nextTick()
+    })
+  } else {
+    enabledGenreFilter.value = newFilter
+  }
+}
+
+// if filters are applied, only show the matching games
+const filterGames = () => {
+  let filteredGames = games
+  // filter the list, if filters are on
+  if (enabledConsoleFilter.value != null) {
+    filteredGames = filteredGames.filter((game) => game.console == enabledConsoleFilter.value)
+  }
+  if (enabledGenreFilter.value != null) {
+    filteredGames = filteredGames.filter((game) => game.category == enabledGenreFilter.value)
+  }
+  return filteredGames
+}
 </script>
 
 <template>
   <header>
     <BackgroundGradient colour="255, 151, 151" />
     <h1 class="header sale--text">
-      Happy Holidays, <span class="sale--name">{{ user?.name }}</span
+      Happy Holidays<span v-if="user != null"
+        >, <span class="sale--name">{{ user?.name }}</span></span
       >!
     </h1>
     <h2 class="subheader sale--text">Enjoy up to 50% off some of the best games of the year!</h2>
-
-    <div class="game-list">
-      <GameCard
-        id="0"
-        name="Legend of Zelda: Tears of the Kingd..."
-        img="https://upload.wikimedia.org/wikipedia/en/f/fb/The_Legend_of_Zelda_Tears_of_the_Kingdom_cover.jpg"
-      />
-      <GameCard
-        id="0"
-        name="Mario Kart 8"
-        img="https://upload.wikimedia.org/wikipedia/en/b/b5/MarioKart8Boxart.jpg"
-      />
-      <GameCard
-        id="0"
-        name="Animal Crossing: New Horizons"
-        img="https://upload.wikimedia.org/wikipedia/en/1/1f/Animal_Crossing_New_Horizons.jpg"
-      />
-      <GameCard
-        id="0"
-        name="Legend of Zelda: Tears of the Kingd..."
-        img="https://upload.wikimedia.org/wikipedia/en/f/fb/The_Legend_of_Zelda_Tears_of_the_Kingdom_cover.jpg"
-      />
-      <GameCard
-        id="0"
-        name="Mario Kart 8"
-        img="https://upload.wikimedia.org/wikipedia/en/b/b5/MarioKart8Boxart.jpg"
-      />
-      <GameCard
-        id="0"
-        name="Animal Crossing: New Horizons"
-        img="https://upload.wikimedia.org/wikipedia/en/1/1f/Animal_Crossing_New_Horizons.jpg"
-      />
-      <GameCard
-        id="0"
-        name="Legend of Zelda: Tears of the Kingd..."
-        img="https://upload.wikimedia.org/wikipedia/en/f/fb/The_Legend_of_Zelda_Tears_of_the_Kingdom_cover.jpg"
-      />
-      <GameCard
-        id="0"
-        name="Mario Kart 8"
-        img="https://upload.wikimedia.org/wikipedia/en/b/b5/MarioKart8Boxart.jpg"
-      />
-      <GameCard
-        id="0"
-        name="Animal Crossing: New Horizons"
-        img="https://upload.wikimedia.org/wikipedia/en/1/1f/Animal_Crossing_New_Horizons.jpg"
-      />
-    </div>
   </header>
   <main>
-    <h2 class="subheader">Browse Our Games</h2>
+    <FancyChips
+      :options="[consoleFilters, genreFilters]"
+      :callbacks="[setConsoleFilter, setGenreFilter]"
+    ></FancyChips>
     <div class="game-grid">
       <GameCard
-        v-for="game in games"
+        v-for="game in filterGames()"
         :key="game.id"
         :id="game.id"
         :name="game.name"

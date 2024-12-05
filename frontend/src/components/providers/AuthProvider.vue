@@ -17,10 +17,10 @@ const loadUser = async () => {
   console.log(token.value, loadedToken)
   // this method will attempt to load user data from the backend.
   // if the user's already been loaded, return right away
-  if (user.value != null && token.value == loadedToken) {
+  /*if (user.value != null && token.value == loadedToken) {
     console.log('returning stored user')
     return
-  }
+  }*/
   // if there's no token, there's no user to be found so return null
   if (token.value == null) {
     console.log('returning null')
