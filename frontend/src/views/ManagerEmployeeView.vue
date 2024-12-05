@@ -6,6 +6,8 @@
 import { ref } from 'vue'
 import { inject } from 'vue'
 import listItem from '@/components/EmployeeListItem.vue'
+import AddEmployeeForm from '@/components/AddEmployee.vue'
+
 const { createThemeFromColour } = inject('theme')
 // change to a red theme to match the holiday effect
 createThemeFromColour('#FF9797')
@@ -13,6 +15,8 @@ createThemeFromColour('#FF9797')
 //
 const { token } = inject('auth')
 // load all games from the db
+const showAddForm = ref(false)
+
 const employees = ref([])
 const response = await fetch('http://localhost:8080/employees', {
   method: 'GET',
@@ -51,6 +55,34 @@ const handleEmployeeDelete = async () => {
   // Re-fetch the Employee list after deletion
   location.reload()
 }
+
+
+// Function to add a new employee
+const handleAddEmployee = async (newEmployee) => {
+  const response = await fetch('http://localhost:8080/employees', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token.value}`,
+    },
+    body: JSON.stringify(newEmployee),
+  })
+  if (response.ok) {
+    console.log('Employee added successfully')
+    await fetchEmployees() // Refresh the list
+  } else {
+    console.error('Failed to add employee')
+  }
+}
+
+// Example employee details for simplicity
+const newEmployee = ref({
+  name: '',
+  email: '',
+  phoneNumber: '',
+  password: '',
+  active: true,
+})
 //
 </script>
 
@@ -58,6 +90,12 @@ const handleEmployeeDelete = async () => {
   <main>
     <div v-if="employees.filter(employee => employee.active).length > 0">
       <h1 class="title left-aligned">Active Employees</h1>
+      <button @click="showAddForm = true" class="add-button">Add Employee</button>
+      <AddEmployeeForm
+      v-if="showAddForm"
+      @addEmployee="handleAddEmployee"
+      @closeForm="showAddForm = false"
+      />
       <div class="topbar">
         <div class="rectangle parent">
           <h2 class="children id">ID</h2>
