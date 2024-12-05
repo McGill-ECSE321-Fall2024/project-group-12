@@ -10,6 +10,7 @@ import SigninView from '@/views/SigninView.vue'
 import ManagerSpecificCustomer from '@/views/ManagerSpecificCustomerView.vue'
 import ManagerEmployeeView from '@/views/ManagerEmployeeView.vue'
 import ManagerSpecificEmployee from '@/views/ManagerSpecificEmployeeView.vue'
+import ManagerGamesView from '@/views/ManagerGamesView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -81,6 +82,11 @@ const router = createRouter({
       name: 'manager/specificemployee',
       component: ManagerSpecificEmployee,
       props: true,
+    },
+    {
+      path: '/manager/games',
+      name: 'manager/games',
+      component: ManagerGamesView,
     },
   ],
 })
