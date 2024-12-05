@@ -3,7 +3,6 @@
 ## The Project
 An online game store (full stack web application).\
 Project scope: requirements elicitation and documentation, persistence layer, database, backend, frontend.  
-Our figma project for initial designs of the frontend is [available here](https://www.figma.com/design/gzwJwFxoi9lAcxO2Wo3e3c/Reindeer-Games?node-id=0-1&t=WGEjltFWPSBwlwhZ-1).
 
 **A message from the team:**
 
