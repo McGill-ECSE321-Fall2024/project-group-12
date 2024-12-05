@@ -134,7 +134,7 @@ async function getOrders() {
   if (!authResponse) return []
   const { token, id, customerType } = authResponse
   console.log(authResponse.id)
-  const resp = await fetch(`http://localhost:8080/orders/customer/${id}`, {
+  const resp = await fetch(`http://localhost:8080/orders/customer/${customerId}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
