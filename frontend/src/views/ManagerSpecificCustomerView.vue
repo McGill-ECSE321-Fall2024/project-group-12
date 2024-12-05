@@ -13,7 +13,7 @@ const route = useRoute()
 const customerId = route.params.id
 
 // load the current customer
-const { updateUser, token } = inject('auth')
+const { token } = inject('auth')
 
 const customer = ref('')
 const response = await fetch(`http://localhost:8080/customers/${customerId}`, {
@@ -28,6 +28,40 @@ if (response.ok) {
   console.log('Request failed')
 }
 customer.value = await response.json()
+
+const updateUser = async (name, email, phoneNumber, address) => {
+  const resp = await fetch(`http://localhost:8080/customers/${customerId}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token.value}`,
+      Accept: 'application/json',
+    },
+    body: JSON.stringify({
+      name,
+      email,
+      phoneNumber,
+      address,
+    }),
+  })
+  // read the response
+  const data = await resp.json()
+  if (data.errors) {
+    alert(data.errors)
+  } else {
+    alert('Info successfully changed!')
+  }
+  const id = data.id
+  // store the data
+  localStorage.setItem(
+    'auth',
+    JSON.stringify({
+      token: token.value,
+      id,
+      userType: 'CUSTOMER',
+    }),
+  )
+}
 
 const showAddressPopup = ref(false)
 const addressFields = ref({

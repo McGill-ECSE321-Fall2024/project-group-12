@@ -70,9 +70,6 @@ const updateInfo = async (event) => {
   const address = employee.value.address
   updateUser(name, email, phoneNumber, address)
 }
-
-
-
 </script>
 
 <template>
