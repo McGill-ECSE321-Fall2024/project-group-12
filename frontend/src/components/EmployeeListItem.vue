@@ -3,7 +3,7 @@ import { ref, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { inject } from 'vue'
 
-const { user, token } = inject('auth')
+const { token } = inject('auth')
 
 const showPopup = ref(false)
 
@@ -26,6 +26,7 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  active: Boolean
 })
 
 const emit = defineEmits(['deleteEmployee']) // Event to notify parent about deletion
@@ -50,8 +51,8 @@ const viewPage = () => {
 
 const deleteEmployee = async () => {
   console.log('Delete Employee')
-  const response = await fetch(`http://localhost:8080/employees/${props.id}`, {
-    method: 'DELETE',
+  const response = await fetch(`http://localhost:8080/employees/${props.id}?action=${props.active ? 'deactivate' : 'activate'}`, {
+    method: 'PUT',
     headers: {
       Authorization: `Bearer ${token.value}`,
     },
@@ -59,6 +60,7 @@ const deleteEmployee = async () => {
 
   if (response.ok) {
     console.log('Employee deleted successfully')
+    location.reload()
     emit('deleteEmployee') // Emit event to notify parent to refresh the list
   } else {
     console.error('Failed to delete employee')
@@ -87,7 +89,7 @@ onUnmounted(() => {
     <div v-if="showPopup" class="popup">
       <ul class="popup-list">
         <li @click="viewPage">View Page</li>
-        <li @click="deleteEmployee">Delete</li>
+        <li @click="deleteEmployee">{{active ? 'Archive' : 'Restore'}}</li>
       </ul>
     </div>
   </div>
