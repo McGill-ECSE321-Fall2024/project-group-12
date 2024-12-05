@@ -4,7 +4,7 @@
 -->
 
 <script setup>
-import { inject, ref } from 'vue'
+import { inject } from 'vue'
 import { useRouter } from 'vue-router'
 const { createThemeFromColour } = inject('theme')
 const { token, user } = inject('auth')
@@ -44,7 +44,7 @@ async function submitPayment(event) {
     const data = await resp.json()
     console.log('Checkout successful:', data)
     alert('Checkout successful!')
-    await router.push('/')
+    await router.push('/user')
   } catch (error) {
     console.error(error)
   }
