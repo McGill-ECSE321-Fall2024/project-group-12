@@ -1,5 +1,8 @@
 package ca.mcgill.ecse321.group12.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -11,6 +14,7 @@ import ca.mcgill.ecse321.group12.repository.GameRepository;
 import ca.mcgill.ecse321.group12.repository.CustomerRepository;
 import ca.mcgill.ecse321.group12.repository.ReviewRepository;
 import jakarta.transaction.Transactional;
+import ca.mcgill.ecse321.group12.dto.ReviewResponseDto;
 import ca.mcgill.ecse321.group12.exception.CustomException;
 
 @Service
@@ -127,6 +131,21 @@ public class ReviewService {
 		review.setCustomer(customer);
 		reviewRepository.save(review);
 		return review;
+	}
+
+	/**
+	 * finds all reviews for a given game
+	 * @param id the game to find reviews for
+	 * @return a list of reviews for that game ID
+	 * @author James Madden
+	 */
+	public List<ReviewResponseDto> findReviewsByGameId(int id) {
+
+		List<Review> reviews = reviewRepository.findReviewsByGameId(id);
+
+		// convert the reviews to Dtos
+		return reviews.stream().map(review -> new ReviewResponseDto(review)).collect(Collectors.toList());
+
 	}
 
 }

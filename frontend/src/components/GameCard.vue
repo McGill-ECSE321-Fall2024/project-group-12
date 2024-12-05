@@ -1,15 +1,12 @@
 <script setup>
-import { useTemplateRef } from 'vue'
+import { ref, useTemplateRef } from 'vue'
 import AnimatedLink from './AnimatedLink.vue'
 
 const gameCover = useTemplateRef('gameCover')
+const coverImg = ref('')
 
-defineProps({
+const props = defineProps({
   name: {
-    type: String,
-    required: true,
-  },
-  img: {
     type: String,
     required: true,
   },
@@ -22,12 +19,25 @@ defineProps({
 function prepareAnimation() {
   gameCover.value.style.viewTransitionName = 'game-cover'
 }
+
+// load the cover image for this game
+async function loadCoverImage() {
+  const response = await fetch(`http://localhost:8080/games/${props.id}/cover`)
+
+  // only continue if there is an image. otherwise fall back to nothing
+  if (response.ok) {
+    const { image, type } = await response.json()
+    coverImg.value = `data:image/${type};base64,${image}`
+  }
+}
+
+loadCoverImage()
 </script>
 
 <template>
   <AnimatedLink @click="prepareAnimation" :to="'/game/' + id">
     <div class="game-card">
-      <img :src="img" ref="gameCover" />
+      <img :src="coverImg" ref="gameCover" />
       <div class="game-label--container">
         <p class="body">{{ name }}</p>
       </div>
@@ -59,7 +69,6 @@ function prepareAnimation() {
   height: 32px;
   align-content: center;
 }
-/* hover style for the game card. set the view transition name so it animates */
 .game-card:hover img {
   transform: translateY(-2px);
 }

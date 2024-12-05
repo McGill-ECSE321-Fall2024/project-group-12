@@ -5,9 +5,11 @@
 <script setup>
 import { inject, ref } from 'vue'
 import SigninView from '@/views/SigninView.vue'
+import BackgroundGradient from '@/components/BackgroundGradient.vue'
 import OrderCard from '@/components/OrderCard.vue'
 // load the current user
 const { user, signOut, updateUser, token } = inject('auth')
+const { createThemeFromColour } = inject('theme')
 const showPasswordPopup = ref(false)
 const showAddressPopup = ref(false)
 const addressFields = ref({
@@ -20,6 +22,9 @@ const addressFields = ref({
 })
 console.log('user view loaded')
 
+// set a green theme for a nice holiday design
+createThemeFromColour('#415d43')
+
 const updateInfo = async (event) => {
   event.preventDefault()
   console.log('updating info')
@@ -31,10 +36,6 @@ const updateInfo = async (event) => {
   updateUser(name, email, phoneNumber, address)
 }
 const togglePasswordPopup = () => {
-  if (showPasswordPopup.value) {
-    oldPassword.value = ''
-    newPassword.value = ''
-  }
   showPasswordPopup.value = !showPasswordPopup.value
 }
 const toggleAddressPopup = () => {
@@ -116,7 +117,7 @@ async function getOrders() {
   const authResponse = JSON.parse(localStorage.getItem('auth'))
   // check whether auth response exists
   if (!authResponse) return []
-  const { token, id, userType } = authResponse
+  const { token, id } = authResponse
   console.log(authResponse.id)
   const resp = await fetch(`http://localhost:8080/orders/customer/${id}`, {
     method: 'GET',
@@ -144,6 +145,8 @@ console.log(orders.value)
   <SigninView v-if="user == null" />
   <!-- otherwise, the normal page can be shown -->
   <div v-else class="user">
+    <BackgroundGradient colour="65, 93, 67" />
+
     <h2 class="title">Profile</h2>
 
     <div class="grid-container">
@@ -275,8 +278,8 @@ console.log(orders.value)
     <section>
       <h2 class="title">Orders</h2>
       <div class="orders-container">
-        <OrderCard v-for="order in orders" :order="order" />
-        <!-- <OrderCard/> -->
+        <OrderCard v-for="order in orders" :order="order" v-bind:key="order" />
+         <!-- <OrderCard/> -->
       </div>
     </section>
   </div>
@@ -320,7 +323,7 @@ input {
   border-bottom: 1px solid grey;
 }
 .user-info input:focus {
-  border-bottom: 1px solid #a23e48;
+  border-bottom: 1px solid var(--theme-primary);
   outline: none;
 }
 .password-container {
