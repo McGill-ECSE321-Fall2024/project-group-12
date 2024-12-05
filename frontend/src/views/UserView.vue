@@ -1,6 +1,5 @@
 <script setup>
-import { inject, ref, watch } from 'vue'
-import { useRouter } from 'vue-router'
+import { inject, ref } from 'vue'
 import SigninView from '@/views/SigninView.vue'
 import Order from '@/components/Order.vue'
 // load the current user
@@ -8,11 +7,9 @@ const { user, signOut, updateUser, userType } = inject('auth')
 console.log('user view loaded')
 // createThemeFromColour('#FF9797')
 
-const router = useRouter()
-
 // if the current user is a manager, redirect them to the correct page
 if (userType.value == 'MANAGER') {
-  router.replace('/manager/account')
+  location.href = '/manager/account'
 }
 
 const updateInfo = async (event) => {
