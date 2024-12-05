@@ -5,30 +5,50 @@
 
 <script setup>
 import { inject } from 'vue'
+import { useRouter } from 'vue-router'
 const { createThemeFromColour } = inject('theme')
 const {token, user} = inject('auth')
+const router = useRouter()
 createThemeFromColour('#00ff00')
 
-const submitPayment = async () => {
+const submitPayment = async (event) => {
+    event.preventDefault()
+    const form = event.target
+    console.log(user);
+    console.log(user.value.id);
+    console.log(user.value.address);
+    console.log("token");
+    console.log(token.value);
     
+    // const data = await resp.json()
+    // if (data.errors) {
+    //     alert(data.errors);
+    // } else {
+    //     alert("Checkout successful!")
+    // }
+
     try {
-        fetch({
-            method: 'post',
-            url: '/orders',
+        const resp = await fetch(`http://localhost:8080/orders`, {
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authentication': 'Bearer ' + token.value
+                Authorization: `Bearer ${token.value}`,
+                Accept: 'application/json',
             },
-            data: {
-                deliveryAddress: user.deliveryAddress,
-                nameOnCard: document.getElementById('nameOnCard').value,
-                cvc: document.getElementById('cvc').value,
-                cardNumber: formatCardNumber(document.getElementById('cardNumber').value),
-                billingAddress: document.getElementById('billingAddress').value,
-                isSaved: document.getElementById('save').value,
-                expiryDate: document.getElementById('expiryDate').value
-            }
-        })
+                body: JSON.stringify({
+                    customerId: `${user.id}`,
+                    deliveryAddress: form.querySelector('#billingAddress').value,
+                    nameOnCard: form.querySelector('#name').value,
+                    cvc: form.querySelector('#cvc').value,
+                    cardNumber: form.querySelector('#cardNumber').value,
+                    billingAddress: form.querySelector('#billingAddress').value,
+                    isSaved: true,
+                    expiryDate: form.querySelector('#expiryDate').value
+                }),
+            })
+    //     console.log("checkout successful");
+    //     alert("checkout successful");
+    //     await router.push('/')
     } catch (error) {
         // if unsuccessful, show an error message
         console.error(error)
@@ -42,7 +62,7 @@ const formatCardNumber = (cardNumber) => {
 </script>
 
 <template>
-    <div class="checkout" style="align-items: center; color: white">
+    <form class="checkout" style="align-items: center; color: white" @submit.prevent="submitPayment">
         <div style="height: 48px; display: flex; justify-content: center; gap: 8px;">
             <img src="@/assets/icons/navbar/cart.png" />
             <p style="font-size: 36px;">Payment</p>
@@ -66,9 +86,9 @@ const formatCardNumber = (cardNumber) => {
         <input class="input-line input-box" placeholder="Address" id="billingAddress">
         <div class="input-line" style="justify-content: center; gap: 20px">
             <button style="width:20%; border: none; border-radius: 24px; padding-left: 10px;" @click="$router.push('/cart')">Cancel</button>
-            <button style="width:20%; background-color: green; border: none; border-radius: 24px; padding-left: 10px; color: white;" @click="submitPayment">Submit</button>
+            <button style="width:20%; background-color: green; border: none; border-radius: 24px; padding-left: 10px; color: white;">Submit</button>
         </div>
-    </div>
+    </form>
 </template>
 
 <style scoped>
