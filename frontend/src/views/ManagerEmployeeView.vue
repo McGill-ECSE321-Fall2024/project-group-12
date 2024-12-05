@@ -72,14 +72,18 @@ const handleAddEmployee = async (newEmployee) => {
 
 <template>
   <main>
-    <div v-if="employees.filter((employee) => employee.active).length > 0">
-      <h1 class="title left-aligned">Active Employees</h1>
-      <button @click="showAddForm = true" class="add-button">Add Employee</button>
-      <AddEmployeeForm
+    <AddEmployeeForm
         v-if="showAddForm"
         @addEmployee="handleAddEmployee"
         @closeForm="showAddForm = false"
       />
+    <div v-if="employees.length == 0">
+      <h1 class="title left-aligned">Create an employee to get started!</h1>
+      <button @click="showAddForm = true" class="add-button">Add Employee</button>
+    </div>
+    <div v-if="employees.filter((employee) => employee.active).length > 0">
+      <h1 class="title left-aligned">Active Employees</h1>
+      <button @click="showAddForm = true" class="add-button">Add Employee</button>
       <div class="topbar">
         <div class="rectangle parent">
           <h2 class="children id">ID</h2>
@@ -108,6 +112,7 @@ const handleAddEmployee = async (newEmployee) => {
 
     <div v-if="employees.filter((employee) => !employee.active).length > 0">
       <h1 class="title left-aligned">Inactive Employees</h1>
+      <button @click="showAddForm = true" class="add-button" v-if="employees.filter((employee) => employee.active).length == 0">Add Employee</button>
 
       <div class="topbar">
         <div class="rectangle parent">

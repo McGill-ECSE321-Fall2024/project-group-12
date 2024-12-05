@@ -8,7 +8,6 @@ import SigninView from '@/views/SigninView.vue'
 // load the current user
 const { user, signOut, token } = inject('auth')
 const showPasswordPopup = ref(false)
-const errorMsg = ref(null)
 
 const updateUser = async (name, email, phoneNumber, password) => {
   const resp = await fetch(`http://localhost:8080/manager`, {
@@ -53,15 +52,10 @@ const updateInfo = async (event) => {
   const email = form.querySelector('#email').value
   const phoneNumber = form.querySelector('#phoneNumber').value
   const password = form.querySelector('#password').value
-  const address = user.value.address
   updateUser(name, email, phoneNumber, password)
 }
 
 const togglePasswordPopup = () => {
-  if (showPasswordPopup.value) {
-    oldPassword.value = ''
-    newPassword.value = ''
-  }
   showPasswordPopup.value = !showPasswordPopup.value
 }
 
@@ -123,7 +117,7 @@ async function updatePassword(event) {
           @input="(event) => (user.email = event.target.value)"
         />
         <label for="password">Password</label>
-        <input placeholder="Enter current password or new password" id="password" required />
+        <input type="password" placeholder="Enter current password or new password" id="password" required />
         <label for="phoneNumber">Phone Number</label>
         <input
           type="phoneNumber"

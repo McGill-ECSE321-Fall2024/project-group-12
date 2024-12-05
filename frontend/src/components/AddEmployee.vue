@@ -36,7 +36,7 @@ const handleCancel = () => {
         <input id="phone" v-model="employee.phoneNumber" type="text" required />
 
         <label for="password">Password</label>
-        <input id="password" v-model="employee.password" type="text" required />
+        <input id="password" v-model="employee.password" type="password" required />
 
         <div class="button-group">
           <button type="submit" class="submit-button">Submit</button>
