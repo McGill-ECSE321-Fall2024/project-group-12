@@ -36,10 +36,12 @@ const gameCovers = ref([])
 // call the server for each game to get its cover
 const loadGameCovers = async () => {
   // create a fetch for each game
-  const responses = await Promise.all(props.order.games.map(game => fetch(`http://localhost:8080/games/${game.id}/cover`)))
+  const responses = await Promise.all(
+    props.order.games.map((game) => fetch(`http://localhost:8080/games/${game.id}/cover`)),
+  )
 
   // go through each response to get the cover image
-  const json = await Promise.all(responses.map(response => response.json()))
+  const json = await Promise.all(responses.map((response) => response.json()))
 
   gameCovers.value = json.map(({ image, type }) => `data:image/${type};base64,${image}`)
 }
@@ -110,7 +112,11 @@ const goToGame = (gameId) => {
           <h4>Rating</h4>
         </div>
         <div class="buttons">
-          <AnimatedLink :to="`/game/${game.id}`"><button :style="{ background: 'rgba(65, 93, 67, 1)' }">Leave a review</button></AnimatedLink>
+          <AnimatedLink :to="`/game/${game.id}`"
+            ><button :style="{ background: 'rgba(65, 93, 67, 1)' }">
+              Leave a review
+            </button></AnimatedLink
+          >
         </div>
       </div>
     </div>

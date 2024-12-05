@@ -6,7 +6,7 @@ import FancyChips from '@/components/FancyChips.vue'
 import store from '@/store.js'
 
 const props = defineProps({
-  filterFromSearch: Boolean
+  filterFromSearch: Boolean,
 })
 
 if (props.filterFromSearch) {
@@ -51,8 +51,10 @@ const filterGames = () => {
   let filteredGames = games
   // filter the list, if filters are on
   if (props.filterFromSearch) {
-    const regex = new RegExp( store.searchQuery, "i");
-    filteredGames = filteredGames.filter((game) => regex.test(game.name) || regex.test(game.description))
+    const regex = new RegExp(store.searchQuery, 'i')
+    filteredGames = filteredGames.filter(
+      (game) => regex.test(game.name) || regex.test(game.description),
+    )
   }
   if (enabledConsoleFilter.value != null) {
     filteredGames = filteredGames.filter((game) => game.console == enabledConsoleFilter.value)
