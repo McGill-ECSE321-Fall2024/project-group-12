@@ -3,7 +3,6 @@
 ## The Project
 An online game store (full stack web application).\
 Project scope: requirements elicitation and documentation, persistence layer, database, backend, frontend.  
-Our figma project for initial designs of the frontend is [available here](https://www.figma.com/design/gzwJwFxoi9lAcxO2Wo3e3c/Reindeer-Games?node-id=0-1&t=WGEjltFWPSBwlwhZ-1).
 
 **A message from the team:**
 
@@ -46,6 +45,15 @@ Julien: "Hey. I am a U2 Software Engineering student at McGill! A fun fact about
 | Kennedy Olsen    | Business Analyst |  19.5 | <ul><li> Implemented review related use cases</li><li> Updated Wiki for Quality Assurance Report</li></ul> |
 | Carmin Vidé | Scrum Master     |   19  | <ul><li> Implemented customer and comment related use cases</li><li> Updated Wiki for Quality Assurance Report</li></ul>|
 
+### Deliverable 3
+| Name             | Team Roles       | Hours | Individual Effort |
+| ---------------- | ---------------- | ----- | ----------------- |
+| James Madden     | Tech Lead        |  40   | <ul><li> Designed and implemented home page</li><li> Designed and implemented navbar</li><li> Designed and implemented individual game page</li><li>Designed and implemented search results page</li><li>Implemented manager modify game functionality</li><li>Implemented employee functionalities</li></ul>|
+| Sophia Li        | Project Manager  |  30   | <ul><li> Designed and implemented wishlist page</li><li>Designed checkout page</li></ul>   |
+| Amy Ding         | UI/UX Designer   |   30  | <ul><li> Designed and implemented profile page</li><li>Designed and implemented orders page</li><li>Implement checkout page</li><li>Updated wiki and README.</li></ul>|
+| Julien Heng      | Developer        |  31   | <ul><li>Designed and implemented login page</li><li>Implement checkout page</li><li>Updated backend requests for password change endpoint</li><li>Add images to database</li><li>Implemented manager add game functionality</li><li>Implemented employee functionalities</li></ul> |
+| Kennedy Olsen    | Business Analyst |  29 | <ul><li>Designed and implemented cart page</li><li>Worked on presentation</li></ul> |
+| Carmin Vidé | Scrum Master     |   30  | <ul><li>Designed and implemented manager dashboard</li><li>Designed and implemented employee dashboard</li></ul>|
 
 
 ## Contributing
@@ -75,6 +83,8 @@ Windows:
 ./gradlew.bat bootRun
 ```
 
+An initial manager is created and added to the database with email `email@reindeer.com` and password `password`.
+
 ## Test the Project
 This will run both the unit and integration tests.
 
@@ -89,4 +99,5 @@ Windows:
 ```
 
 ## Deployment
-Please run the code locally. This project has not been deployed yet.
+Please run the code locally. This project has not been deployed yet.\
+URL: http://localhost:5173/

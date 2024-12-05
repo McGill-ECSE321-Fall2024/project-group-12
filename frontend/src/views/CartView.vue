@@ -5,52 +5,48 @@
 <script setup>
 import { inject, ref, watch } from 'vue'
 import CartItem from '@/components/CartItem.vue'
+import AnimatedLink from '@/components/AnimatedLink.vue'
 
 const { createThemeFromColour } = inject('theme')
 createThemeFromColour('#FF9797')
 const { user, token } = inject('auth')
 
 async function fetchData() {
+
+  // if there's no user, give up this try
+  if (user.value == null) {
+    return
+  }
+
   const cartId = user.value.cart.id
   const response = await fetch(`http://localhost:8080/cart/${cartId}`, {
     headers: {
       Authorization: `Bearer ${token.value}`,
     },
   })
-  return await response.json()
+  return response.json()
 }
 
 const data = ref(null)
 data.value = await fetchData()
-
-/*
-async function fetchCart(gameId) { // FINISH ****
-  const response = await fetch('http://localhost:8080/cart/$cardId/${cartId}', {
-   headers: {
-      'Authorization': `Bearer ${token.value}`,
-   }
-})
-  return response.json()
-}
-*/
 
 // update cart data when user updates
 watch(user, async () => {
   data.value = await fetchData()
 })
 
-async function removeItem(gameId) {
+async function remove(gameId) {
   // TO FINISH ****
   alert('Removed from cart')
-  const cardId = user.value.cart.Id
+  const cartId = user.value.cart.Id
   const requestOpt = {
-    method: 'DELETE',
-    headers: { 'Content-Type': 'application/json' },
+    method: 'put',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token.value}`,
+    },
   }
-  const response = await fetch(
-    `http://localhost:8080/cart/${cardId}?removeItem=${gameId}`,
-    requestOpt,
-  )
+  const response = await fetch(`http://localhost:8080/cart/${cartId}?remove=${gameId}`, requestOpt)
   const cart = await response.json()
   data.value = cart
   return
@@ -63,7 +59,10 @@ async function removeItem(gameId) {
       <img class="icon" src="@/assets/icons/navbar/cart.png" />
       <h1>My Cart</h1>
     </div>
-    <div class="cart-item">
+    <div v-if="user == null">
+      <h2 class="signed-out-msg">Sign in to create a cart!</h2>
+    </div>
+    <div class="cart-item" v-else-if="data.games.length > 0">
       <!--to test-->
       <CartItem
         v-for="item in data.games"
@@ -74,10 +73,13 @@ async function removeItem(gameId) {
         :console="item.console"
         :year="item.year"
         :price="item.price"
-        :remove="removeItem"
+        :remove="remove"
       />
+      <AnimatedLink to="/checkout"><button class="checkout">Checkout</button></AnimatedLink>
     </div>
-    <button class="checkout">Checkout</button>
+    <div class="cart-item" v-else>
+      <h2 class="signed-out-msg">Add some games to your cart!</h2>
+    </div>
   </main>
 </template>
 
@@ -86,6 +88,9 @@ h1 {
   color: #ffffff;
   text-align: center;
   font-size: 36px;
+}
+.signed-out-msg {
+  text-align: center;
 }
 button {
   background-color: #888888;

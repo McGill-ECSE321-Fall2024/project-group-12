@@ -28,7 +28,7 @@ if (response.ok) {
 }
 employee.value = await response.json()
 
-const updateUser = async (name, email, phoneNumber) => {
+const updateUser = async (name, email, phoneNumber, password) => {
   const resp = await fetch(`http://localhost:8080/employees/${employeeId}`, {
     method: 'PUT',
     headers: {
@@ -40,6 +40,7 @@ const updateUser = async (name, email, phoneNumber) => {
       name,
       email,
       phoneNumber,
+      password,
     }),
   })
   if (!resp.ok) {
@@ -57,6 +58,7 @@ const updateUser = async (name, email, phoneNumber) => {
       userType: 'EMPLOYEE',
     }),
   )
+  alert('updated')
 }
 console.log('employee view loaded')
 
@@ -67,8 +69,8 @@ const updateInfo = async (event) => {
   const name = form.querySelector('#name').value
   const email = form.querySelector('#email').value
   const phoneNumber = form.querySelector('#phoneNumber').value
-  const address = employee.value.address
-  updateUser(name, email, phoneNumber, address)
+  const password = form.querySelector('#password').value
+  updateUser(name, email, phoneNumber, password)
 }
 </script>
 
@@ -95,7 +97,8 @@ const updateInfo = async (event) => {
           :value="employee.email"
           @input="(event) => (employee.email = event.target.value)"
         />
-
+        <label for="password">Password</label>
+        <input placeholder="Enter current password or new password" id="password" type="password" required />
         <label for="phoneNumber">Phone Number</label>
         <input
           type="phoneNumber"

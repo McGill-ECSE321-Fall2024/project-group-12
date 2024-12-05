@@ -5,7 +5,7 @@ import { reactive } from 'vue'
 
 // define all the state variables inside here
 const store = reactive({
-  count: 0,
+  searchQuery: '',
 })
 
 export default store

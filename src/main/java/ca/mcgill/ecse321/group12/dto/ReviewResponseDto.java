@@ -12,6 +12,8 @@ public class ReviewResponseDto {
 
 	private int id;
 
+	private int customerId;
+
 	@SuppressWarnings("unused")
 	private ReviewResponseDto() {
 	}
@@ -21,7 +23,7 @@ public class ReviewResponseDto {
 		this.rating = model.getRating();
 		this.likeCount = model.getLikeCount();
 		this.id = model.getId();
-
+		this.customerId = model.getCustomer().getId();
 	}
 
 	public String getReview() {
@@ -36,6 +38,10 @@ public class ReviewResponseDto {
 		this.rating = rating;
 	}
 
+	public void setCustomerId(int customerId) {
+		this.customerId = customerId;
+	}
+
 	public int getRating() {
 		return this.rating;
 	}
@@ -46,6 +52,10 @@ public class ReviewResponseDto {
 
 	public int getId() {
 		return id;
+	}
+
+	public int getCustomerId() {
+		return customerId;
 	}
 
 	public void setId(int id) {

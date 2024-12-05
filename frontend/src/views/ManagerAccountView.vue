@@ -6,18 +6,49 @@
 import { inject, ref } from 'vue'
 import SigninView from '@/views/SigninView.vue'
 // load the current user
-const { user, signOut, updateUser, token } = inject('auth')
+const { user, signOut, token, userType } = inject('auth')
 const showPasswordPopup = ref(false)
-const showAddressPopup = ref(false)
-const addressFields = ref({
-  address: '',
-  apt: '',
-  city: '',
-  province: '',
-  country: '',
-  postal: '',
-})
-console.log('user view loaded')
+
+// if the current user is an employee, redirect to their specific page
+if (userType.value == 'EMPLOYEE') {
+  console.log('redirecting to employee page...')
+  location.href = `http://localhost:5173/manager/employee/${user.value.id}`
+}
+
+const updateUser = async (name, email, phoneNumber, password) => {
+  const resp = await fetch(`http://localhost:8080/manager`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token.value}`,
+      Accept: 'application/json',
+    },
+    body: JSON.stringify({
+      name,
+      email,
+      phoneNumber,
+      password,
+    }),
+  })
+
+  if (!resp.ok) {
+    throw new Error(`HTTP error! status: ${resp.status}`)
+  }
+  // read the response
+  const data = await resp.json()
+  const id = data.id
+  // store the data
+  localStorage.setItem(
+    'auth',
+    JSON.stringify({
+      token: token.value,
+      id,
+      userType: 'MANAGER',
+    }),
+  )
+  alert('updated')
+}
+console.log('manager view loaded')
 
 const updateInfo = async (event) => {
   event.preventDefault()
@@ -26,22 +57,14 @@ const updateInfo = async (event) => {
   const name = form.querySelector('#name').value
   const email = form.querySelector('#email').value
   const phoneNumber = form.querySelector('#phoneNumber').value
-  const address = user.value.address
-  updateUser(name, email, phoneNumber, address)
+  const password = form.querySelector('#password').value
+  updateUser(name, email, phoneNumber, password)
 }
+
 const togglePasswordPopup = () => {
-  if (showPasswordPopup.value) {
-    oldPassword.value = ''
-    newPassword.value = ''
-  }
   showPasswordPopup.value = !showPasswordPopup.value
 }
-const toggleAddressPopup = () => {
-  if (!showAddressPopup.value) {
-    populateAddressFields()
-  }
-  showAddressPopup.value = !showAddressPopup.value
-}
+
 async function updatePassword(event) {
   event.preventDefault()
   console.log('updating password')
@@ -74,68 +97,6 @@ async function updatePassword(event) {
 
   togglePasswordPopup()
 }
-async function updateAddress(event) {
-  event.preventDefault()
-  console.log('updating address')
-  const form = event.target
-  const addressComponents = [
-    form.querySelector('#address').value,
-    form.querySelector('#apt').value,
-    form.querySelector('#city').value,
-    form.querySelector('#province').value,
-    form.querySelector('#country').value,
-    form.querySelector('#postal').value,
-  ]
-  const addressLine = addressComponents.join('\\n')
-  toggleAddressPopup()
-  const email = user.value.email
-  const name = user.value.name
-  const phoneNumber = user.value.phoneNumber
-  updateUser(name, email, phoneNumber, addressLine)
-  toggleAddressPopup
-  location.reload()
-}
-const formatAddress = (address) => {
-  return address.replace(/\\n\\n/g, '\n').replace(/\\n/g, '\n')
-}
-const populateAddressFields = () => {
-  if (user.value?.address) {
-    const parts = user.value.address.split('\\n')
-    addressFields.value = {
-      address: parts[0] || '',
-      apt: parts[1] || '',
-      city: parts[2] || '',
-      province: parts[3] || '',
-      country: parts[4] || '',
-      postal: parts[5] || '',
-    }
-  }
-}
-async function getOrders() {
-  const authResponse = JSON.parse(localStorage.getItem('auth'))
-  // check whether auth response exists
-  if (!authResponse) return []
-  const { token, id, userType } = authResponse
-  console.log(authResponse.id)
-  const resp = await fetch(`http://localhost:8080/orders/customer/${id}`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-      Accept: 'application/json',
-    },
-  })
-  const data = await resp.json()
-  console.log('THIS IS THE ORDER')
-  console.log(data)
-  return data
-}
-const orders = ref(null)
-orders.value = await getOrders()
-console.log('teehee')
-console.log(orders.value[orders.value.length - 1])
-console.log('haiiiiiii')
-console.log(orders.value)
 </script>
 
 <template>
@@ -162,10 +123,7 @@ console.log(orders.value)
           @input="(event) => (user.email = event.target.value)"
         />
         <label for="password">Password</label>
-        <div class="password-container">
-          <input type="password" value="password" readonly />
-          <button type="button" class="edit-button" @click="togglePasswordPopup">Edit</button>
-        </div>
+        <input type="password" placeholder="Enter current password or new password" id="password" required />
         <label for="phoneNumber">Phone Number</label>
         <input
           type="phoneNumber"
@@ -192,67 +150,7 @@ console.log(orders.value)
           </form>
         </div>
       </div>
-
-      <div v-if="showAddressPopup" class="popup">
-        <div class="popup-content">
-          <h2>Change Password</h2>
-          <form @submit.prevent="updateAddress">
-            <label>Address</label>
-            <input
-              type="text"
-              id="address"
-              :value="addressFields.address"
-              @input="(event) => (addressFields.address = event.target.value)"
-              required
-            />
-            <label>Apt/Building/Other</label>
-            <input
-              type="text"
-              id="apt"
-              :value="addressFields.apt"
-              @input="(event) => (addressFields.apt = event.target.value)"
-            />
-            <label>City</label>
-            <input
-              type="text"
-              id="city"
-              :value="addressFields.city"
-              @input="(event) => (addressFields.city = event.target.value)"
-              required
-            />
-            <label>Province/State/Territory</label>
-            <input
-              type="text"
-              id="province"
-              :value="addressFields.province"
-              @input="(event) => (addressFields.province = event.target.value)"
-              required
-            />
-            <label>Country</label>
-            <input
-              type="text"
-              id="country"
-              :value="addressFields.country"
-              @input="(event) => (addressFields.country = event.target.value)"
-              required
-            />
-            <label>Postal Code</label>
-            <input
-              type="text"
-              id="postal"
-              :value="addressFields.postal"
-              @input="(event) => (addressFields.postal = event.target.value)"
-              required
-            />
-            <div class="popup-buttons">
-              <button type="submit">Save</button>
-              <button type="button" @click="toggleAddressPopup">Cancel</button>
-            </div>
-          </form>
-        </div>
-      </div>
     </div>
-    <div class="spacer"></div>
   </div>
 </template>
 
