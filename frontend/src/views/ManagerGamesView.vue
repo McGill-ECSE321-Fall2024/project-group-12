@@ -1,7 +1,7 @@
 <script setup>
 import { inject, ref } from 'vue'
 const { createThemeFromColour } = inject('theme')
-const { token } = inject('auth')
+const { token, userType } = inject('auth')
 import { onMounted } from 'vue'
 
 
@@ -56,6 +56,7 @@ const updateGame = async event => {
   const category = event.target.querySelector('#category').value
   const inventory = event.target.querySelector('#inventory').value
   const price = event.target.querySelector('#price').value
+  const status = event.target.querySelector('#status').value
 
   // post the game
   const response = await fetch(`http://localhost:8080/games/${editDialogueOpen.value.id}`, {
@@ -66,7 +67,7 @@ const updateGame = async event => {
     },
     body: JSON.stringify({
       ...editDialogueOpen.value,
-      name, description, console, category, inventory, price
+      name, description, console, category, inventory, price, status
     })
   })
 
@@ -148,6 +149,17 @@ const updateGame = async event => {
           <option value="Action">Action</option>
           <option value="Sports">Sports</option>
           <option value="Puzzle">Puzzle</option>
+        </select>
+      </div>
+      <!-- PendingApproval, InCatalog, PendingArchival, Archived, Rejected -->
+      <div class="form-element" v-if="userType == 'MANAGER'">
+        <label for="status">Status</label>
+        <select id="status" :value="editDialogueOpen.status">
+          <option value="PendingApproval">Pending Approval</option>
+          <option value="InCatalog">In Catalogue</option>
+          <option value="PendingArchival">Pending Archival</option>
+          <option value="Archived">Archived</option>
+          <option value="Rejected">Rejected</option>
         </select>
       </div>
 
