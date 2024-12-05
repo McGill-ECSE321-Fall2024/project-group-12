@@ -70,7 +70,7 @@ async function remove(gameId) {
       
       />
     </div>
-    <button class="checkout">Checkout</button>
+    <button class="checkout" @click="$router.push('/checkout')">Checkout</button>
   </main>
 </template>
 
