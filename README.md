@@ -97,4 +97,5 @@ Windows:
 ```
 
 ## Deployment
-Please run the code locally. This project has not been deployed yet.
+Please run the code locally. This project has not been deployed yet.\
+URL: http://localhost:5173/
