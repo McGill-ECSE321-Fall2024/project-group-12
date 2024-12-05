@@ -91,6 +91,7 @@ const filterGames = () => {
   display: grid;
   grid-template-columns: repeat(auto-fill, 144px);
   grid-gap: 32px;
+  justify-content: center;
 }
 .game-grid .game-card {
   margin: 0;
