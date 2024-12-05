@@ -6,6 +6,7 @@
 import { inject } from 'vue'
 import BackgroundGradient from '@/components/BackgroundGradient.vue'
 import GamesList from '@/components/GamesList.vue'
+import SearchBar from '@/components/SearchBar.vue'
 
 const { createThemeFromColour } = inject('theme')
 
@@ -19,6 +20,7 @@ console.log('updated theme')
     <BackgroundGradient colour="151, 184, 255" />
     <h1 class="header sale--text">Search</h1>
   </header>
+  <SearchBar class="mobile-searchbar"></SearchBar>
   <GamesList :filter-from-search="true" />
 </template>
 
@@ -29,5 +31,14 @@ h2 {
 .sale--text {
   color: #97b8ff;
   padding-bottom: 16px;
+}
+.mobile-searchbar {
+  margin-bottom: 16px;
+}
+
+@media screen and (min-width: 601px) {
+  .mobile-searchbar {
+    display: none;
+  }
 }
 </style>

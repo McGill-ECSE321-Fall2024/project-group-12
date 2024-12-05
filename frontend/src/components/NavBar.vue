@@ -15,7 +15,7 @@ import SearchBar from './SearchBar.vue'
     <!-- the main, labelled section of the navbar -->
     <ul class="nav-list">
       <!-- the search bar -->
-      <AnimatedLink to="/search">
+      <AnimatedLink to="/search" class="hide-mobile">
         <div class="nav-search--container">
           <SearchBar />
         </div>
@@ -36,6 +36,14 @@ import SearchBar from './SearchBar.vue'
       <li class="nav-list--item nav-list--end" :class="{ selected: $route.path == '/wishlist' }">
         <AnimatedLink to="/wishlist">
           <img class="nav-list--icon" src="@/assets/icons/navbar/wishlist.png" />
+        </AnimatedLink>
+      </li>
+      <li
+        class="nav-list--item nav-list--end nav-list--mobile"
+        :class="{ selected: $route.path == '/search' }"
+      >
+        <AnimatedLink to="/search">
+          <img class="nav-list--icon" src="@/assets/icons/navbar/search.png" />
         </AnimatedLink>
       </li>
       <li class="nav-list--item nav-list--end" :class="{ selected: $route.path == '/cart' }">
@@ -167,7 +175,8 @@ nav {
   .nav-wordmark,
   .nav-search--container,
   .nav-desktop-homelink,
-  .nav-list--label {
+  .nav-list--label,
+  .hide-mobile {
     display: none;
   }
 
