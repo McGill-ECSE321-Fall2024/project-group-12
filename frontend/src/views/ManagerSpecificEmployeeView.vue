@@ -12,7 +12,7 @@ const route = useRoute()
 const employeeId = route.params.id
 
 // load the current employee
-const { updateUser, token } = inject('auth')
+const { token } = inject('auth')
 
 const employee = ref('')
 const response = await fetch(`http://localhost:8080/employees/${employeeId}`, {
@@ -28,15 +28,36 @@ if (response.ok) {
 }
 employee.value = await response.json()
 
-const showAddressPopup = ref(false)
-const addressFields = ref({
-  address: '',
-  apt: '',
-  city: '',
-  province: '',
-  country: '',
-  postal: '',
-})
+const updateUser = async (name, email, phoneNumber) => {
+  const resp = await fetch(`http://localhost:8080/employees/${employeeId}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token.value}`,
+      Accept: 'application/json',
+    },
+    body: JSON.stringify({
+      name,
+      email,
+      phoneNumber,
+    }),
+  })
+  if (!resp.ok) {
+    throw new Error(`HTTP error! status: ${resp.status}`)
+  }
+  // read the response
+  const data = await resp.json()
+  const id = data.id
+  // store the data
+  localStorage.setItem(
+    'auth',
+    JSON.stringify({
+      token: token.value,
+      id,
+      userType: 'EMPLOYEE',
+    }),
+  )
+}
 console.log('employee view loaded')
 
 const updateInfo = async (event) => {
@@ -50,69 +71,8 @@ const updateInfo = async (event) => {
   updateUser(name, email, phoneNumber, address)
 }
 
-const toggleAddressPopup = () => {
-  if (!showAddressPopup.value) {
-    populateAddressFields()
-  }
-  showAddressPopup.value = !showAddressPopup.value
-}
 
-async function updateAddress(event) {
-  event.preventDefault()
-  console.log('updating address')
-  const form = event.target
-  const addressComponents = [
-    form.querySelector('#address').value,
-    form.querySelector('#apt').value,
-    form.querySelector('#city').value,
-    form.querySelector('#province').value,
-    form.querySelector('#country').value,
-    form.querySelector('#postal').value,
-  ]
-  const addressLine = addressComponents.join('\\n')
-  toggleAddressPopup()
-  const email = employee.value.email
-  const name = employee.value.name
-  const phoneNumber = employee.value.phoneNumber
-  updateUser(name, email, phoneNumber, addressLine)
-  toggleAddressPopup
-  location.reload()
-}
-const formatAddress = (address) => {
-  return address.replace(/\\n\\n/g, '\n').replace(/\\n/g, '\n')
-}
-const populateAddressFields = () => {
-  if (employee.value?.address) {
-    const parts = employee.value.address.split('\\n')
-    addressFields.value = {
-      address: parts[0] || '',
-      apt: parts[1] || '',
-      city: parts[2] || '',
-      province: parts[3] || '',
-      country: parts[4] || '',
-      postal: parts[5] || '',
-    }
-  }
-}
-async function getOrders() {
-  const authResponse = JSON.parse(localStorage.getItem('auth'))
-  // check whether auth response exists
-  if (!authResponse) return []
-  const { token, id } = authResponse
-  console.log(authResponse.id)
-  const resp = await fetch(`http://localhost:8080/orders/employee/${id}`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-      Accept: 'application/json',
-    },
-  })
-  const data = await resp.json()
-  console.log('THIS IS THE ORDER')
-  console.log(data)
-  return data
-}
+
 </script>
 
 <template>
