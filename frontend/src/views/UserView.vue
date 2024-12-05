@@ -11,7 +11,7 @@ console.log('user view loaded')
 const router = useRouter()
 
 // if the current user is a manager, redirect them to the correct page
-if (userType.value == 'MANAGER') {
+if (userType.value == 'MANAGER' || userType.value == 'EMPLOYEE') {
   router.replace('/manager/account')
 }
 

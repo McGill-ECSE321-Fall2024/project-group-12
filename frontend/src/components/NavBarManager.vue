@@ -2,7 +2,7 @@
 import { inject } from 'vue'
 import AnimatedLink from './AnimatedLink.vue'
 
-const { signOut } = inject('auth')
+const { signOut, userType } = inject('auth')
 </script>
 
 <template>
@@ -31,7 +31,7 @@ const { signOut } = inject('auth')
           <h3>Games</h3>
         </AnimatedLink>
       </li>
-      <li class="nav-list--item" :class="{ selected: $route.path === '/manager/employee' }">
+      <li v-if="userType == 'MANAGER'" class="nav-list--item" :class="{ selected: $route.path === '/manager/employee' }">
         <AnimatedLink to="/manager/employee">
           <h3>Employees</h3>
         </AnimatedLink>
