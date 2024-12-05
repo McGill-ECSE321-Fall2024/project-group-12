@@ -3,8 +3,9 @@ import FancyButton from '@/components/FancyButton.vue'
 import GameReviews from '@/components/GameReviews.vue'
 import StarRating from '@/components/StarRating.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
+import CheckIcon from 'vue-material-design-icons/CheckBold.vue'
 import HeartOutlineIcon from 'vue-material-design-icons/HeartOutline.vue'
-import { ref, useTemplateRef, inject } from 'vue'
+import { ref, useTemplateRef, inject, watch } from 'vue'
 
 const props = defineProps({
   id: {
@@ -14,7 +15,34 @@ const props = defineProps({
 })
 
 const { createThemeFromImg, createThemeFromColour } = inject('theme')
-const { user, token } = inject('auth')
+const { user, token, loadUser } = inject('auth')
+
+// store whether or not the game is in the user's cart and wishlist
+const inCart = ref(false)
+const inWishlist = ref(false)
+
+// check if a game with this id is in the user's cart or wishlist
+const checkInCart = () => {
+  if (user.value != null) {
+    inCart.value = false
+    inWishlist.value = false
+    user.value.cart.games.forEach(game => {
+      if (game.id == props.id) inCart.value = true
+    })
+    user.value.wishlist.games.forEach(game => {
+      if (game.id == props.id) inWishlist.value = true
+    })
+  }
+}
+
+checkInCart()
+loadUser()
+
+// if user updates (aka reloaded cart changes), rerun checking whether game is in wishlist or cart
+watch(user, () => {
+  console.log('watch detected a change in user')
+  checkInCart()
+})
 
 // pictures for the game
 const posterImgUrl = ref("")
@@ -79,7 +107,7 @@ const addToCart = async () => {
     }),
   })
   if (response.ok) {
-    alert('added to cart')
+    inCart.value = true
   }
 }
 const addToWishlist = async () => {
@@ -96,7 +124,7 @@ const addToWishlist = async () => {
     }),
   })
   if (response.ok) {
-    alert('added to wishlist')
+    inWishlist.value = true
   }
 }
 </script>
@@ -122,11 +150,13 @@ const addToWishlist = async () => {
 
     <main class="game-content">
       <div v-if="user != null" class="button-row">
-        <FancyButton filled label="Add to Cart" @click="addToCart">
-          <PlusIcon />
+        <FancyButton filled :disabled="inCart" :label="inCart ? 'Added to Cart' : 'Add to Cart'" @click="addToCart">
+          <CheckIcon v-if="inCart" />
+          <PlusIcon v-else />
         </FancyButton>
-        <FancyButton label="Add to Wishlist" @click="addToWishlist">
-          <HeartOutlineIcon />
+        <FancyButton :disabled="inWishlist" :label="inWishlist ? 'Added to Wishlist' : 'Add to Wishlist'" @click="addToWishlist">
+          <CheckIcon v-if="inWishlist" />
+          <HeartOutlineIcon v-else />
         </FancyButton>
       </div>
       <h2 v-else>Sign in to add to cart or wishlist.</h2>
