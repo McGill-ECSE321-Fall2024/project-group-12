@@ -22,7 +22,7 @@ const updateUser = async (name, email, phoneNumber, password) => {
       name,
       email,
       phoneNumber,
-      password
+      password,
     }),
   })
 
@@ -41,7 +41,7 @@ const updateUser = async (name, email, phoneNumber, password) => {
       userType: 'MANAGER',
     }),
   )
-  alert("updated");
+  alert('updated')
 }
 console.log('manager view loaded')
 
@@ -97,7 +97,6 @@ async function updatePassword(event) {
 
   togglePasswordPopup()
 }
-
 </script>
 
 <template>
@@ -124,7 +123,7 @@ async function updatePassword(event) {
           @input="(event) => (user.email = event.target.value)"
         />
         <label for="password">Password</label>
-        <input placeholder="Enter current password or new password" id="password" required/>
+        <input placeholder="Enter current password or new password" id="password" required />
         <label for="phoneNumber">Phone Number</label>
         <input
           type="phoneNumber"

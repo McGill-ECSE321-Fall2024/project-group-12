@@ -40,9 +40,7 @@ const handleCancel = () => {
 
         <div class="button-group">
           <button type="submit" class="submit-button">Submit</button>
-          <button type="button" class="cancel-button" @click="handleCancel">
-            Cancel
-          </button>
+          <button type="button" class="cancel-button" @click="handleCancel">Cancel</button>
         </div>
       </form>
     </div>

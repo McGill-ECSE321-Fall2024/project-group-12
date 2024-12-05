@@ -26,7 +26,7 @@ const props = defineProps({
     type: String,
     required: true,
   },
-  active: Boolean
+  active: Boolean,
 })
 
 const emit = defineEmits(['deleteEmployee']) // Event to notify parent about deletion
@@ -51,12 +51,15 @@ const viewPage = () => {
 
 const deleteEmployee = async () => {
   console.log('Delete Employee')
-  const response = await fetch(`http://localhost:8080/employees/${props.id}?action=${props.active ? 'deactivate' : 'activate'}`, {
-    method: 'PUT',
-    headers: {
-      Authorization: `Bearer ${token.value}`,
+  const response = await fetch(
+    `http://localhost:8080/employees/${props.id}?action=${props.active ? 'deactivate' : 'activate'}`,
+    {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${token.value}`,
+      },
     },
-  })
+  )
 
   if (response.ok) {
     console.log('Employee deleted successfully')
@@ -89,7 +92,7 @@ onUnmounted(() => {
     <div v-if="showPopup" class="popup">
       <ul class="popup-list">
         <li @click="viewPage">View Page</li>
-        <li @click="deleteEmployee">{{active ? 'Archive' : 'Restore'}}</li>
+        <li @click="deleteEmployee">{{ active ? 'Archive' : 'Restore' }}</li>
       </ul>
     </div>
   </div>

@@ -121,7 +121,7 @@ const updateUser = async (name, email, phoneNumber) => {
     userType === 'MANAGER'
       ? 'http://localhost:8080/manager'
       : `http://localhost:8080/${userType.toLowerCase()}s/${id}`
-  const resp = await fetch( url , {
+  const resp = await fetch(url, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',

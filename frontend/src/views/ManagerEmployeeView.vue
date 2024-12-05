@@ -49,10 +49,8 @@ const fetchEmployees = async () => {
 await fetchEmployees()
 
 const handleEmployeeDelete = async () => {
-
   location.reload()
 }
-
 
 const handleAddEmployee = async (newEmployee) => {
   const response = await fetch('http://localhost:8080/employees', {
@@ -70,18 +68,17 @@ const handleAddEmployee = async (newEmployee) => {
     console.error('Failed to add employee')
   }
 }
-
 </script>
 
 <template>
   <main>
-    <div v-if="employees.filter(employee => employee.active).length > 0">
+    <div v-if="employees.filter((employee) => employee.active).length > 0">
       <h1 class="title left-aligned">Active Employees</h1>
       <button @click="showAddForm = true" class="add-button">Add Employee</button>
       <AddEmployeeForm
-      v-if="showAddForm"
-      @addEmployee="handleAddEmployee"
-      @closeForm="showAddForm = false"
+        v-if="showAddForm"
+        @addEmployee="handleAddEmployee"
+        @closeForm="showAddForm = false"
       />
       <div class="topbar">
         <div class="rectangle parent">
@@ -97,7 +94,7 @@ const handleAddEmployee = async (newEmployee) => {
       <!-- only show active employees here -->
       <div>
         <listItem
-          v-for="employee in employees.filter(employee => employee.active)"
+          v-for="employee in employees.filter((employee) => employee.active)"
           :key="employee.id"
           :id="employee.id"
           :name="employee.name"
@@ -109,7 +106,7 @@ const handleAddEmployee = async (newEmployee) => {
       </div>
     </div>
 
-    <div v-if="employees.filter(employee => !employee.active).length > 0">
+    <div v-if="employees.filter((employee) => !employee.active).length > 0">
       <h1 class="title left-aligned">Inactive Employees</h1>
 
       <div class="topbar">
@@ -126,7 +123,7 @@ const handleAddEmployee = async (newEmployee) => {
       <!-- only show active employees here -->
       <div>
         <listItem
-          v-for="employee in employees.filter(employee => !employee.active)"
+          v-for="employee in employees.filter((employee) => !employee.active)"
           :key="employee.id"
           :id="employee.id"
           :name="employee.name"
@@ -174,8 +171,6 @@ h1 {
   border-radius: 5px;
   cursor: pointer;
 }
-
-
 
 .line_top {
   position: relative;

@@ -31,7 +31,11 @@ const { signOut, userType } = inject('auth')
           <h3>Games</h3>
         </AnimatedLink>
       </li>
-      <li v-if="userType == 'MANAGER'" class="nav-list--item" :class="{ selected: $route.path === '/manager/employee' }">
+      <li
+        v-if="userType == 'MANAGER'"
+        class="nav-list--item"
+        :class="{ selected: $route.path === '/manager/employee' }"
+      >
         <AnimatedLink to="/manager/employee">
           <h3>Employees</h3>
         </AnimatedLink>

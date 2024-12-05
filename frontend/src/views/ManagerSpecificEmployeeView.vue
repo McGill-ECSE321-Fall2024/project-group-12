@@ -40,7 +40,7 @@ const updateUser = async (name, email, phoneNumber, password) => {
       name,
       email,
       phoneNumber,
-      password
+      password,
     }),
   })
   if (!resp.ok) {
@@ -58,7 +58,7 @@ const updateUser = async (name, email, phoneNumber, password) => {
       userType: 'EMPLOYEE',
     }),
   )
-  alert("updated")
+  alert('updated')
 }
 console.log('employee view loaded')
 
@@ -98,7 +98,7 @@ const updateInfo = async (event) => {
           @input="(event) => (employee.email = event.target.value)"
         />
         <label for="password">Password</label>
-        <input placeholder="Enter current password or new password" id="password" required/>
+        <input placeholder="Enter current password or new password" id="password" required />
         <label for="phoneNumber">Phone Number</label>
         <input
           type="phoneNumber"
