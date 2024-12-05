@@ -1,6 +1,7 @@
 <script setup>
 import { RouterView } from 'vue-router'
 import NavBar from './components/NavBar.vue'
+import ManagerNavBar from './components/NavBarManager.vue'
 import AuthProvider from './components/providers/AuthProvider.vue'
 import AuthRouter from './components/AuthRouter.vue'
 import ThemeProvider from '@/components/providers/ThemeProvider.vue'
@@ -15,11 +16,33 @@ import ThemeProvider from '@/components/providers/ThemeProvider.vue'
           <!-- switch to different views depending on the auth state -->
           <AuthRouter>
             <template #manager>
-              <h1>Manager view</h1>
+              <ManagerNavBar />
+
+              <main class="page-container">
+                <Suspense>
+                  <RouterView />
+
+                  <!-- if any pages are awaiting, show a loading spinner -->
+                  <template #fallback>
+                    <p>loading...</p>
+                  </template>
+                </Suspense>
+              </main>
             </template>
 
             <template #employee>
-              <h1>Employee view</h1>
+              <ManagerNavBar />
+
+              <main class="page-container">
+                <Suspense>
+                  <RouterView />
+
+                  <!-- if any pages are awaiting, show a loading spinner -->
+                  <template #fallback>
+                    <p>loading...</p>
+                  </template>
+                </Suspense>
+              </main>
             </template>
 
             <template #customer>

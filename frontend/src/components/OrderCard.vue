@@ -46,6 +46,7 @@ const loadGameCovers = async () => {
   gameCovers.value = json.map(({ image, type }) => `data:image/${type};base64,${image}`)
 }
 loadGameCovers()
+
 async function returnOrder(event) {
   event.preventDefault()
   const authResponse = JSON.parse(localStorage.getItem('auth'))
@@ -70,6 +71,7 @@ async function returnOrder(event) {
     location.reload()
   }
 }
+
 const goToGame = (gameId) => {
   // for review button functionality
   router.push({
@@ -115,8 +117,7 @@ const goToGame = (gameId) => {
           <AnimatedLink :to="`/game/${game.id}`"
             ><button :style="{ background: 'rgba(65, 93, 67, 1)' }">
               Leave a review
-            </button></AnimatedLink
-          >
+            </button></AnimatedLink>
         </div>
       </div>
     </div>

@@ -4,6 +4,12 @@ import CartView from '../views/CartView.vue'
 import UserView from '../views/UserView.vue'
 import WishlistView from '../views/WishlistView.vue'
 import GameView from '../views/GameView.vue'
+import ManagerAccountView from '@/views/ManagerAccountView.vue'
+import ManagerCustomerView from '@/views/ManagerCustomerView.vue'
+import SigninView from '@/views/SigninView.vue'
+import ManagerSpecificCustomer from '@/views/ManagerSpecificCustomerView.vue'
+import ManagerEmployeeView from '@/views/ManagerEmployeeView.vue'
+import ManagerSpecificEmployee from '@/views/ManagerSpecificEmployeeView.vue'
 import CheckoutView from '@/views/CheckoutView.vue'
 import SearchView from '@/views/SearchView.vue'
 
@@ -42,6 +48,42 @@ const router = createRouter({
       component: GameView,
     },
     {
+      path: '/signin',
+      name: 'signin',
+      // component: () => import('../views/UserView.vue'),
+      component: SigninView,
+    },
+    {
+      path: '/manager/account',
+      name: 'manager/account',
+      component: ManagerAccountView,
+    },
+
+    {
+      path: '/manager/customer',
+      name: 'manager/customer',
+      component: ManagerCustomerView,
+    },
+
+    {
+      path: '/manager/employee',
+      name: 'manager/employee',
+      component: ManagerEmployeeView,
+    },
+
+    {
+      path: '/manager/customer/:id',
+      name: 'manager/specificcustomer',
+      component: ManagerSpecificCustomer,
+      props: true,
+    },
+
+    {
+      path: '/manager/employee/:id',
+      name: 'manager/specificemployee',
+      component: ManagerSpecificEmployee,
+      props: true,
+    },
       path: '/checkout',
       name: 'checkout',
       component: CheckoutView,

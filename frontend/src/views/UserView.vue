@@ -8,6 +8,7 @@ import SigninView from '@/views/SigninView.vue'
 import BackgroundGradient from '@/components/BackgroundGradient.vue'
 import OrderCard from '@/components/OrderCard.vue'
 // load the current user
+const { user, signOut, updateUser, token, userType } = inject('auth')
 const { user, signOut, updateUser, token } = inject('auth')
 const { createThemeFromColour } = inject('theme')
 const showPasswordPopup = ref(false)
@@ -22,6 +23,11 @@ const addressFields = ref({
 })
 console.log('user view loaded')
 
+// if the current user is a manager, redirect them to the correct page
+if (userType.value == 'MANAGER' || userType.value == 'EMPLOYEE') {
+  location.href = '/manager/account'
+}
+
 // set a green theme for a nice holiday design
 createThemeFromColour('#415d43')
 
@@ -29,6 +35,7 @@ const reversedOrders = computed(() => {
   // so we can display orders from most recent to least recent
   return [...orders.value].reverse()
 })
+
 const updateInfo = async (event) => {
   event.preventDefault()
   console.log('updating info')

@@ -66,7 +66,7 @@ public class AuthConfig {
 				.requestMatchers(HttpMethod.DELETE, "/customers/*")
 				.hasRole("USER")
 				.requestMatchers(HttpMethod.PUT, "/customers/*")
-				.hasRole("CUSTOMER")
+				.hasRole("USER")
 				// employees: only managers or employees should be permitted to use these
 				// endpoints,
 				// but for testing, allow anyone
