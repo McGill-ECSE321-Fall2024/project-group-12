@@ -37,8 +37,10 @@ const submitSignUp = async (event) => {
 
 <template>
   <div v-if="showingSignIn" class="signin-container">
-    <h1 style="font-size: xxx-large;">Sign In</h1>
-    <p style="font-size: x-large;">Don't have an account? <a @click="toggleShowingSignIn">Sign up</a></p>
+    <h1 style="font-size: xxx-large">Sign In</h1>
+    <p style="font-size: x-large">
+      Don't have an account? <a @click="toggleShowingSignIn">Sign up</a>
+    </p>
 
     <form @submit="submitSignIn">
       <div class="form-element">
@@ -47,19 +49,21 @@ const submitSignUp = async (event) => {
       </div>
       <div class="form-element">
         <label for="password">Password</label>
-        <input type="password" id="password"  placeholder="password"/>
+        <input type="password" id="password" placeholder="password" />
       </div>
       <button>Sign In</button>
     </form>
   </div>
   <div v-else class="signup-container">
-    <h1 style="font-size: xxx-large;">Sign Up</h1>
-    <p style="font-size: x-large;">Already have an account? <a @click="toggleShowingSignIn">Sign in</a></p>
+    <h1 style="font-size: xxx-large">Sign Up</h1>
+    <p style="font-size: x-large">
+      Already have an account? <a @click="toggleShowingSignIn">Sign in</a>
+    </p>
 
     <form @submit="submitSignUp">
       <div class="form-element">
         <label for="name">Name</label>
-        <input type="text" id="name" placeholder="name"/>
+        <input type="text" id="name" placeholder="name" />
       </div>
 
       <div class="form-element">

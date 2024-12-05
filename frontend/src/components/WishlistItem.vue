@@ -47,7 +47,7 @@ const inCart = ref(false)
 const checkInCart = () => {
   if (user.value != null) {
     inCart.value = false
-    user.value.cart.games.forEach(game => {
+    user.value.cart.games.forEach((game) => {
       if (game.id == props.gameId) inCart.value = true
     })
   }
@@ -101,7 +101,13 @@ if (cover.value && cover.value.type && cover.value.image) {
           <p class="game-year">{{ year }} •</p>
           <p class="game-price">${{ price }}</p>
         </div>
-        <FancyButton filled :disabled="inCart" class="add" @click="add" :label="inCart ? 'Added to Cart' : 'Add to Cart'">
+        <FancyButton
+          filled
+          :disabled="inCart"
+          class="add"
+          @click="add"
+          :label="inCart ? 'Added to Cart' : 'Add to Cart'"
+        >
           <CheckIcon v-if="inCart" />
           <PlusIcon v-else />
         </FancyButton>

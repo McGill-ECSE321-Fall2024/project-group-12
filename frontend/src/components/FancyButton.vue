@@ -4,12 +4,16 @@ defineProps({
   small: Boolean,
   label: String,
   icon: String,
-  disabled: Boolean
+  disabled: Boolean,
 })
 </script>
 
 <template>
-  <button class="fancy-button" :disabled="disabled" :class="[filled ? 'fancy-button--filled ' : '', small ? 'fancy-button--small' : '']">
+  <button
+    class="fancy-button"
+    :disabled="disabled"
+    :class="[filled ? 'fancy-button--filled ' : '', small ? 'fancy-button--small' : '']"
+  >
     <slot class="fancy-button--icon"></slot>
     <p class="fancy-button--label">{{ label }}</p>
   </button>

@@ -30,7 +30,6 @@ const togglePasswordPopup = () => {
     newPassword.value = ''
   }
   showPasswordPopup.value = !showPasswordPopup.value
-
 }
 async function updatePassword(event) {
   event.preventDefault()
@@ -41,7 +40,7 @@ async function updatePassword(event) {
   const newPassword = form.querySelector('#newPassword').value
   console.log('Updating password:', {
     old: oldPassword,
-    new: newPassword
+    new: newPassword,
   })
   const authResponse = JSON.parse(localStorage.getItem('auth'))
   const { id } = authResponse
@@ -55,15 +54,15 @@ async function updatePassword(event) {
     body: JSON.stringify({
       oldPassword: oldPassword,
       newPassword: newPassword,
-      email: email
+      email: email,
     }),
   })
 
   const data = await resp.json()
   if (data.errors) {
-    alert(data.errors);
+    alert(data.errors)
   } else {
-    alert("Password successfully changed!")
+    alert('Password successfully changed!')
   }
 
   togglePasswordPopup()
@@ -302,7 +301,6 @@ button {
   display: flex;
   justify-content: center;
   align-items: center;
-
 }
 .popup-content {
   background: rgba(65, 93, 67, 1);
@@ -315,7 +313,7 @@ button {
   width: 100%;
 }
 
-.popup form{
+.popup form {
   display: flex;
   flex-direction: column;
 }

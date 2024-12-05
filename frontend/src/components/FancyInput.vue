@@ -5,21 +5,15 @@ const props = defineProps({
   type: String,
   readonly: Boolean,
   value: String,
-  label: String
+  label: String,
 })
 
-const val = ref(props.value);
+const val = ref(props.value)
 </script>
 
 <template>
   <div class="fancy-input">
-    <input
-      :type="type"
-      :id="name"
-      :name="name"
-      v-model="val"
-      placeholder=" "
-    />
+    <input :type="type" :id="name" :name="name" v-model="val" placeholder=" " />
     <label :for="name">{{ label }}</label>
   </div>
 </template>
@@ -52,10 +46,13 @@ label {
   left: 8px;
   top: 8px;
   transform-origin: top left;
-  transition: transform 0.1s, font-size 0.1s;
+  transition:
+    transform 0.1s,
+    font-size 0.1s;
   pointer-events: none;
 }
-input:focus ~ label, input:not(:placeholder-shown) ~ label {
+input:focus ~ label,
+input:not(:placeholder-shown) ~ label {
   font-size: 12px;
   transform: translate(0px, -16px);
 }

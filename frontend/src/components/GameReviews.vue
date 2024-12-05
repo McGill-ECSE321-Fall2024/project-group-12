@@ -12,7 +12,7 @@ const props = defineProps({
   id: {
     type: Number,
     required: true,
-  }
+  },
 })
 
 // use user auth state to detect whether a review can be placed
@@ -34,9 +34,9 @@ const loadReviews = async () => {
   return reviewData
 }
 
-const postReview = async event => {
+const postReview = async (event) => {
   // stop the form from refreshing the page
-  event.preventDefault();
+  event.preventDefault()
 
   // get the values from the inputs
   const comment = event.target.querySelector('#comment').value
@@ -49,7 +49,7 @@ const postReview = async event => {
   const response = await fetch(`http://localhost:8080/reviews`, {
     method: 'POST',
     headers: {
-      'Authorization': `Bearer ${token.value}`,
+      Authorization: `Bearer ${token.value}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
@@ -57,8 +57,8 @@ const postReview = async event => {
       rating: score,
       gameId: props.id,
       customerId: user.value.id,
-      likeCount: 0
-    })
+      likeCount: 0,
+    }),
   })
   if (response.ok) {
     const newReview = await response.json()
@@ -91,9 +91,15 @@ const reviews = ref(await loadReviews())
     <h2>You must be signed in to place a review.</h2>
   </div>
   <div class="reviews-grid" v-if="reviews.length > 0">
-
-    <ReviewCard v-for="review in reviews" :customerId="review.customerId" :gameId="id" :rating="review.rating" :review="review.review" :id="review.id" v-bind:key="review.id"></ReviewCard>
-
+    <ReviewCard
+      v-for="review in reviews"
+      :customerId="review.customerId"
+      :gameId="id"
+      :rating="review.rating"
+      :review="review.review"
+      :id="review.id"
+      v-bind:key="review.id"
+    ></ReviewCard>
   </div>
   <h2 v-else>This game has no reviews.</h2>
 </template>

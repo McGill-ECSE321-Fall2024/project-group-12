@@ -3,7 +3,7 @@ import { ref, useTemplateRef } from 'vue'
 import AnimatedLink from './AnimatedLink.vue'
 
 const gameCover = useTemplateRef('gameCover')
-const coverImg = ref("")
+const coverImg = ref('')
 
 const props = defineProps({
   name: {
@@ -22,7 +22,6 @@ function prepareAnimation() {
 
 // load the cover image for this game
 async function loadCoverImage() {
-
   const response = await fetch(`http://localhost:8080/games/${props.id}/cover`)
 
   // only continue if there is an image. otherwise fall back to nothing
@@ -30,11 +29,9 @@ async function loadCoverImage() {
     const { image, type } = await response.json()
     coverImg.value = `data:image/${type};base64,${image}`
   }
-
 }
 
 loadCoverImage()
-
 </script>
 
 <template>

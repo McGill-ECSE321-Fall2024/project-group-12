@@ -26,10 +26,10 @@ const checkInCart = () => {
   if (user.value != null) {
     inCart.value = false
     inWishlist.value = false
-    user.value.cart.games.forEach(game => {
+    user.value.cart.games.forEach((game) => {
       if (game.id == props.id) inCart.value = true
     })
-    user.value.wishlist.games.forEach(game => {
+    user.value.wishlist.games.forEach((game) => {
       if (game.id == props.id) inWishlist.value = true
     })
   }
@@ -45,27 +45,26 @@ watch(user, () => {
 })
 
 // pictures for the game
-const posterImgUrl = ref("")
-const backgroundImgUrl = ref("")
+const posterImgUrl = ref('')
+const backgroundImgUrl = ref('')
 
 const game = ref(null)
 const rating = ref(null)
 
 // set the default theme to a grey while the theme colour is loaded
-createThemeFromColour('#999999');
+createThemeFromColour('#999999')
 
 const backgroundImg = useTemplateRef('background-img')
 
 // load the images
 async function loadImages() {
-
   // do both API calls at once
   const responses = await Promise.all([
     fetch(`http://localhost:8080/games/${props.id}/cover`),
-    fetch(`http://localhost:8080/games/${props.id}/background`)
+    fetch(`http://localhost:8080/games/${props.id}/background`),
   ])
   // convert to JSON
-  const images = await Promise.all(responses.map(resp => resp.json()))
+  const images = await Promise.all(responses.map((resp) => resp.json()))
 
   // set the URLs
   posterImgUrl.value = `data:image/${images[0].type};base64,${images[0].image}`
@@ -77,7 +76,6 @@ async function loadImages() {
       createThemeFromImg(backgroundImg.value)
     }, 300)
   })
-
 }
 
 loadImages()
@@ -133,14 +131,12 @@ const addToWishlist = async () => {
   <div class="game-page">
     <img class="game-background" :src="backgroundImgUrl" ref="background-img" />
     <header class="game-info">
-      <img
-        class="game-poster"
-        :src="posterImgUrl"
-      />
+      <img class="game-poster" :src="posterImgUrl" />
       <div class="game-titles">
         <h1 class="header">{{ game ? game.name : '...' }}</h1>
         <h2 class="subheader">
-          {{ game?.console }} • {{ game?.year }} • ${{ game?.price }} • <StarRating v-if="rating != null" :rating="rating"></StarRating>
+          {{ game?.console }} • {{ game?.year }} • ${{ game?.price }} •
+          <StarRating v-if="rating != null" :rating="rating"></StarRating>
         </h2>
       </div>
     </header>
@@ -150,11 +146,20 @@ const addToWishlist = async () => {
 
     <main class="game-content">
       <div v-if="user != null" class="button-row">
-        <FancyButton filled :disabled="inCart" :label="inCart ? 'Added to Cart' : 'Add to Cart'" @click="addToCart">
+        <FancyButton
+          filled
+          :disabled="inCart"
+          :label="inCart ? 'Added to Cart' : 'Add to Cart'"
+          @click="addToCart"
+        >
           <CheckIcon v-if="inCart" />
           <PlusIcon v-else />
         </FancyButton>
-        <FancyButton :disabled="inWishlist" :label="inWishlist ? 'Added to Wishlist' : 'Add to Wishlist'" @click="addToWishlist">
+        <FancyButton
+          :disabled="inWishlist"
+          :label="inWishlist ? 'Added to Wishlist' : 'Add to Wishlist'"
+          @click="addToWishlist"
+        >
           <CheckIcon v-if="inWishlist" />
           <HeartOutlineIcon v-else />
         </FancyButton>
@@ -228,7 +233,6 @@ const addToWishlist = async () => {
 
 /* adapt to a mobile layout */
 @media only screen and (max-width: 600px) {
-
   .game-info {
     flex-direction: column;
     align-items: center;
@@ -246,6 +250,5 @@ const addToWishlist = async () => {
     font-size: 20px;
     text-align: center;
   }
-
 }
 </style>

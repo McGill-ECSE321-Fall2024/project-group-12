@@ -23,7 +23,6 @@ public class ReviewController {
 	@Autowired
 	private ReviewService reviewService;
 
-	
 	/**
 	 * return all reviews for the given game
 	 * @param id the id of the game
@@ -37,7 +36,7 @@ public class ReviewController {
 	}
 
 	/**
-	 * calculate the 
+	 * calculate the
 	 * @param id the id of the game
 	 * @return the average score of the reviews for this game
 	 * @author James Madden

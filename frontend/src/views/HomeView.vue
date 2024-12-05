@@ -24,7 +24,7 @@ const enabledGenreFilter = ref(null)
 const response = await fetch('http://localhost:8080/games?status=InCatalog')
 const games = await response.json()
 
-const setConsoleFilter = newFilter => {
+const setConsoleFilter = (newFilter) => {
   if (document.startViewTransition) {
     document.startViewTransition(async () => {
       enabledConsoleFilter.value = newFilter
@@ -34,7 +34,7 @@ const setConsoleFilter = newFilter => {
     enabledConsoleFilter.value = newFilter
   }
 }
-const setGenreFilter = newFilter => {
+const setGenreFilter = (newFilter) => {
   if (document.startViewTransition) {
     document.startViewTransition(async () => {
       enabledGenreFilter.value = newFilter
@@ -50,10 +50,10 @@ const filterGames = () => {
   let filteredGames = games
   // filter the list, if filters are on
   if (enabledConsoleFilter.value != null) {
-    filteredGames = filteredGames.filter(game => game.console == enabledConsoleFilter.value)
+    filteredGames = filteredGames.filter((game) => game.console == enabledConsoleFilter.value)
   }
   if (enabledGenreFilter.value != null) {
-    filteredGames = filteredGames.filter(game => game.category == enabledGenreFilter.value)
+    filteredGames = filteredGames.filter((game) => game.category == enabledGenreFilter.value)
   }
   return filteredGames
 }
@@ -63,12 +63,17 @@ const filterGames = () => {
   <header>
     <BackgroundGradient colour="255, 151, 151" />
     <h1 class="header sale--text">
-      Happy Holidays<span v-if="user != null">, <span class="sale--name">{{ user?.name }}</span></span>!
+      Happy Holidays<span v-if="user != null"
+        >, <span class="sale--name">{{ user?.name }}</span></span
+      >!
     </h1>
     <h2 class="subheader sale--text">Enjoy up to 50% off some of the best games of the year!</h2>
   </header>
   <main>
-    <FancyChips :options="[ consoleFilters, genreFilters ]" :callbacks="[setConsoleFilter, setGenreFilter]"></FancyChips>
+    <FancyChips
+      :options="[consoleFilters, genreFilters]"
+      :callbacks="[setConsoleFilter, setGenreFilter]"
+    ></FancyChips>
     <div class="game-grid">
       <GameCard
         v-for="game in filterGames()"

@@ -16,16 +16,16 @@ const props = defineProps({
   },
   id: {
     type: Number,
-    required: true
+    required: true,
   },
   customerId: {
     type: Number,
-    required: true
+    required: true,
   },
   gameId: {
     type: Number,
-    required: true
-  }
+    required: true,
+  },
 })
 
 const { user, token } = inject('auth')
@@ -38,20 +38,17 @@ const review = ref(props.review)
 const comments = ref(['sorry to hear that! a refund is on the way.'])
 
 const loadComments = async () => {
-
   // fetch the comments
   const response = await fetch(`http://localhost:8080/reviews/${props.id}/comments`)
 
   if (response.ok) {
     comments.value = await response.json()
   }
-
 }
 
 loadComments()
 
 const updateReview = async () => {
-
   // get the new values
   const newReview = document.querySelector('#comment').value
   const newRating = new Number(document.querySelector('#score').value)
@@ -65,7 +62,7 @@ const updateReview = async () => {
   const response = await fetch(`http://localhost:8080/reviews/${props.id}`, {
     method: 'PUT',
     headers: {
-      'Authorization': `Bearer ${token.value}`,
+      Authorization: `Bearer ${token.value}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
@@ -74,7 +71,7 @@ const updateReview = async () => {
       rating: newRating,
       gameId: props.gameId,
       customerId: props.customerId,
-    })
+    }),
   })
   if (response.ok) {
     editMode.value = false
@@ -82,9 +79,7 @@ const updateReview = async () => {
     rating.value = newRating + 0
     review.value = newReview
   }
-
 }
-
 </script>
 
 <template>
@@ -107,8 +102,22 @@ const updateReview = async () => {
 
     <div class="review--button-row">
       <!-- show an edit button if this comment belongs to the current user -->
-      <FancyButton v-if="customerId == user?.id && !editMode" small label="Edit" @click="() => {editMode = true}"></FancyButton>
-      <FancyButton v-else-if="customerId == user?.id && editMode" small label="Save" @click="updateReview"></FancyButton>
+      <FancyButton
+        v-if="customerId == user?.id && !editMode"
+        small
+        label="Edit"
+        @click="
+          () => {
+            editMode = true
+          }
+        "
+      ></FancyButton>
+      <FancyButton
+        v-else-if="customerId == user?.id && editMode"
+        small
+        label="Save"
+        @click="updateReview"
+      ></FancyButton>
     </div>
   </div>
 </template>

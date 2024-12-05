@@ -139,13 +139,13 @@ public class ReviewService {
 	 * @return a list of reviews for that game ID
 	 * @author James Madden
 	 */
-  public List<ReviewResponseDto> findReviewsByGameId(int id) {
-    
-		List<Review> reviews = reviewRepository.findReviewsByGameId(id);
-		
-		// convert the reviews to Dtos
-    return reviews.stream().map(review -> new ReviewResponseDto(review)).collect(Collectors.toList());
+	public List<ReviewResponseDto> findReviewsByGameId(int id) {
 
-  }
+		List<Review> reviews = reviewRepository.findReviewsByGameId(id);
+
+		// convert the reviews to Dtos
+		return reviews.stream().map(review -> new ReviewResponseDto(review)).collect(Collectors.toList());
+
+	}
 
 }

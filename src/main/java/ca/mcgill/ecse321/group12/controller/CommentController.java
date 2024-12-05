@@ -45,7 +45,10 @@ public class CommentController {
 	@GetMapping("/reviews/{reviewId}/comments")
 	public List<CommentResponseDto> findCommentsByReviewId(@PathVariable int reviewId) {
 		// get comments and convert them to DTOs
-		return commentService.findCommentsByReviewId(reviewId).stream().map(comment -> new CommentResponseDto(comment)).toList();
+		return commentService.findCommentsByReviewId(reviewId)
+			.stream()
+			.map(comment -> new CommentResponseDto(comment))
+			.toList();
 	}
 
 	/**

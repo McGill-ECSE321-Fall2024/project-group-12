@@ -4,7 +4,7 @@ import { ref } from 'vue'
 
 const props = defineProps({
   options: Array,
-  callbacks: Array
+  callbacks: Array,
 })
 
 const selectedChips = ref(props.options.map(() => null))
@@ -12,18 +12,35 @@ const selectedChips = ref(props.options.map(() => null))
 
 <template>
   <form class="fancy-chips--list">
-    <div v-for="(optionsSet, index) in options" v-bind:key="optionsSet" class="fancy-chips--category">
-      <label v-for="option in optionsSet" v-bind:key="option" :class="selectedChips[index] == option ? 'selected' : ''">
+    <div
+      v-for="(optionsSet, index) in options"
+      v-bind:key="optionsSet"
+      class="fancy-chips--category"
+    >
+      <label
+        v-for="option in optionsSet"
+        v-bind:key="option"
+        :class="selectedChips[index] == option ? 'selected' : ''"
+      >
         {{ option }}
-        <input @click="event => {
-          if (selectedChips[index] == event.target.value) {
-            selectedChips[index] = null
-            callbacks[index](null)
-          } else {
-            selectedChips[index] = event.target.value
-            callbacks[index](event.target.value)
-          }
-        }" :name="JSON.stringify(optionsSet)" :id="option" :value="option" class="fancy-chip" type="checkbox">
+        <input
+          @click="
+            (event) => {
+              if (selectedChips[index] == event.target.value) {
+                selectedChips[index] = null
+                callbacks[index](null)
+              } else {
+                selectedChips[index] = event.target.value
+                callbacks[index](event.target.value)
+              }
+            }
+          "
+          :name="JSON.stringify(optionsSet)"
+          :id="option"
+          :value="option"
+          class="fancy-chip"
+          type="checkbox"
+        />
       </label>
     </div>
   </form>
@@ -53,7 +70,10 @@ label {
   height: 40px;
   border-radius: 20px;
   cursor: pointer;
-  transition: color 0.1s, background-color 0.1s, transform 0.1s;
+  transition:
+    color 0.1s,
+    background-color 0.1s,
+    transform 0.1s;
 }
 label:hover {
   transform: translateY(-1px);
