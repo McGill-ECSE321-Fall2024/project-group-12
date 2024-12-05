@@ -4,12 +4,15 @@
 -->
 
 <script setup>
-import { inject } from 'vue'
+import { inject, ref } from 'vue'
 import { useRouter } from 'vue-router'
 const { createThemeFromColour } = inject('theme')
 const { token, user } = inject('auth')
 const router = useRouter()
 createThemeFromColour('#00ff00')
+
+// display error messages if the checkout fails
+const errorMsg = ref(null)
 
 async function submitPayment(event) {
   event.preventDefault()
@@ -38,12 +41,10 @@ async function submitPayment(event) {
     if (!resp.ok) {
       const errorData = await resp.json()
       console.log(errorData.errors)
-      alert(errorData.errors)
-      throw new Error(errorData.message)
+      errorMsg.value = errorData.errors[0]
     }
     const data = await resp.json()
     console.log('Checkout successful:', data)
-    alert('Checkout successful!')
     await router.push('/user')
   } catch (error) {
     console.error(error)
@@ -80,6 +81,7 @@ async function submitPayment(event) {
         <p style="text-align: left; font-size: 30px">Billing address</p>
       </div>
       <input class="input-line input-box" placeholder="Address" id="billingAddress" />
+      <p v-if="errorMsg != null" class="error-msg">{{ errorMsg }}</p>
       <div class="input-line" style="justify-content: center; gap: 20px">
         <button
           style="width: 20%; border: none; border-radius: 24px; padding-left: 10px"
@@ -117,6 +119,11 @@ async function submitPayment(event) {
 .input-box {
   border-radius: 8px;
   padding-left: 10px;
+}
+.error-msg {
+  color: red;
+  text-align: center;
+  margin-top: 8px;
 }
 
 @media only screen and (max-width: 600px) {
