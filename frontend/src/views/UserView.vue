@@ -8,7 +8,7 @@ console.log('user view loaded')
 // createThemeFromColour('#FF9797')
 
 // if the current user is a manager, redirect them to the correct page
-if (userType.value == 'MANAGER') {
+if (userType.value == 'MANAGER' || userType.value == 'EMPLOYEE') {
   location.href = '/manager/account'
 }
 
