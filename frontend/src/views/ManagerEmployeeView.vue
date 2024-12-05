@@ -46,18 +46,14 @@ const fetchEmployees = async () => {
   }
 }
 
-// Fetch Employees when the component is mounted
 await fetchEmployees()
 
-// Function to handle the delete action
 const handleEmployeeDelete = async () => {
 
-  // Re-fetch the Employee list after deletion
   location.reload()
 }
 
 
-// Function to add a new employee
 const handleAddEmployee = async (newEmployee) => {
   const response = await fetch('http://localhost:8080/employees', {
     method: 'POST',
@@ -75,15 +71,6 @@ const handleAddEmployee = async (newEmployee) => {
   }
 }
 
-// Example employee details for simplicity
-const newEmployee = ref({
-  name: '',
-  email: '',
-  phoneNumber: '',
-  password: '',
-  active: true,
-})
-//
 </script>
 
 <template>

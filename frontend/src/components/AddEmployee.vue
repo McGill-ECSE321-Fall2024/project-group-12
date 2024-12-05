@@ -1,10 +1,8 @@
 <script setup>
 import { ref, defineEmits } from 'vue'
 
-// Emit events to communicate with the parent component
 const emit = defineEmits(['addEmployee', 'closeForm'])
 
-// Form fields for the new employee
 const employee = ref({
   name: '',
   email: '',
@@ -13,13 +11,11 @@ const employee = ref({
   active: true,
 })
 
-// Function to handle form submission
 const handleSubmit = () => {
   emit('addEmployee', { ...employee.value })
   emit('closeForm')
 }
 
-// Function to handle cancel action
 const handleCancel = () => {
   emit('closeForm')
 }
