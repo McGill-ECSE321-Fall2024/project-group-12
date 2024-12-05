@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import ca.mcgill.ecse321.group12.exception.CustomException;
 import ca.mcgill.ecse321.group12.model.Comment;
-import ca.mcgill.ecse321.group12.model.Customer;
 import ca.mcgill.ecse321.group12.model.Review;
 import ca.mcgill.ecse321.group12.repository.CommentRepository;
 import jakarta.transaction.Transactional;
