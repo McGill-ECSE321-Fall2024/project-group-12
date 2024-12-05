@@ -1,5 +1,8 @@
 <script setup>
+import { inject } from 'vue'
 import AnimatedLink from './AnimatedLink.vue'
+
+const { signOut } = inject('auth')
 </script>
 
 <template>
@@ -45,8 +48,8 @@ import AnimatedLink from './AnimatedLink.vue'
       </li>
 
       <!-- Logout icon -->
-      <li class="nav-list--logo">
-        <AnimatedLink to="/signin">
+      <li class="nav-list--logo" @click="signOut">
+        <AnimatedLink to="/user">
           <img class="icon" src="@/assets/icons/navbar/logout-512.webp" alt="Logout Icon" />
         </AnimatedLink>
       </li>
