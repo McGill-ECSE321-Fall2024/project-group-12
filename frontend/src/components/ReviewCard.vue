@@ -107,8 +107,8 @@ const updateReview = async () => {
 
     <div class="review--button-row">
       <!-- show an edit button if this comment belongs to the current user -->
-      <FancyButton v-if="customerId == user.id && !editMode" small label="Edit" @click="() => {editMode = true}"></FancyButton>
-      <FancyButton v-else-if="customerId == user.id && editMode" small label="Save" @click="updateReview"></FancyButton>
+      <FancyButton v-if="customerId == user?.id && !editMode" small label="Edit" @click="() => {editMode = true}"></FancyButton>
+      <FancyButton v-else-if="customerId == user?.id && editMode" small label="Save" @click="updateReview"></FancyButton>
     </div>
   </div>
 </template>

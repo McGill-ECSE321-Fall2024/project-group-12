@@ -28,7 +28,7 @@ const loadReviews = async () => {
 
   // go through and see if any review has this user's ID
   for (let review of reviewData) {
-    if (review.customerId == user.value.id) hasPosted.value = true
+    if (review.customerId == user.value?.id) hasPosted.value = true
   }
 
   return reviewData
