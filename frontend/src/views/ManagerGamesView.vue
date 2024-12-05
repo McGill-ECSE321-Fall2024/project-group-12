@@ -23,7 +23,7 @@ const display = async (game) => {
     let child = document.createElement('div')
     let image = document.createElement('img')
     image.setAttribute('src',image_src)
-    image.setAttribute('style', "height: 150px; width: 100px; margin-right: 30px;")
+    image.setAttribute('style', "height: 150px; width: 100px; margin-right: 30px; object-fit: cover")
     let title = document.createElement('p')
     title.innerText = game.name
     title.setAttribute('style', "width: 100px; height: 20px; overflow-y: hidden")
