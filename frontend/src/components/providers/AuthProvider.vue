@@ -117,7 +117,11 @@ const signUp = async (name, email, phoneNumber, password) => {
 const updateUser = async (name, email, phoneNumber) => {
   authResponse = JSON.parse(localStorage.getItem('auth'))
   const { id: userId, userType } = authResponse
-  const resp = await fetch(`http://localhost:8080/${userType.toLowerCase()}s/${userId}`, {
+  const url =
+    userType === 'MANAGER'
+      ? 'http://localhost:8080/manager'
+      : `http://localhost:8080/${userType.toLowerCase()}s/${id}`
+  const resp = await fetch( url , {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
