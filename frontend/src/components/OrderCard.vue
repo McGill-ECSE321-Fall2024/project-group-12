@@ -4,6 +4,8 @@
 -->
 <script setup>
 import { ref } from 'vue'
+import AnimatedLink from './AnimatedLink.vue'
+
 const props = defineProps({
   order: {
     type: Object,
@@ -18,6 +20,7 @@ const props = defineProps({
     }),
   },
 })
+
 const formatDate = (dateString) => {
   const options = {
     weekday: 'long',
@@ -100,7 +103,7 @@ async function returnOrder(event) {
           <h4>Rating</h4>
         </div>
         <div class="buttons">
-          <button :style="{ background: 'rgba(65, 93, 67, 1)' }">Leave a review</button>
+          <AnimatedLink :to="`/game/${game.id}`"><button :style="{ background: 'rgba(65, 93, 67, 1)' }">Leave a review</button></AnimatedLink>
         </div>
       </div>
     </div>
