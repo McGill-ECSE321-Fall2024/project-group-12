@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -59,6 +58,7 @@ public class ManagerController {
 	 */
 	@PutMapping("/manager")
 	public ManagerResponseDto updateManager(@RequestBody ManagerRequestDto manager) {
+
 		if (manager != null) {
 			String encryptedPassword = new BCryptPasswordEncoder().encode(manager.getPassword());
 			Manager updatedManager = managerService.updateManager(manager.getEmail(), encryptedPassword,

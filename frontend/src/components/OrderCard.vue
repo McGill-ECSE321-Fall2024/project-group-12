@@ -3,6 +3,9 @@
  @author Amy Ding
 -->
 <script setup>
+import { ref } from 'vue'
+import AnimatedLink from './AnimatedLink.vue'
+
 const props = defineProps({
   order: {
     type: Object,
@@ -17,6 +20,7 @@ const props = defineProps({
     }),
   },
 })
+
 const formatDate = (dateString) => {
   const options = {
     weekday: 'long',
@@ -26,9 +30,23 @@ const formatDate = (dateString) => {
   }
   return new Date(dateString).toLocaleString(options)
 }
-const getGameCover = (game) => {
-  return game.cover
+
+// the data URL for each game's cover
+const gameCovers = ref([])
+// call the server for each game to get its cover
+const loadGameCovers = async () => {
+  // create a fetch for each game
+  const responses = await Promise.all(
+    props.order.games.map((game) => fetch(`http://localhost:8080/games/${game.id}/cover`)),
+  )
+
+  // go through each response to get the cover image
+  const json = await Promise.all(responses.map((response) => response.json()))
+
+  gameCovers.value = json.map(({ image, type }) => `data:image/${type};base64,${image}`)
 }
+loadGameCovers()
+
 async function returnOrder(event) {
   event.preventDefault()
   const authResponse = JSON.parse(localStorage.getItem('auth'))
@@ -53,6 +71,14 @@ async function returnOrder(event) {
     location.reload()
   }
 }
+
+const goToGame = (gameId) => {
+  // for review button functionality
+  router.push({
+    name: 'game',
+    params: { id: gameId },
+  })
+}
 </script>
 
 <template>
@@ -74,8 +100,8 @@ async function returnOrder(event) {
       </div>
     </div>
 
-    <div class="game" v-for="game in order.games" :key="game.id">
-      <img :src="getGameCover(game)" class="game-img" />
+    <div class="game" v-for="(game, index) in order.games" :key="game.id">
+      <img :src="gameCovers[index]" class="game-img" />
       <div>
         <h3 class="game-title" :style="{ 'font=size': '1rem' }">{{ game.name }}</h3>
         <div class="game-details">
@@ -88,7 +114,10 @@ async function returnOrder(event) {
           <h4>Rating</h4>
         </div>
         <div class="buttons">
-          <button :style="{ background: 'rgba(65, 93, 67, 1)' }">Leave a review</button>
+          <AnimatedLink :to="`/game/${game.id}`"
+            ><button :style="{ background: 'rgba(65, 93, 67, 1)' }">
+              Leave a review
+            </button></AnimatedLink>
         </div>
       </div>
     </div>
@@ -122,6 +151,8 @@ async function returnOrder(event) {
 }
 .game-img {
   width: 100%;
+  aspect-ratio: 144 / 200;
+  object-fit: cover;
 }
 .game-details {
   display: flex;

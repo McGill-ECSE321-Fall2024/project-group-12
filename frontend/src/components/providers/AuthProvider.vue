@@ -17,10 +17,10 @@ const loadUser = async () => {
   console.log(token.value, loadedToken)
   // this method will attempt to load user data from the backend.
   // if the user's already been loaded, return right away
-  if (user.value != null && token.value == loadedToken) {
+  /*if (user.value != null && token.value == loadedToken) {
     console.log('returning stored user')
     return
-  }
+  }*/
   // if there's no token, there's no user to be found so return null
   if (token.value == null) {
     console.log('returning null')
@@ -114,7 +114,7 @@ const signUp = async (name, email, phoneNumber, password) => {
   loadUser()
 }
 
-const updateUser = async (name, email, phoneNumber) => {
+const updateUser = async (name, email, phoneNumber, address) => {
   authResponse = JSON.parse(localStorage.getItem('auth'))
   const { id: userId, userType } = authResponse
   const url =
@@ -132,13 +132,16 @@ const updateUser = async (name, email, phoneNumber) => {
       name,
       email,
       phoneNumber,
+      address,
     }),
   })
-  if (!resp.ok) {
-    throw new Error(`HTTP error! status: ${resp.status}`)
-  }
   // read the response
   const data = await resp.json()
+  if (data.errors) {
+    alert(data.errors)
+  } else {
+    alert('Info successfully changed!')
+  }
   const id = data.id
   // store the data
   localStorage.setItem(

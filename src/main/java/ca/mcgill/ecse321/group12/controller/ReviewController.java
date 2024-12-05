@@ -1,5 +1,7 @@
 package ca.mcgill.ecse321.group12.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,11 +24,43 @@ public class ReviewController {
 	private ReviewService reviewService;
 
 	/**
+	 * return all reviews for the given game
+	 * @param id the id of the game
+	 * @return all the reviews
+	 * @author James Madden
+	 */
+	@GetMapping("/games/{id}/reviews")
+	@ResponseStatus(HttpStatus.OK)
+	public List<ReviewResponseDto> getReviewsForGame(@PathVariable int id) {
+		return reviewService.findReviewsByGameId(id);
+	}
+
+	/**
+	 * calculate the
+	 * @param id the id of the game
+	 * @return the average score of the reviews for this game
+	 * @author James Madden
+	 */
+	@GetMapping("/games/{id}/rating")
+	@ResponseStatus(HttpStatus.OK)
+	public int getRatingForGame(@PathVariable int id) {
+		// get all the reviews for this game
+		List<ReviewResponseDto> reviews = reviewService.findReviewsByGameId(id);
+		// compute the average score
+		int total = 0;
+		for (ReviewResponseDto review : reviews) {
+			total += review.getRating();
+		}
+		float avgRating = (float) total / (float) reviews.size();
+		// round the score
+		return Math.round(avgRating);
+	}
+
+	/**
 	 * Return the review with the given id
 	 * @param id the primary of the review
 	 * @return the review with the given id
 	 */
-
 	@GetMapping("/reviews/{id}")
 	@ResponseStatus(HttpStatus.OK)
 	public ReviewResponseDto getReview(@PathVariable int id) {

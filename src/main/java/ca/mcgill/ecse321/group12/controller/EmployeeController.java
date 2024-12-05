@@ -86,8 +86,8 @@ public class EmployeeController {
 		}
 		if (employee != null) {
 			String encryptedPassword = new BCryptPasswordEncoder().encode(employee.getPassword());
-			Employee updatedEmployee = employeeService.updateEmployeeById(eid, employee.getEmail(), encryptedPassword,
-					employee.getName(), employee.getPhoneNumber());
+			Employee updatedEmployee = employeeService.updateEmployeeById(eid, employee.getEmail(),
+					encryptedPassword, employee.getName(), employee.getPhoneNumber());
 			return new EmployeeResponseDto(updatedEmployee);
 		}
 		return new EmployeeResponseDto(new Employee());
