@@ -3,6 +3,8 @@
  @author Amy Ding
 -->
 <script setup>
+import { useRouter } from 'vue-router'
+const router = useRouter()
 const props = defineProps({
   order: {
     type: Object,
@@ -53,6 +55,14 @@ async function returnOrder(event) {
     location.reload()
   }
 }
+
+const goToGame = (gameId) => {
+  router.push({
+    name: 'game',
+    params: { id: gameId }
+  })
+}
+
 </script>
 
 <template>
@@ -88,7 +98,7 @@ async function returnOrder(event) {
           <h4>Rating</h4>
         </div>
         <div class="buttons">
-          <button :style="{ background: 'rgba(65, 93, 67, 1)' }">Leave a review</button>
+          <button :style="{ background: 'rgba(65, 93, 67, 1)' }" @click="goToGame(game.id)">Leave a review</button>
         </div>
       </div>
     </div>

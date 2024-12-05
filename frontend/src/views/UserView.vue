@@ -118,7 +118,6 @@ async function getOrders() {
   // check whether auth response exists
   if (!authResponse) return []
   const { token, id } = authResponse
-  console.log(authResponse.id)
   const resp = await fetch(`http://localhost:8080/orders/customer/${id}`, {
     method: 'GET',
     headers: {
@@ -128,16 +127,10 @@ async function getOrders() {
     },
   })
   const data = await resp.json()
-  console.log('THIS IS THE ORDER')
-  console.log(data)
   return data
 }
 const orders = ref(null)
 orders.value = await getOrders()
-console.log('teehee')
-console.log(orders.value[orders.value.length - 1])
-console.log('haiiiiiii')
-console.log(orders.value)
 </script>
 
 <template>
