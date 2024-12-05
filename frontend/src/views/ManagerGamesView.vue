@@ -108,6 +108,9 @@ const updateGame = async event => {
 
             </div>
         </div>
+        <div>
+            <button @click="$router.push('/manager/addgames')">Add Game</button>
+        </div>
 
     </div>
     <!-- area to edit a game -->
