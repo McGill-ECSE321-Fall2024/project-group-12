@@ -53,7 +53,7 @@ Julien: "Hey. I am a U2 Software Engineering student at McGill! A fun fact about
 | Sophia Li        | Project Manager  |  30   | <ul><li> Designed and implemented wishlist page</li><li>Designed checkout page</li></ul>   |
 | Amy Ding         | UI/UX Designer   |   30  | <ul><li> Designed and implemented profile page</li><li>Designed and implemented orders page</li><li>Implement checkout page</li><li>Updated wiki and README.</li></ul>|
 | Julien Heng      | Developer        |  31   | <ul><li>Designed and implemented login page</li><li>Implement checkout page</li><li>Updated backend requests for password change endpoint</li><li>Add images to database</li></ul> |
-| Kennedy Olsen    | Business Analyst |  29 | <ul><li>Designed and implemented cart page</li></ul> |
+| Kennedy Olsen    | Business Analyst |  29 | <ul><li>Designed and implemented cart page</li><li>Worked on presentation</li></ul> |
 | Carmin Vidé | Scrum Master     |   30  | <ul><li>Designed and implemented manager dashboard</li><li>Designed and implemented employee dashboard</li></ul>|
 
 

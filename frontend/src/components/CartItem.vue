@@ -3,7 +3,7 @@
  @author Kennedy Olsen
 -->
 <script setup>
-import { inject } from 'vue'
+import { inject, ref } from 'vue'
 const { user, token } = inject('auth')
 
 const props = defineProps({
@@ -11,10 +11,7 @@ const props = defineProps({
     type: Number,
     required: true,
   },
-  image: {
-    type: String,
-    required: true,
-  },
+
   name: {
     type: String,
     required: true,
@@ -36,14 +33,54 @@ const props = defineProps({
     required: true,
   },
 })
+
+const coverImg = ref('')
+// load cover image
+async function loadCover() {
+  const response = await fetch(`http://localhost:8080/games/${props.gameId}/cover`)
+  if (response.ok) {
+    console.log("loaded image")
+    const { image, type } = await response.json()
+
+    coverImg.value = `data:image/${type};base64,${image}`
+  }
+}
+
+loadCover()
+
+
+
+async function removeGame(gameId) {
+  // TO FINISH ****
+  alert('Removed from cart')
+  const cartId = user.value.cart.id
+  console.log(cartId)
+  const requestOpt = {
+    method: 'put',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token.value}`,
+     },
+  }
+  const response = await fetch(
+    `http://localhost:8080/cart/${cartId}?remove=${gameId}`,
+    requestOpt,
+  )
+  await response.json()
+  location.reload()
+  return
+}
+
 </script>
+
+
 
 <template>
   <div class="cart-item">
     <hr />
     <!--creates horizontal line-->
     <div class="item">
-      <img class="game-cover" :src="image" />
+      <img v-if="coverImg != ``" class="game-cover" :src="coverImg" />
       <div class="game-info">
         <h2>{{ name }}</h2>
         <!--game title-->
@@ -56,7 +93,7 @@ const props = defineProps({
           <p class="game-price">${{ price }}</p>
           <!--price-->
         </div>
-        <button class="remove" @click="() => removeItem(gameId)">Remove from Cart</button>
+        <button class="remove" @click="() => {removeGame(gameId)}">Remove from Cart</button>
       </div>
     </div>
     <hr />
@@ -88,6 +125,8 @@ button {
   max-height: 155px;
   display: inline-block;
   margin-right: 20px;
+  aspect-ratio: 144 / 200;
+  object-fit: cover;
 }
 .game-info {
   display: inline-block;
@@ -98,9 +137,11 @@ button {
 }
 .game-console {
   display: inline-block;
+  margin-right: 9px;
 }
 .game-year {
   display: inline-block;
+  margin-right: 9px;
 }
 .game-price {
   display: inline-block;
