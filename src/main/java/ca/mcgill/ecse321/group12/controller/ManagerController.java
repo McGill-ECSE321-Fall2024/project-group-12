@@ -60,7 +60,8 @@ public class ManagerController {
 	@PutMapping("/manager")
 	public ManagerResponseDto updateManager(@RequestBody ManagerRequestDto manager) {
 		if (manager != null) {
-			Manager updatedManager = managerService.updateManager(manager.getEmail(), manager.getPassword(),
+			String encryptedPassword = new BCryptPasswordEncoder().encode(manager.getPassword());
+			Manager updatedManager = managerService.updateManager(manager.getEmail(), encryptedPassword,
 					manager.getName(), manager.getPhoneNumber());
 			return new ManagerResponseDto(updatedManager);
 		}

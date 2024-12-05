@@ -28,7 +28,7 @@ if (response.ok) {
 }
 employee.value = await response.json()
 
-const updateUser = async (name, email, phoneNumber) => {
+const updateUser = async (name, email, phoneNumber, password) => {
   const resp = await fetch(`http://localhost:8080/employees/${employeeId}`, {
     method: 'PUT',
     headers: {
@@ -40,6 +40,7 @@ const updateUser = async (name, email, phoneNumber) => {
       name,
       email,
       phoneNumber,
+      password
     }),
   })
   if (!resp.ok) {
@@ -57,6 +58,7 @@ const updateUser = async (name, email, phoneNumber) => {
       userType: 'EMPLOYEE',
     }),
   )
+  alert("updated")
 }
 console.log('employee view loaded')
 
