@@ -14,28 +14,20 @@ createThemeFromColour('#00ff00')
 async function submitPayment(event) {
     event.preventDefault()
     const form = event.target
-    console.log(user);
-    console.log(user.value.id);
-    console.log(user.value.address);
-    console.log("token");
-    console.log(token.value);
 
-    // const data = await resp.json()
-    // if (data.errors) {
-    //     alert(data.errors);
-    // } else {
-    //     alert("Checkout successful!")
-    // }
+    const requestBody = {
+        customerId: user.value.id,
+        deliveryAddress: form.querySelector('#billingAddress')?.value || '',
+        nameOnCard: form.querySelector('#name')?.value || '',
+        cvc: form.querySelector('#cvc')?.value || '',
+        cardNumber: form.querySelector('#cardNumber')?.value || '',
+        billingAddress: form.querySelector('#billingAddress')?.value || '',
+        isSaved: form.querySelector('input[type="checkbox"]')?.checked || false,
+        expiryDate: form.querySelector('#expiryDate')?.value || ''
+    }
+
 
     try {
-        const id = user.value.id;
-        const billingAddressInput = form.querySelector('#billingAddress').value;
-        // console.log(form.querySelector('#billingAddress').value);
-        // console.log(form.querySelector('#name').value);
-        // console.log(form.querySelector('#cvc').value);
-        // console.log(form.querySelector('#cardNumber').value);
-        // console.log(form.querySelector('#billingAddress').value);
-        // console.log(form.querySelector('#expiryDate').value)
         const resp = await fetch(`http://localhost:8080/orders`, {
             method: 'POST',
             headers: {
@@ -43,47 +35,22 @@ async function submitPayment(event) {
                 Authorization: `Bearer ${token.value}`,
                 Accept: 'application/json',
             },
-                // body: JSON.stringify({
-                //     customerId: id,
-                //     deliveryAddress: form.querySelector('#billingAddress').value,
-                //     nameOnCard: form.querySelector('#name').value,
-                //     cvc: form.querySelector('#cvc').value,
-                //     cardNumber: form.querySelector('#cardNumber').value,
-                //     billingAddress: form.querySelector('#billingAddress').value,
-                //     isSaved: true,
-                //     expiryDate: form.querySelector('#expiryDate').value
-                // }),
-            body: JSON.stringify({
-                customerId: id,
-                deliveryAddress: "househouse",
-                nameOnCard: form.querySelector('#name').value,
-                cvc: "123",
-                cardNumber: "1234 1234 1243 4312",
-                billingAddress: "1188 av union",
-                isSaved: true,
-                expiryDate: "12/12"
-            }),
+            body: JSON.stringify(requestBody),
         })
         if (!resp.ok) {
             const errorData = await resp.json()
+            console.log(errorData.errors);
+            alert(errorData.errors)
             throw new Error(errorData.message)
         }
         const data = await resp.json()
-        
-   
-
-  
         console.log('Checkout successful:', data)
         alert('Checkout successful!')
         await router.push('/')
 
-    //     console.log("checkout successful");
-    //     alert("checkout successful");
-    //     await router.push('/')
     } catch (error) {
         // if unsuccessful, show an error message
-        alert(error)
-        console.error(error.message)
+        console.error(error)
     }  
 }
 
