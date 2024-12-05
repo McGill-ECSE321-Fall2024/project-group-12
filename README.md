@@ -83,6 +83,8 @@ Windows:
 ./gradlew.bat bootRun
 ```
 
+An initial manager is created and added to the database with email `email@reindeer.com` and password `password`.
+
 ## Test the Project
 This will run both the unit and integration tests.
 
