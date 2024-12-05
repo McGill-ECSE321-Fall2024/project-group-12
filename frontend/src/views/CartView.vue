@@ -5,6 +5,7 @@
 <script setup>
 import { inject, ref, watch } from 'vue'
 import CartItem from '@/components/CartItem.vue'
+import AnimatedLink from '@/components/AnimatedLink.vue'
 
 const { createThemeFromColour } = inject('theme')
 createThemeFromColour('#FF9797')
