@@ -1,5 +1,7 @@
 package ca.mcgill.ecse321.group12.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -32,6 +34,18 @@ public class CommentController {
 	public CommentResponseDto findCommentById(@PathVariable int commentId) {
 		Comment comment = commentService.findCommentById(commentId);
 		return new CommentResponseDto(comment);
+	}
+
+	/**
+	 * return the comments on a specific review
+	 * @param reviewId the review to find comments for
+	 * @return the comments on the review
+	 * @author James Madden
+	 */
+	@GetMapping("/reviews/{reviewId}/comments")
+	public List<CommentResponseDto> findCommentsByReviewId(@PathVariable int reviewId) {
+		// get comments and convert them to DTOs
+		return commentService.findCommentsByReviewId(reviewId).stream().map(comment -> new CommentResponseDto(comment)).toList();
 	}
 
 	/**
