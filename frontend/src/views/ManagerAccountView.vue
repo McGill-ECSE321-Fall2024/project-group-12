@@ -6,7 +6,7 @@
 import { inject, ref } from 'vue'
 import SigninView from '@/views/SigninView.vue'
 // load the current user
-const { user, signOut, updateUser, token } = inject('auth')
+const { user, signOut, token } = inject('auth')
 const showPasswordPopup = ref(false)
 const showAddressPopup = ref(false)
 const addressFields = ref({
@@ -18,6 +18,39 @@ const addressFields = ref({
   postal: '',
 })
 console.log('user view loaded')
+
+
+const updateUser = async (name, email, phoneNumber) => {
+  const resp = await fetch(`http://localhost:8080/manager`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token.value}`,
+      Accept: 'application/json',
+    },
+    body: JSON.stringify({
+      name,
+      email,
+      phoneNumber,
+    }),
+  })
+  if (!resp.ok) {
+    throw new Error(`HTTP error! status: ${resp.status}`)
+  }
+  // read the response
+  const data = await resp.json()
+  const id = data.id
+  // store the data
+  localStorage.setItem(
+    'auth',
+    JSON.stringify({
+      token: token.value,
+      id,
+      userType: 'MANAGER',
+    }),
+  )
+}
+console.log('manager view loaded')
 
 const updateInfo = async (event) => {
   event.preventDefault()

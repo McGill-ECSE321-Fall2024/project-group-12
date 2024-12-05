@@ -44,13 +44,11 @@ const updateUser = async (name, email, phoneNumber, address) => {
       address,
     }),
   })
+  if (!resp.ok) {
+    throw new Error(`HTTP error! status: ${resp.status}`)
+  }
   // read the response
   const data = await resp.json()
-  if (data.errors) {
-    alert(data.errors)
-  } else {
-    alert('Info successfully changed!')
-  }
   const id = data.id
   // store the data
   localStorage.setItem(
@@ -62,6 +60,7 @@ const updateUser = async (name, email, phoneNumber, address) => {
     }),
   )
 }
+console.log('customer view loaded')
 
 const showAddressPopup = ref(false)
 const addressFields = ref({
