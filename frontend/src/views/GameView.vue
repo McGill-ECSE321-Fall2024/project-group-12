@@ -121,7 +121,7 @@ const addToWishlist = async () => {
     <div class="game-bg-fade"></div>
 
     <main class="game-content">
-      <div class="button-row">
+      <div v-if="user != null" class="button-row">
         <FancyButton filled label="Add to Cart" @click="addToCart">
           <PlusIcon />
         </FancyButton>
@@ -129,6 +129,7 @@ const addToWishlist = async () => {
           <HeartOutlineIcon />
         </FancyButton>
       </div>
+      <h2 v-else>Sign in to add to cart or wishlist.</h2>
       <h1>Reviews</h1>
       <!-- provide a fallback loading spinner while reviews load -->
       <Suspense>
