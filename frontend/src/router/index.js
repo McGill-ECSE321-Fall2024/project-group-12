@@ -10,6 +10,8 @@ import SigninView from '@/views/SigninView.vue'
 import ManagerSpecificCustomer from '@/views/ManagerSpecificCustomerView.vue'
 import ManagerEmployeeView from '@/views/ManagerEmployeeView.vue'
 import ManagerSpecificEmployee from '@/views/ManagerSpecificEmployeeView.vue'
+import ManagerGamesView from '@/views/ManagerGamesView.vue'
+import ManagerAddGameView from '@/views/ManagerAddGameView.vue'
 import CheckoutView from '@/views/CheckoutView.vue'
 import SearchView from '@/views/SearchView.vue'
 
@@ -83,6 +85,16 @@ const router = createRouter({
       name: 'manager/specificemployee',
       component: ManagerSpecificEmployee,
       props: true,
+    },
+    {
+      path: '/manager/games',
+      name: 'manager/games',
+      component: ManagerGamesView,
+    },
+    {
+      path: '/manager/addgames',
+      name: 'manager/addgames',
+      component: ManagerAddGameView,
     },
     {
       path: '/checkout',
