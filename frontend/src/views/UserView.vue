@@ -3,7 +3,7 @@
  @author Amy Ding
 -->
 <script setup>
-import { inject, ref } from 'vue'
+import { inject, ref, computed } from 'vue'
 import SigninView from '@/views/SigninView.vue'
 import BackgroundGradient from '@/components/BackgroundGradient.vue'
 import OrderCard from '@/components/OrderCard.vue'
@@ -25,6 +25,10 @@ console.log('user view loaded')
 // set a green theme for a nice holiday design
 createThemeFromColour('#415d43')
 
+const reversedOrders = computed(() => {
+  // so we can display orders from most recent to least recent
+  return [...orders.value].reverse()
+})
 const updateInfo = async (event) => {
   event.preventDefault()
   console.log('updating info')
@@ -73,7 +77,6 @@ async function updatePassword(event) {
   } else {
     alert('Password successfully changed!')
   }
-
   togglePasswordPopup()
 }
 async function updateAddress(event) {
@@ -260,19 +263,12 @@ orders.value = await getOrders()
           </form>
         </div>
       </div>
-
-      <!-- <div class="payment-info card">
-        <h2>Last Used Payment Method</h2>
-        <h3 v-if="user.paymentinfo == null">No payment information associated with this account</h3>
-        <input v-else type="text" id="payment" />
-      </div> -->
     </div>
     <div class="spacer"></div>
     <section>
       <h2 class="title">Orders</h2>
       <div class="orders-container">
-        <OrderCard v-for="order in orders" :order="order" v-bind:key="order" />
-         <!-- <OrderCard/> -->
+        <OrderCard v-for="order in reversedOrders" :order="order" v-bind:key="order" />
       </div>
     </section>
   </div>

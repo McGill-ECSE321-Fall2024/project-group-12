@@ -55,14 +55,13 @@ async function returnOrder(event) {
     location.reload()
   }
 }
-
 const goToGame = (gameId) => {
+  // for review button functionality
   router.push({
     name: 'game',
-    params: { id: gameId }
+    params: { id: gameId },
   })
 }
-
 </script>
 
 <template>
@@ -98,7 +97,9 @@ const goToGame = (gameId) => {
           <h4>Rating</h4>
         </div>
         <div class="buttons">
-          <button :style="{ background: 'rgba(65, 93, 67, 1)' }" @click="goToGame(game.id)">Leave a review</button>
+          <button :style="{ background: 'rgba(65, 93, 67, 1)' }" @click="goToGame(game.id)">
+            Leave a review
+          </button>
         </div>
       </div>
     </div>
