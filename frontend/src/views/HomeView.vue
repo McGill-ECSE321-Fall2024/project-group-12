@@ -3,7 +3,7 @@
  @author James Madden
 -->
 <script setup>
-import { inject, ref } from 'vue'
+import { inject, ref, nextTick } from 'vue'
 import BackgroundGradient from '@/components/BackgroundGradient.vue'
 import GameCard from '@/components/GameCard.vue'
 import FancyChips from '@/components/FancyChips.vue'
@@ -24,8 +24,26 @@ const enabledGenreFilter = ref(null)
 const response = await fetch('http://localhost:8080/games?status=InCatalog')
 const games = await response.json()
 
-const setConsoleFilter = newFilter => enabledConsoleFilter.value = newFilter
-const setGenreFilter = newFilter => enabledGenreFilter.value = newFilter
+const setConsoleFilter = newFilter => {
+  if (document.startViewTransition) {
+    document.startViewTransition(async () => {
+      enabledConsoleFilter.value = newFilter
+      await nextTick()
+    })
+  } else {
+    enabledConsoleFilter.value = newFilter
+  }
+}
+const setGenreFilter = newFilter => {
+  if (document.startViewTransition) {
+    document.startViewTransition(async () => {
+      enabledGenreFilter.value = newFilter
+      await nextTick()
+    })
+  } else {
+    enabledGenreFilter.value = newFilter
+  }
+}
 
 // if filters are applied, only show the matching games
 const filterGames = () => {
