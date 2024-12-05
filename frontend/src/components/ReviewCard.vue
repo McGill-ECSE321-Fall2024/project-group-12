@@ -3,7 +3,6 @@
 import { inject, ref } from 'vue'
 import FancyInput from '@/components/FancyInput.vue'
 import FancyButton from '@/components/FancyButton.vue'
-import CommentIcon from 'vue-material-design-icons/Comment.vue'
 import StarRating from '@/components/StarRating.vue'
 
 const props = defineProps({
@@ -35,6 +34,21 @@ const editMode = ref(false)
 // turn props into refs so they can be updated if the review is updated
 const rating = ref(props.rating)
 const review = ref(props.review)
+// store comments for this review
+const comments = ref(['sorry to hear that! a refund is on the way.'])
+
+const loadComments = async () => {
+
+  // fetch the comments
+  const response = await fetch(`http://localhost:8080/reviews/${props.id}/comments`)
+
+  if (response.ok) {
+    comments.value = await response.json()
+  }
+
+}
+
+loadComments()
 
 const updateReview = async () => {
 
@@ -89,10 +103,9 @@ const updateReview = async () => {
     <FancyInput v-if="editMode" :value="review" name="comment" label="Review"></FancyInput>
     <h2 v-else>{{ review }}</h2>
 
+    <p v-for="comment in comments" v-bind:key="comment"><b>Manager: </b> {{ comment }}</p>
+
     <div class="review--button-row">
-      <FancyButton small label="Comments">
-        <CommentIcon size="14"></CommentIcon>
-      </FancyButton>
       <!-- show an edit button if this comment belongs to the current user -->
       <FancyButton v-if="customerId == user.id && !editMode" small label="Edit" @click="() => {editMode = true}"></FancyButton>
       <FancyButton v-else-if="customerId == user.id && editMode" small label="Save" @click="updateReview"></FancyButton>
