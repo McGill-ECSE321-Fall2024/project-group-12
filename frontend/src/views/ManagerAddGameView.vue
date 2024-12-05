@@ -4,7 +4,6 @@ const { createThemeFromColour } = inject('theme')
 createThemeFromColour('#FF9797')
 const { user, token } = inject('auth')
 
-
 const addGame = async (event) => {
   event.preventDefault()
 
@@ -15,10 +14,8 @@ const addGame = async (event) => {
   const year = form.querySelector('#year').value
   const price = form.querySelector('#price').value
   const status = form.querySelector('#status').value
-  const cover = form.querySelector('#cover').value
-    const background = form.querySelector('#background').value
 
-  const response = await fetch('http://localhost:8080/games', {
+  await fetch('http://localhost:8080/games', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -30,81 +27,77 @@ const addGame = async (event) => {
       console,
       year,
       price,
-        status
-
+      status,
     }),
-  })
+  }).then(
+    (response) => {
+      if (response.ok) {
+        response.json().then((game) => {
+            upload(game.id);
+        })
+      }
+    });
+}
 
-    if (response.ok) {
-        upload(game.id)
-    } 
+const upload = async (id) => {
   
-}
-
-const upload = async (id)  => {
-
-    const cover = document.querySelector('#cover').files[0];
-    if (cover) {
-        const coverType = cover.type.toString().substring(cover.type.indexOf('/') + 1);
-        const reader = new FileReader();
-        var data = "";
-        reader.onload = function(e) {
-            const base64String = e.target.result.split(',')[1]; 
-            data = base64String;
-        };
-        reader.readAsDataURL(cover);
-
-        const response = await fetch('http://localhost:8080/games/' + id + '/cover', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${token.value}`,
-            },
-            body: JSON.stringify({
-                image: data,
-                type: coverType
-            }),
+  const cover = document.querySelector('#cover').files[0]
+  if (cover !== undefined) {
+    const coverType = cover.type.toString().substring(cover.type.indexOf('/') + 1)
+    const reader = new FileReader()
+    reader.onload = async function (e) {
+        const data = e.target.result.split(',')[1]
+        const response = await fetch('http://localhost:8080/games/' + id +'/cover', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token.value}`,
+          },
+          body: JSON.stringify({
+            image: data,
+            type: coverType,
+          }),
         })
 
-    } else {
-        console.log("No file selected.");
+        if (response.ok) {
+          const background = document.querySelector('#background').files[0]
+          if (background !== undefined) {
+            const backgroundType = background.type
+              .toString()
+              .substring(background.type.indexOf('/') + 1)
+            const reader = new FileReader()
+            reader.onload = async function (e) {
+              const data = e.target.result.split(',')[1]
+              const response = await fetch('http://localhost:8080/games/' + id + '/background', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  Authorization: `Bearer ${token.value}`,
+                },
+                body: JSON.stringify({
+                  image: data,
+                  type: backgroundType,
+                }),
+              })
+
+              if (response.ok) {
+                alert('Game added successfully')
+              }
+            }
+            reader.readAsDataURL(background)
+          }
+        }
     }
-
-    const background = document.querySelector('#background').files[0];
-    if (background) {
-        const backgroundType = background.type.toString().substring(background.type.indexOf('/') + 1);
-        const reader = new FileReader();
-        var data = "";
-        reader.onload = function(e) {
-            const base64String = e.target.result.split(',')[1]; 
-            data = base64String;
-        };
-        reader.readAsDataURL(cover);
-
-        const response = await fetch('http://localhost:8080/games/' + id + '/background', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${token.value}`,
-            },
-            body: JSON.stringify({
-                image: data,
-                type: backgroundType
-            }),
-        })
-
-    } else {
-        console.log("No file selected.");
-    }
-
+    reader.readAsDataURL(cover)
+  }
 }
-
 </script>
 
 <template>
-  <div>
-    <h1>Manager Add Game</h1>
-    <form @submit.prevent="addGame" style="display: flex; flex-direction: column; width: 60%;">
+  <div style="width: full; display: flex; flex-direction: row; justify-content: center;">
+    
+    <form @submit.prevent="addGame" style="display: flex; flex-direction: column; width: 60%">
+      <h1>Manager Add Game</h1>
       <label for="name">Name</label>
       <input type="text" id="name" v-model="name" />
       <br />
@@ -117,31 +110,47 @@ const upload = async (id)  => {
         <option value="XBox">XBox</option>
         <option value="PC">PC</option>
         <option value="Switch">Switch</option>
-        </select>
-        <br />
+      </select>
+      <br />
       <label for="year">Year</label>
       <input type="number" id="year" v-model="year" />
       <br />
 
       <label for="price">Price</label>
       <input type="number" id="price" v-model="price" />
-        <br />
+      <br />
 
-        <label for="status"> Status</label>
-        <select id="status" v-model="status">
+      <label for="status"> Status</label>
+      <select id="status" v-model="status">
         <option value="InCatalog">In Catalog</option>
         <option value="Archived">Archived</option>
         <option value="PendingApproval">Pending Approval</option>
         <option value="PendingArchival">Pending Archival</option>
         <option value="Rejected">Rejected</option>
-        </select>
-        <br />
-
-        <input type="file" id="cover" />
-        <br />
-        <input type="file" id="background" />
-        <br />
-      <button type="submit">Add Game</button>
+      </select>
+      <br />
+      <label for="cover">Cover</label>
+      <input type="file" id="cover" />
+      <br />
+        <label for="background">Background</label>
+      <input type="file" id="background" />
+      <br />
+      <div style="display: flex; flex-direction: row; justify-content: center;">
+        <button type="submit" style="width:150px ; height: 50px; border-radius: 10px; background-color: green; color: white">Add Game</button>
+      </div>
+      
     </form>
   </div>
 </template>
+
+<style scoped>
+input {
+  margin-bottom: 10px;
+  height: 25px;
+  
+}
+select {
+  margin-bottom: 10px;
+  height: 25px;
+}
+</style>

@@ -93,7 +93,7 @@ const router = createRouter({
       path: '/manager/addgames',
       name: 'manager/addgames',
       component: ManagerAddGameView,
-    }
+    },
   ],
 })
 
