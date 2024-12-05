@@ -128,7 +128,7 @@ public class CustomerService {
 			throw new CustomException(HttpStatus.BAD_REQUEST,
 					"The email provided does not match the email of the customer.");
 		}
-		if (BCrypt.checkpw(password, customerToUpdate.getPassword())) {
+		if (!(BCrypt.checkpw(password, customerToUpdate.getPassword()))) {
 			throw new CustomException(HttpStatus.BAD_REQUEST,
 					"The password provided does not match the password of the customer.");
 		}

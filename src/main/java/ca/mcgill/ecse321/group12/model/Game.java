@@ -5,7 +5,6 @@ package ca.mcgill.ecse321.group12.model;
 
 import java.util.*;
 
-import io.micrometer.common.lang.Nullable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -66,9 +65,9 @@ public class Game {
 	private GameStatus status;
 
 	private int year;
-  
+
 	private byte[] cover;
-  
+
 	private String coverType;
 
 	private byte[] background;

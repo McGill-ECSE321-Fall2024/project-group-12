@@ -51,8 +51,6 @@ watch(user, async () => {
  * Remove the game from the user's wishlist
  */
 async function remove(gameId) {
-  // TODO: fix remove to show the other games instead of a blank screen
-  alert('Removed from wishlist')
   const wishlistId = user.value.wishlist.id
   const requestOptions = {
     method: 'PUT',
@@ -64,7 +62,6 @@ async function remove(gameId) {
   )
   const wishlist = await response.json()
   data.value = wishlist
-  return
 }
 </script>
 

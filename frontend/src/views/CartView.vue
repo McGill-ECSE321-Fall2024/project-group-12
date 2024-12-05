@@ -48,6 +48,12 @@ async function remove(gameId) {
   data.value = cart
   return
 }
+
+const router = useRouter()
+
+const goToCheckout = () => {
+  router.push('/checkout')
+}
 </script>
 
 <template>

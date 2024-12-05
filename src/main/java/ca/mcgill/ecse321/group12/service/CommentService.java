@@ -1,5 +1,7 @@
 package ca.mcgill.ecse321.group12.service;
 
+import java.util.List;
+
 /*
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +35,19 @@ public class CommentService {
 			throw new CustomException(HttpStatus.NOT_FOUND, "There is no comment with ID " + id + ".");
 		}
 		return com;
+	}
+
+	/**
+	 * gets the comments associated with a specific review
+	 * @param id the id of the review
+	 * @return the list of comments on that review
+	 * @author James Madden
+	 */
+	public List<Comment> findCommentsByReviewId(int reviewId) {
+
+		List<Comment> comments = commentRepo.findCommentsByReviewId(reviewId);
+		return comments;
+
 	}
 
 	/**
